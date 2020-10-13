@@ -1,5 +1,5 @@
 {
-  "name": "hyva-themes/hyva-checkout",
+  "name": "hyva-themes/magento2-hyva-checkout",
   "description": "Highly customizable Magento 2 Checkout, Headless, built with React",
   "type": "magento2-module",
   "require": {
