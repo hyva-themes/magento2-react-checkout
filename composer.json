@@ -18,7 +18,7 @@
       "src/registration.php"
     ],
     "psr-4": {
-      "Hyva\\GraphqlTokens\\": "src/"
+      "Hyva\\Checkout\\": "src/"
     }
   }
 }
