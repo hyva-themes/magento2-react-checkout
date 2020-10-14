@@ -2,7 +2,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block name="checkout" template="Hyva_Checkout::react-checkout.phtml"/>
+            <block name="checkout.container" template="Hyva_Checkout::react-container.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block name="checkout.scripts" template="Hyva_Checkout::react-scripts.phtml" after="-"/>
         </referenceContainer>
     </body>
 </page>
