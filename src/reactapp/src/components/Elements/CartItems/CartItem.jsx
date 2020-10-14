@@ -96,6 +96,7 @@ export const CartItem = ({ item }) => {
                     </div>
                     <input
                         type={'number'}
+                        inputMode={'numeric'}
                         pattern="[0-9]{0,10}"
                         value={itemQuantity}
                         className={'input input-light w-20 p-1 m-0 text-center'}

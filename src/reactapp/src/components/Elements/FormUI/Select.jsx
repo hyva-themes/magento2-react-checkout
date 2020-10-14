@@ -88,7 +88,7 @@ export const Select = ({ label, options, required, ...props }) => {
                 <div>
                     <button
                         type="button"
-                        className="w-full xs:hidden sm:flex pl-3 pr-2 py-2 justify-between bg-white border border-background-darker text-sm text-left transition ease-in-out duration-150"
+                        className="w-full xs:hidden sm:flex pl-3 pr-2 py-2 justify-between bg-white border border-container rounded text-sm text-left transition ease-in-out duration-150"
                         id="options-menu"
                         aria-haspopup="true"
                         aria-expanded="true"
@@ -118,7 +118,7 @@ export const Select = ({ label, options, required, ...props }) => {
                     </button>
                 </div>
                 <div
-                    className="z-10 origin-top-right w-full absolute bg-background-lighter border border-background-darker border-t-0"
+                    className="z-10 origin-top-right w-full absolute bg-container-lighter border border-container-darker border-t-0"
                     style={{ maxHeight: '450px', overflowY: 'auto' , display: isOpen ? '' : 'none' }}
                 >
                     <div
