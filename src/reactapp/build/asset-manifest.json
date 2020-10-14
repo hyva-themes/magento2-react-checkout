@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.js": "/../../view/frontend/web/js/react-checkout.js",
+    "main.js.map": "/../../view/frontend/web/js/react-checkout.js.map",
+    "../../view/frontend/web/js/react-checkout.js.LICENSE.txt": "/../../view/frontend/web/js/react-checkout.js.LICENSE.txt",
+    "index.html": "/index.html",
+    "precache-manifest.522c4362793bdd08ec29f2ff12bf41d4.js": "/precache-manifest.522c4362793bdd08ec29f2ff12bf41d4.js",
+    "service-worker.js": "/service-worker.js"
+  },
+  "entrypoints": [
+    "../../view/frontend/web/js/react-checkout.js"
+  ]
+}

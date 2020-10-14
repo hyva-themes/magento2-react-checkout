@@ -1,0 +1,71 @@
+{
+  "name": "hyva-checkout",
+  "version": "0.1.0",
+  "description": "A headless React Checkout for Magento 2",
+  "repository": "local",
+  "keywords": [
+    "react",
+    "checkout",
+    "magento"
+  ],
+  "author": "Willem Wigman",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "formik": "^2.1.5",
+    "node-sass": "^4.13.1",
+    "prop-types": "latest",
+    "react": "^16.13.0",
+    "react-app-polyfill": "^1.0.6",
+    "react-dom": "^16.13.0",
+    "react-scripts": "^3.4.0",
+    "yup": "^0.29.3"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/*.{js,jsx,json,scss,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "ie 11",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "ie 11",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "react-app-rewired": "^2.1.5",
+    "react-dev-utils": "^10.2.0"
+  }
+}

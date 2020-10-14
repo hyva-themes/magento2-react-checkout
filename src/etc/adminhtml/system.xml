@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="hyva_themes" sortOrder="999" translate="label">
+            <label>Hyva Themes</label>
+        </tab>
+        <section id="hyva_checkout" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Hyvä Checkout</label>
+            <tab>hyva_themes</tab>
+            <resource>Hyva_Checkout::config_hyva_checkout</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>General Settings</label>
+                <field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                       translate="label,comment" type="select">
+                    <label>Enable</label>
+                    <comment>Flush page cache after changing this value to see changes</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
