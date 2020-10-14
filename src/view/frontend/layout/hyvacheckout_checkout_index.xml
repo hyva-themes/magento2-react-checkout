@@ -5,7 +5,7 @@
             <block name="checkout.container" template="Hyva_Checkout::react-container.phtml"/>
         </referenceContainer>
         <referenceContainer name="before.body.end">
-            <block name="checkout.scripts" template="Hyva_Checkout::react-scripts.phtml" after="-"/>
+            <block name="checkout.scripts" template="Hyva_Checkout::react-script.phtml" after="-"/>
         </referenceContainer>
     </body>
 </page>
