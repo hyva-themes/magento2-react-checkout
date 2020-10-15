@@ -8,9 +8,12 @@
     "magento/module-checkout": ">=100.3.0",
     "magento/module-customer": ">=102.0.0"
   },
+  "suggest": {
+    "hyva-themes/magento2-graphql-tokens": "*"
+  },
   "authors": [{
-      "name": "Hyvä Themes, Wigman Interactive",
-      "email": "info@hyva.io"
+    "name": "Hyvä Themes, Wigman Interactive",
+    "email": "info@hyva.io"
   }],
   "license": "see LICENSE.md",
   "autoload": {
