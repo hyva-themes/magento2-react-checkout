@@ -1,7 +1,7 @@
 
 # Hyvä Themes - Hyvä Checkout
 
-[![Hyvä Themes](https://repository-images.githubusercontent.com/303806175/d644cf00-0ee7-11eb-9bf2-843ebf55c4f9](https://hyva.io/)
+[![Hyvä Themes](https://repository-images.githubusercontent.com/303806175/d644cf00-0ee7-11eb-9bf2-843ebf55c4f9)](https://hyva.io/)
 
 ## hyva-themes/magento2-hyva-checkout
 
