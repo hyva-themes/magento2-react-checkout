@@ -6,8 +6,7 @@ import { graphqlRequest } from '../graphqlRequest';
 export const fetchCartAction = async dispatch => {
     const query = (config.signInToken && getCustomerCartQuery) || getCartQuery;
     const type = 'FETCH_CART';
-    const cartReturnProperty = data =>
-        (config.signInToken && data.customerCart) || data.cart;
+    const cartReturnProperty = data => data;
 
     await graphqlRequest(dispatch, query, type, cartReturnProperty);
 };

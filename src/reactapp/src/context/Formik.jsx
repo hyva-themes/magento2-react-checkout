@@ -5,7 +5,7 @@ import { billingAddressGqlToFormik } from '../utils/billingAddressGqlToFormik';
 
 const FormikContext = createContext();
 
-let BillingAddressForm;
+let BillingAddressForm, EmailForm;
 
 const initialState = {
     billing_address: {
@@ -18,6 +18,7 @@ const initialState = {
         city: '',
         country: ''
     },
+    email: { email: ''},
     shipping_address: {
         company: '',
         contact: '',
@@ -69,6 +70,10 @@ const reinitializeForms = cart => {
         BillingAddressForm.setValues(
             billingAddressGqlToFormik(cart.billing_address)
         );
+    cart.email &&
+    EmailForm.setValues(
+        { 'email': cart.email || ''}
+    );
 };
 
 const requiredMessage = '%1 is required';
@@ -88,6 +93,12 @@ const BillingAddressSchema = Yup.object().shape({
     country: Yup.string().required(requiredMessage)
 });
 
+const EmailSchema = Yup.object().shape({
+    email: Yup.string()
+        .required(requiredMessage)
+        .email(invalidEmail),
+});
+
 export const FormikContextProvider = props => {
     const { children } = props;
 
@@ -98,8 +109,15 @@ export const FormikContextProvider = props => {
         onSubmit: onSubmit,
     });
 
+    EmailForm = useFormik({
+        initialValues: initialState.email,
+        validationSchema: EmailSchema,
+        validateOnMount: true,
+        onSubmit: onSubmit,
+    });
+
     const contextValue = [
-        { BillingAddressForm },
+        { BillingAddressForm, EmailForm },
         { touchAndValidateForm, reinitializeForms },
     ];
 

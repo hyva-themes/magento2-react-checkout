@@ -6,8 +6,8 @@ export const placeOrderAction = async (dispatch, address) => {
     const type = 'PLACE_ORDER';
     const cartReturnProperty = data => {
         return (
-            data.setPaymentMethodOnCart?.cart ||
-            data.setBillingAddressOnCart?.cart
+            data.setPaymentMethodOnCart ||
+            data.setBillingAddressOnCart
         );
     };
 

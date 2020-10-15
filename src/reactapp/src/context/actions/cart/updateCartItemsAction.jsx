@@ -8,7 +8,7 @@ export const updateCartItemsAction = async (
 ) => {
     const query = updateCartItemsQuery(cartItemId, cartItemQuantity);
     const type = 'UPDATE_CART_ITEMS';
-    const cartReturnProperty = data => data.updateCartItems?.cart;
+    const cartReturnProperty = data => data.updateCartItems;
 
     await graphqlRequest(dispatch, query, type, cartReturnProperty);
 };

@@ -8,7 +8,7 @@ import { TextInput } from './FormUI/TextInput';
 import { useFormikContext } from '../../context/Formik';
 import { useAppContext } from '../../context/App';
 import * as appStates from '../../context/actions/actionStates';
-import {Select} from "./FormUI/Select";
+import {RegularSelect} from "./FormUI/RegularSelect";
 
 export const BillingAddress = () => {
 
@@ -103,7 +103,7 @@ export const BillingAddress = () => {
                                 placeholder="City"
                                 required={true}
                             />
-                            <Select
+                            <RegularSelect
                                 label="Country"
                                 id="country"
                                 name="country"

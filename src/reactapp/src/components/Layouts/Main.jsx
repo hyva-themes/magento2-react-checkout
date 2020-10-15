@@ -6,6 +6,7 @@ import { PlaceOrder } from '../Elements/PlaceOrder';
 import { config } from '../../config';
 import { BillingAddress } from '../Elements/BillingAddress';
 import { useFormikContext } from '../../context/Formik';
+import { GuestEmail } from '../Elements/GuestEmail';
 
 export const Main = () => {
     const [{ cart, orderId }, { fetchCart }] = useCartContext();
@@ -51,8 +52,9 @@ export const Main = () => {
                             'sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900'
                         }
                     >
-                        Summary
+                        Order
                     </h2>
+                    <GuestEmail />
                     <BillingAddress />
                     <EstimatedTotal />
                     <PlaceOrder />

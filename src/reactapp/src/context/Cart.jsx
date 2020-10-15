@@ -10,7 +10,7 @@ import {
     removeItemFromCartAction,
     fetchCartAction,
     setShippingAddressOnCartAction,
-    placeOrderAction,
+    placeOrderAction, setEmailOnGuestCartAction,
 } from './actions/cart';
 import { cartReducer } from './reducers';
 
@@ -31,8 +31,6 @@ const initialState = {
         applied_coupons: null,
         prices: {},
         is_virtual: false,
-        lock_type: '',
-        lock_number: ''
     },
 };
 
@@ -76,6 +74,11 @@ const GetCartApi = dispatch => {
         [dispatch]
     );
 
+    const setEmailOnGuestCart = useCallback(
+        email => setEmailOnGuestCartAction(dispatch, email),
+        [dispatch]
+    );
+
     const setShippingAddress = useCallback(
         address => setShippingAddressOnCartAction(dispatch, address),
         [dispatch]
@@ -88,6 +91,7 @@ const GetCartApi = dispatch => {
             fetchCart,
             removeItemFromCart,
             updateCartItems,
+            setEmailOnGuestCart,
             setShippingAddress,
             placeOrder,
             dispatch,
@@ -96,6 +100,7 @@ const GetCartApi = dispatch => {
             fetchCart,
             removeItemFromCart,
             updateCartItems,
+            setEmailOnGuestCart,
             setShippingAddress,
             placeOrder,
             dispatch,

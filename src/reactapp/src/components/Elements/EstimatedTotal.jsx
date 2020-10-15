@@ -26,6 +26,13 @@ export const EstimatedTotal = () => {
 
     return (
         <div className={'my-4'}>
+            <h3
+                className={
+                    'sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900'
+                }
+            >
+                Totals
+            </h3>
             <div className={'mt-4 flex items-baseline mb-4'}>
                 <span className="w-2/5 text-left text-lg md:text-sm xl:text-base">
                     Subtotal:{' '}

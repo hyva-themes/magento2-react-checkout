@@ -6,8 +6,8 @@ export const setShippingAddressOnCartAction = async (dispatch, address) => {
     const type = 'SET_CART_SHIPPING_ADDRESS';
     const cartReturnProperty = data => {
         return (
-            data.setShippingMethodsOnCart?.cart ||
-            data.setShippingAddressesOnCart?.cart
+            data.setShippingMethodsOnCart ||
+            data.setShippingAddressesOnCart
         );
     };
 

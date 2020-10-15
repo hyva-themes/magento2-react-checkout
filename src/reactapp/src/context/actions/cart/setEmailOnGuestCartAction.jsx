@@ -4,7 +4,7 @@ import { setEmailOnGuestCartQuery } from '../../graphql/cart/setEmailOnGuestCart
 export const setEmailOnGuestCartAction = async (dispatch, email) => {
     const query = setEmailOnGuestCartQuery(email);
     const type = 'SET_CART_EMAIL';
-    const cartReturnProperty = data => data.setGuestEmailOnCart?.cart;
+    const cartReturnProperty = data => data.setGuestEmailOnCart;
 
     await graphqlRequest(dispatch, query, type, cartReturnProperty);
 };

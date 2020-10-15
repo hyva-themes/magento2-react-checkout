@@ -17,7 +17,7 @@ const getCurrencySymbol = (locale, currency) =>
 export const PlaceOrder = () => {
     const [{ cart }, { placeOrder }] = useCartContext();
     const [
-        { BillingAddressForm },
+        { BillingAddressForm, EmailForm },
         { touchAndValidateForm },
     ] = useFormikContext();
     const [, { setBillingOpen }] = useAppContext();
@@ -33,6 +33,22 @@ export const PlaceOrder = () => {
     };
 
     const submitHandler = async () => {
+        const EmailFormIsValid = await touchAndValidateForm(EmailForm)
+            .then(() => {
+                return true;
+            })
+            .catch(() => {
+                window.dispatchMessages(
+                    [
+                        {
+                            type: 'warning',
+                            text: 'Please enter your e-mail address.',
+                        },
+                    ],
+                    5000
+                );
+                return false;
+            });
 
         const BillingAddressFormIsValid = await touchAndValidateForm(
             BillingAddressForm
@@ -42,26 +58,31 @@ export const PlaceOrder = () => {
             })
             .catch(() => {
                 setBillingOpen(true);
-                window.dispatchMessages([
-                    {
-                        type: 'warning',
-                        text:
-                            'Please check the Billing Address for invalid input.',
-                    },
-                ], 5000);
+                window.dispatchMessages(
+                    [
+                        {
+                            type: 'warning',
+                            text:
+                                'Please check the Billing Address for invalid input.',
+                        },
+                    ],
+                    5000
+                );
                 return false;
             });
-        if (BillingAddressFormIsValid) {
+        if (EmailFormIsValid && BillingAddressFormIsValid) {
             console.log('place order');
             placeOrder({ address: BillingAddressForm.values });
         } else {
             console.log('did not place order');
         }
     };
-    if(!cart.is_virtual){
+    if (cart && !cart.is_virtual) {
         return (
             <div className={'mt-2'}>
-                <p class={'mt-2'}>Checkout is currently only possible with Virtual Items.</p>
+                <p class={'mt-2'}>
+                    Checkout is currently only possible with Virtual Items.
+                </p>
             </div>
         );
     }

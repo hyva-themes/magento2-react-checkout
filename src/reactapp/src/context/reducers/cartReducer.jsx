@@ -9,6 +9,21 @@ export const cartReducer = (state, action) => {
          */
         config.cartId = action.data.id;
     }
+
+    let cartData = {};
+
+    if (action.data) {
+        const {
+            data: { cart, customerCart },
+        } = action;
+
+        if (cart) {
+            cartData = { ...cart };
+        }
+        if (customerCart) {
+            cartData = { ...customerCart };
+        }
+    }
     switch (action.type) {
         case 'FETCH_CART_SUCCESS':
         case 'SET_CART_EMAIL_SUCCESS':
@@ -20,7 +35,7 @@ export const cartReducer = (state, action) => {
                 errors: false,
                 cart: {
                     loaded: true,
-                    ...action.data,
+                    ...cartData,
                 },
             };
         case 'PLACE_ORDER_SUCCESS':
@@ -29,7 +44,7 @@ export const cartReducer = (state, action) => {
                 errors: false,
                 cart: {
                     loaded: true,
-                    ...action.data,
+                    ...cartData,
                 },
                 orderId: action.payload.placeOrder.order.order_number,
             };
@@ -38,8 +53,8 @@ export const cartReducer = (state, action) => {
         case 'REMOVE_CART_ITEM_ERROR':
         case 'UPDATE_CART_ITEMS_ERROR':
         case 'SET_CART_SHIPPING_ADDRESS_ERROR':
-            const cart = action.data
-                ? { loaded: true, ...action.data }
+            const cart = cartData
+                ? { loaded: true, ...cartData }
                 : { ...state.cart };
             return {
                 ...state,
