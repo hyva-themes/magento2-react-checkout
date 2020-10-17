@@ -11,5 +11,11 @@ module.exports = function override(config, env) {
     config.optimization.splitChunks.chunks = 'async';
     config.optimization.splitChunks.name = false;
     config.optimization.runtimeChunk = false;
+
+    Object.assign(config.resolve.alias, {
+        react: 'preact/compat',
+        'react-dom': 'preact/compat',
+    });
+
     return config;
 };
