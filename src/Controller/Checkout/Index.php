@@ -17,11 +17,6 @@ use Magento\Framework\Controller\ResultInterface;
 class Index extends Action implements HttpGetActionInterface
 {
     /**
-     * @var Session
-     */
-    private $customerSession;
-
-    /**
      * @var Data
      */
     private $checkoutHelper;
@@ -33,7 +28,6 @@ class Index extends Action implements HttpGetActionInterface
         AccountManagementInterface $accountManagement,
         Data $checkoutHelper
     ) {
-        $this->customerSession = $customerSession;
         $this->checkoutHelper = $checkoutHelper;
         parent::__construct(
             $context,
@@ -48,12 +42,12 @@ class Index extends Action implements HttpGetActionInterface
      *
      * @return ResultInterface
      */
-    public function execute()
+    public function execute(): ResultInterface
     {
         //phpcs:ignore MEQP2.Classes.ObjectManager.ObjectManagerFound
         $checkoutHelper = $this->checkoutHelper;
         if (!$checkoutHelper->canOnepageCheckout()) {
-            $this->messageManager->addError(__('One-page checkout is turned off.'));
+            $this->messageManager->addErrorMessage(__('One-page checkout is turned off.'));
             return $this->resultRedirectFactory->create()->setPath('checkout/cart');
         }
 
@@ -63,7 +57,7 @@ class Index extends Action implements HttpGetActionInterface
         }
 
         if (!$this->_customerSession->isLoggedIn() && !$checkoutHelper->isAllowedGuestCheckout($quote)) {
-            $this->messageManager->addError(__('Guest checkout is disabled.'));
+            $this->messageManager->addErrorMessage(__('Guest checkout is disabled.'));
             return $this->resultRedirectFactory->create()->setPath('checkout/cart');
         }
 
