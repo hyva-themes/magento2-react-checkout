@@ -14,10 +14,9 @@
   "dependencies": {
     "formik": "^2.1.5",
     "node-sass": "^4.13.1",
+    "preact": "^10.5.4",
     "prop-types": "latest",
-    "react": "^16.13.0",
     "react-app-polyfill": "^1.0.6",
-    "react-dom": "^16.13.0",
     "react-scripts": "^3.4.0",
     "yup": "^0.29.3"
   },
