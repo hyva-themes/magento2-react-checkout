@@ -17,7 +17,7 @@
     "preact": "^10.5.4",
     "prop-types": "latest",
     "react-app-polyfill": "^1.0.6",
-    "react-scripts": "^3.4.0",
+    "react-scripts": "^3.4.4",
     "yup": "^0.29.3"
   },
   "scripts": {
