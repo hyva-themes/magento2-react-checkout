@@ -60,7 +60,7 @@ const GetAppApi = dispatch => {
             fetchCountries,
             dispatch,
         }),
-        [fetchCountries, dispatch]
+        [setBillingOpen, fetchCountries, dispatch]
     );
 };
 

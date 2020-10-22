@@ -1,5 +1,17 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+<!--
+    /** Uncomment the stylesheet below to load the tailwind styling in case you do not use Tailwind
+      * in your Magento theme that already generates styles for this checkout.
+      *
+      * When using Hyvä Themes, don't generate a separate style-sheet!
+      */
+-->
+<!--
+    <css src="Hyva_Checkout::css/styles.css" defer="defer"/>
+-->
+    </head>
     <body>
         <referenceContainer name="content">
             <block name="checkout.container" template="Hyva_Checkout::react-container.phtml"/>

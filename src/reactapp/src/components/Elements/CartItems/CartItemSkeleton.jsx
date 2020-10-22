@@ -72,7 +72,7 @@ export const CartItemSkeleton = (id) => {
             </div>
             <div
                 className={
-                    'mb-6 w-full sm:w-1/3 text-center sm:text-right md:text-left mr-6'
+                    'mb-6 w-full sm:w-1/3 text-center sm:text-right md:text-left mr-6 flex'
                 }
             >
                 <SkeletonBlock

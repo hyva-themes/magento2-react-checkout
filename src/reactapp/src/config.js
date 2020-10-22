@@ -34,7 +34,7 @@ const activeSource = magentoDataSources.mageCacheStorage; //or `magentoDataSourc
 export const config = {
     cartId: getConfigFromLocalStorage(activeSource.cartId),
     signInToken: getConfigFromLocalStorage(activeSource.token),
-    baseUrl: window.BASE_URL || 'https://hyva.io/',
+    baseUrl: window.BASE_URL || 'https://magento2.test/',
     defaultPaymentMethod: 'checkmo',
     defaultCountry: 'US'
 };

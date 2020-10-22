@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ArrowUpIcon from '../Icons/ArrowUp';
 import ArrowDownIcon from '../Icons/ArrowDown';
 import { FormikProvider, Form } from 'formik';

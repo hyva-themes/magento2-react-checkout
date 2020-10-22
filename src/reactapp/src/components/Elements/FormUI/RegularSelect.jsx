@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useField } from 'formik';
 
 export const RegularSelect = ({ label, options, required, ...props }) => {
