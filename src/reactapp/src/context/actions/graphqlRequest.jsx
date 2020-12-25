@@ -1,7 +1,7 @@
 import { config } from '../../config';
 
 export const graphqlRequest = (dispatch, query, type, returnProperty) =>
-    fetch(config.baseUrl + 'graphql', {
+    fetch(config.baseUrl + '/graphql', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -11,6 +11,7 @@
   "author": "Willem Wigman",
   "license": "MIT",
   "private": true,
+  "proxy": "https://hyva.io",
   "dependencies": {
     "formik": "^2.1.5",
     "node-sass": "^4.13.1",
