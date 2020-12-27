@@ -20,14 +20,14 @@ function TextInput({
   const hasTouched = !!_get(meta, 'touched', false);
 
   return (
-    <div className="form-control mt-2">
+    <div className="mt-2 form-control">
       <div className="flex items-center justify-between">
         <label htmlFor={inputId} className="md:text-sm">
           {label}
           {required && <sup> *</sup>}
         </label>
         <div
-          id={`${id}-feedback`}
+          id={`${inputId}-feedback`}
           aria-live="polite"
           className={`feedback text-sm md:text-xs text-right ${
             hasError ? 'text-red-500' : 'text-green-500'
@@ -44,7 +44,7 @@ function TextInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className="form-input w-full"
+        className="w-full form-input"
         aria-describedby={`${inputId}-feedback ${inputId}-help`}
       />
       <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">
