@@ -3,7 +3,7 @@ import { RegularSelect } from '../../Elements/FormUI/RegularSelect';
 import ToggleBox from '../../Common/ToggleBox';
 import TextInput from '../../Common/Form/TextInput';
 import Card from '../../Common/Card';
-import { BillingAddressFormContext } from '../../../context/checkoutForm';
+import { BillingAddressFormContext } from '../../../context/Form';
 import Checkbox from '../../Common/Form/Checkbox';
 
 function BillingAddress() {

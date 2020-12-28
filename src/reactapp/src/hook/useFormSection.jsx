@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import CheckoutFormContext from '../context/checkoutForm/CheckoutFormContext';
+import CheckoutFormContext from '../context/Form/CheckoutFormContext';
 import { prepareFields } from '../context/utility';
 
 /**

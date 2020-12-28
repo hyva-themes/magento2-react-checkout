@@ -1,5 +1,5 @@
 import React from 'react';
-import { GuestEmailFormManager } from '../../context/checkoutForm';
+import { GuestEmailFormManager } from '../../context/Form';
 import GuestEmail from './Form/GuestEmail';
 
 function GuestEmailForm() {

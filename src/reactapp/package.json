@@ -11,7 +11,7 @@
   "author": "Willem Wigman",
   "license": "MIT",
   "private": true,
-  "proxy": "http://lcfc.test",
+  "proxy": "https://hyva.io",
   "dependencies": {
     "formik": "^2.1.5",
     "lodash.get": "^4.4.2",

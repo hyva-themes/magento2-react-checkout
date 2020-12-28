@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { GuestEmailFormContext } from '../../../context/checkoutForm';
+import { GuestEmailFormContext } from '../../../context/Form';
 import Card from '../../Common/Card';
 import TextInput from '../../Common/Form/TextInput';
 import ToggleBox from '../../Common/ToggleBox';
