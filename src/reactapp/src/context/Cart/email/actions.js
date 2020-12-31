@@ -1,4 +1,4 @@
-import { setEmailOnGuestCartRequest } from '../../../api/cart';
+import { setEmailOnGuestCartRequest } from '../../../api';
 import { SET_CART_EMAIL } from './types';
 
 export async function setEmailOnGuestCartAction(dispatch, email) {

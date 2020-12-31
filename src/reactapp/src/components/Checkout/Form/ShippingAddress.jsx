@@ -1,13 +1,25 @@
-import React, { useContext } from 'react';
-import { RegularSelect } from '../../Elements/FormUI/RegularSelect';
+import React, { useContext, useMemo } from 'react';
+
+import SelectInput from '../../Common/Form/SelectInput';
 import ToggleBox from '../../Common/ToggleBox';
 import TextInput from '../../Common/Form/TextInput';
 import Card from '../../Common/Card';
 import { ShippingAddressFormContext } from '../../../context/Form';
+import useAppContext from '../../../hook/useAppContext';
 
 function ShippingAddress() {
+  const [{ countryList }] = useAppContext();
   const { fields, setFormFocused } = useContext(ShippingAddressFormContext);
   const handleFocus = () => setFormFocused(true);
+
+  const countryOptions = useMemo(
+    () =>
+      countryList.map(country => ({
+        value: country.id,
+        label: country.name,
+      })),
+    [countryList]
+  );
 
   return (
     <Card bg="dark">
@@ -55,12 +67,12 @@ function ShippingAddress() {
             required
             onFocus={handleFocus}
           />
-          <RegularSelect
+          <SelectInput
             label="Country"
             id={fields.country}
             name="country"
             required
-            options={[]}
+            options={countryOptions}
             onFocus={handleFocus}
           />
           <TextInput

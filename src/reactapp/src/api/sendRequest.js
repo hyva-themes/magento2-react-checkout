@@ -1,4 +1,4 @@
-import { config } from '../../config';
+import { config } from '../config';
 
 export default function sendRequest(queryParams = {}) {
   return fetch(`${config.baseUrl}/graphql`, {

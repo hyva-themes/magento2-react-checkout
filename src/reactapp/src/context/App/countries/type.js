@@ -1,0 +1,1 @@
+export const SET_COUNTRY_LIST = 'SET_COUNTRY_LIST';
