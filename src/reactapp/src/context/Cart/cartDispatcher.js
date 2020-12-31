@@ -8,8 +8,4 @@ function cartDispatchers(dispatch) {
   };
 }
 
-// const cartDispatchers = {
-//   setEmailOnGuestCart: setEmailOnGuestCartAction,
-// };
-
 export default cartDispatchers;

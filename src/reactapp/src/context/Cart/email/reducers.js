@@ -3,7 +3,7 @@ export function setCartEmail(state, email) {
     ...state,
     cart: {
       ...state.cart,
-      email,
+      ...email,
     },
   };
 }
