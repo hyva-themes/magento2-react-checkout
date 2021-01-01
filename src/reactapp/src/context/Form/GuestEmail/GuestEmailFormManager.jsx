@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
 import { string as YupString } from 'yup';
@@ -20,11 +20,11 @@ const validationSchema = {
 function GuestEmailFormManager({ children }) {
   const [, { setEmailOnGuestCart }] = useContext(CartContext);
   const { values } = useFormikContext();
+  const email = _get(values, 'email.email');
 
-  const formSubmit = () => {
-    const email = _get(values, 'email.email');
+  const formSubmit = useCallback(() => {
     setEmailOnGuestCart(email);
-  };
+  }, [email, setEmailOnGuestCart]);
 
   const context = useFormSection({
     id: GUEST_EMAIL_FORM,

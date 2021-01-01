@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useMemo, useReducer } from 'react';
 import { node } from 'prop-types';
 import cartReducer from './cartReducer';
 import CartContext from './CartContext';
@@ -7,7 +7,7 @@ import initialState from './initialState';
 
 function CartDataProvider({ children }) {
   const [cartData, dispatch] = useReducer(cartReducer, initialState);
-  const cartActions = cartDispatchers(dispatch);
+  const cartActions = useMemo(() => cartDispatchers(dispatch), [dispatch]);
 
   return (
     <CartContext.Provider value={[cartData, cartActions]}>

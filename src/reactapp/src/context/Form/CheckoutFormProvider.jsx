@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
 import CheckoutFormContext from './CheckoutFormContext';
@@ -46,9 +46,9 @@ function CheckoutFormProvider({ children }) {
   /**
    * This will register individual form sections to the checkout-form-formik
    */
-  const registerFormSection = section => {
+  const registerFormSection = useCallback(section => {
     updateSections(prevSections => [...prevSections, section]);
-  };
+  }, []);
 
   const context = useMemo(
     () => ({
@@ -56,7 +56,7 @@ function CheckoutFormProvider({ children }) {
       setActiveFormSection: setActiveForm,
       registerFormSection,
     }),
-    [sections, activeForm]
+    [activeForm, registerFormSection]
   );
 
   /**

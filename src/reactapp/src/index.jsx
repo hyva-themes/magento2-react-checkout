@@ -12,17 +12,15 @@ import './tailwind.output.css';
 
 function Checkout() {
   return (
-    <>
-      <AppDataProvider>
-        <CartDataProvider>
-          <CheckoutFormProvider>
-            <StepProvider>
-              <CheckoutForm />
-            </StepProvider>
-          </CheckoutFormProvider>
-        </CartDataProvider>
-      </AppDataProvider>
-    </>
+    <AppDataProvider>
+      <CartDataProvider>
+        <CheckoutFormProvider>
+          <StepProvider>
+            <CheckoutForm />
+          </StepProvider>
+        </CheckoutFormProvider>
+      </CartDataProvider>
+    </AppDataProvider>
   );
 }
 const RootElement = document.getElementById('react-checkout');

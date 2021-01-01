@@ -1,6 +1,5 @@
-import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import CheckoutFormContext from '../context/Form/CheckoutFormContext';
 import { prepareFields } from '../context/utility';
 
@@ -14,7 +13,7 @@ function useFormSection({
   submitHandler,
 }) {
   const [isMeValid, setIsMeValid] = useState(false);
-  const { values, dirty, isValid } = useFormikContext();
+  const { dirty, isValid } = useFormikContext();
   const {
     registerFormSection,
     setActiveFormSection,
@@ -27,9 +26,12 @@ function useFormSection({
    * form fields. If anyone of the form field is focused, then this form
    * section will be set as the active form.
    */
-  const setFormFocused = isFocused => {
-    setActiveFormSection(isFocused && id);
-  };
+  const setFormFocused = useCallback(
+    isFocused => {
+      setActiveFormSection(isFocused && id);
+    },
+    [id, setActiveFormSection]
+  );
 
   /**
    * It register the form to checkout-form-formik so that the form will be
@@ -41,7 +43,7 @@ function useFormSection({
       initialValues,
       validationSchema,
     });
-  }, []);
+  }, [id, initialValues, validationSchema, registerFormSection]);
 
   /**
    * When the form in context stays as the active form section, then when the
@@ -54,7 +56,7 @@ function useFormSection({
     if (activeFormSection === id) {
       setIsMeValid(dirty && isValid);
     }
-  }, [activeFormSection, dirty, isValid]);
+  }, [activeFormSection, dirty, isValid, id]);
 
   /**
    * Calling the submit handler from the form section in the context if and only
@@ -64,7 +66,7 @@ function useFormSection({
     if (isMeValid) {
       submitHandler();
     }
-  }, [activeFormSection]);
+  }, [activeFormSection, isMeValid, submitHandler]);
 
   /**
    * Preparing the form context value.
@@ -75,10 +77,9 @@ function useFormSection({
   const context = useMemo(
     () => ({
       fields: prepareFields(initialValues, id),
-      values: () => _get(values, id, {}),
       setFormFocused,
     }),
-    []
+    [initialValues, id, setFormFocused]
   );
 
   return context;

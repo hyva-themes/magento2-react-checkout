@@ -6,7 +6,7 @@ function AddressWrapper({ children }) {
 
   useEffect(() => {
     fetchCountries();
-  }, []);
+  }, [fetchCountries]);
 
   return <>{children}</>;
 }
