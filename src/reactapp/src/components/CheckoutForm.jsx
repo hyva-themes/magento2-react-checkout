@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CartItems from './Checkout/CartItems';
 import PaymentMethods from './Checkout/PaymentMethods';
 import ShippingMethods from './Checkout/ShippingMethods';
@@ -7,12 +7,19 @@ import GuestEmailForm from './Checkout/GuestEmailForm';
 import BillingAddressForm from './Checkout/BillingAddressForm';
 import ShippingAddressForm from './Checkout/ShippingAddressForm';
 import AddressWrapper from './Checkout/AddressWrapper';
+import useCartContext from '../hook/useCartContext';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
 }
 
 function CheckoutForm() {
+  const [, { getGuestCartInfo }] = useCartContext();
+
+  useEffect(() => {
+    getGuestCartInfo();
+  }, [getGuestCartInfo]);
+
   return (
     <div className="flex flex-col mx-12 my-6 md:flex-row">
       <div className="md:w-1/4">

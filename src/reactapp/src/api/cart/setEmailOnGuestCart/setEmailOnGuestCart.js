@@ -1,7 +1,7 @@
 import mutation from './mutation';
 import modifier from './modifier';
-import { config } from '../../../../config';
-import sendRequest from '../../../sendRequest';
+import { config } from '../../../config';
+import sendRequest from '../../sendRequest';
 
 export default async function setEmailOnGuestCart(email) {
   const query = mutation();
