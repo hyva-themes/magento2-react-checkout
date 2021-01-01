@@ -12,7 +12,6 @@ function useFormSection({
   validationSchema,
   submitHandler,
 }) {
-  const [isMeValid, setIsMeValid] = useState(false);
   const { dirty, isValid } = useFormikContext();
   const {
     registerFormSection,
@@ -54,21 +53,21 @@ function useFormSection({
    * We are keeping this data in state so that we can submit the form section
    * as soon as the form section at focus is getting changed.
    */
-  useEffect(() => {
-    if (activeFormSection === id) {
-      setIsMeValid(dirty && isValid);
-    }
-  }, [activeFormSection, dirty, isValid, id]);
+  // useEffect(() => {
+  //   if (activeFormSection === id) {
+  //     setIsMeValid(dirty && isValid);
+  //   }
+  // }, [activeFormSection, dirty, isValid, id]);
 
   /**
    * Calling the submit handler from the form section in the context if and only
    * if the form section data is valid;
    */
-  useEffect(() => {
-    if (isMeValid) {
-      submitHandler();
-    }
-  }, [activeFormSection, isMeValid, submitHandler]);
+  // useEffect(() => {
+  //   if (isMeValid) {
+  //     submitHandler();
+  //   }
+  // }, [activeFormSection, isMeValid, submitHandler]);
 
   /**
    * Preparing the form context value.
@@ -81,8 +80,9 @@ function useFormSection({
       fields: prepareFields(initialValues, id),
       setFormFocused,
       handleFocus,
+      submitHandler,
     }),
-    [initialValues, id, setFormFocused, handleFocus]
+    [initialValues, id, submitHandler, setFormFocused, handleFocus]
   );
 
   return context;
