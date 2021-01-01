@@ -33,6 +33,8 @@ function useFormSection({
     [id, setActiveFormSection]
   );
 
+  const handleFocus = useCallback(() => setFormFocused(true), [setFormFocused]);
+
   /**
    * It register the form to checkout-form-formik so that the form will be
    * a section of the big checkout form
@@ -78,8 +80,9 @@ function useFormSection({
     () => ({
       fields: prepareFields(initialValues, id),
       setFormFocused,
+      handleFocus,
     }),
-    [initialValues, id, setFormFocused]
+    [initialValues, id, setFormFocused, handleFocus]
   );
 
   return context;

@@ -5,9 +5,7 @@ import TextInput from '../../Common/Form/TextInput';
 import ToggleBox from '../../Common/ToggleBox';
 
 function GuestEmail() {
-  const { fields, setFormFocused } = useContext(GuestEmailFormContext);
-
-  const handleFocus = () => setFormFocused(true);
+  const { fields, handleFocus } = useContext(GuestEmailFormContext);
 
   return (
     <Card bg="dark">
