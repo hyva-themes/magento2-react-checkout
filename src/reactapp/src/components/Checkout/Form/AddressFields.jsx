@@ -45,8 +45,8 @@ function AddressFields({ children, context }) {
             onFocus={handleFocus}
           />
           <TextInput
-            label="Street, Nr"
-            name={fields.street}
+            label="Street"
+            name={`${fields.street}[0]`}
             placeholder="Street"
             required
             onFocus={handleFocus}

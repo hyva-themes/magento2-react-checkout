@@ -37,7 +37,7 @@ function GuestEmail() {
               <Button
                 click={submitHandler}
                 variant="success"
-                disable={isFormValid}
+                disable={!isFormValid}
               >
                 Use me
               </Button>

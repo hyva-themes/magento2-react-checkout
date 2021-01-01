@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
-import { string as YupString, bool as YupBool } from 'yup';
+import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
+
 import BillingAddressFormContext from './BillingAddressFormContext';
 import { BILLING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
@@ -10,7 +12,7 @@ const initialValues = {
   company: '',
   firstname: '',
   lastname: '',
-  street: '',
+  street: [''],
   phone: '',
   zipcode: '',
   city: '',
@@ -24,7 +26,11 @@ const validationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
-  street: YupString().required(requiredMessage),
+  street: YupArray().test(
+    'street1Required',
+    requiredMessage,
+    value => !!_get(value, 0)
+  ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
@@ -61,5 +67,9 @@ function BillingAddressFormManager({ children }) {
     </BillingAddressFormContext.Provider>
   );
 }
+
+BillingAddressFormManager.propTypes = {
+  children: node.isRequired,
+};
 
 export default BillingAddressFormManager;
