@@ -24,9 +24,7 @@ const validationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
-  street: YupString()
-    .required(requiredMessage)
-    .test('isNaN', 'Please check input for %1.', value => Number.isNaN(value)),
+  street: YupString().required(requiredMessage),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),

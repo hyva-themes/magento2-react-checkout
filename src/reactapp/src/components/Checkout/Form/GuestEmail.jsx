@@ -10,6 +10,7 @@ import ToggleBox from '../../Common/ToggleBox';
 
 function GuestEmail() {
   const {
+    isFormValid,
     editMode,
     fields,
     handleFocus,
@@ -33,7 +34,11 @@ function GuestEmail() {
               />
             </div>
             <div className="flex items-center justify-center">
-              <Button click={submitHandler} variant="success">
+              <Button
+                click={submitHandler}
+                variant="success"
+                disable={isFormValid}
+              >
                 Use me
               </Button>
             </div>

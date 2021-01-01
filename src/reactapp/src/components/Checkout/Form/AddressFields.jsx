@@ -67,8 +67,7 @@ function AddressFields({ children, context }) {
           />
           <SelectInput
             label="Country"
-            id={fields.country}
-            name="country"
+            name={fields.country}
             required
             options={countryOptions}
             onFocus={handleFocus}

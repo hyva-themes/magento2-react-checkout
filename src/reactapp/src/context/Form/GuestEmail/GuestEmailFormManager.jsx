@@ -37,8 +37,11 @@ function GuestEmailFormManager({ children }) {
 
   // Whenever cart-data email info get udpated, the email field will be filled with that value
   useEffect(() => {
-    setFieldValue(EMAIL_FIELD, cartEmailValue);
-  }, [cartEmailValue]);
+    if (cartEmailValue) {
+      setFieldValue(EMAIL_FIELD, cartEmailValue);
+      setEditMode(false);
+    }
+  }, [cartEmailValue, setFieldValue]);
 
   const context = useFormSection({
     id: GUEST_EMAIL_FORM,
