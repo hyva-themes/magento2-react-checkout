@@ -11,6 +11,7 @@ export function modifyShippingAddressList(addressList) {
       postcode: zipcode,
       city,
       country: { code: countryCode },
+      region: { code: regionCode }
     }) => ({
       company,
       firstname,
@@ -19,6 +20,7 @@ export function modifyShippingAddressList(addressList) {
       phone,
       zipcode,
       city,
+      region: regionCode,
       country: countryCode,
     })
   );

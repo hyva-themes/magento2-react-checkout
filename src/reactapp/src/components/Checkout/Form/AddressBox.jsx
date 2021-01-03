@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import _get from 'lodash.get';
 import { array, objectOf, shape, string } from 'prop-types';
 import useAppContext from '../../../hook/useAppContext';
@@ -13,7 +13,18 @@ function BoxItem({ name, value }) {
 }
 
 function AddressBox({ address }) {
-  const [{ countryList }] = useAppContext();
+  const [{ countryList, stateList }] = useAppContext();
+  const addressCountry = address.country;
+  const addressRegion = address.region;
+
+  const [countryName, stateName] = useMemo(() => {
+    const country = countryList.find(c => c.id === addressCountry) || {};
+    const state = _get(stateList, country.id, []).find(
+      s => s.code === addressRegion
+    );
+
+    return [_get(country, 'name', ''), _get(state, 'name', '')];
+  }, [countryList, stateList, addressCountry, addressRegion]);
 
   return (
     <div>
@@ -22,16 +33,13 @@ function AddressBox({ address }) {
       <BoxItem name="Company" value={address.company} />
       <BoxItem
         name="Street"
-        value={address.street.reduce((acc, cur) => `${acc}, ${cur}`)}
-      />
-      <BoxItem name="City" value={address.city} />
-      <BoxItem
-        name="country"
-        value={_get(
-          countryList.find(c => c.id === address.country),
-          'name'
+        value={_get(address, 'street', []).reduce(
+          (acc, cur) => `${acc}, ${cur}`, ''
         )}
       />
+      <BoxItem name="City" value={address.city} />
+      <BoxItem name="State" value={stateName} />
+      <BoxItem name="country" value={countryName} />
       <BoxItem name="Postcode" value={address.zipcode} />
       <BoxItem name="Phone" value={address.phone} />
     </div>

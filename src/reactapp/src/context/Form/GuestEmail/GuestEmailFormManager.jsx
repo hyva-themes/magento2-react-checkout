@@ -23,7 +23,7 @@ const validationSchema = {
 const EMAIL_FIELD = 'email.email';
 
 function GuestEmailFormManager({ children }) {
-  const { editMode, setFormToEditMode, setEditMode } = useFormEditMode();
+  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const [cartData, { setEmailOnGuestCart }] = useCartContext();
   const cartEmailValue = _get(cartData, 'cart.email', '');
   const { values, setFieldValue } = useFormikContext();
@@ -31,16 +31,16 @@ function GuestEmailFormManager({ children }) {
 
   const formSubmit = useCallback(async () => {
     await setEmailOnGuestCart(emailFieldValue);
-    setEditMode(false);
-  }, [emailFieldValue, setEmailOnGuestCart, setEditMode]);
+    setFormEditMode(false);
+  }, [emailFieldValue, setEmailOnGuestCart, setFormEditMode]);
 
   // Whenever cart-data email info get udpated, the email field will be filled with that value
   useEffect(() => {
     if (cartEmailValue) {
       setFieldValue(EMAIL_FIELD, cartEmailValue);
-      setEditMode(false);
+      setFormEditMode(false);
     }
-  }, [cartEmailValue, setFieldValue, setEditMode]);
+  }, [cartEmailValue, setFieldValue, setFormEditMode]);
 
   const context = useFormSection({
     id: GUEST_EMAIL_FORM,

@@ -24,7 +24,10 @@ function ShippingAddress() {
 
   if (editMode) {
     return (
-      <AddressFields context={ShippingAddressFormContext}>
+      <AddressFields
+        title="Shipping information"
+        context={ShippingAddressFormContext}
+      >
         <div className="flex items-center justify-center mt-2">
           <Button
             click={submitHandler}

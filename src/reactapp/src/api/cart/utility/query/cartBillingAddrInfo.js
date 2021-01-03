@@ -1,5 +1,5 @@
-const cartShippingAddrInfo = `
-shipping_addresses {
+export const cartBillingAddrInfo = `
+billing_address {
   city
   country {
     code
@@ -19,6 +19,7 @@ shipping_addresses {
   }
   street
   telephone
-}`;
+}
+`;
 
-export default cartShippingAddrInfo;
+export default cartBillingAddrInfo;

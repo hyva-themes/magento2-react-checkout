@@ -8,6 +8,8 @@ import BillingAddressForm from './Checkout/BillingAddressForm';
 import ShippingAddressForm from './Checkout/ShippingAddressForm';
 import AddressWrapper from './Checkout/AddressWrapper';
 import useCartContext from '../hook/useCartContext';
+import useAppContext from '../hook/useAppContext';
+import PageLoader from './Common/Loader';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -15,10 +17,19 @@ function FormStep({ children, className }) {
 
 function CheckoutForm() {
   const [, { getGuestCartInfo }] = useCartContext();
+  const [{ pageLoader }, { setPageLoader }] = useAppContext();
 
   useEffect(() => {
-    getGuestCartInfo();
-  }, [getGuestCartInfo]);
+    (async () => {
+      setPageLoader(true);
+      await getGuestCartInfo();
+      setPageLoader(false);
+    })();
+  }, [getGuestCartInfo, setPageLoader]);
+
+  if (pageLoader) {
+    return <PageLoader />;
+  }
 
   return (
     <div className="flex flex-col mx-12 my-6 md:flex-row">

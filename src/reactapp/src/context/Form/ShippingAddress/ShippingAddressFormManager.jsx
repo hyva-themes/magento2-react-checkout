@@ -8,6 +8,7 @@ import { SHIPPING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import useCartContext from '../../../hook/useCartContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
+import useAppContext from '../../../hook/useAppContext';
 
 const initialValues = {
   company: '',
@@ -17,6 +18,7 @@ const initialValues = {
   phone: '',
   zipcode: '',
   city: '',
+  region: '',
   country: '',
 };
 
@@ -34,28 +36,51 @@ const validationSchema = {
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
+  region: YupString().required(requiredMessage),
   country: YupString().required(requiredMessage),
 };
 
 function ShippingAddressFormManager({ children }) {
-  const { editMode, setFormToEditMode, setEditMode } = useFormEditMode();
+  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { values, setFieldValue } = useFormikContext();
   const shippingAddrFieldValues = _get(values, 'shipping_address');
+  const [, { setPageLoader }] = useAppContext();
 
-  const [cartData, { addCartShippingAddress }] = useCartContext();
+  const [
+    cartData,
+    { addCartShippingAddress, setCartBillingAddress },
+  ] = useCartContext();
   const cartShippingAddr = _get(cartData, 'cart.shipping_addresses[0]');
 
   const formSubmit = useCallback(async () => {
+    setPageLoader(true);
+
     await addCartShippingAddress(shippingAddrFieldValues);
-    setEditMode(true);
-  }, [shippingAddrFieldValues, addCartShippingAddress, setEditMode]);
+
+    const isBillingSame = _get(values, 'billing_address.isSameAsShipping');
+
+    if (isBillingSame) {
+      await setCartBillingAddress({
+        ...shippingAddrFieldValues,
+        isSameAsShipping: true,
+      });
+    }
+
+    setFormEditMode(false);
+    setPageLoader(false);
+  }, [
+    shippingAddrFieldValues,
+    addCartShippingAddress,
+    setCartBillingAddress,
+    setFormEditMode,
+  ]);
 
   useEffect(() => {
     if (cartShippingAddr) {
       setFieldValue('shipping_address', cartShippingAddr);
-      setEditMode(false);
+      setFormEditMode(false);
     }
-  }, [cartShippingAddr, setFieldValue, setEditMode]);
+  }, [cartShippingAddr, setFieldValue, setFormEditMode]);
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,

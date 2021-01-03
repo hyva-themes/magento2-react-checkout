@@ -5,5 +5,7 @@ export default function useFormEditMode(initValue = true) {
 
   const setFormToEditMode = useCallback(() => setEditMode(true), []);
 
-  return { editMode, setFormToEditMode, setEditMode };
+  const setFormEditMode = useCallback(status => setEditMode(status), []);
+
+  return { editMode, setFormToEditMode, setFormEditMode };
 }
