@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -47,29 +47,22 @@ function BillingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const [, { setPageLoader }] = useAppContext();
   const [cartData, { setCartBillingAddress }] = useCartContext();
-  const cartBillingAddr = _get(cartData, `${BILLING_ADDR_FORM}`, {});
+  const cartBillingAddr = _get(cartData, `cart.billing_address`);
   const { values, setFieldValue } = useFormikContext();
   const isSame = _get(values, `${BILLING_ADDR_FORM}.isSameAsShipping`);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
-  const [isBillingShippingSame, setBillingSameAsShipping] = useState(isSame);
 
   const formSubmit = useCallback(async () => {
-    console.log('submitting')
     setPageLoader(true);
     await setCartBillingAddress(billingAddrFieldValues);
     setFormEditMode(false);
     setPageLoader(false);
-    console.log('finished')
   }, [
     billingAddrFieldValues,
     setPageLoader,
     setCartBillingAddress,
     setFormEditMode,
   ]);
-
-  useEffect(() => {
-    setBillingSameAsShipping(isSame);
-  }, [isSame]);
 
   useEffect(() => {
     if (cartBillingAddr) {
@@ -87,7 +80,7 @@ function BillingAddressFormManager({ children }) {
 
   const context = {
     ...formContext,
-    isBillingAddressSameAsShipping: isBillingShippingSame,
+    isBillingAddressSameAsShipping: isSame,
   };
 
   return (

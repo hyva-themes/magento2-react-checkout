@@ -1,5 +1,5 @@
 import { setCartBillingAddress } from './billingAddress/reducers';
-import { SET_CART_BILLING_ADDERSS } from './billingAddress/types';
+import { SET_CART_BILLING_ADDRESS } from './billingAddress/types';
 import { setCartEmail } from './email/reducers';
 import { SET_CART_EMAIL } from './email/types';
 import { setGuestCartInfo } from './guestCart/reducers';
@@ -11,7 +11,7 @@ const actions = {
   [SET_CART_EMAIL]: setCartEmail,
   [SET_GUEST_CART_INFO]: setGuestCartInfo,
   [SET_CART_SHIPPING_ADDDRESSES]: setCartShippingAddresses,
-  [SET_CART_BILLING_ADDERSS]: setCartBillingAddress,
+  [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
 };
 
 function cartReducer(state, { type, payload }) {
