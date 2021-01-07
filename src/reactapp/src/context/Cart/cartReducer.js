@@ -4,14 +4,21 @@ import { setCartEmail } from './email/reducers';
 import { SET_CART_EMAIL } from './email/types';
 import { setGuestCartInfo } from './guestCart/reducers';
 import { SET_GUEST_CART_INFO } from './guestCart/types';
-import { setCartShippingAddresses } from './shippingAddress/reducers';
-import { SET_CART_SHIPPING_ADDDRESSES } from './shippingAddress/types';
+import {
+  setCartSelectedShippingAddress,
+  setCartShippingAddresses,
+} from './shippingAddress/reducers';
+import {
+  SET_CART_SELECTED_SHIPPING_ADDRESS,
+  SET_CART_SHIPPING_ADDDRESSES,
+} from './shippingAddress/types';
 
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
   [SET_GUEST_CART_INFO]: setGuestCartInfo,
   [SET_CART_SHIPPING_ADDDRESSES]: setCartShippingAddresses,
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
+  [SET_CART_SELECTED_SHIPPING_ADDRESS]: setCartSelectedShippingAddress,
 };
 
 function cartReducer(state, { type, payload }) {

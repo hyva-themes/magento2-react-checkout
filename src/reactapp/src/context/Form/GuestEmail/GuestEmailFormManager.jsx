@@ -24,8 +24,7 @@ const EMAIL_FIELD = 'email.email';
 
 function GuestEmailFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
-  const [cartData, { setEmailOnGuestCart }] = useCartContext();
-  const cartEmailValue = _get(cartData, 'cart.email', '');
+  const { cartEmail, setEmailOnGuestCart } = useCartContext();
   const { values, setFieldValue } = useFormikContext();
   const emailFieldValue = _get(values, EMAIL_FIELD);
 
@@ -36,11 +35,11 @@ function GuestEmailFormManager({ children }) {
 
   // Whenever cart-data email info get udpated, the email field will be filled with that value
   useEffect(() => {
-    if (cartEmailValue) {
-      setFieldValue(EMAIL_FIELD, cartEmailValue);
+    if (cartEmail) {
+      setFieldValue(EMAIL_FIELD, cartEmail);
       setFormEditMode(false);
     }
-  }, [cartEmailValue, setFieldValue, setFormEditMode]);
+  }, [cartEmail, setFieldValue, setFormEditMode]);
 
   const context = useFormSection({
     id: GUEST_EMAIL_FORM,

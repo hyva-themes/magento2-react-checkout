@@ -46,8 +46,7 @@ const validationSchema = {
 function BillingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const [, { setPageLoader }] = useAppContext();
-  const [cartData, { setCartBillingAddress }] = useCartContext();
-  const cartBillingAddr = _get(cartData, `cart.billing_address`);
+  const { cartBillingAddress, setCartBillingAddress } = useCartContext();
   const { values, setFieldValue } = useFormikContext();
   const isSame = _get(values, `${BILLING_ADDR_FORM}.isSameAsShipping`);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
@@ -65,11 +64,11 @@ function BillingAddressFormManager({ children }) {
   ]);
 
   useEffect(() => {
-    if (cartBillingAddr) {
-      setFieldValue(BILLING_ADDR_FORM, cartBillingAddr);
+    if (cartBillingAddress) {
+      setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
       setFormEditMode(false);
     }
-  }, [cartBillingAddr, setFieldValue, setFormEditMode]);
+  }, [cartBillingAddress, setFieldValue, setFormEditMode]);
 
   const formContext = useFormSection({
     id: BILLING_ADDR_FORM,

@@ -16,7 +16,7 @@ function FormStep({ children, className }) {
 }
 
 function CheckoutForm() {
-  const [, { getGuestCartInfo }] = useCartContext();
+  const { getGuestCartInfo } = useCartContext();
   const [{ pageLoader }, { setPageLoader }] = useAppContext();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -45,12 +45,42 @@ function ShippingAddressFormManager({ children }) {
   const { values, setFieldValue } = useFormikContext();
   const shippingAddrFieldValues = _get(values, 'shipping_address');
   const [, { setPageLoader }] = useAppContext();
+  const {
+    shippingAddressIds,
+    shippingAddressList,
+    addCartShippingAddress,
+    setCartBillingAddress,
+    setCartSelectedShippingAddress,
+  } = useCartContext();
 
-  const [
-    cartData,
-    { addCartShippingAddress, setCartBillingAddress },
-  ] = useCartContext();
-  const cartShippingAddr = _get(cartData, 'cart.shipping_addresses[0]');
+  const {
+    addressId: selectedAddressId,
+    address: selectedShippingAddress,
+  } = useMemo(() => {
+    const addressId = _get(shippingAddressIds, 0);
+    const address = _get(shippingAddressList, addressId);
+    return {
+      addressId,
+      address,
+    };
+  }, [shippingAddressIds]);
+
+  // for guest cart, we are setting the first shipping address as the selected
+  // shipping adddress here;
+  useEffect(() => {
+    if (selectedAddressId) {
+      setCartSelectedShippingAddress(selectedAddressId);
+    }
+  }, [selectedAddressId, setCartSelectedShippingAddress]);
+
+  // populating shipping address with selected shipping address value and then
+  // turn of edit mode
+  useEffect(() => {
+    if (selectedShippingAddress) {
+      setFieldValue('shipping_address', selectedShippingAddress);
+      setFormEditMode(false);
+    }
+  }, [selectedShippingAddress, setFieldValue, setFormEditMode]);
 
   const formSubmit = useCallback(async () => {
     setPageLoader(true);
@@ -74,13 +104,6 @@ function ShippingAddressFormManager({ children }) {
     setCartBillingAddress,
     setFormEditMode,
   ]);
-
-  useEffect(() => {
-    if (cartShippingAddr) {
-      setFieldValue('shipping_address', cartShippingAddr);
-      setFormEditMode(false);
-    }
-  }, [cartShippingAddr, setFieldValue, setFormEditMode]);
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,

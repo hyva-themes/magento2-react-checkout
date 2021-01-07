@@ -4,7 +4,7 @@ import React from 'react';
 import { useField } from 'formik';
 import { bool, string } from 'prop-types';
 
-function Checkbox({
+function RadioInput({
   id,
   name,
   label,
@@ -20,8 +20,8 @@ function Checkbox({
   return (
     <div className="mt-2 form-control">
       <input
-        className="form-checkbox"
-        type="checkbox"
+        className="form-radio"
+        type="radio"
         id={inputId}
         name={name}
         checked={isChecked}
@@ -40,7 +40,7 @@ function Checkbox({
   );
 }
 
-Checkbox.propTypes = {
+RadioInput.propTypes = {
   id: string,
   name: string.isRequired,
   label: string.isRequired,
@@ -50,7 +50,7 @@ Checkbox.propTypes = {
   isChecked: bool,
 };
 
-Checkbox.defaultProps = {
+RadioInput.defaultProps = {
   id: '',
   helpText: '',
   required: false,
@@ -58,4 +58,4 @@ Checkbox.defaultProps = {
   isChecked: false,
 };
 
-export default Checkbox;
+export default RadioInput;

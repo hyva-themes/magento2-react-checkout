@@ -1,3 +1,5 @@
+import cartShippingMethods from "./cartShippingMethods";
+
 const cartShippingAddrInfo = `
 shipping_addresses {
   city
@@ -19,6 +21,7 @@ shipping_addresses {
   }
   street
   telephone
+  ${cartShippingMethods}
 }`;
 
 export default cartShippingAddrInfo;

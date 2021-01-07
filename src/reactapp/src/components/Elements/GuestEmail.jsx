@@ -22,9 +22,9 @@ export const GuestEmail = () => {
     return '';
   }
   return (
-    <div className="border-t py-4">
-      <header className="flex justify-between items-center cursor-pointer select-none">
-        <span className="text-indigo font-thin text-xl">Email</span>
+    <div className="py-4 border-t">
+      <header className="flex items-center justify-between cursor-pointer select-none">
+        <span className="text-xl font-thin text-indigo">Email</span>
       </header>
 
       <div className="py-2">
