@@ -14,11 +14,12 @@ function AddressFields({ children, context, title }) {
   const { fields, handleFocus } = useContext(context);
   const { values, setFieldValue } = useFormikContext();
   const countrySelected = _get(values, fields.country);
+  const regionField = fields.region;
+  const stateSelected = _get(values, regionField);
 
   // whenever the country is swiched, we need to clear the state input
   useEffect(() => {
     if (countrySelected) {
-      const stateSelected = _get(values, fields.region);
       const stateListContainsStateSelected = _get(
         stateList,
         countrySelected,
@@ -26,10 +27,10 @@ function AddressFields({ children, context, title }) {
       ).find(s => s.code === stateSelected);
 
       if (!stateListContainsStateSelected) {
-        setFieldValue(fields.region, '');
+        setFieldValue(regionField, '');
       }
     }
-  }, [countrySelected, setFieldValue]);
+  }, [countrySelected, regionField, stateSelected, stateList, setFieldValue]);
 
   const countryOptions = useMemo(
     () =>

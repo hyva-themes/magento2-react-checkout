@@ -45,7 +45,7 @@ function CheckoutForm() {
         </div>
       </div>
 
-      <div className="md:w-2/4">
+      <div className="md:w-1/3">
         <div className="mx-1 space-y-2">
           <FormStep>
             <ShippingMethods />

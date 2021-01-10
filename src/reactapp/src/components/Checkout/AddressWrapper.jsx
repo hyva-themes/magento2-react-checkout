@@ -4,6 +4,7 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import useAppContext from '../../hook/useAppContext';
+import { _keys } from '../../utils';
 
 function AddressWrapper({ children }) {
   const [
@@ -13,6 +14,7 @@ function AddressWrapper({ children }) {
   const { values } = useFormikContext();
   const shippingCountry = _get(values, `shipping_address.country`);
   const billingCountry = _get(values, 'billing_address.country');
+  const countriesStatesAlreadyAvail = _keys(stateList);
 
   // collect countryList to show them as options in country address field
   useEffect(() => {
@@ -21,8 +23,6 @@ function AddressWrapper({ children }) {
 
   // collect states belonging to billing address and shipping address countries
   useEffect(() => {
-    const countriesStatesAlreadyAvail = Object.keys(stateList);
-
     const fetchStates = country => {
       // we dont want to collect stateList if it is already collected.
       if (!countriesStatesAlreadyAvail.includes(country)) {
@@ -38,7 +38,13 @@ function AddressWrapper({ children }) {
     if (billingCountry && billingCountry !== shippingCountry) {
       fetchStates(billingCountry);
     }
-  }, [shippingCountry, billingCountry, fetchCountries, fetchCountryStates]);
+  }, [
+    shippingCountry,
+    billingCountry,
+    countriesStatesAlreadyAvail,
+    fetchCountries,
+    fetchCountryStates,
+  ]);
 
   return <>{children}</>;
 }

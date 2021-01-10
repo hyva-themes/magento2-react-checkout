@@ -63,7 +63,7 @@ function ShippingAddressFormManager({ children }) {
       addressId,
       address,
     };
-  }, [shippingAddressIds]);
+  }, [shippingAddressIds, shippingAddressList]);
 
   // for guest cart, we are setting the first shipping address as the selected
   // shipping adddress here;
@@ -82,28 +82,35 @@ function ShippingAddressFormManager({ children }) {
     }
   }, [selectedShippingAddress, setFieldValue, setFormEditMode]);
 
-  const formSubmit = useCallback(async () => {
-    setPageLoader(true);
+  const formSubmit = useCallback(
+    async formValues => {
+      setPageLoader(true);
 
-    await addCartShippingAddress(shippingAddrFieldValues);
+      await addCartShippingAddress(shippingAddrFieldValues);
 
-    const isBillingSame = _get(values, 'billing_address.isSameAsShipping');
+      const isBillingSame = _get(
+        formValues,
+        'billing_address.isSameAsShipping'
+      );
 
-    if (isBillingSame) {
-      await setCartBillingAddress({
-        ...shippingAddrFieldValues,
-        isSameAsShipping: true,
-      });
-    }
+      if (isBillingSame) {
+        await setCartBillingAddress({
+          ...shippingAddrFieldValues,
+          isSameAsShipping: true,
+        });
+      }
 
-    setFormEditMode(false);
-    setPageLoader(false);
-  }, [
-    shippingAddrFieldValues,
-    addCartShippingAddress,
-    setCartBillingAddress,
-    setFormEditMode,
-  ]);
+      setFormEditMode(false);
+      setPageLoader(false);
+    },
+    [
+      shippingAddrFieldValues,
+      addCartShippingAddress,
+      setCartBillingAddress,
+      setFormEditMode,
+      setPageLoader,
+    ]
+  );
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,
