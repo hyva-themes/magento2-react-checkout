@@ -34,10 +34,10 @@ export const EstimatedTotal = () => {
                 Totals
             </h3>
             <div className={'mt-4 flex items-baseline mb-4'}>
-                <span className="w-2/5 text-left text-lg md:text-sm xl:text-base">
+                <span className="w-2/5 text-lg text-left md:text-sm xl:text-base">
                     Subtotal:{' '}
                 </span>
-                <span className="w-3/5 text-right text-xl md:text-lg">
+                <span className="w-3/5 text-xl text-right md:text-lg">
                     {(cart?.prices?.subtotal_excluding_tax?.value).toLocaleString(
                         false,
                         {
@@ -49,10 +49,10 @@ export const EstimatedTotal = () => {
                 </span>
             </div>
             <div className={'mt-4 flex items-baseline'}>
-                <span className="w-2/5 text-left text-lg md:text-sm xl:text-base">
+                <span className="w-2/5 text-lg text-left md:text-sm xl:text-base">
                     Order Total:{' '}
                 </span>
-                <span className="w-3/5 text-right text-3xl md:text-lg lg:text-2xl font-bold">
+                <span className="w-3/5 text-3xl font-bold text-right md:text-lg lg:text-2xl">
                     {(cart?.prices?.grand_total?.value).toLocaleString(false, {
                         style: 'currency',
                         currency:
