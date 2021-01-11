@@ -9,7 +9,7 @@ const initialState = {
     shipping_addresses: {},
     selected_shipping_address: '',
     shipping_methods: {},
-    items: [],
+    items: {},
     available_payment_methods: [],
     selected_payment_method: { code: '', title: '' },
     applied_coupons: null,

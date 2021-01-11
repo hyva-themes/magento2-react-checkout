@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import CartItems from './Checkout/CartItems';
 import PaymentMethods from './Checkout/PaymentMethods';
 import ShippingMethods from './Checkout/ShippingMethods';
 import Totals from './Checkout/Totals';
@@ -10,6 +9,7 @@ import AddressWrapper from './Checkout/AddressWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
 import PageLoader from './Common/Loader';
+import CartItemsForm from './Checkout/CartItemsForm';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -59,7 +59,7 @@ function CheckoutForm() {
 
       <div className="flex-grow">
         <div className="ml-1 space-y-2">
-          <CartItems />
+          <CartItemsForm />
           <Totals />
         </div>
       </div>

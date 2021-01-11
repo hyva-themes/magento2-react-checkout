@@ -48,3 +48,4 @@ export const config = {
 export const GUEST_EMAIL_FORM = 'email';
 export const BILLING_ADDR_FORM = 'billing_address';
 export const SHIPPING_ADDR_FORM = 'shipping_address';
+export const CART_ITEMS_FORM = 'items';

@@ -33,6 +33,7 @@ export default function useCartContext() {
       selectedShippingAddressId,
       []
     );
+    const cartItems = _get(cartData, 'cart.items');
 
     return {
       cart,
@@ -42,6 +43,7 @@ export default function useCartContext() {
       shippingAddressIds,
       shippingAddressList,
       selectedShippingMethods,
+      cartItems,
 
       // actions
       addCartShippingAddress,

@@ -12,6 +12,8 @@ function TextInput({
   helpText,
   required,
   placeholder,
+  className,
+  width,
   ...rest
 }) {
   const inputId = id || name;
@@ -44,7 +46,7 @@ function TextInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className="w-full form-input"
+        className={`form-input ${className} ${width || 'w-full'}`}
         aria-describedby={`${inputId}-feedback ${inputId}-help`}
       />
       <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">

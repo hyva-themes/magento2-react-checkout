@@ -1,4 +1,19 @@
+const plugin = require('tailwindcss/plugin');
 const { colors } = require('tailwindcss/defaultTheme');
+const customFormsPlugin = require('@tailwindcss/custom-forms');
+
+const customMinHeightPlugin = plugin(({ addComponents, theme }) => {
+  const minHeights = {
+    '.min-h-10': {
+      minHeight: theme('spacing.10'),
+    },
+    '.min-h-12': {
+      minHeight: theme('spacing.12'),
+    },
+  };
+
+  addComponents(minHeights);
+});
 
 module.exports = {
   important: true,
@@ -48,7 +63,7 @@ module.exports = {
     borderWidth: ['responsive', 'last', 'hover', 'focus'],
     margin: ['responsive', 'last', 'hover', 'focus'],
   },
-  plugins: [require('@tailwindcss/custom-forms')],
+  plugins: [customFormsPlugin, customMinHeightPlugin],
   purge: {
     content: [
       '../../../../../reactapp/src/**/*.jsx',

@@ -22,6 +22,7 @@ const cartQueryInfo = `
   total_quantity
   items {
     id
+    quantity
     prices {
       price {
         value
@@ -51,7 +52,6 @@ const cartQueryInfo = `
         id
       }
     }
-    quantity
   }
   available_payment_methods {
     code
