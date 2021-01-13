@@ -7,6 +7,11 @@ const magentoDataSources = {
             value: 'cart.cartId',
             timestamp: 'cart.data_id',
         },
+        storeViewCode: {
+            storageKey: 'mage-cache-storage',
+            value: 'cart.storeViewCode',
+            timestamp: 'cart.store_view_code',
+        },
         token: {
             storageKey: 'mage-cache-storage',
             value: 'customer.signin_token',
@@ -16,6 +21,12 @@ const magentoDataSources = {
     m2BrowserPersistence: {
         cartId: {
             storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__cartId',
+            value: 'value',
+            ttl: 'ttl',
+            timestamp: 'timeStored',
+        },
+        storeViewCode: {
+            storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__storeViewCode',
             value: 'value',
             ttl: 'ttl',
             timestamp: 'timeStored',
@@ -33,6 +44,7 @@ const activeSource = magentoDataSources.mageCacheStorage; //or `magentoDataSourc
 
 export const config = {
     cartId: getConfigFromLocalStorage(activeSource.cartId),
+    storeViewCode: getConfigFromLocalStorage(activeSource.storeViewCode),
     signInToken: getConfigFromLocalStorage(activeSource.token),
     baseUrl: window.BASE_URL || 'https://magento2.test/',
     defaultPaymentMethod: 'checkmo',
