@@ -15,7 +15,9 @@
     "name": "Hyvä Themes, Wigman Interactive",
     "email": "info@hyva.io"
   }],
-  "license": "see LICENSE.md",
+  "license": [
+      "BSD-3-Clause"
+  ],
   "autoload": {
     "files": [
       "src/registration.php"
