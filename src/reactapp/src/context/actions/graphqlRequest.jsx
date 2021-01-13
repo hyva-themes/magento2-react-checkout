@@ -4,6 +4,7 @@ export const graphqlRequest = (dispatch, query, type, returnProperty) =>
     fetch(config.baseUrl + 'graphql', {
         method: 'POST',
         headers: {
+            'Store': config.storeViewCode,
             'Content-Type': 'application/json',
             Authorization:
                 'Basic YWRtaW46dGVzdA==' +
