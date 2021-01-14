@@ -11,7 +11,6 @@ function RadioInput({
   helpText,
   required,
   placeholder,
-  isChecked,
   ...rest
 }) {
   const inputId = id || name;
@@ -24,7 +23,6 @@ function RadioInput({
         type="radio"
         id={inputId}
         name={name}
-        checked={isChecked}
         aria-describedby={`${inputId}-feedback ${inputId}-help`}
         {...field}
         {...rest}
@@ -47,7 +45,6 @@ RadioInput.propTypes = {
   helpText: string,
   placeholder: string,
   required: bool,
-  isChecked: bool,
 };
 
 RadioInput.defaultProps = {
@@ -55,7 +52,6 @@ RadioInput.defaultProps = {
   helpText: '',
   required: false,
   placeholder: '',
-  isChecked: false,
 };
 
 export default RadioInput;

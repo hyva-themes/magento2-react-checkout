@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PaymentMethods from './Checkout/PaymentMethods';
-import ShippingMethods from './Checkout/ShippingMethods';
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
 import BillingAddressForm from './Checkout/BillingAddressForm';
@@ -10,6 +9,7 @@ import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
+import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -48,7 +48,7 @@ function CheckoutForm() {
       <div className="md:w-1/3">
         <div className="mx-1 space-y-2">
           <FormStep>
-            <ShippingMethods />
+            <ShippingMethodsForm />
           </FormStep>
 
           <FormStep>
