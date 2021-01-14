@@ -34,6 +34,9 @@ export default function useCartContext() {
       []
     );
     const cartItems = _get(cartData, 'cart.items');
+    const shippingMethodRate = _get(cartData, 'cart.selected_shipping_method.price');
+    const subTotal = _get(cartData, 'cart.prices.subTotal');
+    const grandTotal = _get(cartData, 'cart.prices.grandTotal');
 
     return {
       cart,
@@ -44,6 +47,9 @@ export default function useCartContext() {
       shippingAddressList,
       selectedShippingMethods,
       cartItems,
+      shippingMethodRate,
+      subTotal,
+      grandTotal,
 
       // actions
       addCartShippingAddress,

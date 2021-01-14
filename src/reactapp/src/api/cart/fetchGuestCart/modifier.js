@@ -40,11 +40,27 @@ function modifyCartItemsData(cartItems) {
   }, {});
 }
 
+function modifyCartPricesData(cartPrices) {
+  const grandTotal = _get(cartPrices, 'grand_total', {});
+  const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
+  const currencySymbol = config.currencySymbols[_get(grandTotal, 'currency')];
+  const grandTotalAmount = _get(grandTotal, 'value');
+  const subTotalAmount = _get(subTotal, 'value');
+
+  return {
+    subTotal: `${currencySymbol}${subTotalAmount}`,
+    subTotalAmount,
+    grandTotal: `${currencySymbol}${grandTotalAmount}`,
+    grandTotalAmount,
+  };
+}
+
 export default function fetchGuestCartModifier(result) {
   const cartData = _get(result, 'data.cart', {});
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
   const billingAddress = _get(cartData, 'billing_address', {});
   const cartItems = _get(cartData, 'items', []);
+  const cartPrices = _get(cartData, 'prices', {});
 
   return {
     email: cartData.email,
@@ -52,5 +68,6 @@ export default function fetchGuestCartModifier(result) {
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_addresses: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
+    prices: modifyCartPricesData(cartPrices),
   };
 }

@@ -1,4 +1,4 @@
-import cartShippingMethods from "./cartShippingMethods";
+import cartShippingMethods from './cartShippingMethods';
 
 const cartShippingAddrInfo = `
 shipping_addresses {

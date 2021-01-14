@@ -10,6 +10,7 @@ import useAppContext from '../hook/useAppContext';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
+import PlaceOrder from './Checkout/PlaceOrder';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -61,6 +62,7 @@ function CheckoutForm() {
         <div className="ml-1 space-y-2">
           <CartItemsForm />
           <Totals />
+          <PlaceOrder />
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ function ShippingMethods() {
         setFieldTouched(fields.methodCode, true);
       }
     },
-    [selectedShippingMethods, setFieldValue]
+    [selectedShippingMethods, fields, setFieldValue, setFieldTouched]
   );
 
   return (
