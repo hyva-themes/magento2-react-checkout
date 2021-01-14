@@ -77,7 +77,6 @@ const reinitializeForms = cart => {
 };
 
 const requiredMessage = '%1 is required';
-const invalidFormatSeven = "'%1' has 7 digits";
 const invalidEmail = 'Email Invalid';
 
 const BillingAddressSchema = Yup.object().shape({

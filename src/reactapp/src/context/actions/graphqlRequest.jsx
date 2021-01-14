@@ -35,7 +35,7 @@ export const graphqlRequest = (dispatch, query, type, returnProperty) =>
                     []
                 );
                 const hideMessageAfter = 30000;
-                window.dispatchMessages(messages, hideMessageAfter);
+                window.dispatchMessages && window.dispatchMessages(messages, hideMessageAfter);
 
                 return dispatch({
                     type: `${type}_ERROR`,
@@ -53,7 +53,7 @@ export const graphqlRequest = (dispatch, query, type, returnProperty) =>
         })
         .catch(exception => {
             // The server did not return a valid response
-            window.dispatchMessages([
+            window.dispatchMessages && window.dispatchMessages([
                 {
                     type: 'error',
                     text: exception.message,

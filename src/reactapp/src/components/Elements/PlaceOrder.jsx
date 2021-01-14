@@ -3,17 +3,6 @@ import { useCartContext } from '../../context/Cart';
 import { useFormikContext } from '../../context/Formik';
 import { useAppContext } from '../../context/App';
 
-const getCurrencySymbol = (locale, currency) =>
-    (0)
-        .toLocaleString(locale, {
-            style: 'currency',
-            currency,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        })
-        .replace(/\w/g, '')
-        .trim();
-
 export const PlaceOrder = () => {
     const [{ cart }, { placeOrder }] = useCartContext();
     const [
@@ -38,7 +27,7 @@ export const PlaceOrder = () => {
                 return true;
             })
             .catch(() => {
-                window.dispatchMessages(
+                window.dispatchMessages && window.dispatchMessages(
                     [
                         {
                             type: 'warning',
@@ -58,7 +47,7 @@ export const PlaceOrder = () => {
             })
             .catch(() => {
                 setBillingOpen(true);
-                window.dispatchMessages(
+                window.dispatchMessages && window.dispatchMessages(
                     [
                         {
                             type: 'warning',
