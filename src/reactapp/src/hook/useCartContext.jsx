@@ -15,14 +15,12 @@ export default function useCartContext() {
       setCartSelectedShippingAddress,
     } = cartActions;
     const cart = _get(cartData, 'cart');
-    const cartEmail = _get(cartData, 'cart.email', '');
-    const cartBillingAddress = _get(cartData, `cart.billing_address`);
-    const cartShippingMethods = _get(cartData, 'cart.shipping_methods');
-    const selectedShippingAddressId = _get(
-      cartData,
-      'cart.selected_shipping_address'
-    );
-    const shippingAddressList = _get(cartData, `cart.shipping_addresses`);
+    const cartEmail = _get(cart, 'email', '');
+
+    const cartBillingAddress = _get(cart, `billing_address`);
+    const cartShippingMethods = _get(cart, 'shipping_methods');
+    const selectedShippingAddressId = _get(cart, 'selected_shipping_address');
+    const shippingAddressList = _get(cart, `shipping_addresses`);
     const shippingAddressIds = _keys(shippingAddressList);
     const selectedShippingAddress = _get(
       shippingAddressList,
@@ -33,10 +31,13 @@ export default function useCartContext() {
       selectedShippingAddressId,
       []
     );
-    const cartItems = _get(cartData, 'cart.items');
-    const shippingMethodRate = _get(cartData, 'cart.selected_shipping_method.price');
-    const subTotal = _get(cartData, 'cart.prices.subTotal');
-    const grandTotal = _get(cartData, 'cart.prices.grandTotal');
+
+    const cartItems = _get(cart, 'items');
+    const shippingMethodRate = _get(cart, 'selected_shipping_method.price');
+    const subTotal = _get(cart, 'prices.subTotal');
+    const grandTotal = _get(cart, 'prices.grandTotal');
+
+    const paymentMethodList = _get(cart, 'available_payment_methods');
 
     return {
       cart,
@@ -50,6 +51,7 @@ export default function useCartContext() {
       shippingMethodRate,
       subTotal,
       grandTotal,
+      paymentMethodList,
 
       // actions
       addCartShippingAddress,

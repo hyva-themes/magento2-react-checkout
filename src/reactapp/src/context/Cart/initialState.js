@@ -11,7 +11,7 @@ const initialState = {
     shipping_methods: {},
     selected_shipping_method: {},
     items: {},
-    available_payment_methods: [],
+    available_payment_methods: {},
     selected_payment_method: { code: '', title: '' },
     applied_coupons: null,
     prices: {

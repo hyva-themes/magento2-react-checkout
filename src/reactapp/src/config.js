@@ -50,3 +50,4 @@ export const BILLING_ADDR_FORM = 'billing_address';
 export const SHIPPING_ADDR_FORM = 'shipping_address';
 export const CART_ITEMS_FORM = 'items';
 export const SHIPPING_METHOD = 'shipping_method';
+export const PAYMENT_METHOD_FORM = 'payment_method';

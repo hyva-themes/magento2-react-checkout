@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PaymentMethods from './Checkout/PaymentMethods';
+
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
 import BillingAddressForm from './Checkout/BillingAddressForm';
@@ -11,6 +11,7 @@ import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
 import PlaceOrder from './Checkout/PlaceOrder';
+import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -53,7 +54,7 @@ function CheckoutForm() {
           </FormStep>
 
           <FormStep>
-            <PaymentMethods />
+            <PaymentMethodsForm />
           </FormStep>
         </div>
       </div>

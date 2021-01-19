@@ -55,12 +55,20 @@ function modifyCartPricesData(cartPrices) {
   };
 }
 
+function modifyPaymentMethodsData(paymentMethods) {
+  return paymentMethods.reduce((methodList, method) => {
+    methodList[method.code] = method;
+    return methodList;
+  }, {});
+}
+
 export default function fetchGuestCartModifier(result) {
   const cartData = _get(result, 'data.cart', {});
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
   const billingAddress = _get(cartData, 'billing_address', {});
   const cartItems = _get(cartData, 'items', []);
   const cartPrices = _get(cartData, 'prices', {});
+  const paymentMethods = _get(cartData, 'available_payment_methods', []);
 
   return {
     email: cartData.email,
@@ -69,5 +77,6 @@ export default function fetchGuestCartModifier(result) {
     shipping_addresses: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
     prices: modifyCartPricesData(cartPrices),
+    available_payment_methods: modifyPaymentMethodsData(paymentMethods),
   };
 }
