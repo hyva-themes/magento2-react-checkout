@@ -7,15 +7,15 @@ import _get from 'lodash.get';
  */
 export function modifyBillingAddressData(billingAddress) {
   const {
-    company,
-    firstname,
-    lastname,
+    company = '',
+    firstname = '',
+    lastname = '',
     street = [],
-    telephone: phone,
-    postcode: zipcode,
-    city,
-    country: { code: countryCode } = {},
-    region: { code: regionCode } = {},
+    telephone: phone = '',
+    postcode: zipcode = '',
+    city = '',
+    country: { code: countryCode = '' } = {},
+    region: { code: regionCode = '' } = {},
   } = billingAddress;
 
   return {

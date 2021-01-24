@@ -30,7 +30,7 @@ function ShippingAddress() {
       >
         <div className="flex items-center justify-center mt-2">
           <Button
-            click={submitHandler}
+            click={() => submitHandler(values)}
             variant="success"
             disable={!isFormValid}
           >

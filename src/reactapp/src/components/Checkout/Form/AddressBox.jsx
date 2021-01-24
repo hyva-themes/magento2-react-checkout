@@ -31,13 +31,7 @@ function AddressBox({ address }) {
       <BoxItem name="Firstname" value={address.firstname} />
       <BoxItem name="Lastname" value={address.lastname} />
       <BoxItem name="Company" value={address.company} />
-      <BoxItem
-        name="Street"
-        value={_get(address, 'street', []).reduce(
-          (acc, cur) => `${acc}, ${cur}`,
-          ''
-        )}
-      />
+      <BoxItem name="Street" value={_get(address, 'street', []).join()} />
       <BoxItem name="City" value={address.city} />
       <BoxItem name="State" value={stateName} />
       <BoxItem name="country" value={countryName} />

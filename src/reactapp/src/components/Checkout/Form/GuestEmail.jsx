@@ -39,7 +39,7 @@ function GuestEmail() {
                 variant="success"
                 disable={!isFormValid}
               >
-                Use me
+                Update
               </Button>
             </div>
           </>

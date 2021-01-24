@@ -45,7 +45,7 @@ export default function useCartContext() {
     const paymentMethodList = _get(cart, 'available_payment_methods');
     const selectedPaymentMethod = _get(cart, 'selected_payment_method');
 
-    const orderId = _get(cart, 'order.order_number');
+    const orderId = _get(cartData, 'order.order_number');
 
     return {
       cart,

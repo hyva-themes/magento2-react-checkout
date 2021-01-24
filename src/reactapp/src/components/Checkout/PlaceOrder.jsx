@@ -5,17 +5,14 @@ import Button from '../Common/Button';
 
 function PlaceOrder() {
   const [isValid, setIsValid] = useState(false);
-  const { values, errors } = useFormikContext();
+  const { values } = useFormikContext();
   const {
     checkoutFormValidationShema,
     submitHandler,
   } = useCheckoutFormContext();
 
-  console.log({ values })
-
   useEffect(() => {
-    checkoutFormValidationShema.isValid(values).then((valid, test) => {
-      console.log({ valid, test });
+    checkoutFormValidationShema.isValid(values).then(valid => {
       setIsValid(valid);
     });
   }, [values, checkoutFormValidationShema]);
