@@ -42,6 +42,7 @@ export default function useCartContext() {
     const grandTotal = _get(cart, 'prices.grandTotal');
 
     const paymentMethodList = _get(cart, 'available_payment_methods');
+    const selectedPaymentMethod = _get(cart, 'selected_payment_method');
 
     return {
       cart,
@@ -57,6 +58,7 @@ export default function useCartContext() {
       subTotal,
       grandTotal,
       paymentMethodList,
+      selectedPaymentMethod,
 
       // actions
       addCartShippingAddress,

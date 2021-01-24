@@ -1,6 +1,7 @@
 import { setBillingAddressAction } from './billingAddress/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import { getGuestCartInfoAction } from './guestCart/actions';
+import { setPaymentMethodAction } from './paymentMethod/actions';
 import {
   addCartShippingAddressAction,
   setSelectedShippingAddressAction,
@@ -14,6 +15,7 @@ const dispatchMapper = {
   setCartSelectedShippingAddress: setSelectedShippingAddressAction,
   setCartBillingAddress: setBillingAddressAction,
   setShippingMethod: setShippingMethodAction,
+  setPaymentMethod: setPaymentMethodAction,
 };
 
 function cartDispatchers(dispatch) {

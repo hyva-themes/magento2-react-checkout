@@ -1,6 +1,7 @@
 import fetchGuestCart from './cart/fetchGuestCart';
 import setBillingAddress from './cart/setBillingAddress';
 import setEmailOnGuestCart from './cart/setEmailOnGuestCart';
+import setPaymentMethod from './cart/setPaymentMethod';
 import setShippingAddress from './cart/setShippingAddress';
 import setShippingMethod from './cart/setShippingMethod';
 import { isError } from './cart/utility';
@@ -22,3 +23,5 @@ export const fetchGuestCartRequest = fetchGuestCart;
 export const fetchCountryListRequest = fetchCountryList;
 
 export const setShippingMethodRequest = setShippingMethod;
+
+export const setPaymentMethodRequest = setPaymentMethod;

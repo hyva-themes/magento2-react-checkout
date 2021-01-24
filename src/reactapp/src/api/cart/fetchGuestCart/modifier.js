@@ -70,6 +70,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
   const cartItems = _get(cartData, 'items', []);
   const cartPrices = _get(cartData, 'prices', {});
   const paymentMethods = _get(cartData, 'available_payment_methods', []);
+  const selectedPaymentMethod = _get(cartData, 'selected_payment_method', {});
 
   return {
     email: cartData.email,
@@ -80,5 +81,6 @@ export default function fetchGuestCartModifier(result, dataMethod) {
     selected_shipping_method: modifySelectedShippingMethod(shippingAddresses),
     prices: modifyCartPricesData(cartPrices),
     available_payment_methods: modifyPaymentMethodsData(paymentMethods),
+    selected_payment_method: selectedPaymentMethod,
   };
 }

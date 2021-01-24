@@ -9,12 +9,19 @@ import RadioInput from '../../Common/Form/RadioInput';
 import Header from '../../Common/Header';
 import usePaymentMethodFormContext from '../../../hook/usePaymentMethodFormContext';
 import { _objToArray } from '../../../utils';
+import { PAYMENT_METHOD_FORM } from '../../../config';
 
 function PaymentMethods() {
   const { paymentMethodList } = useCartContext();
-  const { touched, setFieldValue, setFieldTouched } = useFormikContext();
-  const { fields } = usePaymentMethodFormContext();
+  const { fields, submitHandler } = usePaymentMethodFormContext();
+  const {
+    values,
+    touched,
+    setFieldValue,
+    setFieldTouched,
+  } = useFormikContext();
   const buttonDisable = !_get(touched, fields.code);
+  const selectedPaymentMethod = _get(values, PAYMENT_METHOD_FORM);
 
   const handlePaymentMethodSelection = useCallback(
     event => {
@@ -40,13 +47,18 @@ function PaymentMethods() {
                 name="paymentMethod"
                 value={method.code}
                 onChange={handlePaymentMethodSelection}
+                checked={method.code === selectedPaymentMethod.code}
               />
             </li>
           ))}
         </ul>
 
         <div className="flex items-center justify-center mt-2">
-          <Button click={() => {}} variant="success" disable={buttonDisable}>
+          <Button
+            click={() => submitHandler(values)}
+            variant="success"
+            disable={buttonDisable}
+          >
             UPDATE
           </Button>
         </div>
