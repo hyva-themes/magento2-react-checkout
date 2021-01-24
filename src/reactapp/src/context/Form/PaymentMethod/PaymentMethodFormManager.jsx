@@ -40,7 +40,7 @@ function PaymentMethodFormManager({ children }) {
         setPageLoader(false);
       }
     },
-    [setPageLoader, setPaymentMethod]
+    [setPageLoader]
   );
 
   useEffect(() => {

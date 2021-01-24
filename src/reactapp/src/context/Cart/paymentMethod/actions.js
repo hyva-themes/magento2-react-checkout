@@ -1,9 +1,9 @@
 import { setPaymentMethodRequest } from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 
-export async function setPaymentMethodAction(dispatch, shippingMethod) {
+export async function setPaymentMethodAction(dispatch, paymentMethod) {
   try {
-    const cartData = await setPaymentMethodRequest(shippingMethod);
+    const cartData = await setPaymentMethodRequest(paymentMethod);
 
     dispatch({
       type: SET_CART_INFO,
