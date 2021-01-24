@@ -1,5 +1,7 @@
 import { setCartBillingAddress } from './billingAddress/reducers';
 import { SET_CART_BILLING_ADDRESS } from './billingAddress/types';
+import { setCartInfo } from './cart/reducers';
+import { SET_CART_INFO } from './cart/types';
 import { setCartEmail } from './email/reducers';
 import { SET_CART_EMAIL } from './email/types';
 import { setGuestCartInfo } from './guestCart/reducers';
@@ -15,6 +17,7 @@ import {
 
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
+  [SET_CART_INFO]: setCartInfo,
   [SET_GUEST_CART_INFO]: setGuestCartInfo,
   [SET_CART_SHIPPING_ADDDRESSES]: setCartShippingAddresses,
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,

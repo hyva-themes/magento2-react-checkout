@@ -33,18 +33,16 @@ function PaymentMethods() {
       <Header>Payment Methods</Header>
       <div className="py-4">
         <ul>
-          {_objToArray(paymentMethodList).map(method => {
-            return (
-              <li key={method.code} className="flex">
-                <RadioInput
-                  label={method.title}
-                  name="paymentMethod"
-                  value={method.code}
-                  onChange={handlePaymentMethodSelection}
-                />
-              </li>
-            );
-          })}
+          {_objToArray(paymentMethodList).map(method => (
+            <li key={method.code} className="flex">
+              <RadioInput
+                label={method.title}
+                name="paymentMethod"
+                value={method.code}
+                onChange={handlePaymentMethodSelection}
+              />
+            </li>
+          ))}
         </ul>
 
         <div className="flex items-center justify-center mt-2">

@@ -8,11 +8,18 @@ import Button from '../../Common/Button';
 import Card from '../../Common/Card';
 import RadioInput from '../../Common/Form/RadioInput';
 import Header from '../../Common/Header';
+import { SHIPPING_METHOD } from '../../../config';
 
 function ShippingMethods() {
   const { selectedShippingMethods } = useCartContext();
-  const { fields } = useShippingMethodFormContext();
-  const { setFieldValue, setFieldTouched, touched } = useFormikContext();
+  const { fields, submitHandler } = useShippingMethodFormContext();
+  const {
+    setFieldValue,
+    setFieldTouched,
+    touched,
+    values,
+  } = useFormikContext();
+  const shippingMethod = _get(values, SHIPPING_METHOD);
   const buttonDisable =
     !_get(touched, fields.carrierCode) || !_get(touched, fields.methodCode);
 
@@ -35,26 +42,41 @@ function ShippingMethods() {
       <Header>Shipping Methods</Header>
       <div className="py-4">
         <ul>
-          {selectedShippingMethods.map((method, index) => {
-            const shippingMethodKey = `${method.carrierCode}_${method.methodCode}`;
-            const shippingMethodName = `${method.carrierTitle} (${method.methodTitle}): `;
+          {selectedShippingMethods.map(
+            (
+              { carrierCode, methodCode, carrierTitle, methodTitle, price },
+              index
+            ) => {
+              const shippingMethodKey = `${carrierCode}_${methodCode}`;
+              const shippingMethodName = `${carrierTitle} (${methodTitle}): `;
+              const shippingCheckedIndex = selectedShippingMethods.findIndex(
+                sm =>
+                  sm.methodCode === shippingMethod.methodCode &&
+                  sm.carrierCode === shippingMethod.carrierCode
+              );
 
-            return (
-              <li key={shippingMethodKey} className="flex">
-                <RadioInput
-                  label={shippingMethodName}
-                  name="shippingMethod"
-                  value={index}
-                  onChange={handleShippingMethodSelection}
-                />
-                <span className="pt-2 pl-3 font-semibold">{`Price: ${method.price}`}</span>
-              </li>
-            );
-          })}
+              return (
+                <li key={shippingMethodKey} className="flex">
+                  <RadioInput
+                    label={shippingMethodName}
+                    name="shippingMethod"
+                    value={index}
+                    checked={index === shippingCheckedIndex}
+                    onChange={handleShippingMethodSelection}
+                  />
+                  <span className="pt-2 pl-3 font-semibold">{`Price: ${price}`}</span>
+                </li>
+              );
+            }
+          )}
         </ul>
 
         <div className="flex items-center justify-center mt-2">
-          <Button click={() => {}} variant="success" disable={buttonDisable}>
+          <Button
+            click={() => submitHandler(values)}
+            variant="success"
+            disable={buttonDisable}
+          >
             UPDATE
           </Button>
         </div>

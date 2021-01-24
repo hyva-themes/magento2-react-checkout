@@ -8,6 +8,14 @@ available_shipping_methods {
     currency
     value
   }
+}
+selected_shipping_method {
+  carrier_code
+  method_code
+  amount {
+    currency
+    value
+  }
 }`;
 
 export default cartShippingMethods;

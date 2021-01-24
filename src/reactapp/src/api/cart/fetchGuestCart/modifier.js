@@ -3,6 +3,7 @@ import _get from 'lodash.get';
 import { config } from '../../../config';
 import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 import {
+  modifySelectedShippingMethod,
   modifyShippingAddressList,
   modifyShippingMethods,
 } from '../setShippingAddress/modifier';
@@ -62,8 +63,8 @@ function modifyPaymentMethodsData(paymentMethods) {
   }, {});
 }
 
-export default function fetchGuestCartModifier(result) {
-  const cartData = _get(result, 'data.cart', {});
+export default function fetchGuestCartModifier(result, dataMethod) {
+  const cartData = _get(result, `data.${dataMethod || 'cart'}`, {});
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
   const billingAddress = _get(cartData, 'billing_address', {});
   const cartItems = _get(cartData, 'items', []);
@@ -76,6 +77,7 @@ export default function fetchGuestCartModifier(result) {
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_addresses: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
+    selected_shipping_method: modifySelectedShippingMethod(shippingAddresses),
     prices: modifyCartPricesData(cartPrices),
     available_payment_methods: modifyPaymentMethodsData(paymentMethods),
   };

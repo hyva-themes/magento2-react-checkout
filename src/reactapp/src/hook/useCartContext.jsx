@@ -13,6 +13,7 @@ export default function useCartContext() {
       getGuestCartInfo,
       setEmailOnGuestCart,
       setCartSelectedShippingAddress,
+      setShippingMethod,
     } = cartActions;
     const cart = _get(cartData, 'cart');
     const cartEmail = _get(cart, 'email', '');
@@ -33,7 +34,10 @@ export default function useCartContext() {
     );
 
     const cartItems = _get(cart, 'items');
-    const shippingMethodRate = _get(cart, 'selected_shipping_method.price');
+
+    const shippingMethod = _get(cart, 'selected_shipping_method');
+    const shippingMethodRate = _get(shippingMethod, 'price');
+
     const subTotal = _get(cart, 'prices.subTotal');
     const grandTotal = _get(cart, 'prices.grandTotal');
 
@@ -48,6 +52,7 @@ export default function useCartContext() {
       shippingAddressList,
       selectedShippingMethods,
       cartItems,
+      shippingMethod,
       shippingMethodRate,
       subTotal,
       grandTotal,
@@ -59,6 +64,7 @@ export default function useCartContext() {
       getGuestCartInfo,
       setEmailOnGuestCart,
       setCartSelectedShippingAddress,
+      setShippingMethod,
     };
   }, [cartData, cartActions]);
 }
