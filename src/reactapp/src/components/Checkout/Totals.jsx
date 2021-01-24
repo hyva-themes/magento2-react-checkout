@@ -27,12 +27,10 @@ function Totals() {
           </div>
 
           <div className="mt-3">
-            {grandTotal && (
-              <div className="flex justify-between text-xl font-bold">
-                <div>Order Total</div>
-                <div>{grandTotal}</div>
-              </div>
-            )}
+            <div className="flex justify-between text-xl font-bold">
+              <div>Order Total</div>
+              <div>{grandTotal || '0'}</div>
+            </div>
           </div>
         </div>
       </div>

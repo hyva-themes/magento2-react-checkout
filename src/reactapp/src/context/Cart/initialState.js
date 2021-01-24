@@ -1,6 +1,6 @@
 const initialState = {
   errors: false,
-  orderId: false,
+  order: {},
   cart: {
     loaded: false,
     email: null,

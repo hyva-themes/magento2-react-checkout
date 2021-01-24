@@ -10,12 +10,12 @@ export function modifyBillingAddressData(billingAddress) {
     company,
     firstname,
     lastname,
-    street,
+    street = [],
     telephone: phone,
     postcode: zipcode,
     city,
-    country: { code: countryCode },
-    region: { code: regionCode },
+    country: { code: countryCode } = {},
+    region: { code: regionCode } = {},
   } = billingAddress;
 
   return {

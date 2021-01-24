@@ -34,7 +34,8 @@ function AddressBox({ address }) {
       <BoxItem
         name="Street"
         value={_get(address, 'street', []).reduce(
-          (acc, cur) => `${acc}, ${cur}`
+          (acc, cur) => `${acc}, ${cur}`,
+          ''
         )}
       />
       <BoxItem name="City" value={address.city} />

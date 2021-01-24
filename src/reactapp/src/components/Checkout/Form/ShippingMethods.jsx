@@ -38,49 +38,61 @@ function ShippingMethods() {
   );
 
   return (
-    <Card bg="dark">
+    <Card
+      bg="dark"
+      classes={selectedShippingMethods.length ? '' : 'opacity-75'}
+    >
       <Header>Shipping Methods</Header>
-      <div className="py-4">
-        <ul>
-          {selectedShippingMethods.map(
-            (
-              { carrierCode, methodCode, carrierTitle, methodTitle, price },
-              index
-            ) => {
-              const shippingMethodKey = `${carrierCode}_${methodCode}`;
-              const shippingMethodName = `${carrierTitle} (${methodTitle}): `;
-              const shippingCheckedIndex = selectedShippingMethods.findIndex(
-                sm =>
-                  sm.methodCode === shippingMethod.methodCode &&
-                  sm.carrierCode === shippingMethod.carrierCode
-              );
-
-              return (
-                <li key={shippingMethodKey} className="flex">
-                  <RadioInput
-                    label={shippingMethodName}
-                    name="shippingMethod"
-                    value={index}
-                    checked={index === shippingCheckedIndex}
-                    onChange={handleShippingMethodSelection}
-                  />
-                  <span className="pt-2 pl-3 font-semibold">{`Price: ${price}`}</span>
-                </li>
-              );
-            }
-          )}
-        </ul>
-
-        <div className="flex items-center justify-center mt-2">
-          <Button
-            click={() => submitHandler(values)}
-            variant="success"
-            disable={buttonDisable}
-          >
-            UPDATE
-          </Button>
+      {!selectedShippingMethods.length && (
+        <div className="h-32 py-4 min-h-12">
+          <div className="flex items-center justify-center w-full h-full">
+            <div>No shipping methods available at the moment</div>
+          </div>
         </div>
-      </div>
+      )}
+      {!!selectedShippingMethods.length && (
+        <div className="py-4">
+          <ul>
+            {selectedShippingMethods.map(
+              (
+                { carrierCode, methodCode, carrierTitle, methodTitle, price },
+                index
+              ) => {
+                const shippingMethodKey = `${carrierCode}_${methodCode}`;
+                const shippingMethodName = `${carrierTitle} (${methodTitle}): `;
+                const shippingCheckedIndex = selectedShippingMethods.findIndex(
+                  sm =>
+                    sm.methodCode === shippingMethod.methodCode &&
+                    sm.carrierCode === shippingMethod.carrierCode
+                );
+
+                return (
+                  <li key={shippingMethodKey} className="flex">
+                    <RadioInput
+                      label={shippingMethodName}
+                      name="shippingMethod"
+                      value={index}
+                      checked={index === shippingCheckedIndex}
+                      onChange={handleShippingMethodSelection}
+                    />
+                    <span className="pt-2 pl-3 font-semibold">{`Price: ${price}`}</span>
+                  </li>
+                );
+              }
+            )}
+          </ul>
+
+          <div className="flex items-center justify-center mt-2">
+            <Button
+              click={() => submitHandler(values)}
+              variant="success"
+              disable={buttonDisable}
+            >
+              UPDATE
+            </Button>
+          </div>
+        </div>
+      )}
     </Card>
   );
 }

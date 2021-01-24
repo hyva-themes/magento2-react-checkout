@@ -14,6 +14,7 @@ export default function useCartContext() {
       setEmailOnGuestCart,
       setCartSelectedShippingAddress,
       setShippingMethod,
+      placeOrder,
     } = cartActions;
     const cart = _get(cartData, 'cart');
     const cartEmail = _get(cart, 'email', '');
@@ -44,6 +45,8 @@ export default function useCartContext() {
     const paymentMethodList = _get(cart, 'available_payment_methods');
     const selectedPaymentMethod = _get(cart, 'selected_payment_method');
 
+    const orderId = _get(cart, 'order.order_number');
+
     return {
       cart,
       cartEmail,
@@ -59,6 +62,7 @@ export default function useCartContext() {
       grandTotal,
       paymentMethodList,
       selectedPaymentMethod,
+      orderId,
 
       // actions
       addCartShippingAddress,
@@ -67,6 +71,7 @@ export default function useCartContext() {
       setEmailOnGuestCart,
       setCartSelectedShippingAddress,
       setShippingMethod,
+      placeOrder,
     };
   }, [cartData, cartActions]);
 }

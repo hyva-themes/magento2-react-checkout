@@ -11,5 +11,6 @@ export async function getGuestCartInfoAction(dispatch) {
     });
   } catch (error) {
     // @todo show error message
+    console.log({ error });
   }
 }

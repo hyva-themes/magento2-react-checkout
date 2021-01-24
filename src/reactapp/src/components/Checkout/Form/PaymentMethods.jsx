@@ -8,11 +8,12 @@ import Card from '../../Common/Card';
 import RadioInput from '../../Common/Form/RadioInput';
 import Header from '../../Common/Header';
 import usePaymentMethodFormContext from '../../../hook/usePaymentMethodFormContext';
-import { _objToArray } from '../../../utils';
+import { _keys, _objToArray } from '../../../utils';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 
 function PaymentMethods() {
   const { paymentMethodList } = useCartContext();
+  const isPaymentAvailable = !!_keys(paymentMethodList).length;
   const { fields, submitHandler } = usePaymentMethodFormContext();
   const {
     values,
@@ -36,33 +37,42 @@ function PaymentMethods() {
   );
 
   return (
-    <Card bg="dark">
+    <Card bg="dark" classes={isPaymentAvailable ? '' : 'opacity-75'}>
       <Header>Payment Methods</Header>
-      <div className="py-4">
-        <ul>
-          {_objToArray(paymentMethodList).map(method => (
-            <li key={method.code} className="flex">
-              <RadioInput
-                label={method.title}
-                name="paymentMethod"
-                value={method.code}
-                onChange={handlePaymentMethodSelection}
-                checked={method.code === selectedPaymentMethod.code}
-              />
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center justify-center mt-2">
-          <Button
-            click={() => submitHandler(values)}
-            variant="success"
-            disable={buttonDisable}
-          >
-            UPDATE
-          </Button>
+      {!isPaymentAvailable && (
+        <div className="h-32 py-4 min-h-12">
+          <div className="flex items-center justify-center w-full h-full">
+            <div>No payment methods available at the moment</div>
+          </div>
         </div>
-      </div>
+      )}
+      {isPaymentAvailable && (
+        <div className="py-4">
+          <ul>
+            {_objToArray(paymentMethodList).map(method => (
+              <li key={method.code} className="flex">
+                <RadioInput
+                  label={method.title}
+                  name="paymentMethod"
+                  value={method.code}
+                  onChange={handlePaymentMethodSelection}
+                  checked={method.code === selectedPaymentMethod.code}
+                />
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center justify-center mt-2">
+            <Button
+              click={() => submitHandler(values)}
+              variant="success"
+              disable={buttonDisable}
+            >
+              UPDATE
+            </Button>
+          </div>
+        </div>
+      )}
     </Card>
   );
 }

@@ -7,7 +7,7 @@ export function modifySelectedShippingMethod(addressList) {
     addr => addr.selected_shipping_method
   );
 
-  if (addrWithShippingMethod.selected_shipping_method) {
+  if (_get(addrWithShippingMethod, 'selected_shipping_method')) {
     const {
       carrier_code: carrierCode,
       method_code: methodCode,

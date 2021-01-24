@@ -1,4 +1,5 @@
 import fetchGuestCart from './cart/fetchGuestCart';
+import placeOrder from './cart/placeOrder';
 import setBillingAddress from './cart/setBillingAddress';
 import setEmailOnGuestCart from './cart/setEmailOnGuestCart';
 import setPaymentMethod from './cart/setPaymentMethod';
@@ -25,3 +26,5 @@ export const fetchCountryListRequest = fetchCountryList;
 export const setShippingMethodRequest = setShippingMethod;
 
 export const setPaymentMethodRequest = setPaymentMethod;
+
+export const placeOrderRequest = placeOrder;

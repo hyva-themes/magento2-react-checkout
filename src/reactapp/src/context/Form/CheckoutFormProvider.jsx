@@ -1,7 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
+
 import CheckoutFormContext from './CheckoutFormContext';
+import useCartContext from '../../hook/useCartContext';
+import useAppContext from '../../hook/useAppContext';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -27,8 +31,6 @@ function prepareFormValidationSchema(sections, sectionId) {
   return YupObject().shape(schemaRules);
 }
 
-const formSubmit = () => {};
-
 /**
  * Provider that wraps the entire checkout form
  */
@@ -43,12 +45,28 @@ function CheckoutFormProvider({ children }) {
    */
   const [sections, updateSections] = useState([]);
 
+  const cartData = useCartContext();
+  const [, { setPageLoader }] = useAppContext();
+
   /**
    * This will register individual form sections to the checkout-form-formik
    */
   const registerFormSection = useCallback(section => {
     updateSections(prevSections => [...prevSections, section]);
   }, []);
+
+  const formSubmit = useCallback(
+    async values => {
+      try {
+        setPageLoader(true);
+        await cartData.placeOrder(values, cartData);
+        setPageLoader(false);
+      } catch (error) {
+        setPageLoader(false);
+      }
+    },
+    [setPageLoader, cartData]
+  );
 
   const context = useMemo(
     () => ({
@@ -89,7 +107,13 @@ function CheckoutFormProvider({ children }) {
   );
 
   return (
-    <CheckoutFormContext.Provider value={context}>
+    <CheckoutFormContext.Provider
+      value={{
+        ...context,
+        checkoutFormValidationShema: formValidationSchema,
+        submitHandler: formSubmit,
+      }}
+    >
       <Formik
         enableReinitialize
         initialValues={formInitialValues}
@@ -101,5 +125,9 @@ function CheckoutFormProvider({ children }) {
     </CheckoutFormContext.Provider>
   );
 }
+
+CheckoutFormProvider.propTypes = {
+  children: node.isRequired,
+};
 
 export default CheckoutFormProvider;

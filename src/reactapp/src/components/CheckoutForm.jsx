@@ -18,7 +18,7 @@ function FormStep({ children, className }) {
 }
 
 function CheckoutForm() {
-  const { getGuestCartInfo } = useCartContext();
+  const { getGuestCartInfo, orderId } = useCartContext();
   const [{ pageLoader }, { setPageLoader }] = useAppContext();
 
   useEffect(() => {
@@ -31,6 +31,18 @@ function CheckoutForm() {
 
   if (pageLoader) {
     return <PageLoader />;
+  }
+
+  if (orderId) {
+    return (
+      <div className="flex flex-col items-center justify-center mx-10 my-10">
+        <h1 className="text-2xl font-bold">Order Details</h1>
+        <div className="flex flex-col items-center justify-center mt-4 space-y-3">
+          <div>Your order is placed.</div>
+          <div>{`Order Number: #${orderId}`}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
