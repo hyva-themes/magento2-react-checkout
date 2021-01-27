@@ -15,6 +15,7 @@ export default function useCartContext() {
       setCartSelectedShippingAddress,
       setShippingMethod,
       placeOrder,
+      updateCartItem,
     } = cartActions;
     const cart = _get(cartData, 'cart');
     const cartEmail = _get(cart, 'email', '');
@@ -72,6 +73,7 @@ export default function useCartContext() {
       setCartSelectedShippingAddress,
       setShippingMethod,
       placeOrder,
+      updateCartItem,
     };
   }, [cartData, cartActions]);
 }

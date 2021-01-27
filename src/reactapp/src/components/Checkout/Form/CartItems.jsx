@@ -9,7 +9,7 @@ import Header from '../../Common/Header';
 import { CART_ITEMS_FORM } from '../../../config';
 
 function CartItems() {
-  const { cartItems } = useCartItemsFormContext();
+  const { cartItems, itemUpdateHandler } = useCartItemsFormContext();
   const { touched } = useFormikContext();
   const cartItemsAvailable = !!cartItems.length;
 
@@ -39,7 +39,7 @@ function CartItems() {
 
               <div className="table-content">
                 {cartItems.map(cartItem => {
-                  const qtyField = `${CART_ITEMS_FORM}.${cartItem.id}.qty`;
+                  const qtyField = `${CART_ITEMS_FORM}.${cartItem.id}.quantity`;
                   const isQtyFieldTouched = _get(touched, qtyField);
 
                   return (
@@ -63,7 +63,11 @@ function CartItems() {
                       <div className="w-20 mt-4">{cartItem.price}</div>
                       <div className="w-20 mt-4">{cartItem.rowTotal}</div>
                       <div className="w-20 mt-4">
-                        <Button variant="success" disable={!isQtyFieldTouched}>
+                        <Button
+                          variant="success"
+                          disable={!isQtyFieldTouched}
+                          click={itemUpdateHandler}
+                        >
                           UPDATE
                         </Button>
                       </div>
