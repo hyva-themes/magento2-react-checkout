@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
-import { string as YupString, array as YupArray } from 'yup';
+import {
+  string as YupString,
+  array as YupArray,
+  boolean as YupBoolean,
+} from 'yup';
+
 import ShippingAddressFormContext from './ShippingAddressFormContext';
 import { SHIPPING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
@@ -20,6 +25,7 @@ const initialValues = {
   city: '',
   region: '',
   country: '',
+  isSameAsShipping: true,
 };
 
 const requiredMessage = '%1 is required';
@@ -38,6 +44,7 @@ const validationSchema = {
   city: YupString().required(requiredMessage),
   region: YupString().required(requiredMessage),
   country: YupString().required(requiredMessage),
+  isSameAsShipping: YupBoolean(),
 };
 
 function ShippingAddressFormManager({ children }) {

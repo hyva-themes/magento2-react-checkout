@@ -1,4 +1,4 @@
-import cartShippingAddrInfo from '../utility/query/cartShippingAddrInfo';
+import { CART_DATA_FRAGMENT } from '../utility/query/cartQueryInfo';
 
 export const SET_SHIPPING_ADDR_MUTATION = `
 mutation setShippingAddress(
@@ -33,7 +33,7 @@ mutation setShippingAddress(
     }
   ) {
     cart {
-      ${cartShippingAddrInfo}
+      ${CART_DATA_FRAGMENT}
     }
   }
 }`;

@@ -64,7 +64,11 @@ function BillingAddressFormManager({ children }) {
   ]);
 
   useEffect(() => {
-    if (cartBillingAddress) {
+    if (
+      cartBillingAddress &&
+      cartBillingAddress.firstname &&
+      cartBillingAddress.country
+    ) {
       setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
       setFormEditMode(false);
     }

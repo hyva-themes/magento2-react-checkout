@@ -3,6 +3,7 @@ import _get from 'lodash.get';
 import { config } from '../../../config';
 import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 import {
+  modifySelectedShippingMethod,
   modifyShippingAddressList,
   modifyShippingMethods,
 } from '../setShippingAddress/modifier';
@@ -40,11 +41,36 @@ function modifyCartItemsData(cartItems) {
   }, {});
 }
 
-export default function fetchGuestCartModifier(result) {
-  const cartData = _get(result, 'data.cart', {});
+function modifyCartPricesData(cartPrices) {
+  const grandTotal = _get(cartPrices, 'grand_total', {});
+  const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
+  const currencySymbol = config.currencySymbols[_get(grandTotal, 'currency')];
+  const grandTotalAmount = _get(grandTotal, 'value');
+  const subTotalAmount = _get(subTotal, 'value');
+
+  return {
+    subTotal: `${currencySymbol}${subTotalAmount}`,
+    subTotalAmount,
+    grandTotal: `${currencySymbol}${grandTotalAmount}`,
+    grandTotalAmount,
+  };
+}
+
+function modifyPaymentMethodsData(paymentMethods) {
+  return paymentMethods.reduce((methodList, method) => {
+    methodList[method.code] = method;
+    return methodList;
+  }, {});
+}
+
+export default function fetchGuestCartModifier(result, dataMethod) {
+  const cartData = _get(result, `data.${dataMethod || 'cart'}`, {});
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
-  const billingAddress = _get(cartData, 'billing_address', {});
+  const billingAddress = _get(cartData, 'billing_address', {}) || {};
   const cartItems = _get(cartData, 'items', []);
+  const cartPrices = _get(cartData, 'prices', {});
+  const paymentMethods = _get(cartData, 'available_payment_methods', []);
+  const selectedPaymentMethod = _get(cartData, 'selected_payment_method', {});
 
   return {
     email: cartData.email,
@@ -52,5 +78,9 @@ export default function fetchGuestCartModifier(result) {
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_addresses: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
+    selected_shipping_method: modifySelectedShippingMethod(shippingAddresses),
+    prices: modifyCartPricesData(cartPrices),
+    available_payment_methods: modifyPaymentMethodsData(paymentMethods),
+    selected_payment_method: selectedPaymentMethod,
   };
 }

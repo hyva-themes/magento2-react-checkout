@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import PaymentMethods from './Checkout/PaymentMethods';
-import ShippingMethods from './Checkout/ShippingMethods';
+
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
 import BillingAddressForm from './Checkout/BillingAddressForm';
@@ -10,13 +9,16 @@ import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
+import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
+import PlaceOrder from './Checkout/PlaceOrder';
+import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
 }
 
 function CheckoutForm() {
-  const { getGuestCartInfo } = useCartContext();
+  const { getGuestCartInfo, orderId } = useCartContext();
   const [{ pageLoader }, { setPageLoader }] = useAppContext();
 
   useEffect(() => {
@@ -29,6 +31,18 @@ function CheckoutForm() {
 
   if (pageLoader) {
     return <PageLoader />;
+  }
+
+  if (orderId) {
+    return (
+      <div className="flex flex-col items-center justify-center mx-10 my-10">
+        <h1 className="text-2xl font-bold">Order Details</h1>
+        <div className="flex flex-col items-center justify-center mt-4 space-y-3">
+          <div>Your order is placed.</div>
+          <div>{`Order Number: #${orderId}`}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -48,11 +62,11 @@ function CheckoutForm() {
       <div className="md:w-1/3">
         <div className="mx-1 space-y-2">
           <FormStep>
-            <ShippingMethods />
+            <ShippingMethodsForm />
           </FormStep>
 
           <FormStep>
-            <PaymentMethods />
+            <PaymentMethodsForm />
           </FormStep>
         </div>
       </div>
@@ -61,6 +75,7 @@ function CheckoutForm() {
         <div className="ml-1 space-y-2">
           <CartItemsForm />
           <Totals />
+          <PlaceOrder />
         </div>
       </div>
     </div>

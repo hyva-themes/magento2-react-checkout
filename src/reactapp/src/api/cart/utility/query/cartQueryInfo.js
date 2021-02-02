@@ -1,3 +1,18 @@
+import cartBillingAddrInfo from './cartBillingAddrInfo';
+import cartItemsInfo from './cartItemsInfo';
+import cartPaymentMethodsInfo from './cartPaymentMethodsInfo';
+import cartPriceInfo from './cartPriceInfo';
+import cartShippingAddrInfo from './cartShippingAddrInfo';
+
+export const CART_DATA_FRAGMENT = `
+  email
+  ${cartItemsInfo}
+  ${cartBillingAddrInfo}
+  ${cartShippingAddrInfo}
+  ${cartPriceInfo}
+  ${cartPaymentMethodsInfo}
+`;
+
 const cartQueryInfo = `
   email
   id

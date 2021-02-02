@@ -39,7 +39,7 @@ function GuestEmail() {
                 variant="success"
                 disable={!isFormValid}
               >
-                Use me
+                Update
               </Button>
             </div>
           </>
@@ -52,7 +52,7 @@ function GuestEmail() {
             </div>
             <div className="flex items-center justify-center">
               <Button click={setFormToEditMode} variant="warning">
-                EDIT ME
+                EDIT
               </Button>
             </div>
           </>

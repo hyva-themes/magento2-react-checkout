@@ -1,8 +1,6 @@
 import { setShippingAddressRequest } from '../../../api';
-import {
-  SET_CART_SELECTED_SHIPPING_ADDRESS,
-  SET_CART_SHIPPING_ADDDRESSES,
-} from './types';
+import { SET_CART_INFO } from '../cart/types';
+import { SET_CART_SELECTED_SHIPPING_ADDRESS } from './types';
 
 export function setSelectedShippingAddressAction(dispatch, shippingAddrId) {
   dispatch({
@@ -13,11 +11,11 @@ export function setSelectedShippingAddressAction(dispatch, shippingAddrId) {
 
 export async function addCartShippingAddressAction(dispatch, shippingAddress) {
   try {
-    const cartShippingAddrs = await setShippingAddressRequest(shippingAddress);
+    const cartInfo = await setShippingAddressRequest(shippingAddress);
 
     dispatch({
-      type: SET_CART_SHIPPING_ADDDRESSES,
-      payload: cartShippingAddrs,
+      type: SET_CART_INFO,
+      payload: cartInfo,
     });
   } catch (error) {
     // @todo error message

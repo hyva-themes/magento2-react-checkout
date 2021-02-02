@@ -1,6 +1,6 @@
 const initialState = {
   errors: false,
-  orderId: false,
+  order: {},
   cart: {
     loaded: false,
     email: null,
@@ -9,11 +9,17 @@ const initialState = {
     shipping_addresses: {},
     selected_shipping_address: '',
     shipping_methods: {},
+    selected_shipping_method: {},
     items: {},
-    available_payment_methods: [],
+    available_payment_methods: {},
     selected_payment_method: { code: '', title: '' },
     applied_coupons: null,
-    prices: {},
+    prices: {
+      subTotal: '',
+      subTotalAmount: 0,
+      grandTotal: '',
+      grandTotalAmount: 0,
+    },
     is_virtual: false,
   },
 };

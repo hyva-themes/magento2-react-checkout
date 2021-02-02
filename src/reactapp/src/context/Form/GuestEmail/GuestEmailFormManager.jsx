@@ -25,7 +25,7 @@ const EMAIL_FIELD = 'email.email';
 function GuestEmailFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { cartEmail, setEmailOnGuestCart } = useCartContext();
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, setFieldTouched } = useFormikContext();
   const emailFieldValue = _get(values, EMAIL_FIELD);
 
   const formSubmit = useCallback(async () => {
@@ -37,9 +37,10 @@ function GuestEmailFormManager({ children }) {
   useEffect(() => {
     if (cartEmail) {
       setFieldValue(EMAIL_FIELD, cartEmail);
+      setFieldTouched(EMAIL_FIELD, true);
       setFormEditMode(false);
     }
-  }, [cartEmail, setFieldValue, setFormEditMode]);
+  }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);
 
   const context = useFormSection({
     id: GUEST_EMAIL_FORM,
