@@ -3,6 +3,7 @@ const initialState = {
   countryList: [],
   countriesLoaded: [],
   stateList: {},
+  message: false,
 };
 
 export default initialState;

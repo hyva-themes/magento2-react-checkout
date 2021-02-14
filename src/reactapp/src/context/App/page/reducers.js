@@ -4,3 +4,10 @@ export function setPageLoader(state, pageLoader) {
     pageLoader,
   };
 }
+
+export function setPageMessage(state, message) {
+  return {
+    ...state,
+    message,
+  };
+}

@@ -1,1 +1,2 @@
 export const SET_PAGE_LOADER = 'SET_PAGE_LOADER';
+export const SET_PAGE_MESSAGE = 'SET_PAGE_MESSAGE';
