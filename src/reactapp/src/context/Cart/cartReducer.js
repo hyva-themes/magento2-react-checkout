@@ -4,8 +4,6 @@ import { setCartInfo } from './cart/reducers';
 import { SET_CART_INFO } from './cart/types';
 import { setCartEmail } from './email/reducers';
 import { SET_CART_EMAIL } from './email/types';
-import { setGuestCartInfo } from './guestCart/reducers';
-import { SET_GUEST_CART_INFO } from './guestCart/types';
 import { setOrderInfo } from './order/reudcers';
 import { SET_ORDER_INFO } from './order/types';
 import {
@@ -20,7 +18,6 @@ import {
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
   [SET_CART_INFO]: setCartInfo,
-  [SET_GUEST_CART_INFO]: setGuestCartInfo,
   [SET_CART_SHIPPING_ADDDRESSES]: setCartShippingAddresses,
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
   [SET_CART_SELECTED_SHIPPING_ADDRESS]: setCartSelectedShippingAddress,

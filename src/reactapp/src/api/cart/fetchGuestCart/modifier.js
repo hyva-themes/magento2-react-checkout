@@ -73,6 +73,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
   const selectedPaymentMethod = _get(cartData, 'selected_payment_method', {});
 
   return {
+    id: cartData.id,
     email: cartData.email,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),

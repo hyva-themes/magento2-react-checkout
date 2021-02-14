@@ -1,7 +1,8 @@
-import { bool, func, node, oneOf } from 'prop-types';
+/* eslint-disable react/button-has-type */
 import React from 'react';
+import { bool, func, node, oneOf, string } from 'prop-types';
 
-function Button({ children, click, variant, disable, big }) {
+function Button({ children, click, variant, disable, big, btnType }) {
   return (
     <div className="py-2">
       <button
@@ -12,7 +13,7 @@ function Button({ children, click, variant, disable, big }) {
             ? 'h-12 font-bold text-lg shadow-md hover:shadow-lg'
             : 'text-sm shadow-sm hover:shadow-md'
         }`}
-        type="button"
+        type={btnType}
         onClick={click}
         disabled={disable}
       >
@@ -28,6 +29,7 @@ Button.propTypes = {
   disable: bool,
   big: bool,
   variant: oneOf(['success', 'warning']),
+  btnType: string,
 };
 
 Button.defaultProps = {
@@ -35,6 +37,7 @@ Button.defaultProps = {
   variant: '',
   big: false,
   click: () => {},
+  btnType: 'button',
 };
 
 export default Button;

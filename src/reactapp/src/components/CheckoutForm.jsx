@@ -12,6 +12,7 @@ import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
 import PlaceOrder from './Checkout/PlaceOrder';
 import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
+import Message from './Common/Message';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -46,39 +47,42 @@ function CheckoutForm() {
   }
 
   return (
-    <div className="flex flex-col mx-12 my-6 md:flex-row">
-      <div className="md:w-1/4">
-        <div className="mr-1">
-          <FormStep className="space-y-2">
-            <GuestEmailForm />
-            <AddressWrapper>
-              <BillingAddressForm />
-              <ShippingAddressForm />
-            </AddressWrapper>
-          </FormStep>
+    <>
+      <Message />
+      <div className="flex flex-col flex-wrap mx-12 my-6 md:flex-row">
+        <div className="md:w-1/4">
+          <div className="mr-1">
+            <FormStep className="space-y-2">
+              <GuestEmailForm />
+              <AddressWrapper>
+                <BillingAddressForm />
+                <ShippingAddressForm />
+              </AddressWrapper>
+            </FormStep>
+          </div>
+        </div>
+
+        <div className="md:w-1/3">
+          <div className="mx-1 space-y-2">
+            <FormStep>
+              <ShippingMethodsForm />
+            </FormStep>
+
+            <FormStep>
+              <PaymentMethodsForm />
+            </FormStep>
+          </div>
+        </div>
+
+        <div className="flex-grow">
+          <div className="ml-1 space-y-2">
+            <CartItemsForm />
+            <Totals />
+            <PlaceOrder />
+          </div>
         </div>
       </div>
-
-      <div className="md:w-1/3">
-        <div className="mx-1 space-y-2">
-          <FormStep>
-            <ShippingMethodsForm />
-          </FormStep>
-
-          <FormStep>
-            <PaymentMethodsForm />
-          </FormStep>
-        </div>
-      </div>
-
-      <div className="flex-grow">
-        <div className="ml-1 space-y-2">
-          <CartItemsForm />
-          <Totals />
-          <PlaceOrder />
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
