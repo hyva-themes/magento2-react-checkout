@@ -64,7 +64,6 @@ function modifyPaymentMethodsData(paymentMethods) {
 }
 
 export default function fetchGuestCartModifier(result, dataMethod) {
-  console.log({ result })
   const cartData = _get(result, `data.${dataMethod || 'cart'}`, {});
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
   const billingAddress = _get(cartData, 'billing_address', {}) || {};

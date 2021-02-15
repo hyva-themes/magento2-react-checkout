@@ -8,7 +8,7 @@ import { _keys } from '../../utils';
 
 function AddressWrapper({ children }) {
   const [
-    { stateList },
+    { stateList, countryList },
     { fetchCountries, fetchCountryStates },
   ] = useAppContext();
   const { values } = useFormikContext();
@@ -18,8 +18,10 @@ function AddressWrapper({ children }) {
 
   // collect countryList to show them as options in country address field
   useEffect(() => {
-    fetchCountries();
-  }, [fetchCountries]);
+    if (!countryList.length) {
+      fetchCountries();
+    }
+  }, [countryList, fetchCountries]);
 
   // collect states belonging to billing address and shipping address countries
   useEffect(() => {

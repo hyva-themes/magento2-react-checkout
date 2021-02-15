@@ -1,11 +1,16 @@
 import _get from 'lodash.get';
 
-import { generateCustomerToken } from '../../../api';
+import {
+  fetchCustomerAddressListRequest,
+  fetchCustomerInfoRequest,
+  generateCustomerToken,
+} from '../../../api';
 import LS from '../../../utils/LS';
 import {
   setErrroMessageAction,
   setSuccessMessageAction,
 } from '../page/actions';
+import { SET_CUSTOMER_ADDRESS_INFO, SET_CUSTOMER_INFO } from './types';
 
 export async function sigInCustomerAction(dispatch, userCredentials) {
   try {
@@ -24,4 +29,30 @@ export async function sigInCustomerAction(dispatch, userCredentials) {
   }
 
   return false;
+}
+
+export async function getCustomerInfoAction(dispatch) {
+  try {
+    const customerInfo = await fetchCustomerInfoRequest();
+
+    dispatch({
+      type: SET_CUSTOMER_INFO,
+      payload: customerInfo,
+    });
+  } catch (error) {
+    console.log('getCustomerInfoAction', { error });
+  }
+}
+
+export async function getCustomerAddressListAction(dispatch) {
+  try {
+    const customerAddressInfo = await fetchCustomerAddressListRequest();
+
+    dispatch({
+      type: SET_CUSTOMER_ADDRESS_INFO,
+      payload: customerAddressInfo,
+    });
+  } catch (error) {
+    console.log('getCustomerAddressListAction', { error });
+  }
 }

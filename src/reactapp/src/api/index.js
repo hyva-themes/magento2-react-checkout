@@ -11,12 +11,18 @@ import updateCartItems from './cart/updateCartItems';
 import { isError } from './cart/utility';
 import fetchCountryList from './countries/fetchCountryList';
 import fetchCountryStateList from './countries/fetchCountryStateList';
+import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import fetchCustomerCart from './customer/fetchCustomerCart';
+import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
 
 export const isResponseError = isError;
 
 export const generateCustomerToken = generateToken;
+
+export const fetchCustomerInfoRequest = fetchCustomerInfo;
+
+export const fetchCustomerAddressListRequest = fetchCustomerAddressList;
 
 export const setEmailOnGuestCartRequest = setEmailOnGuestCart;
 

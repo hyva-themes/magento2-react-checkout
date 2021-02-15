@@ -9,8 +9,10 @@ import Button from '../../Common/Button';
 import Card from '../../Common/Card';
 import TextInput from '../../Common/Form/TextInput';
 import ToggleBox from '../../Common/ToggleBox';
+import useAppContext from '../../../hook/useAppContext';
 
 function GuestEmail() {
+  const [{ isLoggedIn, customer }] = useAppContext();
   const {
     isFormValid,
     editMode,
@@ -85,8 +87,14 @@ function GuestEmail() {
         ) : (
           <>
             <div className="py-2">
-              <span className="flex items-center justify-center">
-                {_get(values, fields.email)}
+              <span className="flex flex-wrap items-center justify-center">
+                {isLoggedIn && (
+                  <>
+                    <span>{_get(customer, 'fullName')}</span>
+                    <span>{`(${_get(customer, 'email')})`}</span>
+                  </>
+                )}
+                {!isLoggedIn && _get(values, fields.email)}
               </span>
             </div>
             <div className="flex items-center justify-center">

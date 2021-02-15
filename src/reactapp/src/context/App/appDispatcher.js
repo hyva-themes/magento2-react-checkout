@@ -8,7 +8,11 @@ import {
   fetchCountriesAction,
   fetchCountryStatesAction,
 } from './countries/actions';
-import { sigInCustomerAction } from './customer/actions';
+import {
+  getCustomerAddressListAction,
+  getCustomerInfoAction,
+  sigInCustomerAction,
+} from './customer/actions';
 
 const dispatchMapper = {
   fetchCountries: fetchCountriesAction,
@@ -18,6 +22,8 @@ const dispatchMapper = {
   setSuccessMessage: setSuccessMessageAction,
   setErrorMessage: setErrroMessageAction,
   setMessage: setMessageAction,
+  getCustomerInfo: getCustomerInfoAction,
+  getCustomerAddressList: getCustomerAddressListAction,
 };
 
 export default function appDispatcher(dispatch) {

@@ -13,13 +13,14 @@ import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
 import PlaceOrder from './Checkout/PlaceOrder';
 import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 import Message from './Common/Message';
+import CheckoutFormWrapper from './CheckoutFormWrapper';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
 }
 
 function CheckoutForm() {
-  const { getGuestCartInfo, orderId } = useCartContext();
+  const { orderId, getGuestCartInfo } = useCartContext();
   const [{ pageLoader }, { setPageLoader }] = useAppContext();
 
   useEffect(() => {
@@ -47,7 +48,7 @@ function CheckoutForm() {
   }
 
   return (
-    <>
+    <CheckoutFormWrapper>
       <Message />
       <div className="flex flex-col flex-wrap mx-12 my-6 md:flex-row">
         <div className="md:w-1/4">
@@ -82,7 +83,7 @@ function CheckoutForm() {
           </div>
         </div>
       </div>
-    </>
+    </CheckoutFormWrapper>
   );
 }
 
