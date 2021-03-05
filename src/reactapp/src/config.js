@@ -32,6 +32,7 @@ const magentoDataSources = {
 const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSources.m2BrowserPersistence` for PWA;
 
 export const config = {
+  storageSource: activeSource,
   cartId: getConfigFromLocalStorage(activeSource.cartId),
   signInToken: getConfigFromLocalStorage(activeSource.token),
   baseUrl: process.env.REACT_APP_BASE_URL || '',

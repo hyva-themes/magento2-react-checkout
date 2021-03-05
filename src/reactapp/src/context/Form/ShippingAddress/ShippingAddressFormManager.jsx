@@ -51,7 +51,10 @@ function ShippingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { values, setFieldValue } = useFormikContext();
   const shippingAddrFieldValues = _get(values, 'shipping_address');
-  const [, { setPageLoader }] = useAppContext();
+  const [
+    { isLoggedIn, defaultShippingAddress, customerAddressList },
+    { setPageLoader },
+  ] = useAppContext();
   const {
     shippingAddressIds,
     shippingAddressList,
@@ -59,35 +62,6 @@ function ShippingAddressFormManager({ children }) {
     setCartBillingAddress,
     setCartSelectedShippingAddress,
   } = useCartContext();
-
-  const {
-    addressId: selectedAddressId,
-    address: selectedShippingAddress,
-  } = useMemo(() => {
-    const addressId = _get(shippingAddressIds, 0);
-    const address = _get(shippingAddressList, addressId);
-    return {
-      addressId,
-      address,
-    };
-  }, [shippingAddressIds, shippingAddressList]);
-
-  // for guest cart, we are setting the first shipping address as the selected
-  // shipping adddress here;
-  useEffect(() => {
-    if (selectedAddressId) {
-      setCartSelectedShippingAddress(selectedAddressId);
-    }
-  }, [selectedAddressId, setCartSelectedShippingAddress]);
-
-  // populating shipping address with selected shipping address value and then
-  // turn of edit mode
-  useEffect(() => {
-    if (selectedShippingAddress) {
-      setFieldValue('shipping_address', selectedShippingAddress);
-      setFormEditMode(false);
-    }
-  }, [selectedShippingAddress, setFieldValue, setFormEditMode]);
 
   const formSubmit = useCallback(
     async formValues => {
@@ -118,6 +92,52 @@ function ShippingAddressFormManager({ children }) {
       setPageLoader,
     ]
   );
+
+  const {
+    addressId: selectedAddressId,
+    address: selectedShippingAddress,
+  } = useMemo(() => {
+    const addressId = _get(shippingAddressIds, 0);
+    const address = _get(shippingAddressList, addressId);
+    return {
+      addressId,
+      address,
+    };
+  }, [shippingAddressIds, shippingAddressList]);
+
+  // for guest cart, we are setting the first shipping address as the selected
+  // shipping adddress here;
+  useEffect(() => {
+    if (selectedAddressId) {
+      setCartSelectedShippingAddress(selectedAddressId);
+    }
+  }, [selectedAddressId, setCartSelectedShippingAddress]);
+
+  // populating shipping address with selected shipping address value and then
+  // turn of edit mode
+  useEffect(() => {
+    if (selectedShippingAddress) {
+      setFieldValue('shipping_address', selectedShippingAddress);
+      setFormEditMode(false);
+    }
+  }, [selectedShippingAddress, setFieldValue, setFormEditMode]);
+
+  // if user is logged-in and has a default shippimg address, then set that
+  // address as the default shipping address in the form
+  useEffect(() => {
+    if (isLoggedIn && defaultShippingAddress) {
+      setFieldValue('shipping_address', {
+        ..._get(customerAddressList, defaultShippingAddress, {}),
+      });
+      setFormEditMode(false);
+    }
+  }, [
+    defaultShippingAddress,
+    isLoggedIn,
+    customerAddressList,
+    setFieldValue,
+    setFormEditMode,
+  ]);
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,

@@ -5,6 +5,7 @@ import cartPriceInfo from './cartPriceInfo';
 import cartShippingAddrInfo from './cartShippingAddrInfo';
 
 export const CART_DATA_FRAGMENT = `
+  id
   email
   ${cartItemsInfo}
   ${cartBillingAddrInfo}

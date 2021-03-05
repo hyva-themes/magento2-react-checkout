@@ -13,8 +13,9 @@
   "private": true,
   "proxy": "https://demo.hyva.io",
   "dependencies": {
-    "formik": "^2.1.5",
+    "formik": "^2.2.6",
     "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
     "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.5",
     "preact": "^10.5.4",
@@ -23,7 +24,7 @@
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^17.0.1",
     "react-scripts": "^3.4.0",
-    "yup": "^0.29.3"
+    "yup": "^0.32.8"
   },
   "scripts": {
     "start": "npm-run-all build:tailwind --parallel app:start",

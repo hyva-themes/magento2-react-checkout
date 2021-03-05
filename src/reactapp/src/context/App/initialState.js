@@ -3,6 +3,12 @@ const initialState = {
   countryList: [],
   countriesLoaded: [],
   stateList: {},
+  message: false,
+  isLoggedIn: false,
+  customer: {},
+  customerAddressList: {},
+  defaultBillingAddress: '',
+  defaultShippingAddress: '',
 };
 
 export default initialState;

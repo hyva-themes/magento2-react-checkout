@@ -16,9 +16,11 @@ export default function useCartContext() {
       setShippingMethod,
       placeOrder,
       updateCartItem,
+      getCartInfoAfterMerge,
     } = cartActions;
     const cart = _get(cartData, 'cart');
     const cartEmail = _get(cart, 'email', '');
+    const cartId = _get(cart, 'id');
 
     const cartBillingAddress = _get(cart, `billing_address`);
     const cartShippingMethods = _get(cart, 'shipping_methods');
@@ -50,6 +52,7 @@ export default function useCartContext() {
 
     return {
       cart,
+      cartId,
       cartEmail,
       cartBillingAddress,
       selectedShippingAddress,
@@ -74,6 +77,7 @@ export default function useCartContext() {
       setShippingMethod,
       placeOrder,
       updateCartItem,
+      getCartInfoAfterMerge,
     };
   }, [cartData, cartActions]);
 }

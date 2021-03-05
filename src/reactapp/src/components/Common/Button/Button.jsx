@@ -1,5 +1,6 @@
-import { bool, func, node, oneOf } from 'prop-types';
+/* eslint-disable react/button-has-type */
 import React from 'react';
+import { bool, func, node, oneOf } from 'prop-types';
 
 function Button({ children, click, variant, disable, big }) {
   return (
