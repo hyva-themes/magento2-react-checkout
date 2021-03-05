@@ -7,6 +7,7 @@ import { setEmailOnGuestCartAction } from './email/actions';
 import {
   getCartInfoAfterMergeAction,
   getGuestCartInfoAction,
+  setCustomerDefaultAddressToCartAction,
 } from './cart/actions';
 import {
   addCartShippingAddressAction,
@@ -24,6 +25,7 @@ const dispatchMapper = {
   placeOrder: placeOrderAction,
   updateCartItem: updateCartItemAction,
   getCartInfoAfterMerge: getCartInfoAfterMergeAction,
+  setCustomerDefaultAddressToCart: setCustomerDefaultAddressToCartAction,
 };
 
 function cartDispatchers(dispatch) {

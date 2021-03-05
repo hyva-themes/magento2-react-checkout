@@ -52,7 +52,11 @@ export async function getCustomerAddressListAction(dispatch) {
       type: SET_CUSTOMER_ADDRESS_INFO,
       payload: customerAddressInfo,
     });
+
+    return customerAddressInfo;
   } catch (error) {
     console.log('getCustomerAddressListAction', { error });
   }
+
+  return {};
 }

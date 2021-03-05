@@ -1,4 +1,5 @@
 import _get from 'lodash.get';
+import { prepareFullName } from '../utility';
 
 export default function modifyCustomerAddressList(response) {
   const customerData = _get(response, 'data.customer', {});
@@ -27,6 +28,7 @@ export default function modifyCustomerAddressList(response) {
         firstname,
         lastname,
         middlename,
+        fullName: prepareFullName(address),
         company,
         street,
         city,

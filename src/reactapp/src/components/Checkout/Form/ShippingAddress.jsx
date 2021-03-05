@@ -10,6 +10,9 @@ import AddressBox from './AddressBox';
 
 import useShippingAddressContext from '../../../hook/useShippingAddressContext';
 import ShippingAddressFormContext from '../../../context/Form/ShippingAddress/ShippingAddressFormContext';
+import LocalStorage from '../../../utils/localStorage';
+
+const customerToken = LocalStorage.getCustomerToken();
 
 function ShippingAddress() {
   const { values } = useFormikContext();
@@ -22,7 +25,7 @@ function ShippingAddress() {
     setFormToEditMode,
   } = useShippingAddressContext();
 
-  if (editMode) {
+  if (editMode && !customerToken) {
     return (
       <AddressFields
         title="Shipping information"

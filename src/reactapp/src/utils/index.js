@@ -14,3 +14,9 @@ export function _isObjEmpty(obj = {}) {
 export function _objToArray(obj) {
   return _keys(obj).map(key => obj[key]);
 }
+
+export function _makePromise(asyncFunc) {
+  return new Promise(resolve => {
+    resolve(asyncFunc);
+  });
+}

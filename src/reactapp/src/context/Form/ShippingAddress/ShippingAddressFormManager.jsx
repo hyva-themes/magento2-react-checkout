@@ -11,9 +11,9 @@ import {
 import ShippingAddressFormContext from './ShippingAddressFormContext';
 import { SHIPPING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
-import useCartContext from '../../../hook/useCartContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import useAppContext from '../../../hook/useAppContext';
+import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
+import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 
 const initialValues = {
   company: '',
@@ -51,17 +51,19 @@ function ShippingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { values, setFieldValue } = useFormikContext();
   const shippingAddrFieldValues = _get(values, 'shipping_address');
-  const [
-    { isLoggedIn, defaultShippingAddress, customerAddressList },
-    { setPageLoader },
-  ] = useAppContext();
+  const {
+    isLoggedIn,
+    defaultShippingAddress,
+    customerAddressList,
+    setPageLoader,
+  } = useShippingAddrAppContext();
   const {
     shippingAddressIds,
     shippingAddressList,
     addCartShippingAddress,
     setCartBillingAddress,
     setCartSelectedShippingAddress,
-  } = useCartContext();
+  } = useShippingAddrCartContext();
 
   const formSubmit = useCallback(
     async formValues => {
