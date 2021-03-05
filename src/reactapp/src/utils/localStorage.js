@@ -3,7 +3,7 @@ import _set from 'lodash.set';
 
 import { config } from '../config';
 
-const LS = {
+const LocalStorage = {
   getMagentoLocalStorage() {
     const tokenSource = _get(config, 'storageSource.token', {});
 
@@ -15,13 +15,13 @@ const LS = {
   getCustomerToken() {
     const tokenSource = _get(config, 'storageSource.token', {});
 
-    return _get(LS.getMagentoLocalStorage(), tokenSource.value);
+    return _get(LocalStorage.getMagentoLocalStorage(), tokenSource.value);
   },
 
   saveCustomerToken(token) {
     const tokenSource = _get(config, 'storageSource.token', {});
     const storageData = _set(
-      LS.getMagentoLocalStorage(),
+      LocalStorage.getMagentoLocalStorage(),
       tokenSource.value,
       token
     );
@@ -35,7 +35,7 @@ const LS = {
   saveCartId(cartId) {
     const cartSource = _get(config, 'storageSource.cartId', {});
     const storageData = _set(
-      LS.getMagentoLocalStorage(),
+      LocalStorage.getMagentoLocalStorage(),
       cartSource.value,
       cartId
     );
@@ -47,4 +47,4 @@ const LS = {
   },
 };
 
-export default LS;
+export default LocalStorage;

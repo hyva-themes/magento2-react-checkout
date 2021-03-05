@@ -1,4 +1,4 @@
-import LS from '../../../utils/LS';
+import LocalStorage from '../../../utils/localStorage';
 import { SET_CART_INFO } from './types';
 import {
   createEmptyCartRequest,
@@ -68,7 +68,7 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
       });
     }
 
-    LS.saveCartId(customerCartId);
+    LocalStorage.saveCartId(customerCartId);
   } catch (error) {
     // @todo show error message
     console.log({ error });

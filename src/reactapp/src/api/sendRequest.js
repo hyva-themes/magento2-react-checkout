@@ -1,8 +1,8 @@
 import { config } from '../config';
-import LS from '../utils/LS';
+import LocalStorage from '../utils/localStorage';
 
 export default function sendRequest(queryParams = {}) {
-  const token = LS.getCustomerToken();
+  const token = LocalStorage.getCustomerToken();
   const headers = { 'Content-Type': 'application/json' };
 
   if (token) {

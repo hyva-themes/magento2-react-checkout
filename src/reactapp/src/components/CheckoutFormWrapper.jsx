@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { node } from 'prop-types';
 
 import useAppContext from '../hook/useAppContext';
-import LS from '../utils/LS';
+import LocalStorage from '../utils/localStorage';
 
-const customerToken = LS.getCustomerToken();
+const customerToken = LocalStorage.getCustomerToken();
 
 function CheckoutFormWrapper({ children }) {
   const [

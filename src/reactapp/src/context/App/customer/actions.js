@@ -5,7 +5,7 @@ import {
   fetchCustomerInfoRequest,
   generateCustomerToken,
 } from '../../../api';
-import LS from '../../../utils/LS';
+import LocalStorage from '../../../utils/localStorage';
 import {
   setErrroMessageAction,
   setSuccessMessageAction,
@@ -15,7 +15,7 @@ import { SET_CUSTOMER_ADDRESS_INFO, SET_CUSTOMER_INFO } from './types';
 export async function sigInCustomerAction(dispatch, userCredentials) {
   try {
     const { token } = await generateCustomerToken(userCredentials);
-    LS.saveCustomerToken(token);
+    LocalStorage.saveCustomerToken(token);
     setSuccessMessageAction(dispatch, 'You are successfully logged-in');
 
     return true;

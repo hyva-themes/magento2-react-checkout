@@ -22,13 +22,13 @@ function GuestEmail() {
     submitHandler,
   } = useContext(GuestEmailFormContext);
   const { values, setFieldValue } = useFormikContext();
-  const signInMe = _get(values, fields.signInMe);
+  const customerWantsToSignin = _get(values, fields.customerWantsToSignin);
   const email = _get(values, fields.email);
   const password = _get(values, fields.password);
 
   const submitButtonHandler = useCallback(() => {
-    submitHandler({ email, password, signInMe });
-  }, [email, password, signInMe, submitHandler]);
+    submitHandler({ email, password, customerWantsToSignin });
+  }, [email, password, customerWantsToSignin, submitHandler]);
 
   return (
     <Card bg="dark">
@@ -44,16 +44,18 @@ function GuestEmail() {
                 onFocus={handleFocus}
               />
 
-              {!signInMe && (
+              {!customerWantsToSignin && (
                 <h6
                   className="py-3 text-sm text-center text-black underline cursor-pointer"
-                  onClick={() => setFieldValue(fields.signInMe, true)}
+                  onClick={() => {
+                    setFieldValue(fields.customerWantsToSignin, true);
+                  }}
                 >
                   I will sign-in and checkout
                 </h6>
               )}
 
-              {signInMe && (
+              {customerWantsToSignin && (
                 <div>
                   <TextInput
                     label="Password"
@@ -71,14 +73,16 @@ function GuestEmail() {
                 variant="success"
                 disable={!isFormValid}
               >
-                {signInMe ? 'Sign In' : 'Update'}
+                {customerWantsToSignin ? 'Sign In' : 'Update'}
               </Button>
             </div>
 
-            {signInMe && (
+            {customerWantsToSignin && (
               <h6
                 className="py-3 text-sm text-center text-black underline cursor-pointer"
-                onClick={() => setFieldValue(fields.signInMe, false)}
+                onClick={() => {
+                  setFieldValue(fields.customerWantsToSignin, false);
+                }}
               >
                 No, I like to continue as guest
               </h6>

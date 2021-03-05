@@ -14,11 +14,11 @@ import useAppContext from '../../../hook/useAppContext';
 const initialValues = {
   email: '',
   password: '',
-  signInMe: false,
+  customerWantsToSignin: false,
 };
 
 const validationSchema = {
-  signInMe: YupBool(),
+  customerWantsToSignin: YupBool(),
   email: YupString()
     .required('Email is required')
     .email('Email is invalid'),
@@ -26,7 +26,7 @@ const validationSchema = {
     'requiredIfSignIn',
     'Password is required',
     (value, context) => {
-      const sigInStatus = _get(context, 'parent.signInMe');
+      const sigInStatus = _get(context, 'parent.customerWantsToSignin');
 
       if (sigInStatus) {
         return !!value;
@@ -63,7 +63,7 @@ function GuestEmailFormManager({ children }) {
   const formSubmit = useCallback(
     async values => {
       const emailFieldValue = _get(values, 'email');
-      const isSignIn = _get(values, 'signInMe');
+      const isSignIn = _get(values, 'customerWantsToSignin');
 
       try {
         if (isSignIn) {
