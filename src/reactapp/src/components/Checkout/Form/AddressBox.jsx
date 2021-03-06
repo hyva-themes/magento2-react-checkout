@@ -2,27 +2,16 @@ import React from 'react';
 
 import RadioInput from '../../Common/Form/RadioInput/RadioInput';
 import { modifyAddrObjListToArrayList } from '../../../utils/address';
-import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
-import { _isArrayEmpty } from '../../../utils';
+import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 
 function AddressBox() {
-  const {
-    selectedAddressId,
-    selectedShippingAddress,
-  } = useShippingAddressContext();
-  const {
-    customerAddressList,
-    defaultShippingAddress,
-  } = useShippingAddrAppContext();
-
-  let addressList = { ...customerAddressList };
-
-  if (!_isArrayEmpty(selectedAddressId)) {
-    addressList = { new: selectedShippingAddress, ...customerAddressList };
-  }
+  const { fields, addressList } = useShippingAddressContext();
+  const { selectedAddressId } = useShippingAddrCartContext();
 
   const customerAddresses = modifyAddrObjListToArrayList(addressList);
+
+  console.log({ customerAddresses, selectedAddressId })
 
   return (
     <div className="mx-2 space-y-3">
@@ -32,7 +21,11 @@ function AddressBox() {
           className="px-4 pb-4 bg-white border-white rounded-md shadow-sm"
         >
           <li className="flex items-end justify-end">
-            <RadioInput name="test" checked={defaultShippingAddress === id} />
+            <RadioInput
+              name={fields.selectedAddress}
+              checked={selectedAddressId === id}
+              value={id}
+            />
           </li>
           {address.map(addrAttr => (
             <li key={`${id}_${addrAttr}`} className="text-sm italic">

@@ -1,9 +1,9 @@
 import _get from 'lodash.get';
 
-import { _isObjEmpty, _objToArray } from './index';
+import { _isArrayEmpty, _isObjEmpty, _keys, _objToArray } from './index';
 
 export function modifyAddrObjListToArrayList(addressList) {
-  return _objToArray(addressList).map(addr => {
+  const newList = _objToArray(addressList).map(addr => {
     const {
       id,
       fullName = '',
@@ -16,7 +16,7 @@ export function modifyAddrObjListToArrayList(addressList) {
       company = '',
     } = addr;
     return {
-      id,
+      id: (id || '').toString(),
       address: [
         fullName,
         company,
@@ -28,6 +28,13 @@ export function modifyAddrObjListToArrayList(addressList) {
       ].filter(i => !!i),
     };
   });
+
+  // if a new address entry there, then we want to show it first
+  if (addressList.new) {
+    return newList.reverse();
+  }
+
+  return newList;
 }
 
 export function isCartHoldingAddressInfo(cartInfo) {
@@ -50,4 +57,16 @@ export function isCartHoldingBillingAddress(cartInfo) {
     !!_get(cartBillingAddress, 'firstname') &&
     !!_get(cartBillingAddress, 'country')
   );
+}
+
+export function getFirstItemFromShippingAddrList(addressList) {
+  return _isObjEmpty(addressList)
+    ? addressList
+    : addressList[_keys(addressList)[0]];
+}
+
+export function getFirstItemIdFromShippingAddrList(addressList) {
+  const addressIds = _keys(addressList);
+
+  return _isArrayEmpty(addressIds) ? '' : addressIds[0];
 }
