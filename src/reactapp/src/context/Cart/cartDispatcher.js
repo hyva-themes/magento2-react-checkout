@@ -1,4 +1,7 @@
-import { setBillingAddressAction } from './billingAddress/actions';
+import {
+  setBillingAddressAction,
+  setCustomerAddrAsBillingAddrAction,
+} from './billingAddress/actions';
 import { updateCartItemAction } from './cartItems/actions';
 import { placeOrderAction } from './order/actions';
 import { setPaymentMethodAction } from './paymentMethod/actions';
@@ -12,6 +15,7 @@ import {
 import {
   addCartShippingAddressAction,
   setSelectedShippingAddressAction,
+  setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
 
 const dispatchMapper = {
@@ -26,6 +30,8 @@ const dispatchMapper = {
   updateCartItem: updateCartItemAction,
   getCartInfoAfterMerge: getCartInfoAfterMergeAction,
   setCustomerDefaultAddressToCart: setCustomerDefaultAddressToCartAction,
+  setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
+  setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
 };
 
 function cartDispatchers(dispatch) {

@@ -1,3 +1,7 @@
+import LocalStorage from "../../utils/localStorage";
+
+const selectedShippingAddress = LocalStorage.getCustomerShippingAddressId();
+
 const initialState = {
   errors: false,
   order: {},
@@ -7,7 +11,7 @@ const initialState = {
     id: null,
     billing_address: null,
     shipping_addresses: {},
-    selected_shipping_address: '',
+    selected_shipping_address: selectedShippingAddress || '',
     shipping_methods: {},
     selected_shipping_method: {},
     items: {},

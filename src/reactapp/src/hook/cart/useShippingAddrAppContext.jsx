@@ -3,7 +3,7 @@ import useAppContext from '../useAppContext';
 export default function useShippingAddrAppContext() {
   const [
     { isLoggedIn, defaultShippingAddress, customerAddressList },
-    { setPageLoader },
+    { setPageLoader, setSuccessMessage },
   ] = useAppContext();
 
   return {
@@ -11,5 +11,6 @@ export default function useShippingAddrAppContext() {
     defaultShippingAddress,
     customerAddressList,
     setPageLoader,
+    setSuccessMessage,
   };
 }

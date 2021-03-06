@@ -15,6 +15,8 @@ export default function useShippingAddrCartContext() {
       addCartShippingAddress,
       setCartBillingAddress,
       setCartSelectedShippingAddress,
+      setCustomerAddressAsBillingAddress,
+      setCustomerAddressAsShippingAddress,
     } = cartActions;
 
     return {
@@ -26,6 +28,8 @@ export default function useShippingAddrCartContext() {
       addCartShippingAddress,
       setCartBillingAddress,
       setCartSelectedShippingAddress,
+      setCustomerAddressAsBillingAddress,
+      setCustomerAddressAsShippingAddress,
     };
   }, [cartData, cartActions]);
 }

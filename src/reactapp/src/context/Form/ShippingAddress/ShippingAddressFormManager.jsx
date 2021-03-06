@@ -9,7 +9,7 @@ import {
 } from 'yup';
 
 import ShippingAddressFormContext from './ShippingAddressFormContext';
-import { SHIPPING_ADDR_FORM } from '../../../config';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
@@ -19,6 +19,8 @@ import {
   getFirstItemIdFromShippingAddrList,
   isCartHoldingShippingAddress,
 } from '../../../utils/address';
+import { _makePromise, _toString } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 const initialValues = {
   company: '',
@@ -31,7 +33,7 @@ const initialValues = {
   region: '',
   country: '',
   isSameAsShipping: true,
-  selectedAddress: 'new',
+  selectedAddress: '',
 };
 
 const requiredMessage = '%1 is required';
@@ -53,15 +55,19 @@ const validationSchema = {
   isSameAsShipping: YupBoolean(),
 };
 
+const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
+const selectedShippingAddrField = `${SHIPPING_ADDR_FORM}.selectedAddress`;
+
 function ShippingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { values, setFieldValue } = useFormikContext();
-  const shippingAddrFieldValues = _get(values, SHIPPING_ADDR_FORM);
+  const selectedAddressValue = _get(values, selectedShippingAddrField);
   const {
     isLoggedIn,
     defaultShippingAddress,
     customerAddressList,
     setPageLoader,
+    setSuccessMessage,
   } = useShippingAddrAppContext();
   const {
     cartInfo,
@@ -70,65 +76,99 @@ function ShippingAddressFormManager({ children }) {
     addCartShippingAddress,
     setCartBillingAddress,
     setCartSelectedShippingAddress,
+    setCustomerAddressAsBillingAddress,
+    setCustomerAddressAsShippingAddress,
   } = useShippingAddrCartContext();
 
   const formSubmit = useCallback(
-    async formValues => {
-      setPageLoader(true);
+    async (formValues, customerAddressId) => {
+      try {
+        setPageLoader(true);
 
-      await addCartShippingAddress(shippingAddrFieldValues);
+        const shippingAddressToSave = _get(formValues, SHIPPING_ADDR_FORM);
+        let updateShippingAddress = _makePromise(
+          addCartShippingAddress,
+          shippingAddressToSave
+        );
+        let updateBillingAddress = () => {};
 
-      const isBillingSame = _get(
-        formValues,
-        'billing_address.isSameAsShipping'
-      );
+        if (customerAddressId) {
+          updateShippingAddress = _makePromise(
+            setCustomerAddressAsShippingAddress,
+            customerAddressId
+          );
+        }
 
-      if (isBillingSame) {
-        await setCartBillingAddress({
-          ...shippingAddrFieldValues,
-          isSameAsShipping: true,
-        });
+        const isBillingSame = _get(formValues, isSameAsShippingField);
+
+        if (isBillingSame) {
+          if (customerAddressId) {
+            updateBillingAddress = _makePromise(
+              setCustomerAddressAsBillingAddress,
+              customerAddressId,
+              isBillingSame
+            );
+          } else {
+            updateBillingAddress = _makePromise(setCartBillingAddress, {
+              ...shippingAddressToSave,
+              isSameAsShipping: true,
+            });
+          }
+        }
+
+        await Promise.all([updateShippingAddress(), updateBillingAddress()]);
+
+        setFormEditMode(false);
+        setPageLoader(false);
+      } catch (error) {
+        console.log({ error });
+        setPageLoader(false);
       }
-
-      setFormEditMode(false);
-      setPageLoader(false);
     },
     [
-      shippingAddrFieldValues,
       addCartShippingAddress,
       setCartBillingAddress,
       setFormEditMode,
       setPageLoader,
+      setCustomerAddressAsShippingAddress,
+      setCustomerAddressAsBillingAddress,
     ]
   );
 
   // side effect to set the selected shipping address for the intitial time
   // in different occasions
   useEffect(() => {
+    let addressIdTobeSelected;
     const cartContainsShippingAddr = isCartHoldingShippingAddress(cartInfo);
 
     // guest checkout; cart contains an address; then, set address id as selected.
     if (!isLoggedIn && cartContainsShippingAddr) {
-      const firstAddressId = getFirstItemIdFromShippingAddrList(
+      addressIdTobeSelected = getFirstItemIdFromShippingAddrList(
         shippingAddressList
       );
-      setCartSelectedShippingAddress(firstAddressId);
     }
-
     // customer checkout; no cart address present; customer has a default shipping
     // address, then, set the default shipping address as selected.
-    if (isLoggedIn && !cartContainsShippingAddr && defaultShippingAddress) {
-      setCartSelectedShippingAddress(defaultShippingAddress);
+    else if (
+      isLoggedIn &&
+      !cartContainsShippingAddr &&
+      defaultShippingAddress
+    ) {
+      addressIdTobeSelected = defaultShippingAddress;
     }
-
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
-    if (isLoggedIn && cartContainsShippingAddr) {
-      setCartSelectedShippingAddress('new');
+    else if (isLoggedIn && cartContainsShippingAddr && !selectedAddressId) {
+      addressIdTobeSelected = 'new';
+    }
+
+    if (addressIdTobeSelected) {
+      setCartSelectedShippingAddress(_toString(addressIdTobeSelected));
     }
   }, [
     cartInfo,
     isLoggedIn,
+    selectedAddressId,
     shippingAddressList,
     defaultShippingAddress,
     setCartSelectedShippingAddress,
@@ -174,6 +214,63 @@ function ShippingAddressFormManager({ children }) {
     customerAddressList,
     setFieldValue,
     setFormEditMode,
+  ]);
+
+  /**
+   * Side effect act as the address switching submission
+   * this effect will be triggered whenever the user changes shipping address
+   * from the available list
+   */
+  useEffect(() => {
+    if (
+      isLoggedIn &&
+      selectedAddressValue &&
+      _toString(selectedAddressValue) !== _toString(selectedAddressId)
+    ) {
+      // very important to call this up ahead. else, will lead to infinite loop
+      setCartSelectedShippingAddress(_toString(selectedAddressValue));
+
+      let updateAddress = () => {};
+      const isBillingSame = _get(values, isSameAsShippingField);
+
+      // if address is new, then submit it with formik values; else use customer
+      // address id to update the cart address
+      if (selectedAddressValue === 'new' && !editMode) {
+        updateAddress = _makePromise(formSubmit, values);
+      } else if (!editMode) {
+        updateAddress = _makePromise(formSubmit, values, selectedAddressValue);
+      }
+
+      // performing the real cart address update
+      (async () => {
+        try {
+          await Promise.all([updateAddress()]);
+          setSuccessMessage('Shipping address updated successfully');
+
+          // need to update local storage values of customer address id opted.
+          // because there is no other way to understand the opted customer
+          // address id from the cart address details.
+          LocalStorage.saveBillingSameAsShipping(isBillingSame);
+          LocalStorage.saveCustomerShippingAddressId(selectedAddressValue);
+
+          if (isBillingSame) {
+            LocalStorage.saveCustomerBillingAddressId(selectedAddressValue);
+          }
+        } catch (error) {
+          console.log({ error });
+        }
+      })();
+    }
+  }, [
+    isLoggedIn,
+    selectedAddressValue,
+    selectedAddressId,
+    values,
+    editMode,
+    customerAddressList,
+    formSubmit,
+    setSuccessMessage,
+    setCartSelectedShippingAddress,
   ]);
 
   const addressList = useMemo(() => {

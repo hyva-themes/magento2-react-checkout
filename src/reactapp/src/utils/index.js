@@ -15,8 +15,12 @@ export function _objToArray(obj) {
   return _keys(obj).map(key => obj[key]);
 }
 
-export function _makePromise(asyncFunc) {
-  return new Promise(resolve => {
-    resolve(asyncFunc);
-  });
+export function _makePromise(asyncFunc, ...params) {
+  return async () => {
+    await asyncFunc(...params);
+  };
+}
+
+export function _toString(value) {
+  return (value || '').toString();
 }

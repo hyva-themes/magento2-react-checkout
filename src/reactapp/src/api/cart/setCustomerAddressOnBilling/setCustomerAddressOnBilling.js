@@ -1,9 +1,9 @@
 import { SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION } from './mutation';
-import modifier from '../fetchGuestCart/modifier';
+import modifier from './modifier';
 import { config } from '../../../config';
 import sendRequest from '../../sendRequest';
 
-export default async function setBillingAddress(
+export default async function setCustomerAddressOnBilling(
   customerAddressId,
   sameAsShipping
 ) {

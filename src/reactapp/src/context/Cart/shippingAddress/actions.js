@@ -1,4 +1,7 @@
-import { setCustomerAddrAsCartShippingAddrRequest, setShippingAddressRequest } from '../../../api';
+import {
+  setCustomerAddrAsCartShippingAddrRequest,
+  setShippingAddressRequest,
+} from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 import { SET_CART_SELECTED_SHIPPING_ADDRESS } from './types';
 

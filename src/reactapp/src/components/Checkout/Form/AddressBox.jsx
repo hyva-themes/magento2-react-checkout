@@ -11,8 +11,6 @@ function AddressBox() {
 
   const customerAddresses = modifyAddrObjListToArrayList(addressList);
 
-  console.log({ customerAddresses, selectedAddressId })
-
   return (
     <div className="mx-2 space-y-3">
       {customerAddresses.map(({ id, address }) => (
@@ -23,7 +21,7 @@ function AddressBox() {
           <li className="flex items-end justify-end">
             <RadioInput
               name={fields.selectedAddress}
-              checked={selectedAddressId === id}
+              checked={selectedAddressId.toString() === id}
               value={id}
             />
           </li>
