@@ -95,17 +95,19 @@ function ShippingAddressFormManager({ children }) {
     ]
   );
 
-  const {
-    addressId: selectedAddressId,
-    address: selectedShippingAddress,
-  } = useMemo(() => {
+  const selectedShippingAddrContext = useMemo(() => {
     const addressId = _get(shippingAddressIds, 0);
-    const address = _get(shippingAddressList, addressId);
+    const selectedShippingAddress = _get(shippingAddressList, addressId);
     return {
-      addressId,
-      address,
+      selectedAddressId: addressId,
+      selectedShippingAddress,
     };
   }, [shippingAddressIds, shippingAddressList]);
+
+  const {
+    selectedAddressId,
+    selectedShippingAddress,
+  } = selectedShippingAddrContext;
 
   // for guest cart, we are setting the first shipping address as the selected
   // shipping adddress here;
@@ -150,7 +152,12 @@ function ShippingAddressFormManager({ children }) {
 
   return (
     <ShippingAddressFormContext.Provider
-      value={{ ...context, editMode, setFormToEditMode }}
+      value={{
+        ...context,
+        editMode,
+        ...selectedShippingAddrContext,
+        setFormToEditMode,
+      }}
     >
       <Form>{children}</Form>
     </ShippingAddressFormContext.Provider>

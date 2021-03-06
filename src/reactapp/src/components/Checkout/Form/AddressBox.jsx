@@ -1,12 +1,28 @@
 import React from 'react';
 
-import useAppContext from '../../../hook/useAppContext';
 import RadioInput from '../../Common/Form/RadioInput/RadioInput';
 import { modifyAddrObjListToArrayList } from '../../../utils/address';
+import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
+import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
+import { _isArrayEmpty } from '../../../utils';
 
 function AddressBox() {
-  const [{ customerAddressList, defaultShippingAddress }] = useAppContext();
-  const customerAddresses = modifyAddrObjListToArrayList(customerAddressList);
+  const {
+    selectedAddressId,
+    selectedShippingAddress,
+  } = useShippingAddressContext();
+  const {
+    customerAddressList,
+    defaultShippingAddress,
+  } = useShippingAddrAppContext();
+
+  let addressList = { ...customerAddressList };
+
+  if (!_isArrayEmpty(selectedAddressId)) {
+    addressList = { new: selectedShippingAddress, ...customerAddressList };
+  }
+
+  const customerAddresses = modifyAddrObjListToArrayList(addressList);
 
   return (
     <div className="mx-2 space-y-3">

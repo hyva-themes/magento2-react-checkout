@@ -8,7 +8,7 @@ import ToggleBox from '../../Common/ToggleBox';
 import AddressFields from './AddressFields';
 import AddressBox from './AddressBox';
 
-import useShippingAddressContext from '../../../hook/useShippingAddressContext';
+import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
 import ShippingAddressFormContext from '../../../context/Form/ShippingAddress/ShippingAddressFormContext';
 import LocalStorage from '../../../utils/localStorage';
 
