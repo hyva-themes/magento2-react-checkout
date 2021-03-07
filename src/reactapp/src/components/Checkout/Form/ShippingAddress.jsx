@@ -23,6 +23,7 @@ function ShippingAddress() {
     submitHandler,
     editMode,
     setFormToEditMode,
+    setFormEditMode,
   } = useShippingAddressContext();
 
   if (_isObjEmpty(customerAddressList) && _isObjEmpty(shippingAddressList)) {
@@ -41,18 +42,34 @@ function ShippingAddress() {
         title="Shipping information"
         context={ShippingAddressFormContext}
       >
-        <div className="flex items-center justify-center mt-2">
-          <Button
-            click={() => submitHandler(values)}
-            variant="success"
-            disable={!isFormValid}
-          >
-            save
-          </Button>
-        </div>
+        {isLoggedIn ? (
+          <div className="flex items-center justify-around mt-2">
+            <Button click={() => setFormEditMode(false)} variant="warning">
+              cancel
+            </Button>
+            <Button
+              click={() => submitHandler(values)}
+              variant="success"
+              disable={!isFormValid}
+            >
+              save
+            </Button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center mt-2">
+            <Button
+              click={() => submitHandler(values)}
+              variant="success"
+              disable={!isFormValid}
+            >
+              save
+            </Button>
+          </div>
+        )}
       </AddressFields>
     );
   }
+
   return (
     <Card bg="dark">
       <ToggleBox title="Shipping information" show>
