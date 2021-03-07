@@ -10,7 +10,10 @@ import useShippingAddressContext from '../../../hook/form/useShippingAddressCont
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 
 function AddressBox() {
-  const { selectedAddressId } = useShippingAddrCartContext();
+  const {
+    selectedAddressId,
+    setCartSelectedShippingAddress,
+  } = useShippingAddrCartContext();
   const {
     fields,
     addressList,
@@ -23,7 +26,12 @@ function AddressBox() {
   const newAddressClickHandler = useCallback(() => {
     resetShippingAddressFormFields();
     setFormToEditMode();
-  }, [setFormToEditMode, resetShippingAddressFormFields]);
+    setCartSelectedShippingAddress('');
+  }, [
+    setFormToEditMode,
+    resetShippingAddressFormFields,
+    setCartSelectedShippingAddress,
+  ]);
 
   return (
     <div className="mx-2 space-y-3">

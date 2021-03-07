@@ -148,7 +148,12 @@ function ShippingAddressFormManager({ children }) {
     }
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
-    else if (isLoggedIn && cartHoldsShippingAddr && !selectedAddressId) {
+    else if (
+      isLoggedIn &&
+      cartHoldsShippingAddr &&
+      !selectedAddressId &&
+      !editMode
+    ) {
       addressId = 'new';
     }
 
@@ -156,6 +161,7 @@ function ShippingAddressFormManager({ children }) {
       setCartSelectedShippingAddress(_toString(addressId));
     }
   }, [
+    editMode,
     cartInfo,
     isLoggedIn,
     selectedAddressId,
@@ -167,14 +173,13 @@ function ShippingAddressFormManager({ children }) {
   // side effect setting shipping_address fields in different occasions.
   useEffect(() => {
     let newAddress;
+    const isNewAddress = selectedAddressId === 'new';
     // guest checkout; cart contains an address; then, set formik fields
     // with cart address.
     // customer checkout; cart contains an address; if the cart address is "new",
     // then use cart address itself to fill out the formik fields.
-    if (
-      (!isLoggedIn && selectedAddressId) ||
-      (isLoggedIn && selectedAddressId === 'new')
-    ) {
+    if ((!isLoggedIn && selectedAddressId) || (isLoggedIn && isNewAddress)) {
+      console.log('1111');
       newAddress = prepareFormAddressFromAddressListById(
         shippingAddressList,
         selectedAddressId
@@ -183,7 +188,8 @@ function ShippingAddressFormManager({ children }) {
     // customer checkout; cart contains an address;if cart address is not "new",
     // then the address must be any of the customer address;
     // so pick that address and fill out the formik fields.
-    if (isLoggedIn && selectedAddressId && selectedAddressId !== 'new') {
+    if (isLoggedIn && selectedAddressId && !isNewAddress) {
+      console.log('2222');
       newAddress = prepareFormAddressFromAddressListById(
         customerAddressList,
         selectedAddressId
@@ -191,6 +197,8 @@ function ShippingAddressFormManager({ children }) {
     }
 
     if (newAddress) {
+      console.log({ newAddress });
+
       setFieldValue(SHIPPING_ADDR_FORM, newAddress);
       setFormEditMode(false);
     }

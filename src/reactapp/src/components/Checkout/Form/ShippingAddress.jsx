@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
@@ -12,12 +12,16 @@ import ShippingAddressFormContext from '../../../context/Form/ShippingAddress/Sh
 import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 import { _isObjEmpty } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 function ShippingAddress() {
   const { values } = useFormikContext();
   const shippingAddress = _get(values, 'shipping_address', {});
   const { isLoggedIn, customerAddressList } = useShippingAddrAppContext();
-  const { shippingAddressList } = useShippingAddrCartContext();
+  const {
+    shippingAddressList,
+    setCartSelectedShippingAddress,
+  } = useShippingAddrCartContext();
   const {
     isFormValid,
     submitHandler,
@@ -25,6 +29,16 @@ function ShippingAddress() {
     setFormToEditMode,
     setFormEditMode,
   } = useShippingAddressContext();
+
+  const cancelAddressEditHandler = useCallback(() => {
+    const shippingAddrId = LocalStorage.getCustomerShippingAddressId();
+    console.log({ shippingAddrId });
+
+    if (shippingAddrId) {
+      setCartSelectedShippingAddress(shippingAddrId);
+    }
+    setFormEditMode(false);
+  }, [setFormEditMode, setCartSelectedShippingAddress]);
 
   if (_isObjEmpty(customerAddressList) && _isObjEmpty(shippingAddressList)) {
     return (
@@ -44,7 +58,7 @@ function ShippingAddress() {
       >
         {isLoggedIn ? (
           <div className="flex items-center justify-around mt-2">
-            <Button click={() => setFormEditMode(false)} variant="warning">
+            <Button click={cancelAddressEditHandler} variant="warning">
               cancel
             </Button>
             <Button
