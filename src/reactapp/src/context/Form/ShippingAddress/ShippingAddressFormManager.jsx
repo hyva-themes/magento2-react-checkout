@@ -127,6 +127,10 @@ function ShippingAddressFormManager({ children }) {
     ]
   );
 
+  const resetShippingAddressFormFields = useCallback(() => {
+    setFieldValue(SHIPPING_ADDR_FORM, { ...shippingAddressFormInitValues });
+  }, [setFieldValue]);
+
   // side effect to set the selected shipping address for the intitial time
   // in different occasions
   useEffect(() => {
@@ -290,6 +294,7 @@ function ShippingAddressFormManager({ children }) {
         addressList,
         setFormToEditMode,
         setFormEditMode,
+        resetShippingAddressFormFields,
       }}
     >
       <Form>{children}</Form>

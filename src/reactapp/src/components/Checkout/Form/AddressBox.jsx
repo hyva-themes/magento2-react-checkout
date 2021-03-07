@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useCallback } from 'react';
 
 import RadioInput from '../../Common/Form/RadioInput/RadioInput';
 import Button from '../../Common/Button';
@@ -13,14 +15,23 @@ function AddressBox() {
     fields,
     addressList,
     setFormToEditMode,
+    resetShippingAddressFormFields,
   } = useShippingAddressContext();
 
   const customerAddresses = modifyAddrObjListToArrayList(addressList);
 
+  const newAddressClickHandler = useCallback(() => {
+    resetShippingAddressFormFields();
+    setFormToEditMode();
+  }, [setFormToEditMode, resetShippingAddressFormFields]);
+
   return (
     <div className="mx-2 space-y-3">
       <div className="flex items-center justify-center mt-2">
-        <span className="text-sm underline cursor-pointer">
+        <span
+          className="text-sm underline cursor-pointer"
+          onClick={newAddressClickHandler}
+        >
           Create a new address
         </span>
       </div>
