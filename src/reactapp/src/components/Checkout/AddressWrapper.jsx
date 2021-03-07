@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
@@ -7,6 +7,7 @@ import useAppContext from '../../hook/useAppContext';
 import { _emptyFunc, _keys, _makePromise } from '../../utils';
 
 function AddressWrapper({ children }) {
+  const [countriesFetched, setCountriesFetched] = useState([]);
   const [
     { stateList, countryList },
     { fetchCountries, fetchCountryStates },
@@ -37,20 +38,30 @@ function AddressWrapper({ children }) {
   useEffect(() => {
     let promise1 = _emptyFunc();
     let promise2 = _emptyFunc();
+    const countries = [];
 
-    if (shippingCountry) {
+    if (shippingCountry && !countriesFetched.includes(shippingCountry)) {
       promise1 = _makePromise(fetchStates, shippingCountry);
+      countries.push(shippingCountry);
     }
 
     // if billing country === shipping country, we dont want to further collect states
-    if (billingCountry && billingCountry !== shippingCountry) {
+    if (
+      billingCountry &&
+      billingCountry !== shippingCountry &&
+      !countriesFetched.includes(billingCountry)
+    ) {
       promise2 = _makePromise(fetchStates, billingCountry);
+      countries.push(billingCountry);
     }
 
+    if (countries.length) {
+      setCountriesFetched([...countriesFetched, ...countries]);
+    }
     (async () => {
       await Promise.all([promise1(), promise2()]);
     })();
-  }, [shippingCountry, billingCountry, fetchStates]);
+  }, [countriesFetched, shippingCountry, billingCountry, fetchStates]);
 
   return <>{children}</>;
 }

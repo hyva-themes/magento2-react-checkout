@@ -160,6 +160,7 @@ function ShippingAddressFormManager({ children }) {
         }
 
         await Promise.all([promise1(), promise2()]);
+        setFormEditMode(false);
         setSuccessMessage('Shipping address updated successfully.');
       } catch (error) {
         console.log({ error });
@@ -173,6 +174,7 @@ function ShippingAddressFormManager({ children }) {
       updateCustomerAddress,
       setSuccessMessage,
       stateInfo,
+      setFormEditMode,
     ]
   );
 

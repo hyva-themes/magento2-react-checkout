@@ -34,3 +34,7 @@ export function _cleanObjByKeys(obj, keys = []) {
 export function _emptyFunc() {
   return () => {};
 }
+
+export function _uniqueArray(arr) {
+  return [...new Set(arr)];
+}
