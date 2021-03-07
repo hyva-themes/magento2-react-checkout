@@ -8,7 +8,6 @@ import ToggleBox from '../../Common/ToggleBox';
 import TextInput from '../../Common/Form/TextInput';
 import Card from '../../Common/Card';
 import useAppContext from '../../../hook/useAppContext';
-import { _objToArray } from '../../../utils';
 
 function AddressFields({ children, context, title }) {
   const { fields, handleFocus } = useContext(context);
@@ -16,9 +15,7 @@ function AddressFields({ children, context, title }) {
   const countrySelected = _get(values, fields.country);
   const regionField = fields.region;
   const stateSelected = _get(values, regionField);
-  const [
-    { countryList, stateList, customerAddressList, isLoggedIn },
-  ] = useAppContext();
+  const [{ countryList, stateList }] = useAppContext();
 
   // whenever the country is swiched, we need to clear the state input
   useEffect(() => {
@@ -52,44 +49,6 @@ function AddressFields({ children, context, title }) {
       })),
     [stateList, countrySelected]
   );
-
-  const customerAddrOptions = useMemo(
-    () =>
-      _objToArray(customerAddressList).map(addr => ({
-        value: addr.id,
-        label: [
-          _get(addr, 'fullName', ''),
-          ...(_get(addr, 'street', []) || []),
-          _get(addr, 'city', ''),
-          _get(addr, 'regionLabel', ''),
-          _get(addr, 'countryCode', ''),
-          addr.zipcode ? `pin: ${addr.zipcode}` : '',
-        ].join(', '),
-      })),
-    [customerAddressList]
-  );
-
-  if (isLoggedIn) {
-    return (
-      <Card bg="dark">
-        <ToggleBox title={title} show>
-          <div className="py-2">
-            <SelectInput
-              label="Pick your address from book"
-              name="customerAddress"
-              options={customerAddrOptions}
-              onFocus={handleFocus}
-            />
-          </div>
-          <div className="py-2">
-            <span className="flex items-center justify-center text-sm underline">
-              No, I want to ship to a new address
-            </span>
-          </div>
-        </ToggleBox>
-      </Card>
-    );
-  }
 
   return (
     <Card bg="dark">

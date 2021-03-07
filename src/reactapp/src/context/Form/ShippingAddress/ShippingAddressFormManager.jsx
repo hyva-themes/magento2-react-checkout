@@ -9,31 +9,23 @@ import {
 } from 'yup';
 
 import ShippingAddressFormContext from './ShippingAddressFormContext';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
-import {
-  getFirstItemFromShippingAddrList,
-  getFirstItemIdFromShippingAddrList,
-  isCartHoldingShippingAddress,
-} from '../../../utils/address';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _makePromise, _toString } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
+import {
+  getFirstItemIdFromShippingAddrList,
+  isCartHoldingShippingAddress,
+  shippingAddressFormInitValues,
+  prepareFormAddressFromAddressListById,
+  prepareCartAddressWithId,
+} from '../../../utils/address';
 
-const initialValues = {
-  company: '',
-  firstname: '',
-  lastname: '',
-  street: [''],
-  phone: '',
-  zipcode: '',
-  city: '',
-  region: '',
-  country: '',
-  isSameAsShipping: true,
-  selectedAddress: '',
+export const initialValues = {
+  ...shippingAddressFormInitValues,
 };
 
 const requiredMessage = '%1 is required';
@@ -138,32 +130,26 @@ function ShippingAddressFormManager({ children }) {
   // side effect to set the selected shipping address for the intitial time
   // in different occasions
   useEffect(() => {
-    let addressIdTobeSelected;
-    const cartContainsShippingAddr = isCartHoldingShippingAddress(cartInfo);
+    let addressId;
+    const cartHoldsShippingAddr = isCartHoldingShippingAddress(cartInfo);
 
     // guest checkout; cart contains an address; then, set address id as selected.
-    if (!isLoggedIn && cartContainsShippingAddr) {
-      addressIdTobeSelected = getFirstItemIdFromShippingAddrList(
-        shippingAddressList
-      );
+    if (!isLoggedIn && cartHoldsShippingAddr) {
+      addressId = getFirstItemIdFromShippingAddrList(shippingAddressList);
     }
     // customer checkout; no cart address present; customer has a default shipping
     // address, then, set the default shipping address as selected.
-    else if (
-      isLoggedIn &&
-      !cartContainsShippingAddr &&
-      defaultShippingAddress
-    ) {
-      addressIdTobeSelected = defaultShippingAddress;
+    else if (isLoggedIn && !cartHoldsShippingAddr && defaultShippingAddress) {
+      addressId = defaultShippingAddress;
     }
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
-    else if (isLoggedIn && cartContainsShippingAddr && !selectedAddressId) {
-      addressIdTobeSelected = 'new';
+    else if (isLoggedIn && cartHoldsShippingAddr && !selectedAddressId) {
+      addressId = 'new';
     }
 
-    if (addressIdTobeSelected) {
-      setCartSelectedShippingAddress(_toString(addressIdTobeSelected));
+    if (addressId) {
+      setCartSelectedShippingAddress(_toString(addressId));
     }
   }, [
     cartInfo,
@@ -176,35 +162,32 @@ function ShippingAddressFormManager({ children }) {
 
   // side effect setting shipping_address fields in different occasions.
   useEffect(() => {
+    let newAddress;
     // guest checkout; cart contains an address; then, set formik fields
-    // with cart address
-    if (!isLoggedIn && selectedAddressId) {
-      setFieldValue(SHIPPING_ADDR_FORM, {
-        ...initialValues,
-        ..._get(shippingAddressList, selectedAddressId, {}),
-        selectedAddress: selectedAddressId,
-      });
-      setFormEditMode(false);
-    }
-
+    // with cart address.
     // customer checkout; cart contains an address; if the cart address is "new",
     // then use cart address itself to fill out the formik fields.
-    // if cart address is not "new", then the address must be any of the customer
-    // address; so pick that address and fill out the formik fields.
-    if (isLoggedIn && selectedAddressId) {
-      if (selectedAddressId === 'new') {
-        setFieldValue(SHIPPING_ADDR_FORM, {
-          ...initialValues,
-          ...getFirstItemFromShippingAddrList(shippingAddressList),
-          selectedAddress: selectedAddressId,
-        });
-      } else {
-        setFieldValue(SHIPPING_ADDR_FORM, {
-          ...initialValues,
-          ..._get(customerAddressList, selectedAddressId, {}),
-          selectedAddress: selectedAddressId,
-        });
-      }
+    if (
+      (!isLoggedIn && selectedAddressId) ||
+      (isLoggedIn && selectedAddressId === 'new')
+    ) {
+      newAddress = prepareFormAddressFromAddressListById(
+        shippingAddressList,
+        selectedAddressId
+      );
+    }
+    // customer checkout; cart contains an address;if cart address is not "new",
+    // then the address must be any of the customer address;
+    // so pick that address and fill out the formik fields.
+    if (isLoggedIn && selectedAddressId && selectedAddressId !== 'new') {
+      newAddress = prepareFormAddressFromAddressListById(
+        customerAddressList,
+        selectedAddressId
+      );
+    }
+
+    if (newAddress) {
+      setFieldValue(SHIPPING_ADDR_FORM, newAddress);
       setFormEditMode(false);
     }
   }, [
@@ -279,20 +262,12 @@ function ShippingAddressFormManager({ children }) {
     }
 
     if (!isLoggedIn && selectedAddressId) {
-      return {
-        [selectedAddressId]: {
-          id: selectedAddressId,
-          ...getFirstItemFromShippingAddrList(shippingAddressList),
-        },
-      };
+      return prepareCartAddressWithId(shippingAddressList, selectedAddressId);
     }
 
     if (isLoggedIn && selectedAddressId === 'new') {
       return {
-        new: {
-          id: 'new',
-          ...getFirstItemFromShippingAddrList(shippingAddressList),
-        },
+        ...prepareCartAddressWithId(shippingAddressList, selectedAddressId),
         ...customerAddressList,
       };
     }

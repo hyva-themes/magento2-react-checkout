@@ -24,3 +24,9 @@ export function _makePromise(asyncFunc, ...params) {
 export function _toString(value) {
   return (value || '').toString();
 }
+
+export function _cleanObjByKeys(obj, keys = []) {
+  const newObj = { ...obj };
+  keys.forEach(key => delete newObj[key]);
+  return newObj;
+}

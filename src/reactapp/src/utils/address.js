@@ -1,6 +1,27 @@
 import _get from 'lodash.get';
 
-import { _isArrayEmpty, _isObjEmpty, _keys, _objToArray } from './index';
+import {
+  _cleanObjByKeys,
+  _isArrayEmpty,
+  _isObjEmpty,
+  _keys,
+  _objToArray,
+  _toString,
+} from './index';
+
+export const shippingAddressFormInitValues = {
+  company: '',
+  firstname: '',
+  lastname: '',
+  street: [''],
+  phone: '',
+  zipcode: '',
+  city: '',
+  region: '',
+  country: '',
+  isSameAsShipping: true,
+  selectedAddress: '',
+};
 
 export function modifyAddrObjListToArrayList(addressList) {
   const newList = _objToArray(addressList).map(addr => {
@@ -16,7 +37,7 @@ export function modifyAddrObjListToArrayList(addressList) {
       company = '',
     } = addr;
     return {
-      id: (id || '').toString(),
+      id: _toString(id),
       address: [
         fullName,
         company,
@@ -69,4 +90,44 @@ export function getFirstItemIdFromShippingAddrList(addressList) {
   const addressIds = _keys(addressList);
 
   return _isArrayEmpty(addressIds) ? '' : addressIds[0];
+}
+
+export function prepareFormAddressFromAddressListById(
+  shippingAddressList,
+  selectedAddressId
+) {
+  const address = _get(shippingAddressList, selectedAddressId, {});
+  const { countryCode, regionCode } = address;
+
+  if (countryCode) {
+    address.country = countryCode;
+  }
+  if (regionCode) {
+    address.region = regionCode;
+  }
+
+  const keysToRemove = [
+    'countryCode',
+    'fullName',
+    'isDefaultBilling',
+    'isDefaultShipping',
+    'middlename',
+    'regionCode',
+    'regionLabel',
+  ];
+
+  return {
+    ...shippingAddressFormInitValues,
+    ..._cleanObjByKeys(address, keysToRemove),
+    selectedAddress: selectedAddressId,
+  };
+}
+
+export function prepareCartAddressWithId(addressList, addressId) {
+  return {
+    [addressId]: {
+      id: addressId,
+      ...getFirstItemFromShippingAddrList(addressList),
+    },
+  };
 }
