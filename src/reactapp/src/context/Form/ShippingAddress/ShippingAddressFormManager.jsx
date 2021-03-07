@@ -15,13 +15,13 @@ import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartCo
 import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _makePromise, _toString } from '../../../utils';
-import LocalStorage from '../../../utils/localStorage';
 import {
   getFirstItemIdFromShippingAddrList,
   isCartHoldingShippingAddress,
   shippingAddressFormInitValues,
   prepareFormAddressFromAddressListById,
   prepareCartAddressWithId,
+  saveCustomerAddressToLocalStorage,
 } from '../../../utils/address';
 
 export const initialValues = {
@@ -49,6 +49,8 @@ const validationSchema = {
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 const selectedShippingAddrField = `${SHIPPING_ADDR_FORM}.selectedAddress`;
+const shippingAddrRegionField = `${SHIPPING_ADDR_FORM}.region`;
+const shippingAddrCountryField = `${SHIPPING_ADDR_FORM}.country`;
 
 function ShippingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
@@ -56,10 +58,12 @@ function ShippingAddressFormManager({ children }) {
   const selectedAddressValue = _get(values, selectedShippingAddrField);
   const {
     isLoggedIn,
+    stateList,
     defaultShippingAddress,
     customerAddressList,
     setPageLoader,
     setSuccessMessage,
+    updateCustomerAddress,
   } = useShippingAddrAppContext();
   const {
     cartInfo,
@@ -71,6 +75,11 @@ function ShippingAddressFormManager({ children }) {
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddrCartContext();
+  const shippingRegion = _get(values, shippingAddrRegionField);
+  const shippingCountry = _get(values, shippingAddrCountryField);
+  const stateInfo = _get(stateList, `${shippingCountry}`, []).find(
+    s => s.code === shippingRegion
+  );
 
   const formSubmit = useCallback(
     async (formValues, customerAddressId) => {
@@ -131,6 +140,42 @@ function ShippingAddressFormManager({ children }) {
     setFieldValue(SHIPPING_ADDR_FORM, { ...shippingAddressFormInitValues });
   }, [setFieldValue]);
 
+  const saveAddressHandler = useCallback(
+    async formikValues => {
+      try {
+        let promise1 = () => {};
+        const promise2 = _makePromise(formSubmit, formikValues);
+        if (
+          isLoggedIn &&
+          selectedAddressId &&
+          selectedAddressId !== 'new' &&
+          editMode
+        ) {
+          promise1 = _makePromise(
+            updateCustomerAddress,
+            selectedAddressId,
+            _get(formikValues, SHIPPING_ADDR_FORM, {}),
+            stateInfo
+          );
+        }
+
+        await Promise.all([promise1(), promise2()]);
+        setSuccessMessage('Shipping address updated successfully.');
+      } catch (error) {
+        console.log({ error });
+      }
+    },
+    [
+      formSubmit,
+      isLoggedIn,
+      selectedAddressId,
+      editMode,
+      updateCustomerAddress,
+      setSuccessMessage,
+      stateInfo,
+    ]
+  );
+
   // side effect to set the selected shipping address for the intitial time
   // in different occasions
   useEffect(() => {
@@ -179,7 +224,6 @@ function ShippingAddressFormManager({ children }) {
     // customer checkout; cart contains an address; if the cart address is "new",
     // then use cart address itself to fill out the formik fields.
     if ((!isLoggedIn && selectedAddressId) || (isLoggedIn && isNewAddress)) {
-      console.log('1111');
       newAddress = prepareFormAddressFromAddressListById(
         shippingAddressList,
         selectedAddressId
@@ -189,7 +233,6 @@ function ShippingAddressFormManager({ children }) {
     // then the address must be any of the customer address;
     // so pick that address and fill out the formik fields.
     if (isLoggedIn && selectedAddressId && !isNewAddress) {
-      console.log('2222');
       newAddress = prepareFormAddressFromAddressListById(
         customerAddressList,
         selectedAddressId
@@ -197,8 +240,6 @@ function ShippingAddressFormManager({ children }) {
     }
 
     if (newAddress) {
-      console.log({ newAddress });
-
       setFieldValue(SHIPPING_ADDR_FORM, newAddress);
       setFormEditMode(false);
     }
@@ -230,10 +271,12 @@ function ShippingAddressFormManager({ children }) {
 
       // if address is new, then submit it with formik values; else use customer
       // address id to update the cart address
-      if (selectedAddressValue === 'new' && !editMode) {
-        updateAddress = _makePromise(formSubmit, values);
-      } else if (!editMode) {
+      if (!editMode) {
         updateAddress = _makePromise(formSubmit, values, selectedAddressValue);
+
+        if (selectedAddressValue === 'new') {
+          updateAddress = _makePromise(formSubmit, values);
+        }
       }
 
       // performing the real cart address update
@@ -245,12 +288,10 @@ function ShippingAddressFormManager({ children }) {
           // need to update local storage values of customer address id opted.
           // because there is no other way to understand the opted customer
           // address id from the cart address details.
-          LocalStorage.saveBillingSameAsShipping(isBillingSame);
-          LocalStorage.saveCustomerShippingAddressId(selectedAddressValue);
-
-          if (isBillingSame) {
-            LocalStorage.saveCustomerBillingAddressId(selectedAddressValue);
-          }
+          saveCustomerAddressToLocalStorage(
+            selectedAddressValue,
+            isBillingSame
+          );
         } catch (error) {
           console.log({ error });
         }
@@ -303,6 +344,7 @@ function ShippingAddressFormManager({ children }) {
         setFormToEditMode,
         setFormEditMode,
         resetShippingAddressFormFields,
+        saveAddressHandler,
       }}
     >
       <Form>{children}</Form>

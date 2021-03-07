@@ -17,6 +17,7 @@ import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
+import updateCustomerAddress from './customer/updateCustomerAddress';
 
 export const isResponseError = isError;
 
@@ -25,6 +26,8 @@ export const generateCustomerToken = generateToken;
 export const fetchCustomerInfoRequest = fetchCustomerInfo;
 
 export const fetchCustomerAddressListRequest = fetchCustomerAddressList;
+
+export const updateCustomerAddressRequest = updateCustomerAddress;
 
 export const setEmailOnGuestCartRequest = setEmailOnGuestCart;
 

@@ -28,6 +28,7 @@ function ShippingAddress() {
     editMode,
     setFormToEditMode,
     setFormEditMode,
+    saveAddressHandler,
   } = useShippingAddressContext();
 
   const cancelAddressEditHandler = useCallback(() => {
@@ -62,7 +63,7 @@ function ShippingAddress() {
               cancel
             </Button>
             <Button
-              click={() => submitHandler(values)}
+              click={() => saveAddressHandler(values)}
               variant="success"
               disable={!isFormValid}
             >

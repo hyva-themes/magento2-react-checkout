@@ -4,13 +4,19 @@ import {
   fetchCustomerAddressListRequest,
   fetchCustomerInfoRequest,
   generateCustomerToken,
+  updateCustomerAddressRequest,
 } from '../../../api';
+import { _cleanObjByKeys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import {
   setErrroMessageAction,
   setSuccessMessageAction,
 } from '../page/actions';
-import { SET_CUSTOMER_ADDRESS_INFO, SET_CUSTOMER_INFO } from './types';
+import {
+  SET_CUSTOMER_ADDRESS_INFO,
+  SET_CUSTOMER_INFO,
+  UPDATE_CUSTOMER_ADDRESS,
+} from './types';
 
 export async function sigInCustomerAction(dispatch, userCredentials) {
   try {
@@ -59,4 +65,53 @@ export async function getCustomerAddressListAction(dispatch) {
   }
 
   return {};
+}
+
+export async function updateCustomerAddressAction(
+  dispatch,
+  addressId,
+  customerAddress,
+  stateInfo
+) {
+  try {
+    const address = { ...customerAddress };
+    const { country, phone, region, zipcode } = customerAddress;
+
+    if (country) {
+      address.country_code = country;
+    }
+    if (phone) {
+      address.telephone = phone;
+    }
+    if (region) {
+      address.region = {
+        region_code: region,
+        region_id: _get(stateInfo, 'id'),
+        region: _get(stateInfo, 'code'),
+      };
+    }
+    if (zipcode) {
+      address.postcode = zipcode;
+    }
+    const keysToRemove = [
+      'country',
+      'id',
+      'isSameAsShipping',
+      'phone',
+      'selectedAddress',
+      'zipcode',
+    ];
+
+    const customerAddressInfo = await updateCustomerAddressRequest(
+      addressId,
+      _cleanObjByKeys(address, keysToRemove)
+    );
+
+    dispatch({
+      type: UPDATE_CUSTOMER_ADDRESS,
+      payload: customerAddressInfo,
+    });
+  } catch (error) {
+    console.log('updateCustomerAddressAction', { error });
+  }
 }

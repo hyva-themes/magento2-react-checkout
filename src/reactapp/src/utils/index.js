@@ -30,3 +30,7 @@ export function _cleanObjByKeys(obj, keys = []) {
   keys.forEach(key => delete newObj[key]);
   return newObj;
 }
+
+export function _emptyFunc() {
+  return () => {};
+}

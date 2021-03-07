@@ -8,6 +8,7 @@ import {
   _objToArray,
   _toString,
 } from './index';
+import LocalStorage from './localStorage';
 
 export const shippingAddressFormInitValues = {
   company: '',
@@ -96,7 +97,7 @@ export function prepareFormAddressFromAddressListById(
   shippingAddressList,
   selectedAddressId
 ) {
-  const address = _get(shippingAddressList, selectedAddressId, {});
+  const address = { ..._get(shippingAddressList, selectedAddressId, {}) };
   const { countryCode, regionCode } = address;
 
   if (countryCode) {
@@ -130,4 +131,13 @@ export function prepareCartAddressWithId(addressList, addressId) {
       ...getFirstItemFromShippingAddrList(addressList),
     },
   };
+}
+
+export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
+  LocalStorage.saveBillingSameAsShipping(isBillingSame);
+  LocalStorage.saveCustomerShippingAddressId(addressId);
+
+  if (isBillingSame) {
+    LocalStorage.saveCustomerBillingAddressId(addressId);
+  }
 }
