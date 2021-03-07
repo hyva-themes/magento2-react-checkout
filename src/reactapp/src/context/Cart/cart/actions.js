@@ -7,7 +7,7 @@ import {
   fetchGuestCartRequest,
   mergeCartsRequest,
 } from '../../../api';
-import { _makePromise } from '../../../utils';
+import { _emptyFunc, _makePromise } from '../../../utils';
 import { setCustomerAddrAsShippingAddrAction } from '../shippingAddress/actions';
 import { setCustomerAddrAsBillingAddrAction } from '../billingAddress/actions';
 import {
@@ -98,8 +98,9 @@ export async function setCustomerDefaultAddressToCartAction(
   cartInfo
 ) {
   try {
-    const promises = [];
     let customerAddressInfo;
+    let shippingAddrPromise = _emptyFunc();
+    let billingAddrPromise = _emptyFunc();
 
     // if empty, that indicates there is no shipping address for the cart
     if (!isCartHoldingShippingAddress(cartInfo)) {
@@ -107,13 +108,10 @@ export async function setCustomerDefaultAddressToCartAction(
       const { defaultShippingAddress } = customerAddressInfo;
 
       if (defaultShippingAddress) {
-        promises.push(
-          _makePromise(
-            setCustomerAddrAsShippingAddrAction(
-              dispatch,
-              defaultShippingAddress
-            )
-          )
+        shippingAddrPromise = _makePromise(
+          setCustomerAddrAsShippingAddrAction,
+          dispatch,
+          defaultShippingAddress
         );
       }
     }
@@ -126,17 +124,15 @@ export async function setCustomerDefaultAddressToCartAction(
       const { defaultBillingAddress } = customerAddressInfo;
 
       if (defaultBillingAddress) {
-        promises.push(
-          _makePromise(
-            setCustomerAddrAsBillingAddrAction(dispatch, defaultBillingAddress)
-          )
+        billingAddrPromise = _makePromise(
+          setCustomerAddrAsBillingAddrAction,
+          dispatch,
+          defaultBillingAddress
         );
       }
     }
 
-    if (promises.length) {
-      await Promise.all(promises);
-    }
+    await Promise.all([shippingAddrPromise(), billingAddrPromise()]);
   } catch (error) {
     // @todo show error message
     console.log({ error });
