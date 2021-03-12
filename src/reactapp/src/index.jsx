@@ -8,8 +8,6 @@ import StepProvider from './context/Form/Step/StepProvider';
 import CartDataProvider from './context/Cart/CartDataProvider';
 import AppDataProvider from './context/App/AppDataProvider';
 
-import './tailwind.output.css';
-
 function Checkout() {
   return (
     <AppDataProvider>

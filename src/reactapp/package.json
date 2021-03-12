@@ -28,18 +28,17 @@
   },
   "scripts": {
     "start": "npm-run-all build:tailwind --parallel app:start",
-    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "precommit": "lint-staged",
     "app:start": "react-app-rewired start",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "build:tailwind": "tailwindcss build src/asset/css/tailwind.css -o src/tailwind.output.css",
+    "build:tailwind": "tailwindcss build src/asset/css/tailwind.css -o public/tailwind.output.css",
     "prestart": "npm run build:tailwind",
     "prebuild": "npm run build:tailwind",
-    "minify": "npx csso src/tailwind.output.css --output public/styles.css",
-    "build-prod": "NODE_ENV=production npm run build && npm run minify && npm run output-success",
+    "minify": "npx csso public/tailwind.output.css --output public/styles.css",
+    "build": "NODE_ENV=production npm run build:tailwind && npm run minify && cp public/styles.css ../view/frontend/web/css/styles.css &&  npm run output-success",
     "output-success": "echo \"\\033[0;32mDone!\\033[0m\""
   },
   "lint-staged": {
