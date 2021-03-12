@@ -14,7 +14,7 @@ import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { _makePromise, _toString } from '../../../utils';
+import { _emptyFunc, _makePromise, _toString } from '../../../utils';
 import {
   getFirstItemIdFromShippingAddrList,
   isCartHoldingShippingAddress,
@@ -87,11 +87,11 @@ function ShippingAddressFormManager({ children }) {
         setPageLoader(true);
 
         const shippingAddressToSave = _get(formValues, SHIPPING_ADDR_FORM);
+        let updateBillingAddress = _emptyFunc();
         let updateShippingAddress = _makePromise(
           addCartShippingAddress,
           shippingAddressToSave
         );
-        let updateBillingAddress = () => {};
 
         if (customerAddressId) {
           updateShippingAddress = _makePromise(
@@ -143,15 +143,15 @@ function ShippingAddressFormManager({ children }) {
   const saveAddressHandler = useCallback(
     async formikValues => {
       try {
-        let promise1 = () => {};
-        const promise2 = _makePromise(formSubmit, formikValues);
+        let updateCustomerAddrPromise = _emptyFunc();
+        const updateCartAddressPromise = _makePromise(formSubmit, formikValues);
         if (
           isLoggedIn &&
           selectedAddressId &&
           selectedAddressId !== 'new' &&
           editMode
         ) {
-          promise1 = _makePromise(
+          updateCustomerAddrPromise = _makePromise(
             updateCustomerAddress,
             selectedAddressId,
             _get(formikValues, SHIPPING_ADDR_FORM, {}),
@@ -159,7 +159,11 @@ function ShippingAddressFormManager({ children }) {
           );
         }
 
-        await Promise.all([promise1(), promise2()]);
+        await Promise.all([
+          updateCustomerAddrPromise(),
+          updateCartAddressPromise(),
+        ]);
+
         setFormEditMode(false);
         setSuccessMessage('Shipping address updated successfully.');
       } catch (error) {
@@ -268,23 +272,27 @@ function ShippingAddressFormManager({ children }) {
       // very important to call this up ahead. else, will lead to infinite loop
       setCartSelectedShippingAddress(_toString(selectedAddressValue));
 
-      let updateAddress = () => {};
+      let updateAddressPromise = _emptyFunc();
       const isBillingSame = _get(values, isSameAsShippingField);
 
       // if address is new, then submit it with formik values; else use customer
       // address id to update the cart address
       if (!editMode) {
-        updateAddress = _makePromise(formSubmit, values, selectedAddressValue);
+        updateAddressPromise = _makePromise(
+          formSubmit,
+          values,
+          selectedAddressValue
+        );
 
         if (selectedAddressValue === 'new') {
-          updateAddress = _makePromise(formSubmit, values);
+          updateAddressPromise = _makePromise(formSubmit, values);
         }
       }
 
       // performing the real cart address update
       (async () => {
         try {
-          await Promise.all([updateAddress()]);
+          await Promise.all([updateAddressPromise()]);
           setSuccessMessage('Shipping address updated successfully');
 
           // need to update local storage values of customer address id opted.
