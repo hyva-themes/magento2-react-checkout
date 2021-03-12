@@ -30,10 +30,11 @@ function ShippingAddress() {
     setFormEditMode,
     saveAddressHandler,
   } = useShippingAddressContext();
+  const customerHasAddress =
+    !_isObjEmpty(customerAddressList) || !_isObjEmpty(shippingAddressList);
 
   const cancelAddressEditHandler = useCallback(() => {
     const shippingAddrId = LocalStorage.getCustomerShippingAddressId();
-    console.log({ shippingAddrId });
 
     if (shippingAddrId) {
       setCartSelectedShippingAddress(shippingAddrId);
@@ -41,7 +42,7 @@ function ShippingAddress() {
     setFormEditMode(false);
   }, [setFormEditMode, setCartSelectedShippingAddress]);
 
-  if (_isObjEmpty(customerAddressList) && _isObjEmpty(shippingAddressList)) {
+  if (isLoggedIn && !customerHasAddress) {
     return (
       <Card bg="dark" classes="opacity-75">
         <ToggleBox title="Shipping information" show>
