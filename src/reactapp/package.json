@@ -37,7 +37,10 @@
     "build-storybook": "build-storybook -s public",
     "build:tailwind": "tailwindcss build src/asset/css/tailwind.css -o src/tailwind.output.css",
     "prestart": "npm run build:tailwind",
-    "prebuild": "npm run build:tailwind"
+    "prebuild": "npm run build:tailwind",
+    "minify": "npx csso src/tailwind.output.css --output public/styles.css",
+    "build-prod": "NODE_ENV=production npm run build && npm run minify && npm run output-success",
+    "output-success": "echo \"\\033[0;32mDone!\\033[0m\""
   },
   "lint-staged": {
     "src/*.{js,jsx,json,scss,css,md}": [
