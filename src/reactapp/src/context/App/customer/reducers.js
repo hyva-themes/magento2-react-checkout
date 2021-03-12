@@ -11,3 +11,13 @@ export function setCustomerInfo(state, customerInfo) {
     ...customerInfo,
   };
 }
+
+export function updateCustomerAddressReducer(state, customerAddr) {
+  return {
+    ...state,
+    customerAddressList: {
+      ...state.customerAddressList,
+      ...customerAddr,
+    },
+  };
+}

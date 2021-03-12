@@ -14,3 +14,27 @@ export function _isObjEmpty(obj = {}) {
 export function _objToArray(obj) {
   return _keys(obj).map(key => obj[key]);
 }
+
+export function _makePromise(asyncFunc, ...params) {
+  return async () => {
+    await asyncFunc(...params);
+  };
+}
+
+export function _toString(value) {
+  return (value || '').toString();
+}
+
+export function _cleanObjByKeys(obj, keys = []) {
+  const newObj = { ...obj };
+  keys.forEach(key => delete newObj[key]);
+  return newObj;
+}
+
+export function _emptyFunc() {
+  return () => {};
+}
+
+export function _uniqueArray(arr) {
+  return [...new Set(arr)];
+}

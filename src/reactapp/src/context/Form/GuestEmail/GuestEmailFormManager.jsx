@@ -7,9 +7,10 @@ import { string as YupString, bool as YupBool } from 'yup';
 import GuestEmailFormContext from './GuestEmailFormContext';
 import { GUEST_EMAIL_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
-import useCartContext from '../../../hook/useCartContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useAppContext from '../../../hook/useAppContext';
+import useEmailCartContext from '../../../hook/cart/useEmailCartContext';
+import { isCartHoldingAddressInfo } from '../../../utils/address';
 
 const initialValues = {
   email: '',
@@ -41,14 +42,18 @@ const EMAIL_FIELD = 'email.email';
 
 function GuestEmailFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
-  const [, { signInCustomer, setPageLoader }] = useAppContext();
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const {
     cartId,
     cartEmail,
     setEmailOnGuestCart,
     getCartInfoAfterMerge,
-  } = useCartContext();
+    setCustomerDefaultAddressToCart,
+  } = useEmailCartContext();
+  const [
+    ,
+    { signInCustomer, setPageLoader, getCustomerAddressList },
+  ] = useAppContext();
 
   /**
    * Sign-in submit is handled here
@@ -72,7 +77,14 @@ function GuestEmailFormManager({ children }) {
           const isSignInSuccess = await signInCustomer(values);
 
           if (isSignInSuccess) {
-            await getCartInfoAfterMerge(cartId);
+            const cartInfo = await getCartInfoAfterMerge(cartId);
+
+            if (!isCartHoldingAddressInfo(cartInfo)) {
+              await getCustomerAddressList();
+              await setCustomerDefaultAddressToCart(cartInfo);
+            } else {
+              getCustomerAddressList();
+            }
           }
 
           setPageLoader(false);
@@ -89,6 +101,8 @@ function GuestEmailFormManager({ children }) {
       setPageLoader,
       signInCustomer,
       getCartInfoAfterMerge,
+      getCustomerAddressList,
+      setCustomerDefaultAddressToCart,
     ]
   );
 

@@ -3,6 +3,8 @@ import fetchGuestCart from './cart/fetchGuestCart';
 import mergeCarts from './cart/mergeCarts';
 import placeOrder from './cart/placeOrder';
 import setBillingAddress from './cart/setBillingAddress';
+import setCustomerAddressOnCartBilling from './cart/setCustomerAddressOnBilling';
+import setCustomerAddrOnShippingAddr from './cart/setCustomerAddrOnShippingAddr';
 import setEmailOnGuestCart from './cart/setEmailOnGuestCart';
 import setPaymentMethod from './cart/setPaymentMethod';
 import setShippingAddress from './cart/setShippingAddress';
@@ -15,6 +17,7 @@ import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
+import updateCustomerAddress from './customer/updateCustomerAddress';
 
 export const isResponseError = isError;
 
@@ -24,11 +27,17 @@ export const fetchCustomerInfoRequest = fetchCustomerInfo;
 
 export const fetchCustomerAddressListRequest = fetchCustomerAddressList;
 
+export const updateCustomerAddressRequest = updateCustomerAddress;
+
 export const setEmailOnGuestCartRequest = setEmailOnGuestCart;
 
 export const setShippingAddressRequest = setShippingAddress;
 
 export const setBillingAddressRequest = setBillingAddress;
+
+export const setCustomerAddrAsCartBillingAddrRequest = setCustomerAddressOnCartBilling;
+
+export const setCustomerAddrAsCartShippingAddrRequest = setCustomerAddrOnShippingAddr;
 
 export const fetchCountryStateListRequest = fetchCountryStateList;
 

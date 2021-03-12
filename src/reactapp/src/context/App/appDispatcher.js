@@ -12,6 +12,7 @@ import {
   getCustomerAddressListAction,
   getCustomerInfoAction,
   sigInCustomerAction,
+  updateCustomerAddressAction,
 } from './customer/actions';
 
 const dispatchMapper = {
@@ -24,6 +25,7 @@ const dispatchMapper = {
   setMessage: setMessageAction,
   getCustomerInfo: getCustomerInfoAction,
   getCustomerAddressList: getCustomerAddressListAction,
+  updateCustomerAddress: updateCustomerAddressAction,
 };
 
 export default function appDispatcher(dispatch) {

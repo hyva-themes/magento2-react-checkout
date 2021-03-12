@@ -10,12 +10,12 @@ import Card from '../../Common/Card';
 import useAppContext from '../../../hook/useAppContext';
 
 function AddressFields({ children, context, title }) {
-  const [{ countryList, stateList }] = useAppContext();
   const { fields, handleFocus } = useContext(context);
   const { values, setFieldValue } = useFormikContext();
   const countrySelected = _get(values, fields.country);
   const regionField = fields.region;
   const stateSelected = _get(values, regionField);
+  const [{ countryList, stateList }] = useAppContext();
 
   // whenever the country is swiched, we need to clear the state input
   useEffect(() => {
