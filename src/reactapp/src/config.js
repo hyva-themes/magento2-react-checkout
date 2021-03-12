@@ -15,12 +15,12 @@ const magentoDataSources = {
     customerShippingAddress: {
       storageKey: 'hyva-checkout-storage',
       value: 'customer.shipping_address_id',
-      timestamp: 'customer.data_id',
+      timestamp: 'cart.data_id',
     },
     customerBillingAddress: {
       storageKey: 'hyva-checkout-storage',
       value: 'customer.billing_address_id',
-      timestamp: 'customer.data_id',
+      timestamp: 'cart.data_id',
     },
     billingSameAsShipping: {
       storageKey: 'hyva-checkout-storage',
