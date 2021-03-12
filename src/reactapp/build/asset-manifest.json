@@ -1,13 +1,16 @@
 {
   "files": {
+    "main.css": "/static/css/main.1d91bb1d.css",
     "main.js": "/../../view/frontend/web/js/react-checkout.js",
     "main.js.map": "/../../view/frontend/web/js/react-checkout.js.map",
     "../../view/frontend/web/js/react-checkout.js.LICENSE.txt": "/../../view/frontend/web/js/react-checkout.js.LICENSE.txt",
     "index.html": "/index.html",
-    "precache-manifest.82422a8c3ec15dc880eaf2c28551ca7a.js": "/precache-manifest.82422a8c3ec15dc880eaf2c28551ca7a.js",
-    "service-worker.js": "/service-worker.js"
+    "precache-manifest.d86f3e2448bc65399e651678cc8c1c96.js": "/precache-manifest.d86f3e2448bc65399e651678cc8c1c96.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.1d91bb1d.css.map": "/static/css/main.1d91bb1d.css.map"
   },
   "entrypoints": [
+    "static/css/main.1d91bb1d.css",
     "../../view/frontend/web/js/react-checkout.js"
   ]
 }
