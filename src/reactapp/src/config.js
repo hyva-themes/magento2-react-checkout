@@ -13,17 +13,17 @@ const magentoDataSources = {
       timestamp: 'customer.data_id',
     },
     customerShippingAddress: {
-      storageKey: 'mage-cache-storage',
+      storageKey: 'hyva-checkout-storage',
       value: 'customer.shipping_address_id',
       timestamp: 'customer.data_id',
     },
     customerBillingAddress: {
-      storageKey: 'mage-cache-storage',
+      storageKey: 'hyva-checkout-storage',
       value: 'customer.billing_address_id',
       timestamp: 'customer.data_id',
     },
     billingSameAsShipping: {
-      storageKey: 'mage-cache-storage',
+      storageKey: 'hyva-checkout-storage',
       value: 'cart.is_billing_same_as_shipping',
       timestamp: 'cart.data_id',
     },
