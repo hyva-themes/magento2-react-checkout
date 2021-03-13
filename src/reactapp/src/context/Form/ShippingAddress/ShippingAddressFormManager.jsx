@@ -80,6 +80,7 @@ function ShippingAddressFormManager({ children }) {
   const stateInfo = _get(stateList, `${shippingCountry}`, []).find(
     s => s.code === shippingRegion
   );
+  const cartHasShippingAddress = isCartHoldingShippingAddress(cartInfo);
 
   const formSubmit = useCallback(
     async (formValues, customerAddressId) => {
@@ -186,34 +187,34 @@ function ShippingAddressFormManager({ children }) {
   // in different occasions
   useEffect(() => {
     let addressId;
-    const cartHoldsShippingAddr = isCartHoldingShippingAddress(cartInfo);
-
     // guest checkout; cart contains an address; then, set address id as selected.
-    if (!isLoggedIn && cartHoldsShippingAddr) {
-      addressId = getFirstItemIdFromShippingAddrList(shippingAddressList);
+    if (!isLoggedIn && cartHasShippingAddress) {
+      addressId = _toString(
+        getFirstItemIdFromShippingAddrList(shippingAddressList)
+      );
     }
     // customer checkout; no cart address present; customer has a default shipping
     // address, then, set the default shipping address as selected.
-    else if (isLoggedIn && !cartHoldsShippingAddr && defaultShippingAddress) {
-      addressId = defaultShippingAddress;
+    else if (isLoggedIn && !cartHasShippingAddress && defaultShippingAddress) {
+      addressId = _toString(defaultShippingAddress);
     }
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
     else if (
       isLoggedIn &&
-      cartHoldsShippingAddr &&
+      cartHasShippingAddress &&
       !selectedAddressId &&
       !editMode
     ) {
       addressId = 'new';
     }
 
-    if (addressId) {
-      setCartSelectedShippingAddress(_toString(addressId));
+    if (addressId && addressId !== selectedAddressId) {
+      setCartSelectedShippingAddress(addressId);
     }
   }, [
     editMode,
-    cartInfo,
+    cartHasShippingAddress,
     isLoggedIn,
     selectedAddressId,
     shippingAddressList,

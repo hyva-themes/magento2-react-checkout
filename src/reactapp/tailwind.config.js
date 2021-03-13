@@ -65,7 +65,6 @@ module.exports = {
   },
   plugins: [customFormsPlugin, customMinHeightPlugin],
   purge: {
-    enabled: true,
     content: [
       '../../../../../reactapp/src/**/*.jsx',
       '../../../templates/*.phtml',
