@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import _get from 'lodash.get';
 import { config } from '../../../config';
+import { prepareFullName } from '../../customer/utility';
 
 export function modifySelectedShippingMethod(addressList) {
   const addrWithShippingMethod = addressList.find(
@@ -54,38 +55,33 @@ export function modifyShippingMethods(addressList) {
 }
 
 export function modifyShippingAddressList(addressList) {
-  return addressList.reduce(
-    (
-      addressItems,
-      {
-        company,
-        firstname,
-        lastname,
-        street,
-        telephone: phone,
-        postcode: zipcode,
-        city,
-        country: { code: countryCode },
-        region: { code: regionCode },
-      },
-      index
-    ) => {
-      addressItems[`address_${index + 1}`] = {
-        company,
-        firstname,
-        lastname,
-        street,
-        phone,
-        zipcode,
-        city,
-        region: regionCode,
-        country: countryCode,
-      };
+  return addressList.reduce((addressItems, address, index) => {
+    const {
+      company,
+      firstname,
+      lastname,
+      street,
+      telephone: phone,
+      postcode: zipcode,
+      city,
+      country: { code: countryCode },
+      region: { code: regionCode },
+    } = address;
+    addressItems[`address_${index + 1}`] = {
+      company,
+      firstname,
+      lastname,
+      fullName: prepareFullName(address),
+      street,
+      phone,
+      zipcode,
+      city,
+      region: regionCode,
+      country: countryCode,
+    };
 
-      return addressItems;
-    },
-    {}
-  );
+    return addressItems;
+  }, {});
 }
 
 export default function setShippingAddressModifier(result) {

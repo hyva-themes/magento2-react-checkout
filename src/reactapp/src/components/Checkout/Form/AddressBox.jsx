@@ -8,8 +8,10 @@ import { modifyAddrObjListToArrayList } from '../../../utils/address';
 import { _toString } from '../../../utils';
 import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
+import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
 
 function AddressBox() {
+  const { isLoggedIn } = useShippingAddrAppContext();
   const {
     selectedAddressId,
     setCartSelectedShippingAddress,
@@ -40,7 +42,7 @@ function AddressBox() {
           className="text-sm underline cursor-pointer"
           onClick={newAddressClickHandler}
         >
-          Create a new address
+          {isLoggedIn ? 'Create a new address' : 'Use another address'}
         </span>
       </div>
       <div className="flex items-center justify-center my-2 italic font-semibold">

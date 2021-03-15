@@ -26,12 +26,12 @@ function ShippingAddress() {
     isFormValid,
     submitHandler,
     editMode,
-    setFormToEditMode,
     setFormEditMode,
     saveAddressHandler,
   } = useShippingAddressContext();
+  const cartHasShippingAddress = !_isObjEmpty(shippingAddressList);
   const customerHasAddress =
-    !_isObjEmpty(customerAddressList) || !_isObjEmpty(shippingAddressList);
+    !_isObjEmpty(customerAddressList) || cartHasShippingAddress;
 
   const cancelAddressEditHandler = useCallback(() => {
     const shippingAddrId = LocalStorage.getCustomerShippingAddressId();
@@ -58,7 +58,7 @@ function ShippingAddress() {
         title="Shipping information"
         context={ShippingAddressFormContext}
       >
-        {isLoggedIn ? (
+        {isLoggedIn || (!isLoggedIn && cartHasShippingAddress) ? (
           <div className="flex items-center justify-around mt-2">
             <Button click={cancelAddressEditHandler} variant="warning">
               cancel
@@ -92,14 +92,6 @@ function ShippingAddress() {
         <div className="py-2">
           <AddressBox address={shippingAddress} />
         </div>
-
-        {!isLoggedIn && (
-          <div className="flex items-center justify-center mt-2">
-            <Button click={setFormToEditMode} variant="warning">
-              edit
-            </Button>
-          </div>
-        )}
       </ToggleBox>
     </Card>
   );
