@@ -12,7 +12,7 @@ import ShippingAddressFormContext from './ShippingAddressFormContext';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
-import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
+import useShippingAddrAppContext from '../../../hook/app/useShippingAddrAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _emptyFunc, _makePromise, _toString } from '../../../utils';
 import {

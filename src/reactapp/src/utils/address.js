@@ -141,3 +141,11 @@ export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
     LocalStorage.saveCustomerBillingAddressId(addressId);
   }
 }
+
+export function isCartBillingAddressValid(cartBillingAddress) {
+  return (
+    cartBillingAddress &&
+    cartBillingAddress.firstname &&
+    cartBillingAddress.country
+  );
+}
