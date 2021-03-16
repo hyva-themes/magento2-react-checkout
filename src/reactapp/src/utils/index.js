@@ -16,9 +16,7 @@ export function _objToArray(obj) {
 }
 
 export function _makePromise(asyncFunc, ...params) {
-  return async () => {
-    await asyncFunc(...params);
-  };
+  return async () => asyncFunc(...params);
 }
 
 export function _toString(value) {

@@ -58,11 +58,16 @@ export async function createEmptyCart() {
 
 export async function mergeCarts(dispatch, cartIds) {
   try {
-    setCartInfoAction(dispatch, await mergeCartsRequest(cartIds));
+    const cartInfo = await mergeCartsRequest(cartIds);
+    setCartInfoAction(dispatch, cartInfo);
+
+    return cartInfo;
   } catch (error) {
     // @todo show error message
     console.log({ error });
   }
+
+  return {};
 }
 
 export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
@@ -85,12 +90,14 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
     }
 
     LocalStorage.saveCartId(customerCartId);
+
+    return cartInfo;
   } catch (error) {
     // @todo show error message
     console.log({ error });
   }
 
-  return cartInfo;
+  return {};
 }
 
 export async function setCustomerDefaultAddressToCartAction(

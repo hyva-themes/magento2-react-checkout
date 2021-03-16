@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -48,14 +48,13 @@ const validationSchema = {
 };
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
-const selectedShippingAddrField = `${SHIPPING_ADDR_FORM}.selectedAddress`;
 const shippingAddrRegionField = `${SHIPPING_ADDR_FORM}.region`;
 const shippingAddrCountryField = `${SHIPPING_ADDR_FORM}.country`;
 
 function ShippingAddressFormManager({ children }) {
+  const [forceOffEditMode, setForceOffEditMode] = useState(false);
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { values, setFieldValue } = useFormikContext();
-  const selectedAddressValue = _get(values, selectedShippingAddrField);
   const {
     isLoggedIn,
     stateList,
@@ -183,6 +182,60 @@ function ShippingAddressFormManager({ children }) {
     ]
   );
 
+  /**
+   * Setting customer address to the cart address when user opt out the address
+   */
+  const performCustomerAddressSwitching = useCallback(
+    async (addressId, formikValues) => {
+      if (isLoggedIn && _toString(addressId) !== _toString(selectedAddressId)) {
+        let updateAddressPromise = _emptyFunc();
+        const isBillingSame = _get(formikValues, isSameAsShippingField);
+
+        // if address is new, then submit it with formik values; else use customer
+        // address id to update the cart address
+        if (!editMode) {
+          updateAddressPromise = _makePromise(
+            formSubmit,
+            formikValues,
+            addressId
+          );
+
+          if (addressId === 'new') {
+            updateAddressPromise = _makePromise(formSubmit, formikValues);
+          }
+        }
+
+        try {
+          await Promise.all([updateAddressPromise()]);
+          setCartSelectedShippingAddress(_toString(addressId));
+          setSuccessMessage('Shipping address updated successfully');
+
+          // need to update local storage values of customer address id opted.
+          // because there is no other way to understand the opted customer
+          // address id from the cart address details.
+          saveCustomerAddressToLocalStorage(addressId, isBillingSame);
+        } catch (error) {
+          console.log({ error });
+        }
+      }
+    },
+    [
+      isLoggedIn,
+      selectedAddressId,
+      editMode,
+      formSubmit,
+      setSuccessMessage,
+      setCartSelectedShippingAddress,
+    ]
+  );
+
+  useEffect(() => {
+    if (cartHasShippingAddress && !forceOffEditMode) {
+      setFormEditMode(false);
+      setForceOffEditMode(true);
+    }
+  }, [cartHasShippingAddress, forceOffEditMode, setFormEditMode]);
+
   // side effect to set the selected shipping address for the intitial time
   // in different occasions
   useEffect(() => {
@@ -192,11 +245,13 @@ function ShippingAddressFormManager({ children }) {
       addressId = _toString(
         getFirstItemIdFromShippingAddrList(shippingAddressList)
       );
+      console.log('1111', addressId);
     }
     // customer checkout; no cart address present; customer has a default shipping
     // address, then, set the default shipping address as selected.
     else if (isLoggedIn && !cartHasShippingAddress && defaultShippingAddress) {
       addressId = _toString(defaultShippingAddress);
+      console.log('2222', addressId);
     }
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
@@ -207,6 +262,7 @@ function ShippingAddressFormManager({ children }) {
       !editMode
     ) {
       addressId = 'new';
+      console.log('3333', addressId);
     }
 
     if (addressId && addressId !== selectedAddressId) {
@@ -259,67 +315,6 @@ function ShippingAddressFormManager({ children }) {
     setFormEditMode,
   ]);
 
-  /**
-   * Side effect act as the address switching submission
-   * this effect will be triggered whenever the user changes shipping address
-   * from the available list
-   */
-  useEffect(() => {
-    if (
-      isLoggedIn &&
-      selectedAddressValue &&
-      _toString(selectedAddressValue) !== _toString(selectedAddressId)
-    ) {
-      // very important to call this up ahead. else, will lead to infinite loop
-      setCartSelectedShippingAddress(_toString(selectedAddressValue));
-
-      let updateAddressPromise = _emptyFunc();
-      const isBillingSame = _get(values, isSameAsShippingField);
-
-      // if address is new, then submit it with formik values; else use customer
-      // address id to update the cart address
-      if (!editMode) {
-        updateAddressPromise = _makePromise(
-          formSubmit,
-          values,
-          selectedAddressValue
-        );
-
-        if (selectedAddressValue === 'new') {
-          updateAddressPromise = _makePromise(formSubmit, values);
-        }
-      }
-
-      // performing the real cart address update
-      (async () => {
-        try {
-          await Promise.all([updateAddressPromise()]);
-          setSuccessMessage('Shipping address updated successfully');
-
-          // need to update local storage values of customer address id opted.
-          // because there is no other way to understand the opted customer
-          // address id from the cart address details.
-          saveCustomerAddressToLocalStorage(
-            selectedAddressValue,
-            isBillingSame
-          );
-        } catch (error) {
-          console.log({ error });
-        }
-      })();
-    }
-  }, [
-    isLoggedIn,
-    selectedAddressValue,
-    selectedAddressId,
-    values,
-    editMode,
-    customerAddressList,
-    formSubmit,
-    setSuccessMessage,
-    setCartSelectedShippingAddress,
-  ]);
-
   const addressList = useMemo(() => {
     if (!isLoggedIn && !selectedAddressId) {
       return {};
@@ -356,6 +351,7 @@ function ShippingAddressFormManager({ children }) {
         setFormEditMode,
         resetShippingAddressFormFields,
         saveAddressHandler,
+        performCustomerAddressSwitching,
       }}
     >
       <Form>{children}</Form>

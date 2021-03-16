@@ -72,9 +72,9 @@ function GuestEmailFormManager({ children }) {
       const isSignIn = _get(values, 'customerWantsToSignin');
 
       try {
-        if (isSignIn) {
-          setPageLoader(true);
+        setPageLoader(true);
 
+        if (isSignIn) {
           const isSignInSuccess = await signInCustomer(values);
 
           if (isSignInSuccess) {
@@ -93,16 +93,15 @@ function GuestEmailFormManager({ children }) {
 
             if (!isCartHoldingAddressInfo(cartInfo)) {
               await setCustomerDefaultAddressToCart(cartInfo);
-            } else {
-              getCustomerAddressList();
             }
           }
-
-          setPageLoader(false);
         } else {
           await setEmailOnGuestCart(emailFieldValue);
         }
+
+        setPageLoader(false);
       } catch (error) {
+        setPageLoader(false);
         console.log('GuestEmailFormManager', { error });
       }
     },

@@ -41,6 +41,7 @@ function AddressBox({
               name={fields.selectedAddress}
               checked={_toString(selectedAddressId) === id}
               value={id}
+              onChange={event => actions.addressSwitching(event)}
             />
           </li>
 
@@ -81,6 +82,7 @@ AddressBox.propTypes = {
   actions: shape({
     newAddressClick: func,
     editAddresClick: func,
+    addressSwitching: func,
   }),
 };
 
@@ -89,7 +91,11 @@ AddressBox.defaultProps = {
   fields: {},
   selectedAddressId: '',
   addressList: [],
-  actions: { newAddressClick: _emptyFunc(), editAddresClick: _emptyFunc() },
+  actions: {
+    newAddressClick: _emptyFunc(),
+    editAddresClick: _emptyFunc(),
+    addressSwitching: _emptyFunc(),
+  },
 };
 
 export default AddressBox;
