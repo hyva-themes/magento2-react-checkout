@@ -1,22 +1,20 @@
 import React, { useCallback } from 'react';
-import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import Button from '../../Common/Button';
 import Card from '../../Common/Card';
 import ToggleBox from '../../Common/ToggleBox';
 import AddressFields from './AddressFields';
-import AddressBox from './AddressBox';
+import ShippingAddressBox from './Shipping/ShippingAddressBox';
 import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
 import ShippingAddressFormContext from '../../../context/Form/ShippingAddress/ShippingAddressFormContext';
-import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
+import useShippingAddrAppContext from '../../../hook/app/useShippingAddrAppContext';
 import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
 import { _isObjEmpty } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 
 function ShippingAddress() {
   const { values } = useFormikContext();
-  const shippingAddress = _get(values, 'shipping_address', {});
   const { isLoggedIn, customerAddressList } = useShippingAddrAppContext();
   const {
     shippingAddressList,
@@ -27,7 +25,6 @@ function ShippingAddress() {
     submitHandler,
     editMode,
     setFormEditMode,
-    saveAddressHandler,
   } = useShippingAddressContext();
   const cartHasShippingAddress = !_isObjEmpty(shippingAddressList);
   const customerHasAddress =
@@ -53,6 +50,16 @@ function ShippingAddress() {
   }
 
   if (editMode) {
+    const saveButton = (
+      <Button
+        click={() => submitHandler(values)}
+        variant="success"
+        disable={!isFormValid}
+      >
+        save
+      </Button>
+    );
+
     return (
       <AddressFields
         title="Shipping information"
@@ -63,23 +70,11 @@ function ShippingAddress() {
             <Button click={cancelAddressEditHandler} variant="warning">
               cancel
             </Button>
-            <Button
-              click={() => saveAddressHandler(values)}
-              variant="success"
-              disable={!isFormValid}
-            >
-              save
-            </Button>
+            {saveButton}
           </div>
         ) : (
           <div className="flex items-center justify-center mt-2">
-            <Button
-              click={() => submitHandler(values)}
-              variant="success"
-              disable={!isFormValid}
-            >
-              save
-            </Button>
+            {saveButton}
           </div>
         )}
       </AddressFields>
@@ -90,7 +85,7 @@ function ShippingAddress() {
     <Card bg="dark">
       <ToggleBox title="Shipping information" show>
         <div className="py-2">
-          <AddressBox address={shippingAddress} />
+          <ShippingAddressBox />
         </div>
       </ToggleBox>
     </Card>

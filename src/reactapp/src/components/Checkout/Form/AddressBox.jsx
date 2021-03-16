@@ -1,54 +1,37 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useCallback } from 'react';
+import React from 'react';
+import { arrayOf, bool, func, object, shape, string } from 'prop-types';
 
-import RadioInput from '../../Common/Form/RadioInput/RadioInput';
 import Button from '../../Common/Button';
-import { modifyAddrObjListToArrayList } from '../../../utils/address';
-import { _toString } from '../../../utils';
-import useShippingAddressContext from '../../../hook/form/useShippingAddressContext';
-import useShippingAddrCartContext from '../../../hook/cart/useShippingAddrCartContext';
-import useShippingAddrAppContext from '../../../hook/cart/useShippingAddrAppContext';
+import RadioInput from '../../Common/Form/RadioInput/RadioInput';
+import { _emptyFunc, _toString } from '../../../utils';
 
-function AddressBox() {
-  const { isLoggedIn } = useShippingAddrAppContext();
-  const {
-    selectedAddressId,
-    setCartSelectedShippingAddress,
-  } = useShippingAddrCartContext();
-  const {
-    fields,
-    addressList,
-    setFormToEditMode,
-    resetShippingAddressFormFields,
-  } = useShippingAddressContext();
-
-  const customerAddresses = modifyAddrObjListToArrayList(addressList);
-
-  const newAddressClickHandler = useCallback(() => {
-    resetShippingAddressFormFields();
-    setFormToEditMode();
-    setCartSelectedShippingAddress('');
-  }, [
-    setFormToEditMode,
-    resetShippingAddressFormFields,
-    setCartSelectedShippingAddress,
-  ]);
-
+function AddressBox({
+  isLoggedIn,
+  addressList,
+  selectedAddressId,
+  fields,
+  actions,
+}) {
   return (
     <div className="mx-2 space-y-3">
-      <div className="flex items-center justify-center mt-2">
-        <span
-          className="text-sm underline cursor-pointer"
-          onClick={newAddressClickHandler}
-        >
-          {isLoggedIn ? 'Create a new address' : 'Use another address'}
-        </span>
-      </div>
-      <div className="flex items-center justify-center my-2 italic font-semibold">
-        OR
-      </div>
-      {customerAddresses.map(({ id, address }) => (
+      {isLoggedIn && (
+        <>
+          <div className="flex items-center justify-center mt-2">
+            <span
+              className="text-sm underline cursor-pointer"
+              onClick={() => actions.newAddressClick()}
+            >
+              Create a new address
+            </span>
+          </div>
+          <div className="flex items-center justify-center my-2 italic font-semibold">
+            OR
+          </div>
+        </>
+      )}
+      {addressList.map(({ id, address }) => (
         <ul
           key={id}
           className="px-4 pb-4 bg-white border-white rounded-md shadow-sm"
@@ -70,7 +53,10 @@ function AddressBox() {
           {_toString(selectedAddressId) === id && (
             <li>
               <div className="flex items-center justify-center mt-2">
-                <Button click={setFormToEditMode} variant="warning">
+                <Button
+                  click={() => actions.editAddresClick()}
+                  variant="warning"
+                >
                   edit
                 </Button>
               </div>
@@ -81,5 +67,29 @@ function AddressBox() {
     </div>
   );
 }
+
+AddressBox.propTypes = {
+  isLoggedIn: bool,
+  fields: object,
+  selectedAddressId: string,
+  addressList: arrayOf(
+    shape({
+      id: string,
+      address: arrayOf(string),
+    })
+  ),
+  actions: shape({
+    newAddressClick: func,
+    editAddresClick: func,
+  }),
+};
+
+AddressBox.defaultProps = {
+  isLoggedIn: false,
+  fields: {},
+  selectedAddressId: '',
+  addressList: [],
+  actions: { newAddressClick: _emptyFunc(), editAddresClick: _emptyFunc() },
+};
 
 export default AddressBox;

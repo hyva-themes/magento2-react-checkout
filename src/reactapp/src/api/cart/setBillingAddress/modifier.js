@@ -1,4 +1,5 @@
 import _get from 'lodash.get';
+import { prepareFullName } from '../../customer/utility';
 
 /**
  * @todo is billing address same as shipping address - this info is not available
@@ -22,6 +23,7 @@ export function modifyBillingAddressData(billingAddress) {
     company,
     firstname,
     lastname,
+    fullName: prepareFullName(billingAddress),
     street,
     phone,
     zipcode,

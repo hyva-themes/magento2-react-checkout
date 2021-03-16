@@ -11,6 +11,7 @@ import useFormEditMode from '../../../hook/useFormEditMode';
 import useAppContext from '../../../hook/useAppContext';
 import useEmailCartContext from '../../../hook/cart/useEmailCartContext';
 import { isCartHoldingAddressInfo } from '../../../utils/address';
+import { _makePromise } from '../../../utils';
 
 const initialValues = {
   email: '',
@@ -77,10 +78,20 @@ function GuestEmailFormManager({ children }) {
           const isSignInSuccess = await signInCustomer(values);
 
           if (isSignInSuccess) {
-            const cartInfo = await getCartInfoAfterMerge(cartId);
+            const mergeCartPromise = _makePromise(
+              getCartInfoAfterMerge,
+              cartId
+            );
+            const customerAddrListPromise = _makePromise(
+              getCustomerAddressList
+            );
+
+            const [cartInfo] = await Promise.all([
+              mergeCartPromise(),
+              customerAddrListPromise(),
+            ]);
 
             if (!isCartHoldingAddressInfo(cartInfo)) {
-              await getCustomerAddressList();
               await setCustomerDefaultAddressToCart(cartInfo);
             } else {
               getCustomerAddressList();

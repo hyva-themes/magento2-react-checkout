@@ -8,8 +8,9 @@ import BillingAddressFormContext from './BillingAddressFormContext';
 import { BILLING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import useAppContext from '../../../hook/useAppContext';
-import useCartContext from '../../../hook/useCartContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
+import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
+import { isCartBillingAddressValid } from '../../../utils/address';
 
 const initialValues = {
   company: '',
@@ -46,7 +47,10 @@ const validationSchema = {
 function BillingAddressFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const [, { setPageLoader }] = useAppContext();
-  const { cartBillingAddress, setCartBillingAddress } = useCartContext();
+  const {
+    cartBillingAddress,
+    setCartBillingAddress,
+  } = useBillingAddrCartContext();
   const { values, setFieldValue } = useFormikContext();
   const isSame = _get(values, `${BILLING_ADDR_FORM}.isSameAsShipping`);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
@@ -64,11 +68,7 @@ function BillingAddressFormManager({ children }) {
   ]);
 
   useEffect(() => {
-    if (
-      cartBillingAddress &&
-      cartBillingAddress.firstname &&
-      cartBillingAddress.country
-    ) {
+    if (isCartBillingAddressValid(cartBillingAddress)) {
       setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
       setFormEditMode(false);
     }
@@ -88,7 +88,7 @@ function BillingAddressFormManager({ children }) {
 
   return (
     <BillingAddressFormContext.Provider
-      value={{ ...context, editMode, setFormToEditMode }}
+      value={{ ...context, editMode, setFormToEditMode, setFormEditMode }}
     >
       <Form>{children}</Form>
     </BillingAddressFormContext.Provider>
