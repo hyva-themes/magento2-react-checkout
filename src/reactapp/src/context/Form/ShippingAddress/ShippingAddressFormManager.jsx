@@ -229,6 +229,8 @@ function ShippingAddressFormManager({ children }) {
     ]
   );
 
+  // when user sign-in, if the cart has shipping address, then we need to
+  // turn off edit mode of the address section
   useEffect(() => {
     if (cartHasShippingAddress && !forceOffEditMode) {
       setFormEditMode(false);
@@ -245,13 +247,11 @@ function ShippingAddressFormManager({ children }) {
       addressId = _toString(
         getFirstItemIdFromShippingAddrList(shippingAddressList)
       );
-      console.log('1111', addressId);
     }
     // customer checkout; no cart address present; customer has a default shipping
     // address, then, set the default shipping address as selected.
     else if (isLoggedIn && !cartHasShippingAddress && defaultShippingAddress) {
       addressId = _toString(defaultShippingAddress);
-      console.log('2222', addressId);
     }
     // customer checkout; cart contains an address; so the cart address is a new
     // address; hence set it to "new"
@@ -262,7 +262,6 @@ function ShippingAddressFormManager({ children }) {
       !editMode
     ) {
       addressId = 'new';
-      console.log('3333', addressId);
     }
 
     if (addressId && addressId !== selectedAddressId) {
