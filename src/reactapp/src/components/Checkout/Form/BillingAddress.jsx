@@ -6,46 +6,35 @@ import Card from '../../Common/Card';
 import Button from '../../Common/Button';
 import AddressFields from './AddressFields';
 import ToggleBox from '../../Common/ToggleBox';
-import Checkbox from '../../Common/Form/Checkbox';
 import BillingAddressBox from './Billing/BillingAddressBox';
+import BillingSameAsShippingCheckbox from './Billing/BillingSameAsShippingCheckbox';
 import { BILLING_ADDR_FORM } from '../../../config';
+import { isCartBillingAddressValid } from '../../../utils/address';
+import useBillingAddrAppContext from '../../../hook/app/useBillingAddrAppContext';
+import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
 import useBillingAddressContext, {
   BillingAddressFormContext,
 } from '../../../hook/form/useBillingAddressContext';
-import useBillingAddrAppContext from '../../../hook/app/useBillingAddrAppContext';
-import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
-import { isCartBillingAddressValid } from '../../../utils/address';
 
 function BillingAddress() {
   const { values } = useFormikContext();
   const billingAddress = _get(values, BILLING_ADDR_FORM, {});
   const {
     editMode,
-    fields,
     isBillingAddressSameAsShipping,
     isFormValid,
     submitHandler,
     setFormEditMode,
-    toggleBillingEqualsShippingState,
   } = useBillingAddressContext();
   const { isLoggedIn } = useBillingAddrAppContext();
   const { cartBillingAddress } = useBillingAddrCartContext();
   const hasAddress = isCartBillingAddressValid(cartBillingAddress);
 
-  const billingSameAsShippingCheckbox = (
-    <Checkbox
-      name={fields.isSameAsShipping}
-      label="My billing & shipping address are same"
-      isChecked={isBillingAddressSameAsShipping}
-      onChange={toggleBillingEqualsShippingState}
-    />
-  );
-
   if (isBillingAddressSameAsShipping) {
     return (
       <Card bg="dark">
         <ToggleBox title="Billing information" show>
-          {billingSameAsShippingCheckbox}
+          <BillingSameAsShippingCheckbox />
         </ToggleBox>
       </Card>
     );
@@ -63,7 +52,7 @@ function BillingAddress() {
             OR
           </div>
 
-          {billingSameAsShippingCheckbox}
+          <BillingSameAsShippingCheckbox />
         </ToggleBox>
       </Card>
     );
@@ -96,7 +85,7 @@ function BillingAddress() {
         OR
       </div>
 
-      {billingSameAsShippingCheckbox}
+      <BillingSameAsShippingCheckbox />
     </AddressFields>
   );
 }

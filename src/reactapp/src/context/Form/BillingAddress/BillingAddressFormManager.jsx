@@ -76,8 +76,20 @@ function BillingAddressFormManager({ children }) {
   }, [isSame, setFieldValue]);
 
   const resetBillingAddressFormFields = useCallback(() => {
-    setFieldValue(BILLING_ADDR_FORM, { ...initialValues });
+    setFieldValue(BILLING_ADDR_FORM, {
+      ...initialValues,
+      isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
+    });
   }, [setFieldValue]);
+
+  const mapCartBillingAddressToBillingForm = useCallback(() => {
+    if (isCartBillingAddressValid(cartBillingAddress)) {
+      setFieldValue(BILLING_ADDR_FORM, {
+        ...cartBillingAddress,
+        isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
+      });
+    }
+  }, [cartBillingAddress, setFieldValue]);
 
   useEffect(() => {
     if (isCartBillingAddressValid(cartBillingAddress)) {
@@ -95,22 +107,35 @@ function BillingAddressFormManager({ children }) {
 
   const actionsContext = useMemo(
     () => ({
-      toggleBillingEqualsShippingState,
       resetBillingAddressFormFields,
+      toggleBillingEqualsShippingState,
+      mapCartBillingAddressToBillingForm,
     }),
-    [toggleBillingEqualsShippingState, resetBillingAddressFormFields]
+    [
+      resetBillingAddressFormFields,
+      toggleBillingEqualsShippingState,
+      mapCartBillingAddressToBillingForm,
+    ]
+  );
+
+  const editContext = useMemo(
+    () => ({
+      editMode,
+      setFormToEditMode,
+      setFormEditMode,
+    }),
+    [editMode, setFormToEditMode, setFormEditMode]
   );
 
   const context = {
     ...formContext,
     ...actionsContext,
+    ...editContext,
     isBillingAddressSameAsShipping: isSame,
   };
 
   return (
-    <BillingAddressFormContext.Provider
-      value={{ ...context, editMode, setFormToEditMode, setFormEditMode }}
-    >
+    <BillingAddressFormContext.Provider value={{ ...context }}>
       <Form>{children}</Form>
     </BillingAddressFormContext.Provider>
   );

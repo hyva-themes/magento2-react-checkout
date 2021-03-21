@@ -12,6 +12,7 @@ function BillingAddressBox() {
     selectedAddressId,
     setFormToEditMode,
     resetBillingAddressFormFields,
+    mapCartBillingAddressToBillingForm,
   } = useBillingAddressContext();
   const { cartBillingAddress } = useBillingAddrCartContext();
   const { isLoggedIn } = useBillingAddrAppContext();
@@ -22,6 +23,11 @@ function BillingAddressBox() {
     setFormToEditMode();
   }, [setFormToEditMode, resetBillingAddressFormFields]);
 
+  const editAddressClickHandler = useCallback(() => {
+    mapCartBillingAddressToBillingForm();
+    setFormToEditMode();
+  }, [mapCartBillingAddressToBillingForm, setFormToEditMode]);
+
   return (
     <AddressBox
       fields={fields}
@@ -30,7 +36,7 @@ function BillingAddressBox() {
       addressList={addressList}
       actions={{
         newAddressClick: newAddressClickHandler,
-        editAddresClick: setFormToEditMode,
+        editAddresClick: editAddressClickHandler,
       }}
     />
   );
