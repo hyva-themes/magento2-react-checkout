@@ -1,11 +1,6 @@
 import _get from 'lodash.get';
 import { prepareFullName } from '../../customer/utility';
 
-/**
- * @todo is billing address same as shipping address - this info is not available
- * at the moment. this needs to be integrated by customizing magento graphql. Till
- * that time, we assume here billing address === shipping address here.
- */
 export function modifyBillingAddressData(billingAddress) {
   const {
     company = '',
@@ -30,7 +25,6 @@ export function modifyBillingAddressData(billingAddress) {
     city,
     region: regionCode,
     country: countryCode,
-    isSameAsShipping: true,
   };
 }
 
