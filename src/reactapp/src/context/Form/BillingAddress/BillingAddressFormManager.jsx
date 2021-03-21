@@ -7,11 +7,12 @@ import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 import BillingAddressFormContext from './BillingAddressFormContext';
 import { BILLING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
-import useAppContext from '../../../hook/useAppContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
 import { isCartBillingAddressValid } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
+import { _isObjEmpty, _keys } from '../../../utils';
+import useBillingAddrAppContext from '../../../hook/app/useBillingAddrAppContext';
 
 const initialValues = {
   company: '',
@@ -50,7 +51,11 @@ const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 function BillingAddressFormManager({ children }) {
   const { values, setFieldValue } = useFormikContext();
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
-  const [, { setPageLoader }] = useAppContext();
+  const {
+    isLoggedIn,
+    customerAddressList,
+    setPageLoader,
+  } = useBillingAddrAppContext();
   const {
     cartBillingAddress,
     setCartBillingAddress,
@@ -105,6 +110,44 @@ function BillingAddressFormManager({ children }) {
     submitHandler: formSubmit,
   });
 
+  const addressContext = useMemo(() => {
+    if (!isLoggedIn && !cartBillingAddress) {
+      return { selectedAddressId: null, addressList: {} };
+    }
+
+    // possible to have only cart billing address in the list
+    if (!isLoggedIn) {
+      return { selectedAddressId: 'new', addressList: { cartBillingAddress } };
+    }
+
+    const billingAddrInCache = LocalStorage.getCustomerShippingAddressId();
+
+    // logged-in case; there is billing address entry in local storage;
+    // so that means the selected billing address is any one of the customer
+    // address available. so passing customer addresses as the addressList
+    if (
+      billingAddrInCache &&
+      !_isObjEmpty(customerAddressList) &&
+      _keys(customerAddressList).includes(billingAddrInCache)
+    ) {
+      return {
+        selectedAddressId: billingAddrInCache,
+        addressList: { ...customerAddressList },
+      };
+    }
+
+    // logged-in default case; cart billing address (if any) is not
+    // any one of the customer addresses (if any). So passing both as address
+    // items;
+    return {
+      selectedAddressId: 'new',
+      addressList: {
+        new: cartBillingAddress || {},
+        ...customerAddressList,
+      },
+    };
+  }, [isLoggedIn, cartBillingAddress, customerAddressList]);
+
   const actionsContext = useMemo(
     () => ({
       resetBillingAddressFormFields,
@@ -131,6 +174,7 @@ function BillingAddressFormManager({ children }) {
     ...formContext,
     ...actionsContext,
     ...editContext,
+    ...addressContext,
     isBillingAddressSameAsShipping: isSame,
   };
 

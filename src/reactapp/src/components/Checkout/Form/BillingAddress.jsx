@@ -15,6 +15,7 @@ import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartCont
 import useBillingAddressContext, {
   BillingAddressFormContext,
 } from '../../../hook/form/useBillingAddressContext';
+import { _isObjEmpty } from '../../../utils';
 
 function BillingAddress() {
   const { values } = useFormikContext();
@@ -25,6 +26,7 @@ function BillingAddress() {
     isFormValid,
     submitHandler,
     setFormEditMode,
+    addressList,
   } = useBillingAddressContext();
   const { isLoggedIn } = useBillingAddrAppContext();
   const { cartBillingAddress } = useBillingAddrCartContext();
@@ -40,7 +42,7 @@ function BillingAddress() {
     );
   }
 
-  if (!editMode) {
+  if (!editMode && !_isObjEmpty(addressList)) {
     return (
       <Card bg="dark">
         <ToggleBox title="Billing information" show>

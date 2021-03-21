@@ -1,4 +1,6 @@
 import _get from 'lodash.get';
+
+import LocalStorage from '../../../utils/localStorage';
 import { prepareFullName } from '../../customer/utility';
 
 export function modifyBillingAddressData(billingAddress) {
@@ -25,6 +27,7 @@ export function modifyBillingAddressData(billingAddress) {
     city,
     region: regionCode,
     country: countryCode,
+    isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
   };
 }
 

@@ -34,6 +34,16 @@ const LocalStorage = {
     return _get(LocalStorage.getHyvaCheckoutStorage(), source.value);
   },
 
+  getCustomerBillingAddressId() {
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.customerBillingAddress',
+      {}
+    );
+
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value);
+  },
+
   getBillingSameAsShippingInfo() {
     const source = _get(
       config,
