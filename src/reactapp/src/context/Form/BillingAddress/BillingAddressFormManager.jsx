@@ -75,6 +75,10 @@ function BillingAddressFormManager({ children }) {
     LocalStorage.saveBillingSameAsShipping(!isSame);
   }, [isSame, setFieldValue]);
 
+  const resetBillingAddressFormFields = useCallback(() => {
+    setFieldValue(BILLING_ADDR_FORM, { ...initialValues });
+  }, [setFieldValue]);
+
   useEffect(() => {
     if (isCartBillingAddressValid(cartBillingAddress)) {
       setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
@@ -92,8 +96,9 @@ function BillingAddressFormManager({ children }) {
   const actionsContext = useMemo(
     () => ({
       toggleBillingEqualsShippingState,
+      resetBillingAddressFormFields,
     }),
-    [toggleBillingEqualsShippingState]
+    [toggleBillingEqualsShippingState, resetBillingAddressFormFields]
   );
 
   const context = {

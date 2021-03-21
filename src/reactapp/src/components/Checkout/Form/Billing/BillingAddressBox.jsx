@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import AddressBox from '../AddressBox';
-import { _emptyFunc } from '../../../../utils';
 import { modifyAddrObjListToArrayList } from '../../../../utils/address';
 import useBillingAddrAppContext from '../../../../hook/app/useBillingAddrAppContext';
 import useBillingAddrCartContext from '../../../../hook/cart/useBillingAddrCartContext';
@@ -12,11 +11,16 @@ function BillingAddressBox() {
     fields,
     selectedAddressId,
     setFormToEditMode,
+    resetBillingAddressFormFields,
   } = useBillingAddressContext();
   const { cartBillingAddress } = useBillingAddrCartContext();
   const { isLoggedIn } = useBillingAddrAppContext();
   const addressList = modifyAddrObjListToArrayList({ cartBillingAddress });
-  const newAddressClickHandler = _emptyFunc();
+
+  const newAddressClickHandler = useCallback(() => {
+    resetBillingAddressFormFields();
+    setFormToEditMode();
+  }, [setFormToEditMode, resetBillingAddressFormFields]);
 
   return (
     <AddressBox
