@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -11,6 +11,7 @@ import useAppContext from '../../../hook/useAppContext';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
 import { isCartBillingAddressValid } from '../../../utils/address';
+import LocalStorage from '../../../utils/localStorage';
 
 const initialValues = {
   company: '',
@@ -22,7 +23,7 @@ const initialValues = {
   city: '',
   region: '',
   country: '',
-  isSameAsShipping: true,
+  isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
 };
 
 const requiredMessage = '%1 is required';
@@ -44,16 +45,20 @@ const validationSchema = {
   isSameAsShipping: YupBool(),
 };
 
+const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
+
 function BillingAddressFormManager({ children }) {
+  const { values, setFieldValue } = useFormikContext();
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const [, { setPageLoader }] = useAppContext();
   const {
     cartBillingAddress,
     setCartBillingAddress,
   } = useBillingAddrCartContext();
-  const { values, setFieldValue } = useFormikContext();
-  const isSame = _get(values, `${BILLING_ADDR_FORM}.isSameAsShipping`);
+  const isSame = _get(values, isSameAsShippingField);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
+
+  console.log({ isSame })
 
   const formSubmit = useCallback(async () => {
     setPageLoader(true);
@@ -66,6 +71,12 @@ function BillingAddressFormManager({ children }) {
     setCartBillingAddress,
     setFormEditMode,
   ]);
+
+  const toggleBillingEqualsShippingState = useCallback((event) => {
+    console.log({ event})
+    setFieldValue(isSameAsShippingField, !isSame);
+    LocalStorage.saveBillingSameAsShipping(!isSame);
+  }, [isSame, setFieldValue]);
 
   useEffect(() => {
     if (isCartBillingAddressValid(cartBillingAddress)) {
@@ -81,8 +92,16 @@ function BillingAddressFormManager({ children }) {
     submitHandler: formSubmit,
   });
 
+  const actionsContext = useMemo(
+    () => ({
+      toggleBillingEqualsShippingState,
+    }),
+    [toggleBillingEqualsShippingState]
+  );
+
   const context = {
     ...formContext,
+    ...actionsContext,
     isBillingAddressSameAsShipping: isSame,
   };
 

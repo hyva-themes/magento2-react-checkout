@@ -26,20 +26,26 @@ function BillingAddress() {
     isFormValid,
     submitHandler,
     setFormEditMode,
+    toggleBillingEqualsShippingState,
   } = useBillingAddressContext();
   const { isLoggedIn } = useBillingAddrAppContext();
   const { cartBillingAddress } = useBillingAddrCartContext();
   const hasAddress = isCartBillingAddressValid(cartBillingAddress);
 
+  const billingSameAsShippingCheckbox = (
+    <Checkbox
+      name={fields.isSameAsShipping}
+      label="My billing & shipping address are same"
+      isChecked={isBillingAddressSameAsShipping}
+      onChange={toggleBillingEqualsShippingState}
+    />
+  );
+
   if (isBillingAddressSameAsShipping) {
     return (
       <Card bg="dark">
         <ToggleBox title="Billing information" show>
-          <Checkbox
-            name={fields.isSameAsShipping}
-            label="My billing & shipping address are same"
-            isChecked
-          />
+          {billingSameAsShippingCheckbox}
         </ToggleBox>
       </Card>
     );
@@ -57,10 +63,7 @@ function BillingAddress() {
             OR
           </div>
 
-          <Checkbox
-            name={fields.isSameAsShipping}
-            label="My billing & shipping address are same"
-          />
+          {billingSameAsShippingCheckbox}
         </ToggleBox>
       </Card>
     );
@@ -93,10 +96,7 @@ function BillingAddress() {
         OR
       </div>
 
-      <Checkbox
-        name={fields.isSameAsShipping}
-        label="My billing & shipping address are same"
-      />
+      {billingSameAsShippingCheckbox}
     </AddressFields>
   );
 }

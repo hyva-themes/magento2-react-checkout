@@ -1,6 +1,25 @@
 import { getConfigFromLocalStorage } from './utils/localStorageConfig';
 
+const hyvaCheckoutStorageKey = 'hyva-checkout-storage';
+
 const magentoDataSources = {
+  hyvaCheckoutCacheStorage: {
+    storageKey: hyvaCheckoutStorageKey,
+    data: {
+      customerShippingAddress: {
+        value: 'customer.shipping_address_id',
+        timestamp: 'cart.data_id',
+      },
+      customerBillingAddress: {
+        value: 'customer.billing_address_id',
+        timestamp: 'cart.data_id',
+      },
+      billingSameAsShipping: {
+        value: 'cart.is_billing_same_as_shipping',
+        timestamp: 'cart.data_id',
+      },
+    },
+  },
   mageCacheStorage: {
     cartId: {
       storageKey: 'mage-cache-storage',
@@ -11,21 +30,6 @@ const magentoDataSources = {
       storageKey: 'mage-cache-storage',
       value: 'customer.signin_token',
       timestamp: 'customer.data_id',
-    },
-    customerShippingAddress: {
-      storageKey: 'hyva-checkout-storage',
-      value: 'customer.shipping_address_id',
-      timestamp: 'cart.data_id',
-    },
-    customerBillingAddress: {
-      storageKey: 'hyva-checkout-storage',
-      value: 'customer.billing_address_id',
-      timestamp: 'cart.data_id',
-    },
-    billingSameAsShipping: {
-      storageKey: 'hyva-checkout-storage',
-      value: 'cart.is_billing_same_as_shipping',
-      timestamp: 'cart.data_id',
     },
   },
   m2BrowserPersistence: {
@@ -41,24 +45,6 @@ const magentoDataSources = {
       ttl: 'ttl',
       timestamp: 'timeStored',
     },
-    customerShippingAddress: {
-      storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__customer_shipping_address_id',
-      value: 'value',
-      ttl: 'ttl',
-      timestamp: 'timeStored',
-    },
-    customerBillingAddress: {
-      storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__customer_billing_address_id',
-      value: 'value',
-      ttl: 'ttl',
-      timestamp: 'timeStored',
-    },
-    billingSameAsShipping: {
-      storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__is_billing_same_as_shipping',
-      value: 'value',
-      ttl: 'ttl',
-      timestamp: 'timeStored',
-    },
   },
 };
 
@@ -66,6 +52,7 @@ const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSour
 
 export const config = {
   storageSource: activeSource,
+  hyvaStorageSource: magentoDataSources.hyvaCheckoutCacheStorage,
   cartId: getConfigFromLocalStorage(activeSource.cartId),
   signInToken: getConfigFromLocalStorage(activeSource.token),
   baseUrl: process.env.REACT_APP_BASE_URL || '',
