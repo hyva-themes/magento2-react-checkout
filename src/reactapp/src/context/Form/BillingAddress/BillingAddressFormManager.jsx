@@ -58,8 +58,6 @@ function BillingAddressFormManager({ children }) {
   const isSame = _get(values, isSameAsShippingField);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
 
-  console.log({ isSame })
-
   const formSubmit = useCallback(async () => {
     setPageLoader(true);
     await setCartBillingAddress(billingAddrFieldValues);
@@ -72,8 +70,7 @@ function BillingAddressFormManager({ children }) {
     setFormEditMode,
   ]);
 
-  const toggleBillingEqualsShippingState = useCallback((event) => {
-    console.log({ event})
+  const toggleBillingEqualsShippingState = useCallback(() => {
     setFieldValue(isSameAsShippingField, !isSame);
     LocalStorage.saveBillingSameAsShipping(!isSame);
   }, [isSame, setFieldValue]);
