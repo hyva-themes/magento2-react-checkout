@@ -59,21 +59,49 @@ function BillingAddressFormManager({ children }) {
   const {
     cartBillingAddress,
     setCartBillingAddress,
+    setCustomerAddressAsBillingAddress,
   } = useBillingAddrCartContext();
   const isSame = _get(values, isSameAsShippingField);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
 
   const formSubmit = useCallback(async () => {
-    setPageLoader(true);
-    await setCartBillingAddress(billingAddrFieldValues);
-    setFormEditMode(false);
-    setPageLoader(false);
+    try {
+      setPageLoader(true);
+      await setCartBillingAddress(billingAddrFieldValues);
+      setFormEditMode(false);
+      setPageLoader(false);
+    } catch (error) {
+      console.log({ error });
+      setPageLoader(false);
+    }
   }, [
     billingAddrFieldValues,
     setPageLoader,
     setCartBillingAddress,
     setFormEditMode,
   ]);
+
+  const updateCustomerAddressAsCartAddress = useCallback(
+    async customerAddressId => {
+      try {
+        const isShippingSame = LocalStorage.getBillingSameAsShippingInfo();
+
+        LocalStorage.saveCustomerBillingAddressId(customerAddressId);
+
+        setPageLoader(true);
+        await setCustomerAddressAsBillingAddress(
+          customerAddressId,
+          isShippingSame
+        );
+        setFormEditMode(false);
+        setPageLoader(false);
+      } catch (error) {
+        console.log({ error });
+        setPageLoader(false);
+      }
+    },
+    [setPageLoader, setCustomerAddressAsBillingAddress, setFormEditMode]
+  );
 
   const toggleBillingEqualsShippingState = useCallback(() => {
     setFieldValue(isSameAsShippingField, !isSame);
@@ -120,7 +148,7 @@ function BillingAddressFormManager({ children }) {
       return { selectedAddressId: 'new', addressList: { cartBillingAddress } };
     }
 
-    const billingAddrInCache = LocalStorage.getCustomerShippingAddressId();
+    const billingAddrInCache = LocalStorage.getCustomerBillingAddressId();
 
     // logged-in case; there is billing address entry in local storage;
     // so that means the selected billing address is any one of the customer
@@ -153,11 +181,13 @@ function BillingAddressFormManager({ children }) {
       resetBillingAddressFormFields,
       toggleBillingEqualsShippingState,
       mapCartBillingAddressToBillingForm,
+      updateCustomerAddressAsCartAddress,
     }),
     [
       resetBillingAddressFormFields,
       toggleBillingEqualsShippingState,
       mapCartBillingAddressToBillingForm,
+      updateCustomerAddressAsCartAddress,
     ]
   );
 
