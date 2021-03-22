@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9d39a806067655f71640",
+    "revision": "20cd7d601361dac989d7",
     "url": "/../../view/frontend/web/js/react-checkout.js"
   },
   {

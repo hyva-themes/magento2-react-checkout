@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react';
+import { useFormikContext } from 'formik';
+
+import AddressBox from '../AddressBox';
+import { SHIPPING_ADDR_FORM } from '../../../../config';
+import { modifyAddrObjListToArrayList } from '../../../../utils/address';
 import useShippingAddrAppContext from '../../../../hook/app/useShippingAddrAppContext';
 import useShippingAddrCartContext from '../../../../hook/cart/useShippingAddrCartContext';
 import useShippingAddressContext from '../../../../hook/form/useShippingAddressContext';
-import { modifyAddrObjListToArrayList } from '../../../../utils/address';
-import AddressBox from '../AddressBox';
 
 function ShippingAddressBox() {
+  const { values, setFieldValue } = useFormikContext();
   const { isLoggedIn } = useShippingAddrAppContext();
   const {
     selectedAddressId,
@@ -16,6 +20,7 @@ function ShippingAddressBox() {
     addressList,
     setFormToEditMode,
     resetShippingAddressFormFields,
+    performCustomerAddressSwitching,
   } = useShippingAddressContext();
 
   const customerAddresses = modifyAddrObjListToArrayList(addressList);
@@ -30,6 +35,17 @@ function ShippingAddressBox() {
     setCartSelectedShippingAddress,
   ]);
 
+  // when the address box radio button is clicked, this will be fired
+  // use to update the cart address with the customer address
+  const customerAddressSwitchingHandler = useCallback(
+    event => {
+      const addressId = event.target.value;
+      setFieldValue(`${SHIPPING_ADDR_FORM}.selectedAddress`, addressId);
+      performCustomerAddressSwitching(addressId, values);
+    },
+    [values, setFieldValue, performCustomerAddressSwitching]
+  );
+
   return (
     <AddressBox
       fields={fields}
@@ -39,6 +55,7 @@ function ShippingAddressBox() {
       actions={{
         newAddressClick: newAddressClickHandler,
         editAddresClick: setFormToEditMode,
+        addressSwitching: customerAddressSwitchingHandler,
       }}
     />
   );
