@@ -41,6 +41,6 @@ The app is now available at `http://localhost:3000`
 As soon as the react app kick start, it will show a prompt box to input the cart id. Well,
 without the a valid cart, the checkout page is useless.
 
-![Cart Id Prompt Box](/assets/img/cart_id_prompt_box.png "Prompt box showing to input the cart id")
+![Cart Id Prompt Box](./assets/img/cart_id_prompt_box.png "Prompt box showing to input the cart id")
 
 So provide a valid cart id and then you are good to go.
