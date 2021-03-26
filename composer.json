@@ -12,10 +12,12 @@
     "hyva-themes/magento2-graphql-tokens": "*"
   },
   "authors": [{
-    "name": "Hyvä Themes, Wigman Interactive",
+    "name": "Hyvä Themes B.V",
     "email": "info@hyva.io"
   }],
-  "license": "see LICENSE.md",
+  "license": [
+      "BSD-3-Clause"
+  ],
   "autoload": {
     "files": [
       "src/registration.php"
