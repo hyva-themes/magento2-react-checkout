@@ -12,6 +12,12 @@ const LocalStorage = {
     );
   },
 
+  getHyvaCheckoutStorage() {
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+
+    return JSON.parse(window.localStorage.getItem(storageKey)) || {};
+  },
+
   getCustomerToken() {
     const tokenSource = _get(config, 'storageSource.token', {});
 
@@ -19,15 +25,33 @@ const LocalStorage = {
   },
 
   getCustomerShippingAddressId() {
-    const source = _get(config, 'storageSource.customerShippingAddress', {});
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.customerShippingAddress',
+      {}
+    );
 
-    return _get(LocalStorage.getMagentoLocalStorage(), source.value);
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value);
+  },
+
+  getCustomerBillingAddressId() {
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.customerBillingAddress',
+      {}
+    );
+
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value);
   },
 
   getBillingSameAsShippingInfo() {
-    const source = _get(config, 'storageSource.billingSameAsShipping', {});
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.billingSameAsShipping',
+      {}
+    );
 
-    return _get(LocalStorage.getMagentoLocalStorage(), source.value);
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
   },
 
   saveCustomerToken(token) {
@@ -59,36 +83,51 @@ const LocalStorage = {
   },
 
   saveCustomerShippingAddressId(addressId) {
-    const source = _get(config, 'storageSource.customerShippingAddress', {});
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.customerShippingAddress',
+      {}
+    );
     const storageData = _set(
-      LocalStorage.getMagentoLocalStorage(),
+      LocalStorage.getHyvaCheckoutStorage(),
       source.value,
       addressId
     );
 
-    window.localStorage.setItem(source.storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 
   saveCustomerBillingAddressId(addressId) {
-    const source = _get(config, 'storageSource.customerBillingAddress', {});
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.customerBillingAddress',
+      {}
+    );
     const storageData = _set(
-      LocalStorage.getMagentoLocalStorage(),
+      LocalStorage.getHyvaCheckoutStorage(),
       source.value,
       addressId
     );
 
-    window.localStorage.setItem(source.storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 
   saveBillingSameAsShipping(isSame) {
-    const source = _get(config, 'storageSource.billingSameAsShipping', {});
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+    const source = _get(
+      config,
+      'hyvaStorageSource.data.billingSameAsShipping',
+      {}
+    );
     const storageData = _set(
-      LocalStorage.getMagentoLocalStorage(),
+      LocalStorage.getHyvaCheckoutStorage(),
       source.value,
       isSame
     );
 
-    window.localStorage.setItem(source.storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 };
 

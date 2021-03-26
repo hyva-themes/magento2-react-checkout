@@ -1,32 +1,49 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import AddressBox from '../AddressBox';
-import { _emptyFunc } from '../../../../utils';
 import { modifyAddrObjListToArrayList } from '../../../../utils/address';
 import useBillingAddrAppContext from '../../../../hook/app/useBillingAddrAppContext';
-import useBillingAddrCartContext from '../../../../hook/cart/useBillingAddrCartContext';
 import useBillingAddressContext from '../../../../hook/form/useBillingAddressContext';
 
 function BillingAddressBox() {
   const {
     fields,
+    addressList,
     selectedAddressId,
     setFormToEditMode,
+    resetBillingAddressFormFields,
+    mapCartBillingAddressToBillingForm,
+    updateCustomerAddressAsCartAddress,
   } = useBillingAddressContext();
-  const { cartBillingAddress } = useBillingAddrCartContext();
   const { isLoggedIn } = useBillingAddrAppContext();
-  const addressList = modifyAddrObjListToArrayList({ cartBillingAddress });
-  const newAddressClickHandler = _emptyFunc();
+
+  const newAddressClickHandler = useCallback(() => {
+    resetBillingAddressFormFields();
+    setFormToEditMode();
+  }, [setFormToEditMode, resetBillingAddressFormFields]);
+
+  const editAddressClickHandler = useCallback(() => {
+    mapCartBillingAddressToBillingForm();
+    setFormToEditMode();
+  }, [mapCartBillingAddressToBillingForm, setFormToEditMode]);
+
+  const addressSwitchingHandler = useCallback(
+    event => {
+      updateCustomerAddressAsCartAddress(event.target.value);
+    },
+    [updateCustomerAddressAsCartAddress]
+  );
 
   return (
     <AddressBox
       fields={fields}
       isLoggedIn={isLoggedIn}
       selectedAddressId={selectedAddressId}
-      addressList={addressList}
+      addressList={modifyAddrObjListToArrayList(addressList)}
       actions={{
         newAddressClick: newAddressClickHandler,
-        editAddresClick: setFormToEditMode,
+        editAddresClick: editAddressClickHandler,
+        addressSwitching: addressSwitchingHandler,
       }}
     />
   );
