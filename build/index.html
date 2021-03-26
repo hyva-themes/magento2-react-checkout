@@ -1,0 +1,490 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/img/hyva-logo-360.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
+    
+    
+      
+        <title>How can build - Hyvä Themes - Hyvä Checkout</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2c0c5eaf.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.7fa14f5b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-can-build-the-hyva-checkout-app" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+      
+  <img src="../assets/img/hyva-logo-360.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hyvä Themes - Hyvä Checkout
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How can build
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+      
+  <img src="../assets/img/hyva-logo-360.png" alt="logo">
+
+    </a>
+    Hyvä Themes - Hyvä Checkout
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to_use/" class="md-nav__link">
+        How to use
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../customize/" class="md-nav__link">
+        How to customize
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          How can build
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        How can build
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-you-build-the-app" class="md-nav__link">
+    How can you build the app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-when-we-build-the-react-application" class="md-nav__link">
+    What happens when we build the react application?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../at_a_glance/" class="md-nav__link">
+        Checkout - at a glance
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-you-build-the-app" class="md-nav__link">
+    How can you build the app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-when-we-build-the-react-application" class="md-nav__link">
+    What happens when we build the react application?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="how-can-build-the-hyva-checkout-app">How can build the Hyvä-Checkout app</h1>
+<p>In the build process, you are making the react application ready for use as a Magento module.</p>
+<p>In a normal circumstance, you don't need to do this process. However, if you want to customize
+the react app in a way you needed, then you need to alter the react components by your own. In this
+case, knowing the build process is necessary in order to get your changes reflected in the site.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>It is required that you have the tool <a href="https://www.npmjs.com/package/csso-cli">csso-cli</a> installed globally. It is using to optimize the CSS file that would be generated in the build process.</p>
+<pre><code>npm i -g csso-cli
+</code></pre>
+<h2 id="how-can-you-build-the-app">How can you build the app</h2>
+<p>You can build the react app with the below command</p>
+<pre><code>NODE_ENV=production npm run build
+</code></pre>
+<h2 id="what-happens-when-we-build-the-react-application">What happens when we build the react application?</h2>
+<p>Primarily 2 goals here.</p>
+<ol>
+<li>Create a fully optimized style file that can be included in the Magento site (if needed)</li>
+<li>Create a fully optimized production build of the react app into a js file that can be included in the Magento site.</li>
+</ol>
+<p>The console output of the build process is given below:</p>
+<pre><code>$ NODE_ENV=production npm run build
+
+&gt; tailwindcss build src/asset/css/tailwind.css -o public/tailwind.output.css
+
+   tailwindcss 1.9.6
+
+   🚀 Building: src/asset/css/tailwind.css
+
+   ✅ Finished in 2.61 s
+   📦 Size: 18.43KB
+   💾 Saved to public/tailwind.output.css
+
+&gt; npx csso public/tailwind.output.css --output public/styles.css
+
+&gt; react-app-rewired build
+
+Creating an optimized production build...
+Compiled successfully.
+
+File sizes after gzip:
+
+  70.76 KB  ../view/frontend/web/js/react-checkout.js
+
+&gt; cp public/styles.css ../view/frontend/web/css/styles.css &amp;&amp;  npm run output-success
+
+Done!
+</code></pre>
+<p>As you can see above, the very first step is tailwindcss build process. It using the tailwindcss base file located at <code>src/reactapp/src/asset/css/tailwind.css</code>. In this build process, it will be basically doing the purge operation. The resulting file is located at <code>src/reactapp/public/tailwind.output.css</code>. This file is what we are using in the react app if you open it in the development mode.</p>
+<p>Next step is optimizing the <code>src/reactapp/public/tailwind.output.css</code> file. We are using the tool <a href="https://www.npmjs.com/package/csso-cli">csso-cli</a> for that. The Optimized css file can be found at <code>src/reactapp/public/styles.css</code>.</p>
+<p>Next, it will be creating the production build of the react app and the resulting file will be store in the location <code>src/view/frontend/web/js/react-checkout.js</code>. This js file will be included in the DOM by the module and thus it will do the react magic on the page.</p>
+<p>Finally, the optimized <code>src/reactapp/public/styles.css</code> file will be copied over to the location <code>src/view/frontend/web/css/styles.css</code>. This style file can be included in the page if in case you are using this module out of hyva.</p>
+<p>To do this, file: <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code>, uncomment the following line you would find there.</p>
+<pre><code>&lt;css src=&quot;Hyva_Checkout::css/styles.css&quot; defer=&quot;defer&quot;/&gt;
+</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../customize/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              How to customize
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../at_a_glance/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Checkout - at a glance
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a1c7c35e.min.js"></script>
+      
+    
+  </body>
+</html>
