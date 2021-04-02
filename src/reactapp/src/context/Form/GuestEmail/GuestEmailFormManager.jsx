@@ -48,12 +48,19 @@ function GuestEmailFormManager({ children }) {
     cartId,
     cartEmail,
     setEmailOnGuestCart,
+    getCustomerCartId,
     getCartInfoAfterMerge,
     setCustomerDefaultAddressToCart,
   } = useEmailCartContext();
   const [
     ,
-    { signInCustomer, setPageLoader, getCustomerAddressList },
+    {
+      signInCustomer,
+      setPageLoader,
+      getCustomerAddressList,
+      setErrorMessage,
+      setSuccessMessage,
+    },
   ] = useAppContext();
 
   /**
@@ -69,34 +76,36 @@ function GuestEmailFormManager({ children }) {
   const formSubmit = useCallback(
     async values => {
       const emailFieldValue = _get(values, 'email');
-      const isSignIn = _get(values, 'customerWantsToSignin');
+      const customerWantsToSignin = _get(values, 'customerWantsToSignin');
 
       try {
         setPageLoader(true);
 
-        if (isSignIn) {
-          const isSignInSuccess = await signInCustomer(values);
-
-          if (isSignInSuccess) {
-            const mergeCartPromise = _makePromise(
-              getCartInfoAfterMerge,
-              cartId
-            );
-            const customerAddrListPromise = _makePromise(
-              getCustomerAddressList
-            );
-
-            const [cartInfo] = await Promise.all([
-              mergeCartPromise(),
-              customerAddrListPromise(),
-            ]);
-
-            if (!isCartHoldingAddressInfo(cartInfo)) {
-              await setCustomerDefaultAddressToCart(cartInfo);
-            }
-          }
-        } else {
+        if (!customerWantsToSignin) {
           await setEmailOnGuestCart(emailFieldValue);
+          setSuccessMessage('Email is successfully attached to your cart.');
+          setPageLoader(false);
+          return;
+        }
+
+        const isSignInSuccess = await signInCustomer(values);
+
+        if (!isSignInSuccess) {
+          setPageLoader(false);
+          return;
+        }
+
+        const customerCartIdPromise = _makePromise(getCustomerCartId);
+        // const mergeCartPromise = _makePromise(getCartInfoAfterMerge, cartId);
+        const customerAddrListPromise = _makePromise(getCustomerAddressList);
+
+        const [cartInfo] = await Promise.all([
+          customerCartIdPromise(),
+          customerAddrListPromise(),
+        ]);
+
+        if (!isCartHoldingAddressInfo(cartInfo)) {
+          await setCustomerDefaultAddressToCart(cartInfo);
         }
 
         setPageLoader(false);
@@ -110,6 +119,8 @@ function GuestEmailFormManager({ children }) {
       setEmailOnGuestCart,
       setPageLoader,
       signInCustomer,
+      setErrorMessage,
+      setSuccessMessage,
       getCartInfoAfterMerge,
       getCustomerAddressList,
       setCustomerDefaultAddressToCart,

@@ -4,8 +4,16 @@ import _set from 'lodash.set';
 import { config } from '../config';
 
 const LocalStorage = {
+  isBrowser() {
+    return typeof window !== 'undefined';
+  },
+
   getMagentoLocalStorage() {
     const tokenSource = _get(config, 'storageSource.token', {});
+
+    if (!LocalStorage.isBrowser()) {
+      return {};
+    }
 
     return (
       JSON.parse(window.localStorage.getItem(tokenSource.storageKey)) || {}
@@ -16,6 +24,12 @@ const LocalStorage = {
     const storageKey = _get(config, 'hyvaStorageSource.storageKey');
 
     return JSON.parse(window.localStorage.getItem(storageKey)) || {};
+  },
+
+  getCartId() {
+    const source = _get(config, 'storageSource.cartId', {});
+
+    return _get(LocalStorage.getMagentoLocalStorage(), source.value);
   },
 
   getCustomerToken() {
@@ -55,6 +69,10 @@ const LocalStorage = {
   },
 
   saveCustomerToken(token) {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
     const tokenSource = _get(config, 'storageSource.token', {});
     const storageData = _set(
       LocalStorage.getMagentoLocalStorage(),
@@ -69,6 +87,10 @@ const LocalStorage = {
   },
 
   saveCartId(cartId) {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
     const cartSource = _get(config, 'storageSource.cartId', {});
     const storageData = _set(
       LocalStorage.getMagentoLocalStorage(),
@@ -83,6 +105,10 @@ const LocalStorage = {
   },
 
   saveCustomerShippingAddressId(addressId) {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
     const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,
@@ -99,6 +125,10 @@ const LocalStorage = {
   },
 
   saveCustomerBillingAddressId(addressId) {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
     const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,
@@ -115,6 +145,10 @@ const LocalStorage = {
   },
 
   saveBillingSameAsShipping(isSame) {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
     const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,

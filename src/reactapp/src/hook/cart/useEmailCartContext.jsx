@@ -8,9 +8,13 @@ export default function useEmailCartContext() {
 
   return useMemo(() => {
     const {
+      mergeCarts,
+      createEmptyCart,
       setEmailOnGuestCart,
       getCartInfoAfterMerge,
+      getCustomerCartInfo,
       setCustomerDefaultAddressToCart,
+      getCustomerCartId,
     } = cartActions;
     const cart = _get(cartData, 'cart');
     const cartEmail = _get(cart, 'email', '');
@@ -21,8 +25,12 @@ export default function useEmailCartContext() {
       cartEmail,
 
       // actions
+      mergeCarts,
+      createEmptyCart,
       setEmailOnGuestCart,
+      getCustomerCartId,
       getCartInfoAfterMerge,
+      getCustomerCartInfo,
       setCustomerDefaultAddressToCart,
     };
   }, [cartData, cartActions]);

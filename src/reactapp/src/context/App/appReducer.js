@@ -5,12 +5,14 @@ import { SET_PAGE_LOADER, SET_PAGE_MESSAGE } from './page/types';
 import {
   setCustomerAddressInfo,
   setCustomerInfo,
+  setCustomerLoggedInStatusReducer,
   updateCustomerAddressReducer,
 } from './customer/reducers';
 import {
   SET_CUSTOMER_ADDRESS_INFO,
   SET_CUSTOMER_INFO,
   UPDATE_CUSTOMER_ADDRESS,
+  UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './customer/types';
 
 const actions = {
@@ -21,6 +23,7 @@ const actions = {
   [SET_CUSTOMER_INFO]: setCustomerInfo,
   [SET_CUSTOMER_ADDRESS_INFO]: setCustomerAddressInfo,
   [UPDATE_CUSTOMER_ADDRESS]: updateCustomerAddressReducer,
+  [UPDATE_CUSTOMER_LOGGEDIN_STATUS]: setCustomerLoggedInStatusReducer,
 };
 
 export default function appReducer(state, { type, payload }) {

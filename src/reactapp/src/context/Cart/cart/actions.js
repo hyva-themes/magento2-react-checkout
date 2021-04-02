@@ -37,7 +37,8 @@ export async function getGuestCartInfoAction(dispatch) {
 
 export async function getCustomerCartIdAction() {
   try {
-    return await fetchCustomerCartRequest();
+    const customerCartId = await fetchCustomerCartRequest();
+    return customerCartId;
   } catch (error) {
     // @todo show error message
     console.log({ error });
@@ -46,9 +47,10 @@ export async function getCustomerCartIdAction() {
   return null;
 }
 
-export async function createEmptyCart() {
+export async function createEmptyCartAction() {
   try {
-    return await createEmptyCartRequest();
+    const cartId = await createEmptyCartRequest();
+    return cartId;
   } catch (error) {
     // @todo show error message
     console.log({ error });
@@ -56,7 +58,7 @@ export async function createEmptyCart() {
   return null;
 }
 
-export async function mergeCarts(dispatch, cartIds) {
+export async function mergeCartsAction(dispatch, cartIds) {
   try {
     const cartInfo = await mergeCartsRequest(cartIds);
     setCartInfoAction(dispatch, cartInfo);
@@ -77,11 +79,11 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
     let customerCartId = await getCustomerCartIdAction();
 
     if (!customerCartId) {
-      customerCartId = await createEmptyCart();
+      customerCartId = await createEmptyCartAction();
     }
 
     if (guestCartId && customerCartId && guestCartId !== customerCartId) {
-      cartInfo = await mergeCarts(dispatch, {
+      cartInfo = await mergeCartsAction(dispatch, {
         sourceCartId: guestCartId,
         destinationCartId: customerCartId,
       });

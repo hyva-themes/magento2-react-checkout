@@ -21,3 +21,10 @@ export function updateCustomerAddressReducer(state, customerAddr) {
     },
   };
 }
+
+export function setCustomerLoggedInStatusReducer(state, status) {
+  return {
+    ...state,
+    isLoggedIn: status,
+  };
+}

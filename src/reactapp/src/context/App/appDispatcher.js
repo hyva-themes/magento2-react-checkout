@@ -11,6 +11,7 @@ import {
 import {
   getCustomerAddressListAction,
   getCustomerInfoAction,
+  setLoggedInStatusAction,
   sigInCustomerAction,
   updateCustomerAddressAction,
 } from './customer/actions';
@@ -26,6 +27,7 @@ const dispatchMapper = {
   getCustomerInfo: getCustomerInfoAction,
   getCustomerAddressList: getCustomerAddressListAction,
   updateCustomerAddress: updateCustomerAddressAction,
+  setLoggedInStatus: setLoggedInStatusAction,
 };
 
 export default function appDispatcher(dispatch) {

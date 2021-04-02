@@ -1,7 +1,7 @@
 import { SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION } from './mutation';
 import modifier from './modifier';
-import { config } from '../../../config';
 import sendRequest from '../../sendRequest';
+import LocalStorage from '../../../utils/localStorage';
 
 export default async function setCustomerAddressOnBilling(
   customerAddressId,
@@ -10,7 +10,7 @@ export default async function setCustomerAddressOnBilling(
   const variables = {
     customerAddressId,
     sameAsShipping,
-    cartId: config.cartId,
+    cartId: LocalStorage.getCartId(),
   };
 
   return modifier(

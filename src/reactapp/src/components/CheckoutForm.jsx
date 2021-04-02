@@ -14,6 +14,7 @@ import PlaceOrder from './Checkout/PlaceOrder';
 import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 import Message from './Common/Message';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
+import ShippingAddress from './shippingAddress';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -57,7 +58,8 @@ function CheckoutForm() {
               <GuestEmailForm />
               <AddressWrapper>
                 <BillingAddressForm />
-                <ShippingAddressForm />
+                <ShippingAddress />
+                {/* <ShippingAddressForm /> */}
               </AddressWrapper>
             </FormStep>
           </div>

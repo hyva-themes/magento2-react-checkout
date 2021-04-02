@@ -7,19 +7,24 @@ import {
   _keys,
   _objToArray,
   _toString,
-} from './index';
-import LocalStorage from './localStorage';
+} from '../../../utils';
+
+export * from './components/shippingAddressFormUtil';
+export * from './components/shippingAddressCardListUtil';
+export * from './components/shippingAddressWrapperUtil';
+export * from './components/CancelButtonUtil';
+export * from './common';
 
 export const shippingAddressFormInitValues = {
   company: '',
-  firstname: 'rajeev',
+  firstname: '',
   lastname: '',
   street: [''],
   phone: '',
   zipcode: '',
   city: '',
   region: '',
-  country: 'IN',
+  country: '',
   isSameAsShipping: true,
   selectedAddress: '',
 };
@@ -133,19 +138,14 @@ export function prepareCartAddressWithId(addressList, addressId) {
   };
 }
 
-export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
-  LocalStorage.saveBillingSameAsShipping(isBillingSame);
-  LocalStorage.saveCustomerShippingAddressId(addressId);
-
-  if (isBillingSame) {
-    LocalStorage.saveCustomerBillingAddressId(addressId);
-  }
-}
-
 export function isCartBillingAddressValid(cartBillingAddress) {
   return (
     cartBillingAddress &&
     cartBillingAddress.firstname &&
     cartBillingAddress.country
   );
+}
+
+export function customerHasAddress(customerAddressList) {
+  return !!_keys(customerAddressList).length;
 }
