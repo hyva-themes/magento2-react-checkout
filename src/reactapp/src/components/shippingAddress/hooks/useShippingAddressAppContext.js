@@ -9,17 +9,23 @@ export default function useShippingAddressAppContext() {
       stateList,
       countryList,
     },
-    { setPageLoader, setSuccessMessage, updateCustomerAddress },
+    {
+      setPageLoader,
+      setSuccessMessage,
+      updateCustomerAddress,
+      setErrorMessage,
+    },
   ] = useAppContext();
 
   return {
-    isLoggedIn: true,
+    isLoggedIn,
     stateList,
     countryList,
     defaultShippingAddress,
     customerAddressList,
     setPageLoader,
     setSuccessMessage,
+    setErrorMessage,
     updateCustomerAddress,
   };
 }

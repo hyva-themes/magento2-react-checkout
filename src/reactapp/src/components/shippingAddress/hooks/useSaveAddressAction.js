@@ -1,35 +1,48 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
+
 import { _emptyFunc, _makePromise } from '../../../utils';
-import useShippingAddressAppContext from './useShippingAddressAppContext';
-import useShippingAddressFormikContext from './useShippingAddressFormikContext';
-import { SHIPPING_ADDR_FORM } from '../../../config';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import useShippingAddressWrapper from './useShippingAddressWrapper';
-import useShippingAddressCartContext from './useShippingAddressCartContext';
-
-function customerAddressOnEdit(addressId) {
-  return addressId !== CART_SHIPPING_ADDRESS;
-}
+import useShippingAddressAppContext from './useShippingAddressAppContext';
+import useShippingAddressFormikContext from './useShippingAddressFormikContext';
+import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
 
 export default function useSaveAddressAction() {
-  const { formSubmit } = useShippingAddressFormikContext();
-  const { isLoggedIn, setSuccessMessage } = useShippingAddressAppContext();
+  const { submitHandler } = useShippingAddressFormikContext();
+  const {
+    isLoggedIn,
+    setPageLoader,
+    setSuccessMessage,
+    setErrorMessage,
+    updateCustomerAddress,
+  } = useShippingAddressAppContext();
   const {
     editMode,
     selectedAddress,
     regionData,
     setToViewMode,
+    customerAddressSelected,
+    setSelectedAddress,
+    setCustomerAddressSelected,
   } = useShippingAddressWrapper();
-  const { updateCustomerAddress } = useShippingAddressCartContext();
+
+  const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
   return useCallback(
     async formikValues => {
       try {
+        let customerAddressUsed = false;
+        const isBillingSame = _get(formikValues, isSameAsShippingField);
         let updateCustomerAddrPromise = _emptyFunc();
-        const updateCartAddressPromise = _makePromise(formSubmit, formikValues);
+        const updateCartAddressPromise = _makePromise(
+          submitHandler,
+          formikValues
+        );
 
-        if (isLoggedIn && customerAddressOnEdit(selectedAddress) && editMode) {
+        if (isLoggedIn && customerAddressSelected && editMode) {
+          customerAddressUsed = true;
           updateCustomerAddrPromise = _makePromise(
             updateCustomerAddress,
             selectedAddress,
@@ -38,26 +51,43 @@ export default function useSaveAddressAction() {
           );
         }
 
+        if (customerAddressUsed) {
+          saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
+        } else {
+          saveCustomerAddressToLocalStorage('', isBillingSame);
+          setSelectedAddress(CART_SHIPPING_ADDRESS);
+          setCustomerAddressSelected(false);
+        }
+
+        setPageLoader(true);
         await Promise.all([
           updateCustomerAddrPromise(),
           updateCartAddressPromise(),
         ]);
-
         setToViewMode(false);
         setSuccessMessage('Shipping address updated successfully.');
+        setPageLoader(false);
+
       } catch (error) {
         console.log({ error });
+        setErrorMessage('Shipping address update failed. Please try again');
+        setPageLoader(false);
       }
     },
     [
-      formSubmit,
+      submitHandler,
       isLoggedIn,
       selectedAddress,
       editMode,
       updateCustomerAddress,
       setSuccessMessage,
+      setErrorMessage,
       regionData,
       setToViewMode,
+      setPageLoader,
+      setSelectedAddress,
+      setCustomerAddressSelected,
+      customerAddressSelected,
     ]
   );
 }

@@ -6,12 +6,20 @@ import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
 
 function CreateNewAddressLink() {
   const { resetShippingAddressFormFields } = useShippingAddressFormikContext();
-  const { setToEditMode } = useShippingAddressWrapper();
+  const {
+    setToEditMode,
+    setCustomerAddressSelected,
+  } = useShippingAddressWrapper();
 
   const clickHandler = useCallback(() => {
     resetShippingAddressFormFields();
+    setCustomerAddressSelected(false);
     setToEditMode();
-  }, [setToEditMode, resetShippingAddressFormFields]);
+  }, [
+    setToEditMode,
+    resetShippingAddressFormFields,
+    setCustomerAddressSelected,
+  ]);
 
   return (
     <div className="flex items-center justify-center mt-2">

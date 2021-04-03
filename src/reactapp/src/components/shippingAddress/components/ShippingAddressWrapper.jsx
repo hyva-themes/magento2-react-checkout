@@ -12,11 +12,22 @@ import {
   customerHasAddress,
   isCartHoldingShippingAddress,
 } from '../utility';
+import LocalStorage from '../../../utils/localStorage';
+import { _toString } from '../../../utils';
 
 function ShippingAddressWrapper({ children }) {
+  const addressIdInCache = _toString(
+    LocalStorage.getCustomerShippingAddressId()
+  );
   const [forceViewMode, setForceViewMode] = useState(false);
+  const [backupAddress, setBackupAddress] = useState(null);
   const [regionData, setRegionData] = useState({});
-  const [selectedAddress, setSelectedAddress] = useState(CART_SHIPPING_ADDRESS);
+  const [selectedAddress, setSelectedAddress] = useState(
+    addressIdInCache || CART_SHIPPING_ADDRESS
+  );
+  const [customerAddressSelected, setCustomerAddressSelected] = useState(
+    !!addressIdInCache
+  );
   const [editMode, setToEditMode, setToViewMode] = useToggler(true);
   const { values } = useFormikContext();
   const { cartInfo } = useShippingAddressCartContext();
@@ -43,13 +54,22 @@ function ShippingAddressWrapper({ children }) {
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate
   useEffect(() => {
-    if (regionData.code !== regionValue && regionValue && countryValue) {
+    if (
+      _get(regionData, 'code') !== regionValue &&
+      regionValue &&
+      countryValue &&
+      stateList
+    ) {
       const region = _get(stateList, countryValue, []).find(
         state => state.code === regionValue
       );
       setRegionData(region);
     }
   }, [regionValue, countryValue, regionData, stateList]);
+
+  useEffect(() => {
+    console.log('effect', { selectedAddress });
+  }, [selectedAddress]);
 
   const editModeContext = useMemo(
     () => ({
@@ -66,6 +86,10 @@ function ShippingAddressWrapper({ children }) {
     selectedAddress,
     setSelectedAddress,
     regionData,
+    backupAddress,
+    setBackupAddress,
+    customerAddressSelected,
+    setCustomerAddressSelected,
   };
 
   return (

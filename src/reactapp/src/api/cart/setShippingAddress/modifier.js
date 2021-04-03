@@ -55,33 +55,36 @@ export function modifyShippingMethods(addressList) {
 }
 
 export function modifyShippingAddressList(addressList) {
-  return addressList.reduce((addressItems, address, index) => {
-    const {
-      company,
-      firstname,
-      lastname,
-      street,
-      telephone: phone,
-      postcode: zipcode,
-      city,
-      country: { code: countryCode },
-      region: { code: regionCode },
-    } = address;
-    addressItems[`address_${index + 1}`] = {
-      company,
-      firstname,
-      lastname,
-      fullName: prepareFullName(address),
-      street,
-      phone,
-      zipcode,
-      city,
-      region: regionCode,
-      country: countryCode,
-    };
+  const shippingAddress = _get(addressList, '0');
 
-    return addressItems;
-  }, {});
+  if (!shippingAddress) {
+    return {};
+  }
+
+  const {
+    company,
+    firstname,
+    lastname,
+    street,
+    telephone: phone,
+    postcode: zipcode,
+    city,
+    country: { code: countryCode },
+    region: { code: regionCode },
+  } = shippingAddress;
+
+  return {
+    company,
+    firstname,
+    lastname,
+    fullName: prepareFullName(shippingAddress),
+    street,
+    phone,
+    zipcode,
+    city,
+    region: regionCode,
+    country: countryCode,
+  };
 }
 
 export default function setShippingAddressModifier(result) {

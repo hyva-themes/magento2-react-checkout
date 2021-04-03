@@ -1,22 +1,41 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormikContext } from 'formik';
 
 import Button from '../../../Common/Button';
-import useShippingAddressAppContext from '../../hooks/useShippingAddressAppContext';
 import { formHasShippingAddress } from '../../utility';
 import useShippingAddressWrapper from '../../hooks/useShippingAddressWrapper';
+import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
+import { isCartHoldingAddressInfo } from '../../../../utils/address';
+import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
+import LocalStorage from '../../../../utils/localStorage';
 
 function CancelButton() {
   const { values } = useFormikContext();
-  const { isLoggedIn } = useShippingAddressAppContext();
-  const { setToViewMode } = useShippingAddressWrapper();
+  const { cartInfo } = useShippingAddressCartContext();
+  const { setShippingAddressFormFields } = useShippingAddressFormikContext();
+  const {
+    setToViewMode,
+    backupAddress,
+    setCustomerAddressSelected,
+  } = useShippingAddressWrapper();
 
-  if (!isLoggedIn || !formHasShippingAddress(values)) {
+  const clickHandler = useCallback(() => {
+    setShippingAddressFormFields({ ...backupAddress });
+    setToViewMode();
+    setCustomerAddressSelected(!!LocalStorage.getCustomerShippingAddressId());
+  }, [
+    backupAddress,
+    setToViewMode,
+    setShippingAddressFormFields,
+    setCustomerAddressSelected,
+  ]);
+
+  if (!formHasShippingAddress(values) && !isCartHoldingAddressInfo(cartInfo)) {
     return <></>;
   }
 
   return (
-    <Button click={setToViewMode} variant="warning">
+    <Button click={clickHandler} variant="warning">
       cancel
     </Button>
   );

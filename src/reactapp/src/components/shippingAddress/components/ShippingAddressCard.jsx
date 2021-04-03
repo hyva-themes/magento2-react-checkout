@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Button from '../../Common/Button';
 import RadioInput from '../../Common/Form/RadioInput/RadioInput';
-import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
+import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
 
 function ShippingAddressCard({
@@ -10,16 +10,22 @@ function ShippingAddressCard({
   isSelected,
   actions,
 }) {
-  const { fields } = useShippingAddressFormikContext();
-  const { setToEditMode } = useShippingAddressWrapper();
+  const { setToEditMode, setBackupAddress } = useShippingAddressWrapper();
+  const { cartShippingAddress } = useShippingAddressCartContext();
+
+  const editButtonClickHandler = useCallback(() => {
+    setBackupAddress({ ...cartShippingAddress });
+    setToEditMode();
+  }, [cartShippingAddress, setToEditMode, setBackupAddress]);
 
   return (
     <ul className="px-4 pb-4 bg-white border-white rounded-md shadow-sm">
       <li className="flex items-end justify-end">
         <RadioInput
-          name={fields.selectedAddress}
+          name="shippingAddressChooser"
           checked={isSelected}
           value={id}
+          style={isSelected ? {} : { borderColor: '#aaa' }}
           onChange={() => actions.performAddressSwitching(id)}
         />
       </li>
@@ -33,7 +39,7 @@ function ShippingAddressCard({
       {isSelected && (
         <li>
           <div className="flex items-center justify-center mt-2">
-            <Button click={setToEditMode} variant="warning">
+            <Button click={editButtonClickHandler} variant="warning">
               edit
             </Button>
           </div>

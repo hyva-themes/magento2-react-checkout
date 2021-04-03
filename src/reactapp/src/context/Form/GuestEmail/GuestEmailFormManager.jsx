@@ -12,6 +12,7 @@ import useAppContext from '../../../hook/useAppContext';
 import useEmailCartContext from '../../../hook/cart/useEmailCartContext';
 import { isCartHoldingAddressInfo } from '../../../utils/address';
 import { _makePromise } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 const initialValues = {
   email: '',
@@ -45,11 +46,12 @@ function GuestEmailFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { setFieldValue, setFieldTouched } = useFormikContext();
   const {
-    cartId,
     cartEmail,
     setEmailOnGuestCart,
+    createEmptyCart,
     getCustomerCartId,
-    getCartInfoAfterMerge,
+    mergeCarts,
+    getCustomerCartInfo,
     setCustomerDefaultAddressToCart,
   } = useEmailCartContext();
   const [
@@ -58,10 +60,53 @@ function GuestEmailFormManager({ children }) {
       signInCustomer,
       setPageLoader,
       getCustomerAddressList,
-      setErrorMessage,
       setSuccessMessage,
     },
   ] = useAppContext();
+
+  const saveEmailOnCartRequest = useCallback(
+    async email => {
+      setPageLoader(true);
+      await setEmailOnGuestCart(email);
+      setSuccessMessage('Email is successfully attached to your cart.');
+      setPageLoader(false);
+    },
+    [setPageLoader.setEmailOnGuestCart, setSuccessMessage]
+  );
+
+  const collectCustomerCartAndAddressInfoRequest = useCallback(async () => {
+    const customerCartIdPromise = _makePromise(getCustomerCartId);
+    const customerAddrListPromise = _makePromise(getCustomerAddressList);
+
+    const [customerCartId] = await Promise.all([
+      customerCartIdPromise(),
+      customerAddrListPromise(),
+    ]);
+
+    return customerCartId;
+  }, [getCustomerCartId, getCustomerAddressList]);
+
+  const mergeCurrentCartToCustomerCartRequest = useCallback(
+    async customerCartId => {
+      let cartInfo;
+      const cartIdInCache = LocalStorage.getCartId();
+
+      if (!customerCartId) {
+        const newCartId = await createEmptyCart();
+        cartInfo = await mergeCarts({
+          sourceCartId: cartIdInCache,
+          destinationCartId: newCartId,
+        });
+      } else if (customerCartId !== cartIdInCache) {
+        cartInfo = await mergeCarts({
+          sourceCartId: cartIdInCache,
+          destinationCartId: customerCartId,
+        });
+      }
+      return cartInfo;
+    },
+    [createEmptyCart, mergeCarts]
+  );
 
   /**
    * Sign-in submit is handled here
@@ -82,9 +127,7 @@ function GuestEmailFormManager({ children }) {
         setPageLoader(true);
 
         if (!customerWantsToSignin) {
-          await setEmailOnGuestCart(emailFieldValue);
-          setSuccessMessage('Email is successfully attached to your cart.');
-          setPageLoader(false);
+          await saveEmailOnCartRequest(emailFieldValue);
           return;
         }
 
@@ -95,17 +138,14 @@ function GuestEmailFormManager({ children }) {
           return;
         }
 
-        const customerCartIdPromise = _makePromise(getCustomerCartId);
-        // const mergeCartPromise = _makePromise(getCartInfoAfterMerge, cartId);
-        const customerAddrListPromise = _makePromise(getCustomerAddressList);
-
-        const [cartInfo] = await Promise.all([
-          customerCartIdPromise(),
-          customerAddrListPromise(),
-        ]);
+        const customerCartId = await collectCustomerCartAndAddressInfoRequest();
+        const cartInfo = await mergeCurrentCartToCustomerCartRequest(
+          customerCartId
+        );
 
         if (!isCartHoldingAddressInfo(cartInfo)) {
           await setCustomerDefaultAddressToCart(cartInfo);
+          await getCustomerCartInfo();
         }
 
         setPageLoader(false);
@@ -115,15 +155,13 @@ function GuestEmailFormManager({ children }) {
       }
     },
     [
-      cartId,
-      setEmailOnGuestCart,
       setPageLoader,
       signInCustomer,
-      setErrorMessage,
-      setSuccessMessage,
-      getCartInfoAfterMerge,
-      getCustomerAddressList,
+      getCustomerCartInfo,
       setCustomerDefaultAddressToCart,
+      saveEmailOnCartRequest,
+      mergeCurrentCartToCustomerCartRequest,
+      collectCustomerCartAndAddressInfoRequest,
     ]
   );
 

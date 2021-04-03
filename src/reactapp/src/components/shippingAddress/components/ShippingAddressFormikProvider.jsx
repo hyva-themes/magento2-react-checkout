@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -13,13 +13,10 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrAppContext from '../../../hook/app/useShippingAddrAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { _emptyFunc, _makePromise, _toString } from '../../../utils';
+import { _emptyFunc, _makePromise } from '../../../utils';
 import {
-  getFirstItemIdFromShippingAddrList,
   isCartHoldingShippingAddress,
   shippingAddressFormInitValues,
-  prepareFormAddressFromAddressListById,
-  prepareCartAddressWithId,
 } from '../utility';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 
@@ -49,21 +46,15 @@ const validationSchema = {
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function ShippingAddressFormikProvider({ children }) {
+  const [forceFillFields, setForceFillFields] = useState(false);
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { setFieldValue } = useFormikContext();
-  const {
-    isLoggedIn,
-    defaultShippingAddress,
-    customerAddressList,
-    setPageLoader,
-  } = useShippingAddrAppContext();
+  const { setPageLoader } = useShippingAddrAppContext();
   const {
     cartInfo,
-    shippingAddressList,
-    selectedAddressId,
+    cartShippingAddress,
     addCartShippingAddress,
     setCartBillingAddress,
-    setCartSelectedShippingAddress,
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
@@ -85,7 +76,7 @@ function ShippingAddressFormikProvider({ children }) {
         if (customerAddressId) {
           updateShippingAddress = _makePromise(
             setCustomerAddressAsShippingAddress,
-            customerAddressId
+            Number(customerAddressId)
           );
         }
 
@@ -95,7 +86,7 @@ function ShippingAddressFormikProvider({ children }) {
           if (customerAddressId) {
             updateBillingAddress = _makePromise(
               setCustomerAddressAsBillingAddress,
-              customerAddressId,
+              Number(customerAddressId),
               isBillingSame
             );
           } else {
@@ -127,100 +118,31 @@ function ShippingAddressFormikProvider({ children }) {
     setFieldValue(SHIPPING_ADDR_FORM, { ...shippingAddressFormInitValues });
   }, [setFieldValue]);
 
-  // side effect to set the selected shipping address for the intitial time
-  // in different occasions
+  const setShippingAddressFormFields = useCallback(
+    addressToSet => {
+      setFieldValue(SHIPPING_ADDR_FORM, {
+        ...shippingAddressFormInitValues,
+        ...addressToSet,
+      });
+    },
+    [setFieldValue]
+  );
+
+  // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    let addressId;
-    // guest checkout; cart contains an address; then, set address id as selected.
-    if (!isLoggedIn && cartHasShippingAddress) {
-      addressId = _toString(
-        getFirstItemIdFromShippingAddrList(shippingAddressList)
-      );
-    }
-    // customer checkout; no cart address present; customer has a default shipping
-    // address, then, set the default shipping address as selected.
-    else if (isLoggedIn && !cartHasShippingAddress && defaultShippingAddress) {
-      addressId = _toString(defaultShippingAddress);
-    }
-    // customer checkout; cart contains an address; so the cart address is a new
-    // address; hence set it to "new"
-    else if (
-      isLoggedIn &&
-      cartHasShippingAddress &&
-      !selectedAddressId &&
-      !editMode
-    ) {
-      addressId = 'new';
+    if (forceFillFields || !cartShippingAddress) {
+      return _emptyFunc();
     }
 
-    if (addressId && addressId !== selectedAddressId) {
-      setCartSelectedShippingAddress(addressId);
-    }
-  }, [
-    editMode,
-    cartHasShippingAddress,
-    isLoggedIn,
-    selectedAddressId,
-    shippingAddressList,
-    defaultShippingAddress,
-    setCartSelectedShippingAddress,
-  ]);
-
-  // side effect setting shipping_address fields in different occasions.
-  useEffect(() => {
-    let newAddress;
-    const isNewAddress = selectedAddressId === 'new';
-    // guest checkout; cart contains an address; then, set formik fields
-    // with cart address.
-    // customer checkout; cart contains an address; if the cart address is "new",
-    // then use cart address itself to fill out the formik fields.
-    if ((!isLoggedIn && selectedAddressId) || (isLoggedIn && isNewAddress)) {
-      newAddress = prepareFormAddressFromAddressListById(
-        shippingAddressList,
-        selectedAddressId
-      );
-    }
-    // customer checkout; cart contains an address;if cart address is not "new",
-    // then the address must be any of the customer address;
-    // so pick that address and fill out the formik fields.
-    if (isLoggedIn && selectedAddressId && !isNewAddress) {
-      newAddress = prepareFormAddressFromAddressListById(
-        customerAddressList,
-        selectedAddressId
-      );
+    if (!cartHasShippingAddress) {
+      return _emptyFunc();
     }
 
-    if (newAddress) {
-      setFieldValue(SHIPPING_ADDR_FORM, newAddress);
-      setFormEditMode(false);
-    }
-  }, [
-    isLoggedIn,
-    selectedAddressId,
-    shippingAddressList,
-    customerAddressList,
-    setFieldValue,
-    setFormEditMode,
-  ]);
-
-  const addressList = useMemo(() => {
-    if (!isLoggedIn && !selectedAddressId) {
-      return {};
-    }
-
-    if (!isLoggedIn && selectedAddressId) {
-      return prepareCartAddressWithId(shippingAddressList, selectedAddressId);
-    }
-
-    if (isLoggedIn && selectedAddressId === 'new') {
-      return {
-        ...prepareCartAddressWithId(shippingAddressList, selectedAddressId),
-        ...customerAddressList,
-      };
-    }
-
-    return { ...customerAddressList };
-  }, [isLoggedIn, selectedAddressId, shippingAddressList, customerAddressList]);
+    // needs to do this only once; forceFillFields make sure of it.
+    setShippingAddressFormFields(cartShippingAddress);
+    setForceFillFields(true);
+    return _emptyFunc();
+  }, [cartShippingAddress, cartHasShippingAddress, setFieldValue]);
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,
@@ -234,10 +156,11 @@ function ShippingAddressFormikProvider({ children }) {
       value={{
         ...context,
         editMode,
-        addressList,
         setFormToEditMode,
         setFormEditMode,
         resetShippingAddressFormFields,
+        setShippingAddressFormFields,
+        submitHandler: formSubmit,
       }}
     >
       <Form>{children}</Form>

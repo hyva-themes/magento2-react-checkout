@@ -8,31 +8,35 @@ import { prepareShippingAddressCardList } from '../utility';
 import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
 import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
+import { _toString } from '../../../utils';
 
 function ShippingAddressCardList() {
   const { values } = useFormikContext();
   const { customerAddressList } = useShippingAddressAppContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
-  const addressList = prepareShippingAddressCardList(
-    values,
-    customerAddressList,
-    regionData
-  );
   const {
     regionData,
     selectedAddress,
+    customerAddressSelected,
     setSelectedAddress,
   } = useShippingAddressWrapper();
+  const addressList = prepareShippingAddressCardList(
+    values,
+    customerAddressList,
+    regionData,
+    customerAddressSelected
+  );
 
   // when the address box radio button is clicked, this will be fired
   // use to update the cart address with the customer address
   const performAddressSwitching = useCallback(
-    addressId => {
+    async addressId => {
       if (addressId === selectedAddress) {
         return;
       }
-      setSelectedAddress(addressId);
-      performCustomerAddressSwitching(addressId, values);
+
+      setSelectedAddress(_toString(addressId));
+      await performCustomerAddressSwitching(addressId, values);
     },
     [
       values,
@@ -46,6 +50,7 @@ function ShippingAddressCardList() {
     <div className="mx-2 space-y-3">
       {addressList.map(address => (
         <ShippingAddressCard
+          key={address.id}
           address={address}
           isSelected={selectedAddress === address.id}
           actions={{ performAddressSwitching }}

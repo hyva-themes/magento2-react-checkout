@@ -1,10 +1,12 @@
+import LocalStorage from '../../utils/localStorage';
+
 const initialState = {
   pageLoader: false,
   countryList: [],
   countriesLoaded: [],
   stateList: {},
   message: false,
-  isLoggedIn: false,
+  isLoggedIn: !!LocalStorage.getCustomerToken(),
   customer: {},
   customerAddressList: {},
   defaultBillingAddress: '',
