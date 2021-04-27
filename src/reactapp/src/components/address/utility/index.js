@@ -1,5 +1,6 @@
 import _get from 'lodash.get';
-import { _objToArray } from '../../../../utils';
+
+import { _objToArray } from '../../../utils';
 
 function sortByItemLabel(item1, item2) {
   return item1.label.localeCompare(item2.label);

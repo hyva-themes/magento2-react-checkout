@@ -1,23 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 
 import Button from '../../Common/Button';
 import RadioInput from '../../Common/Form/RadioInput/RadioInput';
-import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
-import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
 
-function ShippingAddressCard({
-  address: { id, address },
-  isSelected,
-  actions,
-}) {
-  const { setToEditMode, setBackupAddress } = useShippingAddressWrapper();
-  const { cartShippingAddress } = useShippingAddressCartContext();
-
-  const editButtonClickHandler = useCallback(() => {
-    setBackupAddress({ ...cartShippingAddress });
-    setToEditMode();
-  }, [cartShippingAddress, setToEditMode, setBackupAddress]);
-
+function AddressCard({ address: { id, address }, isSelected, actions }) {
   return (
     <ul className="px-4 pb-4 bg-white border-white rounded-md shadow-sm">
       <li className="flex items-end justify-end">
@@ -39,7 +26,7 @@ function ShippingAddressCard({
       {isSelected && (
         <li>
           <div className="flex items-center justify-center mt-2">
-            <Button click={editButtonClickHandler} variant="warning">
+            <Button click={actions.performAddressEdit} variant="warning">
               edit
             </Button>
           </div>
@@ -49,4 +36,15 @@ function ShippingAddressCard({
   );
 }
 
-export default ShippingAddressCard;
+AddressCard.propTypes = {
+  isSelected: bool,
+  address: shape({ id: string, address: arrayOf(string) }).isRequired,
+  actions: shape({ performAddressSwitching: func, performAddressEdit: func })
+    .isRequired,
+};
+
+AddressCard.defaultProps = {
+  isSelected: false,
+};
+
+export default AddressCard;

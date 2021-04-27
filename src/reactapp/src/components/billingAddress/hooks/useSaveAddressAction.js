@@ -1,25 +1,23 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import _get from 'lodash.get';
 
 import { _emptyFunc, _makePromise } from '../../../utils';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { CART_SHIPPING_ADDRESS } from '../utility';
-import useShippingAddressWrapper from './useShippingAddressWrapper';
-import useShippingAddressAppContext from './useShippingAddressAppContext';
-import useShippingAddressFormikContext from './useShippingAddressFormikContext';
+import { CART_BILLING_ADDRESS } from '../utility';
+import useBillingAddressWrapper from './useBillingAddressWrapper';
+import useBillingAddressAppContext from './useBillingAddressAppContext';
+import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
 
-const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
-
 export default function useSaveAddressAction() {
-  const { submitHandler } = useShippingAddressFormikContext();
+  const { submitHandler } = useBillingAddressFormikContext();
   const {
     isLoggedIn,
     setPageLoader,
     setSuccessMessage,
     setErrorMessage,
     updateCustomerAddress,
-  } = useShippingAddressAppContext();
+  } = useBillingAddressAppContext();
   const {
     editMode,
     selectedAddress,
@@ -28,13 +26,15 @@ export default function useSaveAddressAction() {
     customerAddressSelected,
     setSelectedAddress,
     setCustomerAddressSelected,
-  } = useShippingAddressWrapper();
+  } = useBillingAddressWrapper();
+
+  const isSameAsBillingField = `${BILLING_ADDR_FORM}.isSameAsBilling`;
 
   return useCallback(
     async formikValues => {
       try {
         let customerAddressUsed = false;
-        const isBillingSame = _get(formikValues, isSameAsShippingField);
+        const isBillingSame = _get(formikValues, isSameAsBillingField);
         let updateCustomerAddrPromise = _emptyFunc();
         const updateCartAddressPromise = _makePromise(
           submitHandler,
@@ -55,7 +55,7 @@ export default function useSaveAddressAction() {
           saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
         } else {
           saveCustomerAddressToLocalStorage('', isBillingSame);
-          setSelectedAddress(CART_SHIPPING_ADDRESS);
+          setSelectedAddress(CART_BILLING_ADDRESS);
           setCustomerAddressSelected(false);
         }
 
@@ -65,11 +65,11 @@ export default function useSaveAddressAction() {
           updateCartAddressPromise(),
         ]);
         setToViewMode(false);
-        setSuccessMessage('Shipping address updated successfully.');
+        setSuccessMessage('Billing address updated successfully.');
         setPageLoader(false);
       } catch (error) {
         console.log({ error });
-        setErrorMessage('Shipping address update failed. Please try again');
+        setErrorMessage('Billing address update failed. Please try again');
         setPageLoader(false);
       }
     },

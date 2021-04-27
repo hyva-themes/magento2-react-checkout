@@ -1,12 +1,27 @@
 import React from 'react';
 
-import ORBox from './ORBox';
-import CreateNewAddressLink from './CreateNewAddressLink';
 import ShippingAddressCardList from './ShippingAddressCardList';
+import { CreateNewAddressLink, ORBox } from '../../address';
 import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
+import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
+import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 
 function ShippingAddressView() {
-  const { editMode } = useShippingAddressWrapper();
+  const {
+    editMode,
+    setToEditMode,
+    setBackupAddress,
+    setCustomerAddressSelected,
+  } = useShippingAddressWrapper();
+  const { resetShippingAddressFormFields } = useShippingAddressFormikContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
+
+  const newAddressClickHandler = () => {
+    setBackupAddress({ ...cartShippingAddress });
+    resetShippingAddressFormFields();
+    setCustomerAddressSelected(false);
+    setToEditMode();
+  };
 
   if (editMode) {
     return <></>;
@@ -14,7 +29,7 @@ function ShippingAddressView() {
 
   return (
     <div className="py-2">
-      <CreateNewAddressLink />
+      <CreateNewAddressLink actions={{ click: newAddressClickHandler }} />
       <ORBox />
       <ShippingAddressCardList />
     </div>

@@ -8,6 +8,8 @@ export async function setBillingAddressAction(dispatch, billingAddress) {
   try {
     const cartInfo = await setBillingAddressRequest(billingAddress);
 
+    console.log({ cartInfo })
+
     dispatch({
       type: SET_CART_INFO,
       payload: cartInfo,

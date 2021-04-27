@@ -9,12 +9,12 @@ import {
   _toString,
 } from '../../../utils';
 
-export * from './components/shippingAddressCardListUtil';
-export * from './components/shippingAddressWrapperUtil';
+export * from './components/billingAddressCardListUtil';
+export * from './components/billingAddressWrapperUtil';
 export * from './components/CancelButtonUtil';
 export * from './common';
 
-export const shippingAddressFormInitValues = {
+export const billingAddressFormInitValues = {
   company: '',
   firstname: '',
   lastname: '',
@@ -24,7 +24,7 @@ export const shippingAddressFormInitValues = {
   city: '',
   region: '',
   country: '',
-  isSameAsShipping: true,
+  isSameAsBilling: true,
   selectedAddress: '',
 };
 
@@ -66,14 +66,14 @@ export function modifyAddrObjListToArrayList(addressList) {
 export function isCartHoldingAddressInfo(cartInfo) {
   return (
     isCartHoldingBillingAddress(cartInfo) &&
-    isCartHoldingShippingAddress(cartInfo)
+    isCartHoldingBillingAddress(cartInfo)
   );
 }
 
 export function isCartHoldingShippingAddress(cartInfo) {
-  const cartShippingAddress = _get(cartInfo, 'shipping_addresses');
+  const cartBillingAddress = _get(cartInfo, 'shipping_addresses');
 
-  return !_isObjEmpty(cartShippingAddress);
+  return !_isObjEmpty(cartBillingAddress);
 }
 
 export function isCartHoldingBillingAddress(cartInfo) {
@@ -85,23 +85,23 @@ export function isCartHoldingBillingAddress(cartInfo) {
   );
 }
 
-export function getFirstItemFromShippingAddrList(addressList) {
+export function getFirstItemFromBillingAddrList(addressList) {
   return _isObjEmpty(addressList)
     ? addressList
     : addressList[_keys(addressList)[0]];
 }
 
-export function getFirstItemIdFromShippingAddrList(addressList) {
+export function getFirstItemIdFromBillingAddrList(addressList) {
   const addressIds = _keys(addressList);
 
   return _isArrayEmpty(addressIds) ? '' : addressIds[0];
 }
 
 export function prepareFormAddressFromAddressListById(
-  shippingAddressList,
+  billingAddressList,
   selectedAddressId
 ) {
-  const address = { ..._get(shippingAddressList, selectedAddressId, {}) };
+  const address = { ..._get(billingAddressList, selectedAddressId, {}) };
   const { countryCode, regionCode } = address;
 
   if (countryCode) {
@@ -115,14 +115,14 @@ export function prepareFormAddressFromAddressListById(
     'countryCode',
     'fullName',
     'isDefaultBilling',
-    'isDefaultShipping',
+    'isDefaultBilling',
     'middlename',
     'regionCode',
     'regionLabel',
   ];
 
   return {
-    ...shippingAddressFormInitValues,
+    ...billingAddressFormInitValues,
     ..._cleanObjByKeys(address, keysToRemove),
     selectedAddress: selectedAddressId,
   };
@@ -132,7 +132,7 @@ export function prepareCartAddressWithId(addressList, addressId) {
   return {
     [addressId]: {
       id: addressId,
-      ...getFirstItemFromShippingAddrList(addressList),
+      ...getFirstItemFromBillingAddrList(addressList),
     },
   };
 }

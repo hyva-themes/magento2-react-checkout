@@ -4,17 +4,17 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 
 import { AddressCard } from '../../address';
-import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
+import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
-import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
-import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import { _toString } from '../../../utils';
-import { prepareShippingAddressCardList } from '../utility';
+import { prepareBillingAddressCardList } from '../utility';
 
-function ShippingAddressCardList() {
+function BillingAddressCardList() {
   const { values } = useFormikContext();
-  const { customerAddressList } = useShippingAddressAppContext();
-  const { cartShippingAddress } = useShippingAddressCartContext();
+  const { customerAddressList } = useBillingAddressAppContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const {
     regionData,
@@ -23,8 +23,8 @@ function ShippingAddressCardList() {
     setSelectedAddress,
     setToEditMode,
     setBackupAddress,
-  } = useShippingAddressWrapper();
-  const addressList = prepareShippingAddressCardList(
+  } = useBillingAddressWrapper();
+  const addressList = prepareBillingAddressCardList(
     values,
     customerAddressList,
     regionData,
@@ -32,7 +32,7 @@ function ShippingAddressCardList() {
   );
 
   const performAddressEdit = () => {
-    setBackupAddress({ ...cartShippingAddress });
+    setBackupAddress({ ...cartBillingAddress });
     setToEditMode();
   };
 
@@ -61,4 +61,4 @@ function ShippingAddressCardList() {
   );
 }
 
-export default ShippingAddressCardList;
+export default BillingAddressCardList;

@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from '../Card';
 
-
 function PulseBox({ repeat }) {
   const repeatArr = [];
   const repeatTimes = repeat === 'fill-height' ? 6 : repeat;

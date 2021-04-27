@@ -1,21 +1,23 @@
 import React from 'react';
 
+import { ORBox, SaveButton } from '../../address';
 import SelectInput from '../../Common/Form/SelectInput';
 import TextInput from '../../Common/Form/TextInput';
-import CancelButton from './shippingAddressForm/CancelButton';
-import { SaveButton } from '../../address';
-import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
+import CancelButton from './billingAddressForm/CancelButton';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
+import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useCountryState from '../../address/hooks/useCountryState';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 
-function ShippingAddressForm() {
-  const { viewMode } = useShippingAddressWrapper();
+function BillingAddressForm() {
+  const { viewMode } = useBillingAddressWrapper();
   const {
     fields,
     handleFocus,
     isFormValid,
-  } = useShippingAddressFormikContext();
+    isBillingAddressSameAsShipping,
+  } = useBillingAddressFormikContext();
   const saveAddress = useSaveAddressAction();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
@@ -23,6 +25,10 @@ function ShippingAddressForm() {
 
   if (viewMode) {
     return <></>;
+  }
+
+  if (isBillingAddressSameAsShipping) {
+    return <BillingSameAsShippingCheckbox />;
   }
 
   return (
@@ -107,8 +113,12 @@ function ShippingAddressForm() {
         <CancelButton />
         <SaveButton isFormValid={isFormValid} actions={{ saveAddress }} />
       </div>
+
+      <ORBox />
+
+      <BillingSameAsShippingCheckbox />
     </>
   );
 }
 
-export default ShippingAddressForm;
+export default BillingAddressForm;

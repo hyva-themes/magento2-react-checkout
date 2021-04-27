@@ -43,7 +43,7 @@ function RadioInput({
 RadioInput.propTypes = {
   id: string,
   name: string.isRequired,
-  label: string.isRequired,
+  label: string,
   helpText: string,
   placeholder: string,
   required: bool,
@@ -56,6 +56,7 @@ RadioInput.defaultProps = {
   required: false,
   placeholder: '',
   checked: false,
+  label: '',
 };
 
 export default RadioInput;

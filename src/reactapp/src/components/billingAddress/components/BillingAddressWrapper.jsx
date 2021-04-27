@@ -1,38 +1,42 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import ShippingAddressWrapperContext from '../context/ShippingAddressWrapperContext';
-import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
-import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
-import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
+import BillingAddressWrapperContext from '../context/BillingAddressWrapperContext';
+import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import useToggler from '../hooks/useToggler';
 import {
-  CART_SHIPPING_ADDRESS,
+  CART_BILLING_ADDRESS,
   customerHasAddress,
-  isCartHoldingShippingAddress,
+  isCartHoldingBillingAddress,
 } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
 
-function ShippingAddressWrapper({ children }) {
+function BillingAddressWrapper({ children }) {
   const addressIdInCache = _toString(
-    LocalStorage.getCustomerShippingAddressId()
+    LocalStorage.getCustomerBillingAddressId()
   );
   const [forceViewMode, setForceViewMode] = useState(false);
   const [backupAddress, setBackupAddress] = useState(null);
   const [regionData, setRegionData] = useState({});
   const [selectedAddress, setSelectedAddress] = useState(
-    addressIdInCache || CART_SHIPPING_ADDRESS
+    addressIdInCache || CART_BILLING_ADDRESS
   );
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     !!addressIdInCache
   );
   const [editMode, setToEditMode, setToViewMode] = useToggler(true);
   const { values } = useFormikContext();
-  const { cartInfo } = useShippingAddressCartContext();
-  const { stateList, customerAddressList } = useShippingAddressAppContext();
-  const { fields } = useShippingAddressFormikContext();
+  const { cartInfo } = useBillingAddressCartContext();
+  const { stateList, customerAddressList } = useBillingAddressAppContext();
+  const {
+    fields,
+    isBillingAddressSameAsShipping,
+  } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
 
@@ -41,7 +45,8 @@ function ShippingAddressWrapper({ children }) {
   useEffect(() => {
     if (
       !forceViewMode &&
-      (isCartHoldingShippingAddress(cartInfo) ||
+      !isBillingAddressSameAsShipping &&
+      (isCartHoldingBillingAddress(cartInfo) ||
         customerHasAddress(customerAddressList))
     ) {
       // this needs to be executed once. to make sure that we are using
@@ -67,18 +72,11 @@ function ShippingAddressWrapper({ children }) {
     }
   }, [regionValue, countryValue, regionData, stateList]);
 
-  const editModeContext = useMemo(
-    () => ({
-      editMode,
-      viewMode: !editMode,
-      setToEditMode,
-      setToViewMode,
-    }),
-    [editMode, setToEditMode, setToViewMode]
-  );
-
   const context = {
-    ...editModeContext,
+    editMode,
+    viewMode: !editMode,
+    setToEditMode,
+    setToViewMode,
     selectedAddress,
     setSelectedAddress,
     regionData,
@@ -89,10 +87,14 @@ function ShippingAddressWrapper({ children }) {
   };
 
   return (
-    <ShippingAddressWrapperContext.Provider value={context}>
+    <BillingAddressWrapperContext.Provider value={context}>
       {children}
-    </ShippingAddressWrapperContext.Provider>
+    </BillingAddressWrapperContext.Provider>
   );
 }
 
-export default ShippingAddressWrapper;
+BillingAddressWrapper.propTypes = {
+  children: node.isRequired,
+};
+
+export default BillingAddressWrapper;

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
 import BillingAddressForm from './Checkout/BillingAddressForm';
-import ShippingAddressForm from './Checkout/ShippingAddressForm';
 import AddressWrapper from './Checkout/AddressWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
@@ -15,6 +14,7 @@ import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 import Message from './Common/Message';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import ShippingAddress from './shippingAddress';
+import BillingAddress from './billingAddress';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -32,10 +32,6 @@ function CheckoutForm() {
     })();
   }, [getGuestCartInfo, setPageLoader]);
 
-  if (pageLoader) {
-    return <PageLoader />;
-  }
-
   if (orderId) {
     return (
       <div className="flex flex-col items-center justify-center mx-10 my-10">
@@ -51,15 +47,20 @@ function CheckoutForm() {
   return (
     <CheckoutFormWrapper>
       <Message />
-      <div className="flex flex-col flex-wrap mx-12 my-6 md:flex-row">
+      <div
+        className={`${
+          pageLoader
+            ? 'hidden'
+            : 'flex flex-col flex-wrap mx-12 my-6 md:flex-row'
+        }`}
+      >
         <div className="md:w-1/4">
           <div className="mr-1">
             <FormStep className="space-y-2">
               <GuestEmailForm />
               <AddressWrapper>
-                <BillingAddressForm />
+                <BillingAddress />
                 <ShippingAddress />
-                {/* <ShippingAddressForm /> */}
               </AddressWrapper>
             </FormStep>
           </div>
@@ -85,6 +86,7 @@ function CheckoutForm() {
           </div>
         </div>
       </div>
+      {pageLoader && <PageLoader />}
     </CheckoutFormWrapper>
   );
 }
