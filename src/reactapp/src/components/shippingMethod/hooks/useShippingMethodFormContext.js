@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import ShippingMethodFormContext from '../context/Form/ShippingMethod/ShippingMethodFormContext';
+
+import ShippingMethodFormContext from '../context/ShippingMethodFormContext';
 
 export default function useShippingMethodFormContext() {
   return useContext(ShippingMethodFormContext);

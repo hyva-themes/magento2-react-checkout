@@ -1,4 +1,4 @@
-import LocalStorage from "../../utils/localStorage";
+import LocalStorage from '../../utils/localStorage';
 
 const selectedShippingAddress = LocalStorage.getCustomerShippingAddressId();
 

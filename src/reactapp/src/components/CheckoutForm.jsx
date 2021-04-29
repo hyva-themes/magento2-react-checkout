@@ -5,7 +5,7 @@ import GuestEmailForm from './Checkout/GuestEmailForm';
 import AddressWrapper from './Checkout/AddressWrapper';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
-import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
+import ShippingMethodsForm from './shippingMethod';
 import PlaceOrder from './Checkout/PlaceOrder';
 import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
 import Message from './Common/Message';
