@@ -62,6 +62,13 @@ export default function useCustomerAddressSwitchAction() {
         setPageLoader(false);
       }
     },
-    [isLoggedIn, editMode, submitHandler, setSuccessMessage, setErrorMessage]
+    [
+      isLoggedIn,
+      editMode,
+      submitHandler,
+      setSuccessMessage,
+      setErrorMessage,
+      setPageLoader,
+    ]
   );
 }

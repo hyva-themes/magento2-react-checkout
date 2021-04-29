@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
 
 import Button from '../../../Common/Button';
-import { formHasShippingAddress } from '../../utility';
 import useShippingAddressWrapper from '../../hooks/useShippingAddressWrapper';
 import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
-import { isCartHoldingAddressInfo } from '../../../../utils/address';
 import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
+import { formHasShippingAddress } from '../../utility';
+import { isCartHoldingAddressInfo } from '../../../../utils/address';
 import LocalStorage from '../../../../utils/localStorage';
 
 function CancelButton() {

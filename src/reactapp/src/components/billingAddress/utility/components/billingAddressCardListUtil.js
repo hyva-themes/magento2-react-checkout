@@ -1,5 +1,5 @@
 import _get from 'lodash.get';
-import { SHIPPING_ADDR_FORM } from '../../../../config';
+import { BILLING_ADDR_FORM } from '../../../../config';
 import { _objToArray, _toString } from '../../../../utils';
 import { CART_BILLING_ADDRESS } from '../common';
 
@@ -55,7 +55,7 @@ export function prepareBillingAddressCardList(
   regionData,
   customerAddressSelected
 ) {
-  const cartBillingAddress = _get(values, SHIPPING_ADDR_FORM, {});
+  const cartBillingAddress = _get(values, BILLING_ADDR_FORM, {});
   const { country } = cartBillingAddress;
   let cartBillingAddrCardInfo = [];
 

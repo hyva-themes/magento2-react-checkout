@@ -49,7 +49,7 @@ function ShippingAddressWrapper({ children }) {
       setToViewMode();
       setForceViewMode(true);
     }
-  }, [cartInfo, customerAddressList, setToViewMode]);
+  }, [cartInfo, customerAddressList, setToViewMode, forceViewMode]);
 
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate

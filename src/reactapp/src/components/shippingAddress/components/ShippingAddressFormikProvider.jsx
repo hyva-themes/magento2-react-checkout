@@ -66,21 +66,24 @@ function ShippingAddressFormikProvider({ children }) {
       try {
         setPageLoader(true);
 
+        const isBillingSame = _get(formValues, isSameAsShippingField);
         const shippingAddressToSave = _get(formValues, SHIPPING_ADDR_FORM);
         let updateBillingAddress = _emptyFunc();
         let updateShippingAddress = _makePromise(
           addCartShippingAddress,
-          shippingAddressToSave
+          shippingAddressToSave,
+          isBillingSame
         );
 
         if (customerAddressId) {
           updateShippingAddress = _makePromise(
             setCustomerAddressAsShippingAddress,
-            Number(customerAddressId)
+            Number(customerAddressId),
+            isBillingSame
           );
         }
 
-        const isBillingSame = _get(formValues, isSameAsShippingField);
+        console.log({ formValues, isBillingSame });
 
         if (isBillingSame) {
           if (customerAddressId) {
@@ -142,7 +145,13 @@ function ShippingAddressFormikProvider({ children }) {
     setShippingAddressFormFields(cartShippingAddress);
     setForceFillFields(true);
     return _emptyFunc();
-  }, [cartShippingAddress, cartHasShippingAddress, setFieldValue]);
+  }, [
+    forceFillFields,
+    cartShippingAddress,
+    cartHasShippingAddress,
+    setFieldValue,
+    setShippingAddressFormFields,
+  ]);
 
   const context = useFormSection({
     id: SHIPPING_ADDR_FORM,

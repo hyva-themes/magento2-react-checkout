@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
+
 import { SHIPPING_ADDR_FORM } from '../../../../config';
 import { _objToArray, _toString } from '../../../../utils';
-import LocalStorage from '../../../../utils/localStorage';
 import { CART_SHIPPING_ADDRESS } from '../common';
 
 function formatAddressListToCardData(addressList) {

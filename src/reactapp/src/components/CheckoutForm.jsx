@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
-import BillingAddressForm from './Checkout/BillingAddressForm';
 import AddressWrapper from './Checkout/AddressWrapper';
-import useCartContext from '../hook/useCartContext';
-import useAppContext from '../hook/useAppContext';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
@@ -15,6 +12,8 @@ import Message from './Common/Message';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import ShippingAddress from './shippingAddress';
 import BillingAddress from './billingAddress';
+import useCartContext from '../hook/useCartContext';
+import useAppContext from '../hook/useAppContext';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;

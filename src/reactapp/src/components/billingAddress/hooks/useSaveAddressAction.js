@@ -74,6 +74,7 @@ export default function useSaveAddressAction() {
       }
     },
     [
+      isSameAsBillingField,
       submitHandler,
       isLoggedIn,
       selectedAddress,

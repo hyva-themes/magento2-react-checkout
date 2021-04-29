@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import _get from 'lodash.get';
 
-import { _emptyFunc, _makePromise } from '../../../utils';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { CART_SHIPPING_ADDRESS } from '../utility';
 import useShippingAddressWrapper from './useShippingAddressWrapper';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import useShippingAddressFormikContext from './useShippingAddressFormikContext';
 import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
+import { _emptyFunc, _makePromise } from '../../../utils';
+import { CART_SHIPPING_ADDRESS } from '../utility';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 

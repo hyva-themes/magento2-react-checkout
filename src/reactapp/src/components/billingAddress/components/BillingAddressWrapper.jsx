@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
@@ -54,7 +54,13 @@ function BillingAddressWrapper({ children }) {
       setToViewMode();
       setForceViewMode(true);
     }
-  }, [cartInfo, customerAddressList, setToViewMode]);
+  }, [
+    cartInfo,
+    customerAddressList,
+    setToViewMode,
+    forceViewMode,
+    isBillingAddressSameAsShipping,
+  ]);
 
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate

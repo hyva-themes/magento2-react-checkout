@@ -4,15 +4,20 @@ import { useFormikContext } from 'formik';
 import Checkbox from '../../Common/Form/Checkbox';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import LocalStorage from '../../../utils/localStorage';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 
 function BillingSameAsShippingCheckbox() {
   const { setFieldValue } = useFormikContext();
+  const { setBackupAddress } = useBillingAddressWrapper();
+  const { cartBillingAddress } = useBillingAddressCartContext();
   const {
     fields,
     isBillingAddressSameAsShipping,
   } = useBillingAddressFormikContext();
 
   const toggleBillingEqualsShippingState = () => {
+    setBackupAddress({ ...cartBillingAddress });
     setFieldValue(fields.isSameAsShipping, !isBillingAddressSameAsShipping);
     LocalStorage.saveBillingSameAsShipping(!isBillingAddressSameAsShipping);
   };

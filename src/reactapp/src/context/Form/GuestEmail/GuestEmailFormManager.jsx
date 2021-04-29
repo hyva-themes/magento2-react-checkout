@@ -71,7 +71,7 @@ function GuestEmailFormManager({ children }) {
       setSuccessMessage('Email is successfully attached to your cart.');
       setPageLoader(false);
     },
-    [setPageLoader.setEmailOnGuestCart, setSuccessMessage]
+    [setPageLoader, setEmailOnGuestCart, setSuccessMessage]
   );
 
   const collectCustomerCartAndAddressInfoRequest = useCallback(async () => {
