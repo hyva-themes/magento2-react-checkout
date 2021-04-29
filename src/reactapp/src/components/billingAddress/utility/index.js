@@ -25,7 +25,7 @@ export const billingAddressFormInitValues = {
   region: '',
   country: '',
   isSameAsBilling: true,
-  selectedAddress: '',
+  // selectedAddress: '',
 };
 
 export function modifyAddrObjListToArrayList(addressList) {

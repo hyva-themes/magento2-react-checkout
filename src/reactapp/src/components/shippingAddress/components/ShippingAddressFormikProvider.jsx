@@ -13,12 +13,13 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrAppContext from '../../../hook/app/useShippingAddrAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { _emptyFunc, _makePromise } from '../../../utils';
+import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import {
   isCartHoldingShippingAddress,
   shippingAddressFormInitValues,
 } from '../utility';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 export const initialValues = {
   ...shippingAddressFormInitValues,
@@ -83,8 +84,6 @@ function ShippingAddressFormikProvider({ children }) {
           );
         }
 
-        console.log({ formValues, isBillingSame });
-
         if (isBillingSame) {
           if (customerAddressId) {
             updateBillingAddress = _makePromise(
@@ -100,7 +99,21 @@ function ShippingAddressFormikProvider({ children }) {
           }
         }
 
-        await Promise.all([updateShippingAddress(), updateBillingAddress()]);
+        const [shippingAddrResponse] = await Promise.all([
+          updateShippingAddress(),
+          updateBillingAddress(),
+        ]);
+
+        if (isBillingSame) {
+          const addressToSet = _cleanObjByKeys(
+            _get(shippingAddrResponse, 'shipping_addresses'),
+            ['fullName']
+          );
+          setFieldValue(BILLING_ADDR_FORM, {
+            ...billingAddressFormInitValues,
+            ...addressToSet,
+          });
+        }
 
         setPageLoader(false);
       } catch (error) {
@@ -114,6 +127,7 @@ function ShippingAddressFormikProvider({ children }) {
       setPageLoader,
       setCustomerAddressAsShippingAddress,
       setCustomerAddressAsBillingAddress,
+      setFieldValue,
     ]
   );
 

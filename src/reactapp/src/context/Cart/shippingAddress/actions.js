@@ -27,9 +27,13 @@ export async function addCartShippingAddressAction(
       type: SET_CART_INFO,
       payload: cartInfo,
     });
+
+    return cartInfo;
   } catch (error) {
     // @todo error message
   }
+
+  return {};
 }
 
 export async function setCustomerAddrAsShippingAddrAction(
@@ -45,7 +49,11 @@ export async function setCustomerAddrAsShippingAddrAction(
       type: SET_CART_INFO,
       payload: cartInfo,
     });
+
+    return cartInfo;
   } catch (error) {
     // @todo error message
   }
+
+  return {};
 }
