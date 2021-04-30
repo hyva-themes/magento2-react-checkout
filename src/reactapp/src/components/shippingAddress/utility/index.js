@@ -24,7 +24,6 @@ export const shippingAddressFormInitValues = {
   city: '',
   region: '',
   country: '',
-  // selectedAddress: '',
 };
 
 export function modifyAddrObjListToArrayList(addressList) {

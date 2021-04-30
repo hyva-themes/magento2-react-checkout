@@ -158,7 +158,7 @@ const LocalStorage = {
     const storageData = _set(
       LocalStorage.getHyvaCheckoutStorage(),
       source.value,
-      isSame
+      !!isSame
     );
 
     window.localStorage.setItem(storageKey, JSON.stringify(storageData));

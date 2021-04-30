@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import Totals from './Checkout/Totals';
 import GuestEmailForm from './Checkout/GuestEmailForm';
-import AddressWrapper from './Checkout/AddressWrapper';
+import { AddressWrapper } from './address';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './shippingMethod';

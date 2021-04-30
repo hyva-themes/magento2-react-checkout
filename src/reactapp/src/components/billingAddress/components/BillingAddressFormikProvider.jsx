@@ -5,14 +5,14 @@ import { Form, useFormikContext } from 'formik';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
-import { BILLING_ADDR_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import useBillingAddrCartContext from '../../../hook/cart/useBillingAddrCartContext';
+import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import { BILLING_ADDR_FORM } from '../../../config';
 import { isCartBillingAddressValid } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
 import { _isObjEmpty, _keys } from '../../../utils';
-import useBillingAddrAppContext from '../../../hook/app/useBillingAddrAppContext';
 import { billingAddressFormInitValues } from '../utility';
 
 const initialValues = {
@@ -56,12 +56,12 @@ function BillingAddressFormManager({ children }) {
     isLoggedIn,
     customerAddressList,
     setPageLoader,
-  } = useBillingAddrAppContext();
+  } = useBillingAddressAppContext();
   const {
     cartBillingAddress,
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
-  } = useBillingAddrCartContext();
+  } = useBillingAddressCartContext();
   const isSame = _get(values, isSameAsShippingField);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
 

@@ -5,11 +5,18 @@ import { _emptyFunc, _makePromise } from '../../../utils';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import useBillingAddressWrapper from './useBillingAddressWrapper';
-import {
-  CART_BILLING_ADDRESS,
-  saveCustomerAddressToLocalStorage,
-} from '../utility';
+import { CART_BILLING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
+import LocalStorage from '../../../utils/localStorage';
+
+export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
+  LocalStorage.saveBillingSameAsShipping(isBillingSame);
+  LocalStorage.saveCustomerBillingAddressId(addressId);
+
+  if (isBillingSame) {
+    LocalStorage.saveCustomerBillingAddressId(addressId);
+  }
+}
 
 const isSameAsBillingField = `${BILLING_ADDR_FORM}.isSameAsBilling`;
 

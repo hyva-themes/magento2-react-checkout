@@ -10,7 +10,6 @@ import {
 } from '../../../utils';
 
 export * from './components/billingAddressCardListUtil';
-export * from './components/billingAddressWrapperUtil';
 export * from './components/CancelButtonUtil';
 export * from './common';
 
@@ -25,7 +24,6 @@ export const billingAddressFormInitValues = {
   region: '',
   country: '',
   isSameAsBilling: true,
-  // selectedAddress: '',
 };
 
 export function modifyAddrObjListToArrayList(addressList) {

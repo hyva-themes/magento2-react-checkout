@@ -11,7 +11,7 @@ import {
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import useShippingAddrAppContext from '../../../hook/app/useShippingAddrAppContext';
+import useShippingAddrAppContext from '../hooks/useShippingAddressAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import {
