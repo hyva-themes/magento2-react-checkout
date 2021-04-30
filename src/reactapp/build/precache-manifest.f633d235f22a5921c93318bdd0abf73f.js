@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1fd22c2f424faadb4756",
+    "revision": "6a50eda3d97f581df9a3",
     "url": "/../../view/frontend/web/js/react-checkout.js"
   },
   {
-    "revision": "d4b9583852996254d9a5b908c50798f8",
+    "revision": "3c73c585782ac05880c0f89bcfdbba5a",
     "url": "/../../view/frontend/web/js/react-checkout.js.LICENSE.txt"
   },
   {
