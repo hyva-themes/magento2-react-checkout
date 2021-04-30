@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
+import Login from './login';
 import Totals from './Checkout/Totals';
-import GuestEmailForm from './Checkout/GuestEmailForm';
 import { AddressWrapper } from './address';
 import PageLoader from './Common/Loader';
 import CartItemsForm from './Checkout/CartItemsForm';
 import ShippingMethodsForm from './shippingMethod';
 import PlaceOrder from './Checkout/PlaceOrder';
-import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
+import PaymentMethod from './paymentMethod';
 import Message from './Common/Message';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import ShippingAddress from './shippingAddress';
@@ -56,7 +56,7 @@ function CheckoutForm() {
         <div className="md:w-1/4">
           <div className="mr-1">
             <FormStep className="space-y-2">
-              <GuestEmailForm />
+              <Login />
               <AddressWrapper>
                 <BillingAddress />
                 <ShippingAddress />
@@ -72,7 +72,7 @@ function CheckoutForm() {
             </FormStep>
 
             <FormStep>
-              <PaymentMethodsForm />
+              <PaymentMethod />
             </FormStep>
           </div>
         </div>
