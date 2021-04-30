@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from '../Common/Card';
-import Header from '../Common/Header';
+import Card from '../common/Card';
+import Header from '../common/Header';
 import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
 import PaymentMethodList from './components/PaymentMethodList';

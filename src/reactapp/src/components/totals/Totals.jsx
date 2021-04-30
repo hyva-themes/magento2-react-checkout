@@ -1,10 +1,12 @@
 import React from 'react';
-import useCartContext from '../../hook/useCartContext';
-import Card from '../Common/Card';
-import Header from '../Common/Header';
+
+import Card from '../common/Card';
+import Header from '../common/Header';
+import useTotalsCartContext from './hooks/useTotalsCartContext';
 
 function Totals() {
-  const { shippingMethodRate, subTotal, grandTotal } = useCartContext();
+  const { shippingMethodRate, subTotal, grandTotal } = useTotalsCartContext();
+
   return (
     <Card bg="dark">
       <Header>Order Summary</Header>

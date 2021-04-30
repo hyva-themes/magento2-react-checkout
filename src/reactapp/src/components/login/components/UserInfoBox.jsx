@@ -2,7 +2,7 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import Button from '../../Common/Button';
+import Button from '../../common/Button';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginFormContext from '../hooks/useLoginFormContext';
 

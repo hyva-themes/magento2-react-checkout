@@ -1,9 +1,9 @@
 import React from 'react';
 
+import Card from '../common/Card';
+import Header from '../common/Header';
 import ShippingMethodList from './components/ShippingMethodList';
 import ShippingMethodFormManager from './components/ShippingMethodFormManager';
-import Card from '../Common/Card';
-import Header from '../Common/Header';
 import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
 

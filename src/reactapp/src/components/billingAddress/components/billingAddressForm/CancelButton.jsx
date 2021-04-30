@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
 
-import Button from '../../../Common/Button';
-import { formHasBillingAddress } from '../../utility';
+import Button from '../../../common/Button';
 import useBillingAddressWrapper from '../../hooks/useBillingAddressWrapper';
 import useBillingAddressCartContext from '../../hooks/useBillingAddressCartContext';
-import { isCartHoldingAddressInfo } from '../../../../utils/address';
 import useBillingAddressFormikContext from '../../hooks/useBillingAddressFormikContext';
+import { formHasBillingAddress } from '../../utility';
+import { isCartHoldingAddressInfo } from '../../../../utils/address';
 import LocalStorage from '../../../../utils/localStorage';
 
 function CancelButton() {

@@ -2,7 +2,7 @@ import React from 'react';
 import { bool, func, shape } from 'prop-types';
 import { useFormikContext } from 'formik';
 
-import Button from '../../Common/Button';
+import Button from '../../common/Button';
 
 function SaveButton({ actions, isFormValid }) {
   const { values } = useFormikContext();

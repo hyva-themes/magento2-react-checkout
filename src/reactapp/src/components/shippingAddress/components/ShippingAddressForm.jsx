@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SelectInput from '../../Common/Form/SelectInput';
-import TextInput from '../../Common/Form/TextInput';
+import SelectInput from '../../common/Form/SelectInput';
+import TextInput from '../../common/Form/TextInput';
 import CancelButton from './shippingAddressForm/CancelButton';
 import { SaveButton } from '../../address';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';

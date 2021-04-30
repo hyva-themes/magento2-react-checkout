@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { ORBox, SaveButton } from '../../address';
-import SelectInput from '../../Common/Form/SelectInput';
-import TextInput from '../../Common/Form/TextInput';
+import SelectInput from '../../common/Form/SelectInput';
+import TextInput from '../../common/Form/TextInput';
 import CancelButton from './billingAddressForm/CancelButton';
-import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import useCountryState from '../../address/hooks/useCountryState';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
-import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
+import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 
 function BillingAddressForm() {
   const { viewMode } = useBillingAddressWrapper();

@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
 
-import CartItemsFormContext from './CartItemsFormContext';
+import CartItemsFormContext from '../context/CartItemsFormContext';
 import useFormSection from '../../../hook/useFormSection';
-import { CART_ITEMS_FORM } from '../../../config';
-import useCartContext from '../../../hook/useCartContext';
+import useItemsAppContext from '../hooks/useItemsAppContext';
+import useItemsCartContext from '../hooks/useItemsCartContext';
 import { _objToArray } from '../../../utils';
-import useAppContext from '../../../hook/useAppContext';
+import { CART_ITEMS_FORM } from '../../../config';
 
 const initialValues = {};
 
@@ -18,29 +18,40 @@ const formSubmit = () => {};
 
 function CartItemsFormManager({ children }) {
   const [populateForm, setPopulateForm] = useState(true);
-  const { cartItems, updateCartItem } = useCartContext();
-  const [, { setPageLoader }] = useAppContext();
   const { values, setFieldValue } = useFormikContext();
-  const cartItemsArr = useMemo(() => _objToArray(cartItems), [cartItems]);
+  const {
+    setPageLoader,
+    setSuccessMessage,
+    setErrorMessage,
+  } = useItemsAppContext();
+  const {
+    cartItems,
+    cartItemsAvailable,
+    updateCartItem,
+  } = useItemsCartContext();
+
+  const cartItemsArr = _objToArray(cartItems);
   const cartItemsValue = _get(values, 'items');
 
-  const itemUpdateHandler = useCallback(async () => {
+  const itemUpdateHandler = async () => {
     try {
       const cartItemsToUpdate = _objToArray(cartItemsValue);
 
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
         await updateCartItem({ cartItems: cartItemsToUpdate });
-        populateForm(true);
+        setSuccessMessage('Cart updated successfully.');
         setPageLoader(false);
       }
     } catch (error) {
+      console.log({ error });
+      setErrorMessage('Something went wrong while updating the cart item.');
       setPageLoader(false);
     }
-  }, [cartItemsValue, updateCartItem, setPageLoader, populateForm]);
+  };
 
   useEffect(() => {
-    if (populateForm) {
+    if (populateForm && cartItemsAvailable) {
       const cartItemFormData = cartItemsArr.reduce((formData, item) => {
         const cartItemId = parseInt(item.id, 10);
         // eslint-disable-next-line no-param-reassign
@@ -53,7 +64,7 @@ function CartItemsFormManager({ children }) {
       setPopulateForm(false);
       setFieldValue(CART_ITEMS_FORM, cartItemFormData);
     }
-  }, [cartItemsArr, populateForm, setFieldValue]);
+  }, [cartItemsArr, cartItemsAvailable, populateForm, setFieldValue]);
 
   const context = useFormSection({
     id: CART_ITEMS_FORM,
@@ -64,7 +75,12 @@ function CartItemsFormManager({ children }) {
 
   return (
     <CartItemsFormContext.Provider
-      value={{ ...context, cartItems: cartItemsArr, itemUpdateHandler }}
+      value={{
+        ...context,
+        cartItems: cartItemsArr,
+        cartItemsAvailable: !!cartItemsArr.length,
+        itemUpdateHandler,
+      }}
     >
       <Form>{children}</Form>
     </CartItemsFormContext.Provider>

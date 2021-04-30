@@ -1,8 +1,8 @@
-import { bool, node } from 'prop-types';
 import React, { useState } from 'react';
-import ArrowDownIcon from '../../Icons/ArrowDown';
-import ArrowUpIcon from '../../Icons/ArrowUp';
+import { bool, node } from 'prop-types';
+
 import Header from '../Header';
+import { ArrowUpIcon, ArrowDownIcon } from '../icons';
 
 function ToggleBox({ children, title, show }) {
   const [open, setOpen] = useState(show);

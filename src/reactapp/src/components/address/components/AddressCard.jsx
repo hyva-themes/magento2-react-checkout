@@ -1,8 +1,8 @@
 import React from 'react';
 import { arrayOf, bool, func, shape, string } from 'prop-types';
 
-import Button from '../../Common/Button';
-import RadioInput from '../../Common/Form/RadioInput/RadioInput';
+import Button from '../../common/Button';
+import RadioInput from '../../common/Form/RadioInput';
 
 function AddressCard({ address: { id, address }, isSelected, actions }) {
   return (

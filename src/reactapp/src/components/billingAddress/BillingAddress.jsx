@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Card from '../Common/Card';
-import ToggleBox from '../Common/ToggleBox';
+import Card from '../common/Card';
+import ToggleBox from '../common/ToggleBox';
 import BillingAddressForm from './components/BillingAddressForm';
 import BillingAddressWrapper from './components/BillingAddressWrapper';
 import BillingAddressView from './components/BillingAddressView';

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 
-import Checkbox from '../../Common/Form/Checkbox';
+import Checkbox from '../../common/Form/Checkbox';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import LocalStorage from '../../../utils/localStorage';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
+import LocalStorage from '../../../utils/localStorage';
 
 function BillingSameAsShippingCheckbox() {
   const { setFieldValue } = useFormikContext();

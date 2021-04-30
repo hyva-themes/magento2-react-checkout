@@ -1,7 +1,8 @@
-import { useFormikContext } from 'formik';
 import React, { useEffect, useState } from 'react';
-import useCheckoutFormContext from '../../hook/useCheckoutFormContext';
-import Button from '../Common/Button';
+import { useFormikContext } from 'formik';
+
+import Button from './common/Button';
+import useCheckoutFormContext from '../hook/useCheckoutFormContext';
 
 function PlaceOrder() {
   const [isValid, setIsValid] = useState(false);

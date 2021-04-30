@@ -2,8 +2,8 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import Button from '../../Common/Button';
-import RadioInput from '../../Common/Form/RadioInput';
+import Button from '../../common/Button';
+import RadioInput from '../../common/Form/RadioInput';
 import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 import { _objToArray } from '../../../utils';

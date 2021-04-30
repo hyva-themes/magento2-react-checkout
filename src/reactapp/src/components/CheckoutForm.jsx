@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 
+import Message from './common/Message';
+import PageLoader from './common/Loader';
 import Login from './login';
-import Totals from './Checkout/Totals';
 import { AddressWrapper } from './address';
-import PageLoader from './Common/Loader';
-import CartItemsForm from './Checkout/CartItemsForm';
-import ShippingMethodsForm from './shippingMethod';
-import PlaceOrder from './Checkout/PlaceOrder';
-import PaymentMethod from './paymentMethod';
-import Message from './Common/Message';
-import CheckoutFormWrapper from './CheckoutFormWrapper';
-import ShippingAddress from './shippingAddress';
 import BillingAddress from './billingAddress';
+import ShippingAddress from './shippingAddress';
+import CartItemsForm from './items';
+import ShippingMethodsForm from './shippingMethod';
+import PaymentMethod from './paymentMethod';
+import Totals from './totals';
+import PlaceOrder from './PlaceOrder';
+import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
 

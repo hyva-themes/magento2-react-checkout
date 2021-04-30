@@ -3,8 +3,8 @@ import React from 'react';
 import ShippingAddressForm from './components/ShippingAddressForm';
 import ShippingAddressFormikProvider from './components/ShippingAddressFormikProvider';
 
-import Card from '../Common/Card';
-import ToggleBox from '../Common/ToggleBox';
+import Card from '../common/Card';
+import ToggleBox from '../common/ToggleBox';
 import ShippingAddressWrapper from './components/ShippingAddressWrapper';
 import ShippingAddressView from './components/ShippingAddressView';
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useFormikContext } from 'formik';
 
-import Button from '../../../Common/Button';
+import Button from '../../../common/Button';
 import useShippingAddressWrapper from '../../hooks/useShippingAddressWrapper';
 import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
