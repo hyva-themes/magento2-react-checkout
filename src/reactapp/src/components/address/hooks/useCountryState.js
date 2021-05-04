@@ -12,13 +12,13 @@ export default function useCountryState({ fields }) {
   const regionField = fields.region;
   const stateSelected = _get(values, regionField);
 
-  // whenever the country is swiched, we need to clear the state input
+  // whenever the country is switched, we need to clear the state input
   useEffect(() => {
     if (countrySelected) {
       const stateListContainsStateSelected =
         !stateList.length ||
         _get(stateList, countrySelected, []).find(
-          s => s.code === stateSelected
+          state => state.code === stateSelected
         );
 
       if (!stateListContainsStateSelected) {

@@ -145,7 +145,7 @@ function LoginFormManager({ children }) {
     }
   };
 
-  // Whenever cart-data email info get udpated, the email field will be filled with that value
+  // Whenever cart-data email info get updated, the email field will be filled with that value
   useEffect(() => {
     if (cartEmail) {
       setFieldValue(EMAIL_FIELD, cartEmail);
