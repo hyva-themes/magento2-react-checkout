@@ -8,8 +8,11 @@ import { setPaymentMethodAction } from './paymentMethod/actions';
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import {
+  createEmptyCartAction,
   getCartInfoAfterMergeAction,
+  getCustomerCartIdAction,
   getGuestCartInfoAction,
+  mergeCartsAction,
   setCustomerDefaultAddressToCartAction,
 } from './cart/actions';
 import {
@@ -21,6 +24,7 @@ import {
 const dispatchMapper = {
   setEmailOnGuestCart: setEmailOnGuestCartAction,
   getGuestCartInfo: getGuestCartInfoAction,
+  getCustomerCartInfo: getGuestCartInfoAction, // guest cart with auth = customer cart
   addCartShippingAddress: addCartShippingAddressAction,
   setCartSelectedShippingAddress: setSelectedShippingAddressAction,
   setCartBillingAddress: setBillingAddressAction,
@@ -32,6 +36,9 @@ const dispatchMapper = {
   setCustomerDefaultAddressToCart: setCustomerDefaultAddressToCartAction,
   setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
+  getCustomerCartId: getCustomerCartIdAction,
+  createEmptyCart: createEmptyCartAction,
+  mergeCarts: mergeCartsAction,
 };
 
 function cartDispatchers(dispatch) {

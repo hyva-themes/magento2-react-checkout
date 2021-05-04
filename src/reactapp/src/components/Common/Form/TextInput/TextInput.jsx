@@ -59,17 +59,22 @@ function TextInput({
 TextInput.propTypes = {
   id: string,
   name: string.isRequired,
-  label: string.isRequired,
+  label: string,
   helpText: string,
   placeholder: string,
   required: bool,
+  width: string,
+  className: string,
 };
 
 TextInput.defaultProps = {
   id: '',
+  label: '',
+  width: '',
   helpText: '',
   required: false,
   placeholder: '',
+  className: '',
 };
 
 export default TextInput;

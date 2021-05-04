@@ -1,16 +1,16 @@
-import { bool, node } from 'prop-types';
 import React, { useState } from 'react';
-import ArrowDownIcon from '../../Icons/ArrowDown';
-import ArrowUpIcon from '../../Icons/ArrowUp';
+import { bool, node } from 'prop-types';
+
 import Header from '../Header';
+import { ArrowUpIcon, ArrowDownIcon } from '../icons';
 
 function ToggleBox({ children, title, show }) {
   const [open, setOpen] = useState(show);
 
   const arrowContent = (
     <div className="flex items-center justify-center">
-      {open && <ArrowUpIcon size={16} class="h-4 w-4" />}
-      {!open && <ArrowDownIcon size={16} class="h-4 w-4" />}
+      {open && <ArrowUpIcon size={16} className="w-4 h-4" />}
+      {!open && <ArrowDownIcon size={16} className="w-4 h-4" />}
     </div>
   );
 

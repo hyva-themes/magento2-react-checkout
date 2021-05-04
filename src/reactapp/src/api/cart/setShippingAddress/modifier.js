@@ -4,84 +4,92 @@ import { config } from '../../../config';
 import { prepareFullName } from '../../customer/utility';
 
 export function modifySelectedShippingMethod(addressList) {
-  const addrWithShippingMethod = addressList.find(
-    addr => addr.selected_shipping_method
-  );
+  const selectedMethod = _get(addressList, '0.selected_shipping_method');
 
-  if (_get(addrWithShippingMethod, 'selected_shipping_method')) {
-    const {
-      carrier_code: carrierCode,
-      method_code: methodCode,
-      amount: { currency, value },
-    } = addrWithShippingMethod.selected_shipping_method;
-    const currencySymbol = _get(config.currencySymbols, currency, '');
-
-    return {
-      carrierCode,
-      methodCode,
-      amount: value,
-      price: `${currencySymbol}${value}`,
-    };
+  if (!selectedMethod) {
+    return {};
   }
 
-  return {};
+  const {
+    carrier_code: carrierCode,
+    method_code: methodCode,
+    amount: { currency, value },
+  } = selectedMethod;
+  const currencySymbol = _get(config.currencySymbols, currency, '');
+  const methodId = `${carrierCode}__${methodCode}`;
+
+  return {
+    id: methodId,
+    carrierCode,
+    methodCode,
+    amount: value,
+    price: `${currencySymbol}${value}`,
+  };
 }
 
 export function modifyShippingMethods(addressList) {
-  return addressList.reduce((addrMethods, address, index) => {
-    /** @todo seems no way to uniquely identify an address. so faking it here */
-    addrMethods[`address_${index + 1}`] = _get(
-      address,
-      'available_shipping_methods',
-      []
-    ).map(
-      ({
-        carrier_code: carrierCode,
-        carrier_title: carrierTitle,
-        method_code: methodCode,
-        method_title: methodTitle,
-        price_incl_tax: { currency: priceCurrency, value: amount },
-      }) => ({
-        carrierCode,
-        carrierTitle,
-        methodCode,
-        methodTitle,
-        price: `${_get(config.currencySymbols, priceCurrency, '')}${amount}`,
-        amount,
-      })
-    );
-    return addrMethods;
+  const shippingMethods = _get(addressList, '0.available_shipping_methods', []);
+
+  if (!shippingMethods || !shippingMethods.length) {
+    return {};
+  }
+
+  return shippingMethods.reduce((methodList, method) => {
+    const {
+      carrier_code: carrierCode,
+      carrier_title: carrierTitle,
+      method_code: methodCode,
+      method_title: methodTitle,
+      price_incl_tax: { currency: priceCurrency, value: amount },
+    } = method;
+
+    const methodId = `${carrierCode}__${methodCode}`;
+
+    methodList[methodId] = {
+      id: methodId,
+      carrierCode,
+      carrierTitle,
+      methodCode,
+      methodTitle,
+      price: `${_get(config.currencySymbols, priceCurrency, '')}${amount}`,
+      amount,
+    };
+
+    return methodList;
   }, {});
 }
 
 export function modifyShippingAddressList(addressList) {
-  return addressList.reduce((addressItems, address, index) => {
-    const {
-      company,
-      firstname,
-      lastname,
-      street,
-      telephone: phone,
-      postcode: zipcode,
-      city,
-      country: { code: countryCode },
-      region: { code: regionCode },
-    } = address;
-    addressItems[`address_${index + 1}`] = {
-      company,
-      firstname,
-      lastname,
-      fullName: prepareFullName(address),
-      street,
-      phone,
-      zipcode,
-      city,
-      region: regionCode,
-      country: countryCode,
-    };
+  const shippingAddress = _get(addressList, '0');
 
-    return addressItems;
-  }, {});
+  if (!shippingAddress) {
+    return {};
+  }
+
+  const {
+    company,
+    firstname,
+    lastname,
+    street,
+    telephone: phone,
+    postcode: zipcode,
+    city,
+    country: { code: countryCode },
+    region: { code: regionCode },
+  } = shippingAddress;
+
+  return {
+    company,
+    firstname,
+    lastname,
+    fullName: prepareFullName(shippingAddress),
+    street,
+    phone,
+    zipcode,
+    city,
+    region: regionCode,
+    country: countryCode,
+  };
 }
 
 export default function setShippingAddressModifier(result) {

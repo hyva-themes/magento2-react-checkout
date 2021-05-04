@@ -16,12 +16,21 @@ import {
   SET_CUSTOMER_ADDRESS_INFO,
   SET_CUSTOMER_INFO,
   UPDATE_CUSTOMER_ADDRESS,
+  UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './types';
+
+export function setLoggedInStatusAction(dispatch, status) {
+  dispatch({
+    type: UPDATE_CUSTOMER_LOGGEDIN_STATUS,
+    payload: status,
+  });
+}
 
 export async function sigInCustomerAction(dispatch, userCredentials) {
   try {
     const { token } = await generateCustomerToken(userCredentials);
     LocalStorage.saveCustomerToken(token);
+    setLoggedInStatusAction(dispatch, true);
     setSuccessMessageAction(dispatch, 'You are successfully logged-in');
 
     return true;

@@ -37,7 +37,8 @@ export async function getGuestCartInfoAction(dispatch) {
 
 export async function getCustomerCartIdAction() {
   try {
-    return await fetchCustomerCartRequest();
+    const customerCartId = await fetchCustomerCartRequest();
+    return customerCartId;
   } catch (error) {
     // @todo show error message
     console.log({ error });
@@ -46,9 +47,10 @@ export async function getCustomerCartIdAction() {
   return null;
 }
 
-export async function createEmptyCart() {
+export async function createEmptyCartAction() {
   try {
-    return await createEmptyCartRequest();
+    const cartId = await createEmptyCartRequest();
+    return cartId;
   } catch (error) {
     // @todo show error message
     console.log({ error });
@@ -56,10 +58,12 @@ export async function createEmptyCart() {
   return null;
 }
 
-export async function mergeCarts(dispatch, cartIds) {
+export async function mergeCartsAction(dispatch, cartIds) {
   try {
     const cartInfo = await mergeCartsRequest(cartIds);
+
     setCartInfoAction(dispatch, cartInfo);
+    LocalStorage.saveCartId(cartInfo.id);
 
     return cartInfo;
   } catch (error) {
@@ -77,11 +81,11 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
     let customerCartId = await getCustomerCartIdAction();
 
     if (!customerCartId) {
-      customerCartId = await createEmptyCart();
+      customerCartId = await createEmptyCartAction();
     }
 
     if (guestCartId && customerCartId && guestCartId !== customerCartId) {
-      cartInfo = await mergeCarts(dispatch, {
+      cartInfo = await mergeCartsAction(dispatch, {
         sourceCartId: guestCartId,
         destinationCartId: customerCartId,
       });
@@ -105,6 +109,8 @@ export async function setCustomerDefaultAddressToCartAction(
   cartInfo
 ) {
   try {
+    let customerShippingAddressId;
+    let customerBillingAddressId;
     let customerAddressInfo;
     let shippingAddrPromise = _emptyFunc();
     let billingAddrPromise = _emptyFunc();
@@ -115,6 +121,7 @@ export async function setCustomerDefaultAddressToCartAction(
       const { defaultShippingAddress } = customerAddressInfo;
 
       if (defaultShippingAddress) {
+        customerShippingAddressId = defaultShippingAddress;
         shippingAddrPromise = _makePromise(
           setCustomerAddrAsShippingAddrAction,
           dispatch,
@@ -131,6 +138,7 @@ export async function setCustomerDefaultAddressToCartAction(
       const { defaultBillingAddress } = customerAddressInfo;
 
       if (defaultBillingAddress) {
+        customerBillingAddressId = defaultBillingAddress;
         billingAddrPromise = _makePromise(
           setCustomerAddrAsBillingAddrAction,
           dispatch,
@@ -140,6 +148,14 @@ export async function setCustomerDefaultAddressToCartAction(
     }
 
     await Promise.all([shippingAddrPromise(), billingAddrPromise()]);
+
+    if (customerShippingAddressId) {
+      LocalStorage.saveCustomerShippingAddressId(customerShippingAddressId);
+    }
+
+    if (customerBillingAddressId) {
+      LocalStorage.saveCustomerBillingAddressId(customerBillingAddressId);
+    }
   } catch (error) {
     // @todo show error message
     console.log({ error });

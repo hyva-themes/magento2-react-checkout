@@ -12,14 +12,14 @@ import LocalStorage from './localStorage';
 
 export const shippingAddressFormInitValues = {
   company: '',
-  firstname: '',
+  firstname: 'rajeev',
   lastname: '',
   street: [''],
   phone: '',
   zipcode: '',
   city: '',
   region: '',
-  country: '',
+  country: 'IN',
   isSameAsShipping: true,
   selectedAddress: '',
 };

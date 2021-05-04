@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 
-import Totals from './Checkout/Totals';
-import GuestEmailForm from './Checkout/GuestEmailForm';
-import BillingAddressForm from './Checkout/BillingAddressForm';
-import ShippingAddressForm from './Checkout/ShippingAddressForm';
-import AddressWrapper from './Checkout/AddressWrapper';
+import Message from './common/Message';
+import PageLoader from './common/Loader';
+import Login from './login';
+import { AddressWrapper } from './address';
+import BillingAddress from './billingAddress';
+import ShippingAddress from './shippingAddress';
+import CartItemsForm from './items';
+import ShippingMethodsForm from './shippingMethod';
+import PaymentMethod from './paymentMethod';
+import Totals from './totals';
+import PlaceOrder from './PlaceOrder';
+import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
-import PageLoader from './Common/Loader';
-import CartItemsForm from './Checkout/CartItemsForm';
-import ShippingMethodsForm from './Checkout/ShippingMethodsForm';
-import PlaceOrder from './Checkout/PlaceOrder';
-import PaymentMethodsForm from './Checkout/PaymentMethodsForm';
-import Message from './Common/Message';
-import CheckoutFormWrapper from './CheckoutFormWrapper';
 
 function FormStep({ children, className }) {
   return <div className={className}>{children}</div>;
@@ -31,10 +31,6 @@ function CheckoutForm() {
     })();
   }, [getGuestCartInfo, setPageLoader]);
 
-  if (pageLoader) {
-    return <PageLoader />;
-  }
-
   if (orderId) {
     return (
       <div className="flex flex-col items-center justify-center mx-10 my-10">
@@ -50,14 +46,20 @@ function CheckoutForm() {
   return (
     <CheckoutFormWrapper>
       <Message />
-      <div className="flex flex-col flex-wrap mx-12 my-6 md:flex-row">
+      <div
+        className={`${
+          pageLoader
+            ? 'hidden'
+            : 'flex flex-col flex-wrap mx-12 my-6 md:flex-row'
+        }`}
+      >
         <div className="md:w-1/4">
           <div className="mr-1">
             <FormStep className="space-y-2">
-              <GuestEmailForm />
+              <Login />
               <AddressWrapper>
-                <BillingAddressForm />
-                <ShippingAddressForm />
+                <BillingAddress />
+                <ShippingAddress />
               </AddressWrapper>
             </FormStep>
           </div>
@@ -70,7 +72,7 @@ function CheckoutForm() {
             </FormStep>
 
             <FormStep>
-              <PaymentMethodsForm />
+              <PaymentMethod />
             </FormStep>
           </div>
         </div>
@@ -83,6 +85,7 @@ function CheckoutForm() {
           </div>
         </div>
       </div>
+      {pageLoader && <PageLoader />}
     </CheckoutFormWrapper>
   );
 }

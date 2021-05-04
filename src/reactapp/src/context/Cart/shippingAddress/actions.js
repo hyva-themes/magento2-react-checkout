@@ -1,3 +1,5 @@
+import _set from 'lodash.set';
+
 import {
   setCustomerAddrAsCartShippingAddrRequest,
   setShippingAddressRequest,
@@ -12,28 +14,46 @@ export function setSelectedShippingAddressAction(dispatch, shippingAddrId) {
   });
 }
 
-export async function addCartShippingAddressAction(dispatch, shippingAddress) {
+export async function addCartShippingAddressAction(
+  dispatch,
+  shippingAddress,
+  isBillingAddressSame
+) {
   try {
     const cartInfo = await setShippingAddressRequest(shippingAddress);
+    _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
 
     dispatch({
       type: SET_CART_INFO,
       payload: cartInfo,
     });
+
+    return cartInfo;
   } catch (error) {
     // @todo error message
   }
+
+  return {};
 }
 
-export async function setCustomerAddrAsShippingAddrAction(dispatch, addressId) {
+export async function setCustomerAddrAsShippingAddrAction(
+  dispatch,
+  addressId,
+  isBillingAddressSame
+) {
   try {
     const cartInfo = await setCustomerAddrAsCartShippingAddrRequest(addressId);
+    _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
 
     dispatch({
       type: SET_CART_INFO,
       payload: cartInfo,
     });
+
+    return cartInfo;
   } catch (error) {
     // @todo error message
   }
+
+  return {};
 }
