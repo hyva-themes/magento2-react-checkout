@@ -1,5 +1,10 @@
+<?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Checkout\Controller\Index\Index">
         <plugin name="checkout_checkout_index_action_plugin" type="Hyva\Checkout\Plugin\CheckoutController\Index"/>
+    </type>
+
+    <type name="Magento\Checkout\CustomerData\Cart">
+        <plugin name="hyva_checkout_update_cart_info" type="Hyva\Checkout\Plugin\CustomerData\UpdateCart" />
     </type>
 </config>
