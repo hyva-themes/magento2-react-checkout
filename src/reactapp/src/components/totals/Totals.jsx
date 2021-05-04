@@ -1,4 +1,5 @@
 import React from 'react';
+import { __ } from '../../i18n';
 
 import Card from '../common/Card';
 import Header from '../common/Header';
@@ -9,7 +10,7 @@ function Totals() {
 
   return (
     <Card bg="dark">
-      <Header>Order Summary</Header>
+      <Header>{__('Order Summary')}</Header>
       <div className="py-4">
         <div>
           <div className="pb-2 space-y-3 border-b">

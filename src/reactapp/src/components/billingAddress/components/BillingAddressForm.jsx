@@ -9,6 +9,7 @@ import useCountryState from '../../address/hooks/useCountryState';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
+import { __ } from '../../../i18n';
 
 function BillingAddressForm() {
   const { viewMode } = useBillingAddressWrapper();
@@ -35,50 +36,50 @@ function BillingAddressForm() {
     <>
       <div className="py-2">
         <TextInput
-          label="Company"
+          label={__('Company')}
           name={fields.company}
-          placeholder="Company"
+          placeholder={__('Company')}
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label="Firstname"
+          label={__('Firstname')}
           name={fields.firstname}
-          placeholder="Firstname"
+          placeholder={__('Firstname')}
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label="Lastname"
+          label={__('Lastname')}
           name={fields.lastname}
-          placeholder="Lastname"
+          placeholder={__('Lastname')}
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label="Street"
+          label={__('Street')}
           name={`${fields.street}[0]`}
-          placeholder="Street"
+          placeholder={__('Street')}
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label="Postal Code"
+          label={__('Postal Code')}
           name={fields.zipcode}
           placeholder="12345"
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label="City"
+          label={__('City')}
           name={fields.city}
-          placeholder="City"
+          placeholder={__('City')}
           required
           onFocus={handleFocus}
         />
         {hasStateOptions ? (
           <SelectInput
-            label="State"
+            label={__('State')}
             name={fields.region}
             required
             options={stateOptions}
@@ -86,22 +87,22 @@ function BillingAddressForm() {
           />
         ) : (
           <TextInput
-            label="State"
+            label={__('State')}
             name={fields.region}
-            placeholder="State"
+            placeholder={__('State')}
             required
             onFocus={handleFocus}
           />
         )}
         <SelectInput
-          label="Country"
+          label={__('Country')}
           name={fields.country}
           required
           options={countryOptions}
           onFocus={handleFocus}
         />
         <TextInput
-          label="Phone"
+          label={__('Phone')}
           name={fields.phone}
           placeholder="+32 000 000 000"
           required

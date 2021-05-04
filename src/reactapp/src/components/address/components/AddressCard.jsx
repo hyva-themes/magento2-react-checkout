@@ -3,6 +3,7 @@ import { arrayOf, bool, func, shape, string } from 'prop-types';
 
 import Button from '../../common/Button';
 import RadioInput from '../../common/Form/RadioInput';
+import { __ } from '../../../i18n';
 
 function AddressCard({ address: { id, address }, isSelected, actions }) {
   return (
@@ -27,7 +28,7 @@ function AddressCard({ address: { id, address }, isSelected, actions }) {
         <li>
           <div className="flex items-center justify-center mt-2">
             <Button click={actions.performAddressEdit} variant="warning">
-              edit
+              {__('edit')}
             </Button>
           </div>
         </li>

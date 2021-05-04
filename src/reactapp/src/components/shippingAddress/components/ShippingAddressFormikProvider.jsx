@@ -20,12 +20,13 @@ import {
 } from '../utility';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
+import { __ } from '../../../i18n';
 
 export const initialValues = {
   ...shippingAddressFormInitValues,
 };
 
-const requiredMessage = '%1 is required';
+const requiredMessage = __('%1 is required');
 
 const validationSchema = {
   company: YupString().required(requiredMessage),

@@ -1,5 +1,6 @@
 import _get from 'lodash.get';
 
+import { __ } from '../../../i18n';
 import {
   _cleanObjByKeys,
   _isArrayEmpty,
@@ -47,8 +48,8 @@ export function modifyAddrObjListToArrayList(addressList) {
         ...street,
         city,
         regionLabel,
-        `${countryCode} zipcode: ${zipcode}`,
-        `phone: ${phone}`,
+        __('{} zipcode: {}', countryCode, zipcode),
+        __('phone: {}', phone),
       ].filter(i => !!i),
     };
   });

@@ -8,6 +8,7 @@ import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext'
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
+import { __ } from '../../../i18n';
 
 function ShippingMethodList() {
   const { fields, submitHandler } = useShippingMethodFormContext();
@@ -55,7 +56,7 @@ function ShippingMethodList() {
                 onChange={handleShippingMethodSelection}
               />
               <span className="pt-2 pl-3 font-semibold">
-                {`Price: ${price}`}
+                {__('Price: {}', price)}
               </span>
             </li>
           );
@@ -68,7 +69,7 @@ function ShippingMethodList() {
           variant="success"
           disable={buttonDisable}
         >
-          UPDATE
+          {__('UPDATE')}
         </Button>
       </div>
     </div>

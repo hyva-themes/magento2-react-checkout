@@ -8,6 +8,7 @@ import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormi
 import { formHasShippingAddress } from '../../utility';
 import { isCartHoldingAddressInfo } from '../../../../utils/address';
 import LocalStorage from '../../../../utils/localStorage';
+import { __ } from '../../../../i18n';
 
 function CancelButton() {
   const { values } = useFormikContext();
@@ -36,7 +37,7 @@ function CancelButton() {
 
   return (
     <Button click={clickHandler} variant="warning">
-      cancel
+      {__('cancel')}
     </Button>
   );
 }

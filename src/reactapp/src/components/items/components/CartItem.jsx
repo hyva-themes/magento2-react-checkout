@@ -7,6 +7,7 @@ import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 import { CART_ITEMS_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 function CartItem({ item }) {
   const { touched } = useFormikContext();
@@ -36,7 +37,7 @@ function CartItem({ item }) {
           disable={!isQtyFieldTouched}
           click={itemUpdateHandler}
         >
-          UPDATE
+          {__('UPDATE')}
         </Button>
       </div>
     </div>

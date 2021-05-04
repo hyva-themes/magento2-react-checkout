@@ -7,13 +7,14 @@ import Card from '../common/Card';
 import ToggleBox from '../common/ToggleBox';
 import ShippingAddressWrapper from './components/ShippingAddressWrapper';
 import ShippingAddressView from './components/ShippingAddressView';
+import { __ } from '../../i18n';
 
 function ShippingAddress() {
   return (
     <ShippingAddressFormikProvider>
       <ShippingAddressWrapper>
         <Card bg="dark">
-          <ToggleBox title="Shipping Information" show>
+          <ToggleBox title={__('Shipping Information')} show>
             <ShippingAddressForm />
             <ShippingAddressView />
           </ToggleBox>

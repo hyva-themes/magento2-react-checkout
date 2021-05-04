@@ -8,6 +8,7 @@ import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -65,11 +66,11 @@ export default function useSaveAddressAction() {
           updateCartAddressPromise(),
         ]);
         setToViewMode(false);
-        setSuccessMessage('Shipping address updated successfully.');
+        setSuccessMessage(__('Shipping address updated successfully.'));
         setPageLoader(false);
       } catch (error) {
         console.log({ error });
-        setErrorMessage('Shipping address update failed. Please try again');
+        setErrorMessage(__('Shipping address update failed. Please try again'));
         setPageLoader(false);
       }
     },

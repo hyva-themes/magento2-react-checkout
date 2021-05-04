@@ -1,6 +1,7 @@
 import _get from 'lodash.get';
 
 import { SHIPPING_ADDR_FORM } from '../../../../config';
+import { __ } from '../../../../i18n';
 import { _objToArray, _toString } from '../../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../common';
 
@@ -25,8 +26,8 @@ function formatAddressListToCardData(addressList) {
         ...street,
         city,
         regionLabel,
-        `${countryCode} zipcode: ${zipcode}`,
-        `phone: ${phone}`,
+        __('{} zipcode: {}', countryCode, zipcode),
+        __('phone: {}', phone),
       ].filter(i => !!i),
     };
   });

@@ -9,13 +9,14 @@ import useFormSection from '../../../hook/useFormSection';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 import useShippingMethodAppContext from '../hooks/useShippingMethodAppContext';
 import { SHIPPING_METHOD } from '../../../config';
+import { __ } from '../../../i18n';
 
 const initialValues = {
   carrierCode: '',
   methodCode: '',
 };
 
-const requiredMessage = 'Required';
+const requiredMessage = __('Required');
 
 const validationSchema = {
   carrierCode: YupString().required(requiredMessage),
@@ -38,12 +39,14 @@ function ShippingMethodFormManager({ children }) {
       if (shippingMethodToSave.carrierCode && shippingMethodToSave.methodCode) {
         setPageLoader(true);
         await setShippingMethod(shippingMethodToSave);
-        setSuccessMessage('Shipping method udpated successfully.');
+        setSuccessMessage(__('Shipping method udpated successfully.'));
         setPageLoader(false);
       }
     } catch (error) {
       console.log({ error });
-      setErrorMessage('Something went wrong while updating shipping method');
+      setErrorMessage(
+        __('Something went wrong while updating shipping method')
+      );
       setPageLoader(false);
     }
   };

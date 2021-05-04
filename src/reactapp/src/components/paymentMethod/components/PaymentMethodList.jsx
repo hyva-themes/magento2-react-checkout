@@ -8,6 +8,7 @@ import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 import usePaymentMethodFormContext from '../hooks/usePaymentMethodFormContext';
 import { _objToArray } from '../../../utils';
 import { PAYMENT_METHOD_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 function PaymentMethodList() {
   const { fields, submitHandler } = usePaymentMethodFormContext();
@@ -52,7 +53,7 @@ function PaymentMethodList() {
           variant="success"
           disable={buttonDisable}
         >
-          UPDATE
+          {__('UPDATE')}
         </Button>
       </div>
     </div>
