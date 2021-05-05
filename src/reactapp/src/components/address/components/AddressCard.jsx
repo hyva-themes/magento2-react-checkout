@@ -28,7 +28,7 @@ function AddressCard({ address: { id, address }, isSelected, actions }) {
         <li>
           <div className="flex items-center justify-center mt-2">
             <Button click={actions.performAddressEdit} variant="warning">
-              {__('edit')}
+              {__('Edit')}
             </Button>
           </div>
         </li>

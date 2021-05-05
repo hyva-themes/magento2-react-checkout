@@ -66,7 +66,7 @@ export default function useSaveAddressAction() {
           updateCartAddressPromise(),
         ]);
         setToViewMode(false);
-        setSuccessMessage(__('Shipping address updated successfully.'));
+        setSuccessMessage(__('Shipping address updated successfully'));
         setPageLoader(false);
       } catch (error) {
         console.log({ error });

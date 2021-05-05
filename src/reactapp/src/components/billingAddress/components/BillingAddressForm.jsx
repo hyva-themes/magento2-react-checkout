@@ -43,16 +43,16 @@ function BillingAddressForm() {
           onFocus={handleFocus}
         />
         <TextInput
-          label={__('Firstname')}
+          label={__('First name')}
           name={fields.firstname}
-          placeholder={__('Firstname')}
+          placeholder={__('First name')}
           required
           onFocus={handleFocus}
         />
         <TextInput
-          label={__('Lastname')}
+          label={__('Last name')}
           name={fields.lastname}
-          placeholder={__('Lastname')}
+          placeholder={__('Last name')}
           required
           onFocus={handleFocus}
         />

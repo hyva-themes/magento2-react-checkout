@@ -39,7 +39,7 @@ function ShippingMethodFormManager({ children }) {
       if (shippingMethodToSave.carrierCode && shippingMethodToSave.methodCode) {
         setPageLoader(true);
         await setShippingMethod(shippingMethodToSave);
-        setSuccessMessage(__('Shipping method udpated successfully.'));
+        setSuccessMessage(__('Shipping method updated successfully'));
         setPageLoader(false);
       }
     } catch (error) {
