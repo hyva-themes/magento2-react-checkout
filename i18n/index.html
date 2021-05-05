@@ -14,7 +14,7 @@
     
     
       
-        <title>How to customize - Hyvä Themes - Hyvä Checkout</title>
+        <title>Internationalisation - Hyvä Themes - Hyvä Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-customize-hyva-checkout" class="md-skip">
+        <a href="#internationlisation" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +87,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              How to customize
+              Internationalisation
             
           </span>
         </div>
@@ -210,63 +210,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          How to customize
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../customize/" class="md-nav__link">
         How to customize
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#where-is-the-react-app" class="md-nav__link">
-    Where is the react app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-react-app" class="md-nav__link">
-    Setting up react app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start-app" class="md-nav__link">
-    Start App
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -307,11 +255,63 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../i18n/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Internationalisation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Internationalisation
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-add-a-new-language-translation-support" class="md-nav__link">
+    How to add a new language translation support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-we-translates-strings-in-the-component" class="md-nav__link">
+    How can we translates strings in the component?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -341,22 +341,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#where-is-the-react-app" class="md-nav__link">
-    Where is the react app
+  <a href="#how-to-add-a-new-language-translation-support" class="md-nav__link">
+    How to add a new language translation support
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-react-app" class="md-nav__link">
-    Setting up react app
+  <a href="#how-can-we-translates-strings-in-the-component" class="md-nav__link">
+    How can we translates strings in the component?
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-app" class="md-nav__link">
-    Start App
+  <a href="#how-it-works" class="md-nav__link">
+    How it works
   </a>
   
 </li>
@@ -374,45 +374,62 @@
               
                 
                 
-                <h1 id="how-to-customize-hyva-checkout">How To Customize Hyva Checkout</h1>
-<p>Hyva checkout is a Magento 2 module which holds a react app inside it. So when you want
-to customize the checkout, you need to work with the react app embedded inside the module.</p>
-<h2 id="where-is-the-react-app">Where is the react app</h2>
-<p>You can find the react app at <code>src/reactapp</code>.</p>
-<h2 id="setting-up-react-app">Setting up react app</h2>
-<ol>
-<li>
-<p>cd into the react application</p>
-<pre><code>cd src/reactapp
+                <h1 id="internationlisation">Internationlisation</h1>
+<p>Hyva checkout supports internationalisation. It uses JSON files to keep your translation keywords. All of your translation JSON files needs to be kept under <code>src/reactapp/public/i18n</code> directory. We already have provided <code>en_US.json</code> file for your reference there.</p>
+<h2 id="how-to-add-a-new-language-translation-support">How to add a new language translation support</h2>
+<p>You need to put your translation file inside <code>src/reactapp/public/i18n</code> directory. The format of your file is <code>[locale_code].json</code>. For example, for a german store, it should be <code>de_DE.json</code>. This is all you need to do.</p>
+<h2 id="how-can-we-translates-strings-in-the-component">How can we translates strings in the component?</h2>
+<p>There is a helper function <code>__()</code> available, similar to the translation facility in Magento templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, please see the <code>PlaceOrder</code> component.</p>
+<p>File: <code>src/reactapp/src/components/PlaceOrder.jsx</code></p>
+<pre><code>import React from 'react';
+import { __ } from '../i18n';
+
+function PlaceOrder() {
+
+  return (
+    &lt;div className=&quot;flex items-center justify-center h-24&quot;&gt;
+      &lt;Button
+        variant=&quot;warning&quot;
+        big
+        disable={!isValid}
+        click={() =&gt; submitHandler(values)}
+      &gt;
+        {__('Place Order')}
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default PlaceOrder;
 </code></pre>
-</li>
-<li>
-<p>install the packages</p>
-<pre><code>npm install
+<p>see the import of the function <code>__()</code> and usage. It is that simple.</p>
+<p>Another job <code>__()</code> function does is, it accepts any number of parameters which will be replaced in the string at the right position. For example, if you want to print the string: <code>My name is Julius Caesar</code>. You can do this:</p>
+<pre><code>const firstName = 'Julius';
+const lastName = 'Caesar';
+
+__('My name is {} {}', firstName, lastName);
 </code></pre>
-</li>
-<li>
-<p>Configure your Magento 2 backend site.</p>
-<p>There is two ways you can do this:</p>
-<p><strong>3.a</strong> - The cleanest approach is here. create <code>.env</code> file in <code>src/reactapp</code> directory and specify your site as shown below</p>
-<pre><code>REACT_APP_BASE_URL=http://your-m2-site.com
+<p>In the string <code>{}</code> part indicates it is the dynamic part and needs to be replaced with the other parameters passing to the <code>__()</code>. These parameters will be replaced in the <code>{}</code> part in the given order.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>It all starts with the root element on which react app is acted on. In the hyva-module, the root DOM looks like below:</p>
+<p>File: <code>src/view/frontend/templates/react-container.phtml</code></p>
+<pre><code>&lt;div
+    id=&quot;react-checkout&quot;
+    data-language=&quot;&lt;?= $localeProvider-&gt;getLocaleCode() ?&gt;&quot;
+    data-static_file_path=&quot;&lt;?= $block-&gt;getViewFileUrl('Hyva_Checkout/js') ?&gt;&quot;
+&gt;
+   ...
+&lt;/div&gt;
 </code></pre>
-<p><strong>3.b</strong> - A hacky trick would be specify your site as your <code>proxy</code> in the <code>package.json</code>. There is
-      already an entry there. Replace it with yours</p>
-<pre><code>"proxy": "http://your-m2-site.com",
+<p>As you can see there is the data attribute <code>data-language</code> which will represent the current store locale. For example, if you are viewing a UK store, then it will look like</p>
+<pre><code>&lt;div
+    id=&quot;react-checkout&quot;
+    data-language=&quot;en_GB&quot;
+    data-static_file_path=&quot;https://example.com/static/version1619794305/frontend/Magento/luma/en_GB/Hyva_Checkout/js&quot;
+&gt;
 </code></pre>
-<p>Use only one option above. Don't do both</p>
-</li>
-</ol>
-<h2 id="start-app">Start App</h2>
-<p>In order to start the application</p>
-<pre><code>npm start
-</code></pre>
-<p>The app is now available at <code>http://localhost:3000</code></p>
-<p>As soon as the react app kick start, it will show a prompt box to input the cart id. Well,
-without the a valid cart, the checkout page is useless.</p>
-<p><img alt="Cart Id Prompt Box" src="../assets/img/cart_id_prompt_box.png" title="Prompt box showing to input the cart id" /></p>
-<p>So provide a valid cart id and then you are good to go.</p>
+<p>so <code>en_GB</code> is the locale code  here. In this case, we need to keep our translation json file at <code>src/reactapp/public/i18n/en_GB.json</code>. React app will fetch the correct tanslation json file based on this and load it.</p>
+<p>You also note that there is another data attirbute which is <code>data-static_file_path</code>. This is needed in order to load the translation json file as a static asset in a hyva-theme or in luma-theme. So we copy all the translation json files available in <code>src/reactapp/public/i18n</code> directory into the directory <code>src/view/frontend/web/js/i18n</code> during the app build process and thus these static json files will be used by the production build.</p>
                 
               
               
@@ -430,7 +447,7 @@ without the a valid cart, the checkout page is useless.</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../how_to_use/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../at_a_glance/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -439,25 +456,11 @@ without the a valid cart, the checkout page is useless.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              How to use
+              Checkout - at a glance
             </div>
           </div>
         </a>
       
-      
-        <a href="../build/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              How can build
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
