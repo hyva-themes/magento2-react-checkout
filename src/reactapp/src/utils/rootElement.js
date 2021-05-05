@@ -11,6 +11,10 @@ const RootElement = {
   getLanguage() {
     return RootElement.elem.dataset.language;
   },
+
+  getFilePath() {
+    return RootElement.elem.dataset.static_file_path || '';
+  },
 };
 
 export default RootElement;

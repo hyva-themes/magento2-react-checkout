@@ -7,7 +7,11 @@ $localeProvider = $block->getLocaleProvider();
 
 use Magento\Framework\View\Element\Template;
 ?>
-<div id="react-checkout" data-language="<?= $localeProvider->getLocaleCode() ?>">
+<div
+    id="react-checkout"
+    data-language="<?= $localeProvider->getLocaleCode() ?>"
+    data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
+>
     <div class="container flex flex-col px-6 mb-4 md:flex-row">
         <div class="w-full pb-4 md:w-2/3 xl:w-3/4">
             <div class="relative p-4 pb-6 text-center bg-white md:p-0 md:pr-4">

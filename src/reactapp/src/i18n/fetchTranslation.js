@@ -6,7 +6,8 @@ import RootElement from '../utils/rootElement';
  */
 export default function fetchTranslation() {
   const languageCode = RootElement.getLanguage();
-  const languageJsonFile = `/i18n/${languageCode}.json`;
+  const staticFilePath = RootElement.getFilePath();
+  const languageJsonFile = `${staticFilePath}/i18n/${languageCode}.json`;
 
   return fetch(languageJsonFile, {
     headers: {
