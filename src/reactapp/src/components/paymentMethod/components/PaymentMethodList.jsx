@@ -53,7 +53,7 @@ function PaymentMethodList() {
           variant="success"
           disable={buttonDisable}
         >
-          {__('UPDATE')}
+          {__('Update')}
         </Button>
       </div>
     </div>

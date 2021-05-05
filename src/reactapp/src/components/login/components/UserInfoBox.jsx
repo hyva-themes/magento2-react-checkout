@@ -31,7 +31,7 @@ function UserInfoBox() {
       </div>
       <div className="flex items-center justify-center">
         <Button click={setFormToEditMode} variant="warning">
-          {__('EDIT')}
+          {__('Edit')}
         </Button>
       </div>
     </>

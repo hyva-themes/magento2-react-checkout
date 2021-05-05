@@ -37,7 +37,7 @@ function CartItem({ item }) {
           disable={!isQtyFieldTouched}
           click={itemUpdateHandler}
         >
-          {__('UPDATE')}
+          {__('Update')}
         </Button>
       </div>
     </div>

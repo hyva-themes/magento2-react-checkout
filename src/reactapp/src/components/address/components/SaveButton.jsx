@@ -14,7 +14,7 @@ function SaveButton({ actions, isFormValid }) {
       variant="success"
       disable={!isFormValid}
     >
-      {__('save')}
+      {__('Save')}
     </Button>
   );
 }

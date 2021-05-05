@@ -46,7 +46,7 @@ function PaymentMethodFormManager({ children }) {
     } catch (error) {
       setPageLoader(false);
       setErrorMessage(
-        __('Something went wrong while adding payment to the quote.')
+        __('Something went wrong while adding the payment method to the quote.')
       );
     }
   };
