@@ -5,6 +5,7 @@ import { useFormikContext } from 'formik';
 import Button from '../../common/Button';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginFormContext from '../hooks/useLoginFormContext';
+import { __ } from '../../../i18n';
 
 function UserInfoBox() {
   const { values } = useFormikContext();
@@ -30,7 +31,7 @@ function UserInfoBox() {
       </div>
       <div className="flex items-center justify-center">
         <Button click={setFormToEditMode} variant="warning">
-          EDIT
+          {__('Edit')}
         </Button>
       </div>
     </>

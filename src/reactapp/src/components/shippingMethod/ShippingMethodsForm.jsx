@@ -6,6 +6,7 @@ import ShippingMethodList from './components/ShippingMethodList';
 import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
+import { __ } from '../../i18n';
 
 function ShippingMethodsForm() {
   const { methodsAvailable } = useShippingMethodCartContext();
@@ -13,7 +14,7 @@ function ShippingMethodsForm() {
   return (
     <ShippingMethodFormManager>
       <Card bg="dark" classes={methodsAvailable ? '' : 'opacity-75'}>
-        <Header>Shipping Methods</Header>
+        <Header>{__('Shipping Methods')}</Header>
         <NoShippingMethodInfoBox />
         <ShippingMethodList />
       </Card>

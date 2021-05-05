@@ -9,6 +9,7 @@ import useItemsAppContext from '../hooks/useItemsAppContext';
 import useItemsCartContext from '../hooks/useItemsCartContext';
 import { _objToArray } from '../../../utils';
 import { CART_ITEMS_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 const initialValues = {};
 
@@ -40,12 +41,12 @@ function CartItemsFormManager({ children }) {
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
         await updateCartItem({ cartItems: cartItemsToUpdate });
-        setSuccessMessage('Cart updated successfully.');
+        setSuccessMessage(__('Cart updated successfully.'));
         setPageLoader(false);
       }
     } catch (error) {
       console.log({ error });
-      setErrorMessage('Something went wrong while updating the cart item.');
+      setErrorMessage(__('Something went wrong while updating the cart item.'));
       setPageLoader(false);
     }
   };

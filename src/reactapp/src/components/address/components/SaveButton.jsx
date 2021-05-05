@@ -3,6 +3,7 @@ import { bool, func, shape } from 'prop-types';
 import { useFormikContext } from 'formik';
 
 import Button from '../../common/Button';
+import { __ } from '../../../i18n';
 
 function SaveButton({ actions, isFormValid }) {
   const { values } = useFormikContext();
@@ -13,7 +14,7 @@ function SaveButton({ actions, isFormValid }) {
       variant="success"
       disable={!isFormValid}
     >
-      save
+      {__('Save')}
     </Button>
   );
 }

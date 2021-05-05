@@ -9,12 +9,13 @@ import useFormSection from '../../../hook/useFormSection';
 import usePaymentMethodAppContext from '../hooks/usePaymentMethodAppContext';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 import { PAYMENT_METHOD_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 const initialValues = {
   code: '',
 };
 
-const requiredMessage = 'Required';
+const requiredMessage = __('Required');
 
 const validationSchema = {
   code: YupString().required(requiredMessage),
@@ -39,13 +40,13 @@ function PaymentMethodFormManager({ children }) {
       if (paymentMethodSelected.code) {
         setPageLoader(true);
         await setPaymentMethod(paymentMethodSelected);
-        setSuccessMessage('Payment method added successfully.');
+        setSuccessMessage(__('Payment method added successfully.'));
         setPageLoader(false);
       }
     } catch (error) {
       setPageLoader(false);
       setErrorMessage(
-        'Something went wrong while adding payment to the quote.'
+        __('Something went wrong while adding the payment method to the quote.')
       );
     }
   };

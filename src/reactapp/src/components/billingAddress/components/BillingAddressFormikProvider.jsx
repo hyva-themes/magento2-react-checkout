@@ -14,6 +14,7 @@ import { isCartBillingAddressValid } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
 import { _isObjEmpty, _keys } from '../../../utils';
 import { billingAddressFormInitValues } from '../utility';
+import { __ } from '../../../i18n';
 
 const initialValues = {
   company: '',
@@ -28,7 +29,7 @@ const initialValues = {
   isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
 };
 
-const requiredMessage = '%1 is required';
+const requiredMessage = __('%1 is required');
 
 const validationSchema = {
   company: YupString().required(requiredMessage),

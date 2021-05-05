@@ -10,6 +10,7 @@ import {
   saveCustomerAddressToLocalStorage,
 } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
+import { __ } from '../../../i18n';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -55,10 +56,10 @@ export default function useCustomerAddressSwitchAction() {
         // in frontend
         saveCustomerAddressToLocalStorage(addressId, isBillingSame);
         await Promise.all([updateAddressPromise()]);
-        setSuccessMessage('Shipping address updated successfully');
+        setSuccessMessage(__('Shipping address updated successfully'));
       } catch (error) {
         console.log({ error });
-        setErrorMessage('Address switching failed, sorry.');
+        setErrorMessage(__('Address switching failed, sorry.'));
         setPageLoader(false);
       }
     },

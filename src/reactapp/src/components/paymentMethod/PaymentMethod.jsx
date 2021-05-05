@@ -6,6 +6,7 @@ import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
 import PaymentMethodList from './components/PaymentMethodList';
 import usePaymentMethodCartContext from './hooks/usePaymentMethodCartContext';
+import { __ } from '../../i18n';
 
 function PaymentMethod() {
   const { isPaymentAvailable } = usePaymentMethodCartContext();
@@ -13,7 +14,7 @@ function PaymentMethod() {
   return (
     <PaymentMethodFormManager>
       <Card bg="dark" classes={isPaymentAvailable ? '' : 'opacity-75'}>
-        <Header>Payment Methods</Header>
+        <Header>{__('Payment Methods')}</Header>
         {isPaymentAvailable ? (
           <PaymentMethodList />
         ) : (

@@ -13,6 +13,7 @@ import { isCartHoldingAddressInfo } from '../../../utils/address';
 import { _makePromise } from '../../../utils';
 import { GUEST_EMAIL_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
+import { __ } from '../../../i18n';
 
 const initialValues = {
   email: '',
@@ -23,11 +24,11 @@ const initialValues = {
 const validationSchema = {
   customerWantsToSignin: YupBool(),
   email: YupString()
-    .required('Email is required')
-    .email('Email is invalid'),
+    .required(__('Email is required'))
+    .email(__('Email is invalid')),
   password: YupString().test(
     'requiredIfSignIn',
-    'Password is required',
+    __('Password is required'),
     (value, context) => {
       const sigInStatus = _get(context, 'parent.customerWantsToSignin');
 
@@ -64,7 +65,7 @@ function LoginFormManager({ children }) {
   const saveEmailOnCartRequest = async email => {
     setPageLoader(true);
     await setEmailOnGuestCart(email);
-    setSuccessMessage('Email is successfully attached to your cart.');
+    setSuccessMessage(__('Email is successfully attached to your cart.'));
     setPageLoader(false);
   };
 
