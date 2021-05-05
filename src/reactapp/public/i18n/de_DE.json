@@ -59,5 +59,8 @@
     "edit": "Bearbeiten",
     "phone: {}": "Telefon: {}",
     "save": "Speichern",
-    "{} zipcode: {}": "{} Postleitzahl: {}"
+    "{} zipcode: {}": "{} Postleitzahl: {}",
+    "Cart Subtotal": "Warenkorb Zwischensumme",
+    "Shipping": "Versand",
+    "Order Total": "Auftragssumme"
 }
