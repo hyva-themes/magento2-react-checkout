@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "73e4c485b11a7668d2bf",
+    "revision": "8c1fb742a5ecd2832e21",
     "url": "/../../view/frontend/web/js/react-checkout.js"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/../../view/frontend/web/js/react-checkout.js.LICENSE.txt"
   },
   {
-    "revision": "4617692ecaa25d258d39b41b5e6d7c27",
+    "revision": "7a05fe26159f36f2275a317ae030f758",
     "url": "/index.html"
   }
 ]);

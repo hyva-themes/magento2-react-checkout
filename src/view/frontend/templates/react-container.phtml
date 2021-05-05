@@ -2,138 +2,139 @@
 declare(strict_types=1);
 
 /** @var Template $block */
+/** @var \Hyva\Checkout\ViewModel\LocaleProvider $localeProvider */
+$localeProvider = $block->getLocaleProvider();
 
 use Magento\Framework\View\Element\Template;
-
 ?>
-<div id="react-checkout">
-    <div class="flex flex-col md:flex-row mb-4 px-6 container">
-        <div class="w-full md:w-2/3 xl:w-3/4 pb-4">
-            <div class="relative bg-white pb-6 p-4 md:p-0 md:pr-4 text-center">
-                <div class="hidden md:flex items-start border-b">
-                    <div class="w-2/5 border-r text-left py-2">item</div>
-                    <div class="w-1/5 border-r py-2">price</div>
-                    <div class="w-1/5 border-r py-2">quantity</div>
+<div id="react-checkout" data-language="<?= $localeProvider->getLocaleCode() ?>">
+    <div class="container flex flex-col px-6 mb-4 md:flex-row">
+        <div class="w-full pb-4 md:w-2/3 xl:w-3/4">
+            <div class="relative p-4 pb-6 text-center bg-white md:p-0 md:pr-4">
+                <div class="items-start hidden border-b md:flex">
+                    <div class="w-2/5 py-2 text-left border-r">item</div>
+                    <div class="w-1/5 py-2 border-r">price</div>
+                    <div class="w-1/5 py-2 border-r">quantity</div>
                     <div class="w-1/5 py-2">subtotal</div>
                 </div>
                 <div class="border-b">
-                    <div class="flex flex-col md:flex-row items-stretch border-b mb-2">
+                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
                         <div
-                            class="md:border-r flex flex-col md:flex-row items-stretch w-full md:w-2/5 justify-center py-4">
+                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block w-2/3 md:w-1/3 h-64 self-center mb-4 md:mb-0 h-auto mr-0 md:mr-2"><span
+                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
                                     style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row md:w-2/3 mt-2 md:mt-0">
-                                <div class="md:hidden w-1/3 text-right mr-6">item</div>
+                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
+                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
                                 <div class="text-left"><span
-                                        class="box-content block bg-container-darker animate-pulse border-block w-24 h-6 mb-2"
+                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
                                         for="product-title"></span><span
-                                        class="box-content block bg-container-darker animate-pulse border-block sku w-16 h-6"
+                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
                                         for="sku"></span></div>
                             </div>
                         </div>
-                        <div class="w-full md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">price</div>
+                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">quantity</div>
+                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">subtotal</div>
+                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
                     </div>
-                    <div class="mb-6 w-full sm:w-1/3 text-center sm:text-right md:text-left mr-6 flex"><span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 mr-2 border border-primary border-block"
+                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
+                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="edit-icon"></span> <span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 border border-primary border-block"
+                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="trash-icon"></span></div>
                 </div>
                 <div class="border-b">
-                    <div class="flex flex-col md:flex-row items-stretch border-b mb-2">
+                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
                         <div
-                            class="md:border-r flex flex-col md:flex-row items-stretch w-full md:w-2/5 justify-center py-4">
+                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block w-2/3 md:w-1/3 h-64 self-center mb-4 md:mb-0 h-auto mr-0 md:mr-2"><span
+                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
                                     style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row md:w-2/3 mt-2 md:mt-0">
-                                <div class="md:hidden w-1/3 text-right mr-6">item</div>
+                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
+                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
                                 <div class="text-left"><span
-                                        class="box-content block bg-container-darker animate-pulse border-block w-24 h-6 mb-2"
+                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
                                         for="product-title"></span><span
-                                        class="box-content block bg-container-darker animate-pulse border-block sku w-16 h-6"
+                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
                                         for="sku"></span></div>
                             </div>
                         </div>
-                        <div class="w-full md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">price</div>
+                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">quantity</div>
+                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">subtotal</div>
+                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
                     </div>
-                    <div class="mb-6 w-full sm:w-1/3 text-center sm:text-right md:text-left mr-6 flex"><span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 mr-2 border border-primary border-block"
+                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
+                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="edit-icon"></span> <span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 border border-primary border-block"
+                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="trash-icon"></span></div>
                 </div>
                 <div class="border-b">
-                    <div class="flex flex-col md:flex-row items-stretch border-b mb-2">
+                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
                         <div
-                            class="md:border-r flex flex-col md:flex-row items-stretch w-full md:w-2/5 justify-center py-4">
+                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block w-2/3 md:w-1/3 h-64 self-center mb-4 md:mb-0 h-auto mr-0 md:mr-2"><span
+                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
                                     style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row md:w-2/3 mt-2 md:mt-0">
-                                <div class="md:hidden w-1/3 text-right mr-6">item</div>
+                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
+                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
                                 <div class="text-left"><span
-                                        class="box-content block bg-container-darker animate-pulse border-block w-24 h-6 mb-2"
+                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
                                         for="product-title"></span><span
-                                        class="box-content block bg-container-darker animate-pulse border-block sku w-16 h-6"
+                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
                                         for="sku"></span></div>
                             </div>
                         </div>
-                        <div class="w-full md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">price</div>
+                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 md:border-r flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">quantity</div>
+                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
-                        <div class="md:w-1/5 flex items-center justify-left md:justify-center py-4">
-                            <div class="w-1/3 md:hidden text-right mr-6">subtotal</div>
+                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
+                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
                             <span
-                                class="box-content block bg-container-darker animate-pulse border-block sku w-20 h-6"
+                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
                                 for="price"></span></div>
                     </div>
-                    <div class="mb-6 w-full sm:w-1/3 text-center sm:text-right md:text-left mr-6 flex"><span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 mr-2 border border-primary border-block"
+                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
+                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="edit-icon"></span> <span
-                            class="box-content block bg-container-darker animate-pulse border-block inline-flex h-5 w-5 p-2 border border-primary border-block"
+                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
                             for="trash-icon"></span></div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-1/3 xl:w-1/4 bg-gray-100 p-6"><h2
-                class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Summary</h2>
+        <div class="w-full p-6 bg-gray-100 md:w-1/3 xl:w-1/4"><h2
+                class="mb-4 text-2xl font-medium text-gray-900 sm:text-3xl title-font">Summary</h2>
         </div>
     </div>
 </div>
