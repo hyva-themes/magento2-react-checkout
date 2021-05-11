@@ -6,13 +6,14 @@ import BillingAddressForm from './components/BillingAddressForm';
 import BillingAddressWrapper from './components/BillingAddressWrapper';
 import BillingAddressView from './components/BillingAddressView';
 import BillingAddressFormikProvider from './components/BillingAddressFormikProvider';
+import { __ } from '../../i18n';
 
 function BillingAddress() {
   return (
     <BillingAddressFormikProvider>
       <BillingAddressWrapper>
         <Card bg="dark">
-          <ToggleBox title="Billing Information" show>
+          <ToggleBox title={__('Billing Information')} show>
             <BillingAddressForm />
             <BillingAddressView />
           </ToggleBox>

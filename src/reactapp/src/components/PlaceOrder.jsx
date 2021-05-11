@@ -3,6 +3,7 @@ import { useFormikContext } from 'formik';
 
 import Button from './common/Button';
 import useCheckoutFormContext from '../hook/useCheckoutFormContext';
+import { __ } from '../i18n';
 
 function PlaceOrder() {
   const [isValid, setIsValid] = useState(false);
@@ -26,7 +27,7 @@ function PlaceOrder() {
         disable={!isValid}
         click={() => submitHandler(values)}
       >
-        Place Order
+        {__('Place Order')}
       </Button>
     </div>
   );

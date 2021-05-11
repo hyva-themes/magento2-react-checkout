@@ -6,16 +6,19 @@
     "magento/framework": "*",
     "magento/module-catalog": ">=103.0.0",
     "magento/module-checkout": ">=100.3.0",
-    "magento/module-customer": ">=102.0.0"
+    "magento/module-customer": ">=102.0.0",
+    "hyva-themes/magento2-graphql-tokens": "dev-main"
   },
   "suggest": {
     "hyva-themes/magento2-graphql-tokens": "*"
   },
   "authors": [{
-    "name": "Hyvä Themes, Wigman Interactive",
+    "name": "Hyvä Themes BV",
     "email": "info@hyva.io"
   }],
-  "license": "see LICENSE.md",
+  "license": [
+      "BSD-3-Clause"
+  ],
   "autoload": {
     "files": [
       "src/registration.php"

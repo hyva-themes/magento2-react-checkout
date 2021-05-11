@@ -7,6 +7,7 @@ import { useFormikContext } from 'formik';
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import useLoginFormContext from '../hooks/useLoginFormContext';
+import { __ } from '../../../i18n';
 
 function LoginForm() {
   const {
@@ -33,7 +34,7 @@ function LoginForm() {
     <>
       <div className="py-2">
         <TextInput
-          label="E-mail"
+          label={__('E-mail')}
           name={fields.email}
           placeholder="john.doe@gmail.com"
           required
@@ -47,17 +48,17 @@ function LoginForm() {
               setFieldValue(fields.customerWantsToSignin, true);
             }}
           >
-            I will sign-in and checkout
+            {__('I will sign-in and checkout')}
           </h6>
         )}
 
         {customerWantsToSignin && (
           <div>
             <TextInput
-              label="Password"
+              label={__('Password')}
               type="password"
               name={fields.password}
-              placeholder="Password"
+              placeholder={__('Password')}
               required
             />
           </div>
@@ -69,7 +70,7 @@ function LoginForm() {
           variant="success"
           disable={!isFormValid}
         >
-          {customerWantsToSignin ? 'Sign In' : 'Update'}
+          {customerWantsToSignin ? __('Sign In') : __('Update')}
         </Button>
       </div>
 
@@ -80,7 +81,7 @@ function LoginForm() {
             setFieldValue(fields.customerWantsToSignin, false);
           }}
         >
-          No, I like to continue as guest
+          {__('No, I like to continue as guest')}
         </h6>
       )}
     </>

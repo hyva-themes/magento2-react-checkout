@@ -39,7 +39,9 @@
     "prestart": "npm run build:tailwind",
     "prebuild": "NODE_ENV=production npm run build:tailwind && npm run minify",
     "minify": "npx csso public/tailwind.output.css --output public/styles.css",
-    "postbuild": "cp public/styles.css ../view/frontend/web/css/styles.css &&  npm run output-success",
+    "move-css-to-static-dir": "cp public/styles.css ../view/frontend/web/css/styles.css",
+    "move-i18n-to-static-dir": "cp -R public/i18n ../view/frontend/web/js/",
+    "postbuild": "npm run move-css-to-static-dir && npm run move-i18n-to-static-dir &&  npm run output-success",
     "output-success": "echo \"\\033[0;32mDone!\\033[0m\""
   },
   "lint-staged": {

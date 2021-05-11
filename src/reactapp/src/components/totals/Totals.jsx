@@ -1,4 +1,5 @@
 import React from 'react';
+import { __ } from '../../i18n';
 
 import Card from '../common/Card';
 import Header from '../common/Header';
@@ -9,20 +10,20 @@ function Totals() {
 
   return (
     <Card bg="dark">
-      <Header>Order Summary</Header>
+      <Header>{__('Order Summary')}</Header>
       <div className="py-4">
         <div>
           <div className="pb-2 space-y-3 border-b">
             {subTotal && (
               <div className="flex justify-between">
-                <div>Cart Subtotal</div>
+                <div>{__('Cart Subtotal')}</div>
                 <div>{subTotal}</div>
               </div>
             )}
 
             {shippingMethodRate && (
               <div className="flex justify-between">
-                <div>Shipping</div>
+                <div>{__('Shipping')}</div>
                 <div>{shippingMethodRate}</div>
               </div>
             )}
@@ -30,7 +31,7 @@ function Totals() {
 
           <div className="mt-3">
             <div className="flex justify-between text-xl font-bold">
-              <div>Order Total</div>
+              <div>{__('Order Total')}</div>
               <div>{grandTotal || '0'}</div>
             </div>
           </div>

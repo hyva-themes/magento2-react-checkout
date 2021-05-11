@@ -1,2 +1,8 @@
 node_modules/
+.idea/
+.vscode/
+.storybook/
+build
+.DS_Store
 public/tailwind.output.css
+public/styles.css

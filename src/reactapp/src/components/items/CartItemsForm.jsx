@@ -6,6 +6,7 @@ import CartItemList from './components/CartItemList';
 import NoItemsInfoBox from './components/NoItemsInfoBox';
 import CartItemsFormManager from './components/CartItemsFormManager';
 import useItemsCartContext from './hooks/useItemsCartContext';
+import { __ } from '../../i18n';
 
 function CartItemsForm() {
   const { cartItemsAvailable } = useItemsCartContext();
@@ -13,7 +14,7 @@ function CartItemsForm() {
   return (
     <CartItemsFormManager>
       <Card bg="dark" classes={cartItemsAvailable ? '' : 'opacity-75'}>
-        <Header>Product Details</Header>
+        <Header>{__('Product Details')}</Header>
         {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
       </Card>
     </CartItemsFormManager>

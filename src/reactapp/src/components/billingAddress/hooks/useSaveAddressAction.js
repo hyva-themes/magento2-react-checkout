@@ -8,6 +8,7 @@ import useBillingAddressWrapper from './useBillingAddressWrapper';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
+import { __ } from '../../../i18n';
 
 export default function useSaveAddressAction() {
   const { submitHandler } = useBillingAddressFormikContext();
@@ -65,11 +66,11 @@ export default function useSaveAddressAction() {
           updateCartAddressPromise(),
         ]);
         setToViewMode(false);
-        setSuccessMessage('Billing address updated successfully.');
+        setSuccessMessage(__('Billing address updated successfully.'));
         setPageLoader(false);
       } catch (error) {
         console.log({ error });
-        setErrorMessage('Billing address update failed. Please try again');
+        setErrorMessage(__('Billing address update failed. Please try again'));
         setPageLoader(false);
       }
     },

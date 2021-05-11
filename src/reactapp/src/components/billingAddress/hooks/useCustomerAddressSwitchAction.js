@@ -8,6 +8,7 @@ import useBillingAddressWrapper from './useBillingAddressWrapper';
 import { CART_BILLING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
+import { __ } from '../../../i18n';
 
 export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
   LocalStorage.saveBillingSameAsShipping(isBillingSame);
@@ -62,10 +63,10 @@ export default function useCustomerAddressSwitchAction() {
         // in frontend
         saveCustomerAddressToLocalStorage(addressId, isBillingSame);
         await Promise.all([updateAddressPromise()]);
-        setSuccessMessage('Billing address updated successfully');
+        setSuccessMessage(__('Billing address updated successfully'));
       } catch (error) {
         console.log({ error });
-        setErrorMessage('Address switching failed, sorry.');
+        setErrorMessage(__('Address switching failed, sorry.'));
         setPageLoader(false);
       }
     },
