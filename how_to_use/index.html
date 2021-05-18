@@ -229,7 +229,14 @@
       
         <li class="md-nav__item">
   <a href="#any-tweaks-necessary-if-the-site-is-not-using-hyva-theme" class="md-nav__link">
-    Any tweaks necessary if the site is not using hyva-theme
+    Any tweaks necessary if the site is not using hyva-theme?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changes-you-want-to-do-in-a-hyva-theme-based-site" class="md-nav__link">
+    Changes you want to do in a hyva-theme based site
   </a>
   
 </li>
@@ -328,7 +335,14 @@
       
         <li class="md-nav__item">
   <a href="#any-tweaks-necessary-if-the-site-is-not-using-hyva-theme" class="md-nav__link">
-    Any tweaks necessary if the site is not using hyva-theme
+    Any tweaks necessary if the site is not using hyva-theme?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changes-you-want-to-do-in-a-hyva-theme-based-site" class="md-nav__link">
+    Changes you want to do in a hyva-theme based site
   </a>
   
 </li>
@@ -358,7 +372,7 @@ it would only work with hyva-themes. But, the truth is, it is not.</p>
 <li>Magento 2 sites that works in headless</li>
 <li>Magento 2 sites that uses any kind of PWA.</li>
 </ul>
-<h2 id="any-tweaks-necessary-if-the-site-is-not-using-hyva-theme">Any tweaks necessary if the site is not using hyva-theme</h2>
+<h2 id="any-tweaks-necessary-if-the-site-is-not-using-hyva-theme">Any tweaks necessary if the site is not using hyva-theme?</h2>
 <p>Well, the hyva-checkout using the tailwindcss in order to style the checkout page. Hence,
 it is important to include the checkout page style css file if your site is not using
 tailwindcss. It is handy to do this job too.</p>
@@ -366,6 +380,34 @@ tailwindcss. It is handy to do this job too.</p>
 <p>File: <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code></p>
 <pre><code>&lt;css src=&quot;Hyva_Checkout::css/styles.css&quot; defer=&quot;defer&quot;/&gt;
 </code></pre>
+<h2 id="changes-you-want-to-do-in-a-hyva-theme-based-site">Changes you want to do in a hyva-theme based site</h2>
+<p>Both hyva-theme and hyva-checkout uses tailwindcss to style the pages. In a hyva-theme based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
+<ol>
+<li>It adds an additional style sheet in the site. One more style sheet means one more reder blocking in the browser</li>
+<li>The style sheet holds lot of duplicated styles since both using the tailwindcss.</li>
+</ol>
+<p>Due to this, it is better to add hyva-checkout components in the tailwindcss purge directory list in your hyva-theme based site. You can find more details of this in the official documentation of hyva: <a href="https://docs.hyva.io/doc/tailwind-purging-settings-goVaHblLAR">Tailwind Purging settings</a></p>
+<p>Below is the bare minium things you need to do</p>
+<ol>
+<li>You need setup a child theme in your site. It should be inherited from <code>Hyva/default</code> theme. For the sake of simplicity, I am calling this child theme as <code>Hyva/custom</code>.</li>
+<li>Copy over the web directory from <code>vendor/hyva-themes/magento2-default-theme/web/</code> to your own theme <code>app/design/frontend/Hyva/custom/web/</code></li>
+<li>Edit the <code>tailwind.config.js</code> file inside your theme and add following lines inside purge directory list.</li>
+</ol>
+<pre><code>module.exports = {
+    ...
+    purge: {
+        content: [
+            ...
+            // Hyva checkout components
+            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/components/*.jsx',
+            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/components/**/*.jsx'
+            ...
+        ]
+    }
+}
+...
+</code></pre>
+<p>With these changes, Hyva-checkout styles will be also considered by your theme and thus you will see a stylish hyva checkout page by default.</p>
                 
               
               
