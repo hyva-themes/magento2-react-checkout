@@ -66,6 +66,7 @@ module.exports = {
   plugins: [customFormsPlugin, customMinHeightPlugin],
   purge: {
     content: [
+      './src/components/*.jsx',
       './src/components/**/*.jsx',
       '../view/frontend/templates/*.phtml',
     ],
