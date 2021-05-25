@@ -14,7 +14,7 @@
     
     
       
-        <title>How to use - Hyvä Themes - Hyvä Checkout</title>
+        <title>Payment Integration - Hyvä Themes - Hyvä Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-use-this-module" class="md-skip">
+        <a href="#payment-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +87,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              How to use
+              Payment Integration
             
           </span>
         </div>
@@ -195,56 +195,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          How to use
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../how_to_use/" class="md-nav__link">
         How to use
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#any-tweaks-necessary-if-the-site-is-not-using-hyva-theme" class="md-nav__link">
-    Any tweaks necessary if the site is not using hyva-theme?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#changes-you-want-to-do-in-a-hyva-theme-based-site" class="md-nav__link">
-    Changes you want to do in a hyva-theme based site
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -315,11 +270,70 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../payment-integration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Payment Integration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Payment Integration
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#payment-supports" class="md-nav__link">
+    Payment Supports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-can-we-collect-the-payment-configurations" class="md-nav__link">
+    How can we collect the payment configurations?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-payment-renderer" class="md-nav__link">
+    Custom Payment Renderer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-interact-with-place-order" class="md-nav__link">
+    How To Interact With Place Order
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -349,15 +363,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#any-tweaks-necessary-if-the-site-is-not-using-hyva-theme" class="md-nav__link">
-    Any tweaks necessary if the site is not using hyva-theme?
+  <a href="#payment-supports" class="md-nav__link">
+    Payment Supports
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#changes-you-want-to-do-in-a-hyva-theme-based-site" class="md-nav__link">
-    Changes you want to do in a hyva-theme based site
+  <a href="#how-can-we-collect-the-payment-configurations" class="md-nav__link">
+    How can we collect the payment configurations?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-payment-renderer" class="md-nav__link">
+    Custom Payment Renderer
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-interact-with-place-order" class="md-nav__link">
+    How To Interact With Place Order
   </a>
   
 </li>
@@ -375,54 +403,119 @@
               
                 
                 
-                <h1 id="how-to-use-this-module">How to use this module</h1>
-<p>Hyva-Checkout is essentially a Magento 2 module which provides a fast and extendible checkout
-experience in a magento site. Since it is a part of Hyva-Themes, it is natural to assume
-it would only work with hyva-themes. But, the truth is, it is not.</p>
-<p>You can use this module with any Magento 2 sites. For example,</p>
+                <h1 id="payment-integration">Payment Integration</h1>
+<p>In Hyvä Checkout, the payment options will be shown as radio inputs by default. You can choose the option and place the order, and everything works out of the box.</p>
+<p>But showing just a radio input box and allowing you to select/deselect them is not what you needed for all payment options. Some payment methods need different behaviour. Also, some payment methods need a separate flow when we perform the "place order" action. To help you out in such cases, Hyvä Checkout already possesses some superpowers which we will see in a short time.</p>
+<h2 id="payment-supports">Payment Supports</h2>
+<p>Payment methods integration is in progress. We don't have any plans to keep payment components as part of Hyvä Checkout. But, we will be maintaining separate payment repositories which will hold the custom payment method components which you can use with Hyvä Checkout seamlessly.</p>
+<p>Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.</p>
 <ul>
-<li>Magento 2 sites using the luma or blank theme</li>
-<li>Magento 2 sites using a theme that inhertis luma/blank theme</li>
-<li>Magento 2 sites using the hyva-theme</li>
-<li>Magento 2 sites that works in headless</li>
-<li>Magento 2 sites that uses any kind of PWA.</li>
+<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-payone">hyva-themes/magento2-hyva-checkout-payone</a></li>
 </ul>
-<h2 id="any-tweaks-necessary-if-the-site-is-not-using-hyva-theme">Any tweaks necessary if the site is not using hyva-theme?</h2>
-<p>Well, the hyva-checkout using the tailwindcss in order to style the checkout page. Hence,
-it is important to include the checkout page style css file if your site is not using
-tailwindcss. It is handy to do this job too.</p>
-<p>To include the css file, all you need to do is uncomment the css file entry in the below file:</p>
+<p>We are open to contributions here as the payment options available out there are many, and you all can help you out to grow the above list.</p>
+<hr />
+<p>Now, it is time to get to know some technical aspect of the payment integration which you can do with Hyvä Checkout.</p>
+<h2 id="how-can-we-collect-the-payment-configurations">How can we collect the payment configurations?</h2>
+<p>Depending upon the payment methods, you may have some special configuration settings in your store. Usually, you do this under <code>Stores &gt; Configuration</code>. If you are familiar with the default Magento 2 checkout page, then you may know that Magento 2 passes this configuration via a global variable which you can find at <code>window.checkoutConfig</code>.</p>
+<p>To collect these checkout configurations, we have a ViewModel available in the module. You can find this ViewModel in the path <code>src/ViewModel/CheckoutConfigProvider.php</code>. So to make payment configurations available to the checkout page, you need to do the following steps.</p>
+<ol>
+<li>
+<p>Include the ViewModel via the layout file.</p>
 <p>File: <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code></p>
-<pre><code>&lt;css src=&quot;Hyva_Checkout::css/styles.css&quot; defer=&quot;defer&quot;/&gt;
-</code></pre>
-<h2 id="changes-you-want-to-do-in-a-hyva-theme-based-site">Changes you want to do in a hyva-theme based site</h2>
-<p>Both hyva-theme and hyva-checkout uses tailwindcss to style the pages. In a hyva-theme based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
-<ol>
-<li>It adds an additional style sheet in the site. One more style sheet means one more reder blocking in the browser</li>
-<li>The style sheet holds lot of duplicated styles since both using the tailwindcss.</li>
-</ol>
-<p>Due to this, it is better to add hyva-checkout components in the tailwindcss purge directory list in your hyva-theme based site. You can find more details of this in the official documentation of hyva: <a href="https://docs.hyva.io/doc/tailwind-purging-settings-goVaHblLAR">Tailwind Purging settings</a></p>
-<p>Below is the bare minium things you need to do</p>
-<ol>
-<li>You need setup a child theme in your site. It should be inherited from <code>Hyva/default</code> theme. For the sake of simplicity, I am calling this child theme as <code>Hyva/custom</code>.</li>
-<li>Copy over the web directory from <code>vendor/hyva-themes/magento2-default-theme/web/</code> to your own theme <code>app/design/frontend/Hyva/custom/web/</code></li>
-<li>Edit the <code>tailwind.config.js</code> file inside your theme and add following lines inside purge directory list.</li>
-</ol>
-<pre><code>module.exports = {
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"&gt;
     ...
-    purge: {
-        content: [
-            ...
-            // Hyva checkout components
-            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/components/*.jsx',
-            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/components/**/*.jsx'
-            ...
-        ]
-    }
+    &lt;body&gt;
+        &lt;referenceContainer name="content"&gt;
+            &lt;block name="checkout.container" cacheable="false" template="Hyva_Checkout::react-container.phtml"&gt;
+                &lt;arguments&gt;
+                    ...
+                    &lt;argument name="checkout_config_provider" xsi:type="object"&gt;Hyva\Checkout\ViewModel\CheckoutConfigProvider&lt;/argument&gt;
+                &lt;/arguments&gt;
+            &lt;/block&gt;
+        &lt;/referenceContainer&gt;
+        ...
+    &lt;/body&gt;
+&lt;/page&gt;
+</code></pre>
+</li>
+<li>
+<p>Pass the payment configuration via <code>data-payment</code> attribute.</p>
+<p>File: <code>src/view/frontend/templates/react-container.phtml</code></p>
+<pre><code>&lt;?php
+...
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Hyva\Checkout\ViewModel\CheckoutConfigProvider $configProvider */
+$configProvider = $block-&gt;getCheckoutConfigProvider();
+...
+?&gt;
+&lt;div
+    id="react-checkout"
+    ...
+    data-payment="&lt;?= $escaper-&gt;escapeHtmlAttr($configProvider-&gt;getConfig())  ?&gt;"
+&gt;
+...
+&lt;/div&gt;
+</code></pre>
+</li>
+</ol>
+<p>With these changes in place, now the react app has access to the payment configurations, and it can be used in the application according to your need.</p>
+<h2 id="custom-payment-renderer">Custom Payment Renderer</h2>
+<p>As already stated, by default, all payment methods appear as a radio input. But Hyvä Checkout allows using a custom renderer for any payment methods. All you need to do is add your custom payment method component in the <code>src/reactapp/src/components/paymentMethod/customRenderers.js</code> file. This js file exports an empty object (<code>{}</code>) by default. But if you specify your custom payment method component, then the react app will use your custom component in order to render the payment method. For example,</p>
+<p>File: <code>src/reactapp/src/components/paymentMethod/customRenderers.js</code></p>
+<pre><code>import CreditCard from '../payone/components/creditCard/CreditCard';
+
+export default {
+  payone_creditcard: CreditCard,
+};
+</code></pre>
+<p>Here <code>payone_creditcard</code> is the payment method code and <code>CreditCard</code> is the custom payment method component.</p>
+<h2 id="how-to-interact-with-place-order">How To Interact With Place Order</h2>
+<p>If your payment method needs some special functions to carry out or if your payment method wants to alter the behaviour of place an order, then Hyvä Checkout provides some features out of the box to help you out.</p>
+<p>File: <code>src/reactapp/src/context/Form/CheckoutFormProvider.jsx</code></p>
+<pre><code>...
+function CheckoutFormProvider({ children }) {
+  ...
+  const [paymentActionList, setPaymentActions] = useState({});
+  ...
+  const registerPaymentAction = useCallback(
+    (paymentMethodCode, paymentMethodAction) =&gt; {
+      setPaymentActions(actions =&gt; ({
+        ...actions,
+        [paymentMethodCode]: paymentMethodAction,
+      }));
+    },
+    [setPaymentActions]
+  );
+  ...
 }
 ...
 </code></pre>
-<p>With these changes, Hyva-checkout styles will be also considered by your theme and thus you will see a stylish hyva checkout page by default.</p>
+<p>Here <code>CheckoutFormProvider</code> is one of the super parent components that wraps react app. As you can see in the code it has a state <code>paymentActionList</code> which can be populated with any custom payment action you want to perform when the "place order" action happens. See the <code>registerPaymentAction</code> function. This function is available for all the child components and thus a custom payment method component can use it to register a custom "place order" behaviour.</p>
+<p>Suppose you have a custom payment method component <code>PayOneCreditCard</code> and it looks like below</p>
+<pre><code>function PayOneCreditCard({ method, selected, actions }) {
+  const { registerPaymentAction } = useCheckoutFormContext();
+
+  // custom &quot;place order&quot; submit action
+  const paymentSubmitHandler = useCallback(
+    async values =&gt; {
+      console.log({ values });
+      alert('yeeeha');
+    },
+    []
+  );
+
+  // registering custom &quot;place order&quot; action for the payment method
+  useEffect(() =&gt; {
+    registerPaymentAction('payone_creditcard', paymentSubmitHandler);
+  }, [registerPaymentAction, paymentSubmitHandler]);
+
+  return (
+    // custom payment method JSX here
+  );
+}
+</code></pre>
+<p>So in the <code>useEffect</code>, we are registering custom place order action for the payment method. Now when the user opted <code>payone_creditcard</code> as the payment option and then click on the "Place Order" button, it will use the <code>paymentSubmitHandler</code> in this component to process the order. So now the payment method needs to convert the quote to order according to its need and then redirect the user to the success page.</p>
                 
               
               
@@ -440,7 +533,7 @@ tailwindcss. It is handy to do this job too.</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../installation/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../i18n/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -449,25 +542,11 @@ tailwindcss. It is handy to do this job too.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Installation
+              Internationalization
             </div>
           </div>
         </a>
       
-      
-        <a href="../customize/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              How to customize
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
