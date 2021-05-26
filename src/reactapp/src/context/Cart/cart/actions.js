@@ -29,7 +29,7 @@ export async function getGuestCartInfoAction(dispatch) {
     return cartInfo;
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error)
   }
 
   return {};
@@ -53,7 +53,7 @@ export async function createEmptyCartAction() {
     return cartId;
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error);
   }
   return null;
 }
@@ -68,7 +68,7 @@ export async function mergeCartsAction(dispatch, cartIds) {
     return cartInfo;
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error);
   }
 
   return {};
@@ -98,7 +98,7 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
     return cartInfo;
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error);
   }
 
   return {};
@@ -158,6 +158,6 @@ export async function setCustomerDefaultAddressToCartAction(
     }
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error);
   }
 }

@@ -2,6 +2,8 @@ import createEmptyCart from './cart/createEmptyCart';
 import fetchGuestCart from './cart/fetchGuestCart';
 import mergeCarts from './cart/mergeCarts';
 import placeOrder from './cart/placeOrder';
+import restSetGuestPaymentMethod from './cart/restSetGuestPaymentMethod';
+import restSetMyPaymentMethod from './cart/restSetMyPaymentMethod';
 import setBillingAddress from './cart/setBillingAddress';
 import setCustomerAddressOnCartBilling from './cart/setCustomerAddressOnBilling';
 import setCustomerAddrOnShippingAddr from './cart/setCustomerAddrOnShippingAddr';
@@ -58,3 +60,7 @@ export const createEmptyCartRequest = createEmptyCart;
 export const mergeCartsRequest = mergeCarts;
 
 export const placeOrderRequest = placeOrder;
+
+export const restSetGuestPaymentMethodRequest = restSetGuestPaymentMethod;
+
+export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;

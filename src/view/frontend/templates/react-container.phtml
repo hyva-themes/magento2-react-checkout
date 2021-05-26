@@ -1,16 +1,18 @@
 <?php
 declare(strict_types=1);
 
-/** @var Template $block */
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 /** @var \Hyva\Checkout\ViewModel\LocaleProvider $localeProvider */
+/** @var \Hyva\Checkout\ViewModel\CheckoutConfigProvider $configProvider */
 $localeProvider = $block->getLocaleProvider();
-
-use Magento\Framework\View\Element\Template;
+$configProvider = $block->getCheckoutConfigProvider();
 ?>
 <div
     id="react-checkout"
     data-language="<?= $localeProvider->getLocaleCode() ?>"
     data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
+    data-payment="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >
     <div class="container flex flex-col px-6 mb-4 md:flex-row">
         <div class="w-full pb-4 md:w-2/3 xl:w-3/4">
