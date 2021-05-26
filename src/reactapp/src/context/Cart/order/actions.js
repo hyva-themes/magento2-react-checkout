@@ -35,22 +35,37 @@ async function verifyPaymentMethod(dispatch, values, selectedPaymentMethod) {
 export async function placeOrderAction(
   dispatch,
   values,
-  { shippingMethod, selectedPaymentMethod }
+  paymentActionList,
+  selectedShippingMethod,
+  selectedPaymentMethod
 ) {
   try {
-    await verifyShippingMethod(dispatch, values, shippingMethod);
+    let order;
+    const paymentMethod = _get(values, PAYMENT_METHOD_FORM);
+    const paymentSubmitAction = _get(paymentActionList, paymentMethod.code);
 
+    await verifyShippingMethod(dispatch, values, selectedShippingMethod);
     await verifyPaymentMethod(dispatch, values, selectedPaymentMethod);
 
-    const order = await placeOrderRequest();
+    if (paymentSubmitAction) {
+      order = await paymentSubmitAction(values);
+    } else {
+      order = await placeOrderRequest();
+    }
 
-    dispatch({
-      type: SET_ORDER_INFO,
-      payload: order,
-    });
+    if (order) {
+      dispatch({
+        type: SET_ORDER_INFO,
+        payload: order,
+      });
+    }
+
+    return order;
   } catch (error) {
     /**
      * error message needs to be implemented
      */
   }
+
+  return {};
 }

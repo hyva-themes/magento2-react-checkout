@@ -4,7 +4,10 @@ import {
 } from './billingAddress/actions';
 import { updateCartItemAction } from './cartItems/actions';
 import { placeOrderAction } from './order/actions';
-import { setPaymentMethodAction } from './paymentMethod/actions';
+import {
+  setPaymentMethodAction,
+  setRestPaymentMethodAction,
+} from './paymentMethod/actions';
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import {
@@ -39,6 +42,7 @@ const dispatchMapper = {
   getCustomerCartId: getCustomerCartIdAction,
   createEmptyCart: createEmptyCartAction,
   mergeCarts: mergeCartsAction,
+  setRestPaymentMethod: setRestPaymentMethodAction,
 };
 
 function cartDispatchers(dispatch) {
