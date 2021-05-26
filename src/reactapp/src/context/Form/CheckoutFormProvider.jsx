@@ -6,6 +6,8 @@ import { object as YupObject } from 'yup';
 import CheckoutFormContext from './CheckoutFormContext';
 import useCartContext from '../../hook/useCartContext';
 import useAppContext from '../../hook/useAppContext';
+import { config } from '../../config';
+import LocalStorage from '../../utils/localStorage';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -45,8 +47,33 @@ function CheckoutFormProvider({ children }) {
    */
   const [sections, updateSections] = useState([]);
 
-  const cartData = useCartContext();
+  /**
+   * if any of the payment method has any custom action needs to be carried out
+   * during "Place Order" action, then it must be added here
+   */
+  const [paymentActionList, setPaymentActions] = useState({});
+
+  const {
+    placeOrder,
+    selectedShippingMethod,
+    selectedPaymentMethod,
+  } = useCartContext();
   const [, { setPageLoader }] = useAppContext();
+
+  /**
+   * This will help any custom payment method renderer component to register
+   * a custom payment action. Custom payment action will be triggered when
+   * the place order happens.
+   */
+  const registerPaymentAction = useCallback(
+    (paymentMethodCode, paymentMethodAction) => {
+      setPaymentActions(actions => ({
+        ...actions,
+        [paymentMethodCode]: paymentMethodAction,
+      }));
+    },
+    [setPaymentActions]
+  );
 
   /**
    * This will register individual form sections to the checkout-form-formik
@@ -55,18 +82,24 @@ function CheckoutFormProvider({ children }) {
     updateSections(prevSections => [...prevSections, section]);
   }, []);
 
-  const formSubmit = useCallback(
-    async values => {
-      try {
-        setPageLoader(true);
-        await cartData.placeOrder(values, cartData);
-        setPageLoader(false);
-      } catch (error) {
-        setPageLoader(false);
+  const formSubmit = async values => {
+    try {
+      setPageLoader(true);
+      const order = await placeOrder(
+        values,
+        paymentActionList,
+        selectedShippingMethod,
+        selectedPaymentMethod
+      );
+
+      if (order && order.redirectUrl) {
+        LocalStorage.clearCheckoutStorage();
+        window.location.replace(`${config.baseUrl}${order.redirectUrl}`);
       }
-    },
-    [setPageLoader, cartData]
-  );
+    } catch (error) {
+      setPageLoader(false);
+    }
+  };
 
   const context = useMemo(
     () => ({
@@ -112,6 +145,7 @@ function CheckoutFormProvider({ children }) {
         ...context,
         checkoutFormValidationShema: formValidationSchema,
         submitHandler: formSubmit,
+        registerPaymentAction,
       }}
     >
       <Formik

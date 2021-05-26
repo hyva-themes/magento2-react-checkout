@@ -15,15 +15,19 @@ const LocalStorage = {
       return {};
     }
 
-    return (
-      JSON.parse(window.localStorage.getItem(tokenSource.storageKey)) || {}
+    return JSON.parse(
+      window.localStorage.getItem(tokenSource.storageKey) || '{}'
     );
   },
 
   getHyvaCheckoutStorage() {
     const storageKey = _get(config, 'hyvaStorageSource.storageKey');
 
-    return JSON.parse(window.localStorage.getItem(storageKey)) || {};
+    if (!LocalStorage.isBrowser()) {
+      return {};
+    }
+
+    return JSON.parse(window.localStorage.getItem(storageKey) || '{}');
   },
 
   getCartId() {
@@ -162,6 +166,15 @@ const LocalStorage = {
     );
 
     window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+  },
+
+  clearCheckoutStorage() {
+    if (!LocalStorage.isBrowser()) {
+      return;
+    }
+
+    const hyvaStorageKey = _get(config, 'hyvaStorageSource.storageKey');
+    window.localStorage.setItem(hyvaStorageKey, '{}');
   },
 };
 

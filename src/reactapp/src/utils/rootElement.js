@@ -15,6 +15,10 @@ const RootElement = {
   getFilePath() {
     return RootElement.elem.dataset.static_file_path || '';
   },
+
+  getPaymentConfig() {
+    return JSON.parse(RootElement.elem.dataset.payment || '{}');
+  },
 };
 
 export default RootElement;
