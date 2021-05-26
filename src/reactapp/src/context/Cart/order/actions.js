@@ -56,7 +56,7 @@ export async function placeOrderAction(
     if (order) {
       dispatch({
         type: SET_ORDER_INFO,
-        payload: order.orderNumber || order.orderId,
+        payload: order,
       });
     }
 

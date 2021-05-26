@@ -118,8 +118,8 @@ function CheckoutFormProvider({ children }) {
    *
    * So the whole initValues would be represented like:
    * {
-   *    [form_section_id]: { ...form_section_init_vallues},
-   *    [form_section_id]: { ...form_section_init_vallues},
+   *    [form_section_id]: { ...form_section_init_values},
+   *    [form_section_id]: { ...form_section_init_values},
    * }
    */
   const formInitialValues = prepareFormInitValues(sections);
