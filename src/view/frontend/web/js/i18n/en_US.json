@@ -60,5 +60,6 @@
   "Street":"Street",
   "Total":"Total",
   "Update":"Update",
-  "{} zipcode: {}":"{} zipcode: {}"
+  "{} zipcode: {}":"{} zipcode: {}",
+  "Login failed.": "Login failed."
 }
