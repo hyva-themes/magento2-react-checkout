@@ -1,6 +1,7 @@
 import _get from 'lodash.get';
 
 import {
+  ajaxLoginRequest,
   fetchCustomerAddressListRequest,
   fetchCustomerInfoRequest,
   generateCustomerToken,
@@ -44,6 +45,27 @@ export async function sigInCustomerAction(dispatch, userCredentials) {
   }
 
   return false;
+}
+
+export async function ajaxLoginAction(dispatch, userCredentials) {
+  try {
+    const response = await ajaxLoginRequest(userCredentials);
+    const { errors, data } = response;
+
+    if (!errors) {
+      const signInToken = _get(data, 'customer.signin_token');
+      const cartId = _get(data, 'cart.cartId');
+      LocalStorage.saveCartId(cartId);
+      LocalStorage.saveCustomerToken(signInToken);
+      // LocalStorage.saveCartCustomerInfo(data);
+    }
+
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+
+  return {};
 }
 
 export async function getCustomerInfoAction(dispatch) {

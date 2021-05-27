@@ -11,7 +11,7 @@
   "author": "Willem Wigman",
   "license": "MIT",
   "private": true,
-  "proxy": "https://demo.hyva.io",
+  "proxy": "http://m24-hyva.test",
   "dependencies": {
     "formik": "^2.2.6",
     "lodash.get": "^4.4.2",
