@@ -25,7 +25,7 @@ async function verifyPaymentMethod(dispatch, values, selectedPaymentMethod) {
     const paymentMethod = _get(values, PAYMENT_METHOD_FORM);
 
     if (!paymentMethod.code) {
-      throw new Error('Pyament method not available');
+      throw new Error('Payment method not available');
     }
 
     await setPaymentMethodAction(dispatch, paymentMethod);

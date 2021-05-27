@@ -1,21 +1,17 @@
 import { func, shape, string } from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import RadioInput from '../../common/Form/RadioInput';
 import usePaypalExpress from '../hooks/usePaypalExpress';
-import Button from '../../common/Button';
-import { __ } from '../../../i18n';
+import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
 function PaypalExpress({ method, selected, actions }) {
   const isSelected = method.code === selected.code;
   const { authorizeUser } = usePaypalExpress();
+  const { registerPaymentAction } = useCheckoutFormContext();
 
-  const CheckoutButton = () => (
-    <div className="flex items-center justify-center mt-2">
-      <Button click={authorizeUser} variant="success">
-        {__('Update')}
-      </Button>
-    </div>
-  );
+  useEffect(() => {
+    registerPaymentAction('paypal_express', authorizeUser);
+  }, [authorizeUser, registerPaymentAction]);
 
   if (!isSelected) {
     return (
@@ -42,7 +38,6 @@ function PaypalExpress({ method, selected, actions }) {
           checked={isSelected}
         />
       </div>
-      <CheckoutButton />
     </div>
   );
 }

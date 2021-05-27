@@ -1,24 +1,38 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import AppContext from '../../../context/App/AppContext';
-import createCustomerToken from '../../../api/cart/paypalExpress/createCustomerToken';
+import createCustomerToken from '../../../api/paypalExpress/createCustomerToken';
 import { _objToArray } from '../../../utils';
 import { __ } from '../../../i18n';
-import setPaymentMethodPaypalExpress from '../../../api/cart/paypalExpress/setPaymentMethod';
+import setPaymentMethodPaypalExpress from '../../../api/paypalExpress/setPaymentMethod';
 import placeOrder from '../../../api/cart/placeOrder';
 import useShippingMethodCartContext from '../../shippingMethod/hooks/useShippingMethodCartContext';
 import LocalStorage from '../../../utils/localStorage';
 import { config } from '../../../config';
 import usePaymentMethodCartContext from '../../paymentMethod/hooks/usePaymentMethodCartContext';
+import useBillingAddressCartContext from '../../billingAddress/hooks/useBillingAddressCartContext';
 
 export default function usePaypalExpress() {
   const [, appActions] = useContext(AppContext);
   const { setErrorMessage, setPageLoader } = appActions;
   const { selectedMethod } = useShippingMethodCartContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
   const query = window.location.href.split('?')[1];
   const [processPaymentEnable, setProcessPaymentEnable] = useState(false);
-  const { selectedPaymentMethod } = usePaymentMethodCartContext();
+  const { selectedPaymentMethod, methodList } = usePaymentMethodCartContext();
   const cartId = LocalStorage.getCartId();
-  const { methodList } = usePaymentMethodCartContext();
+
+  /*
+   Check if is possible to proceed on placing the order.
+   */
+  useEffect(() => {
+    if (
+      query &&
+      selectedMethod?.methodCode &&
+      (selectedPaymentMethod?.code === '' ||
+        selectedPaymentMethod?.code === 'paypal_express')
+    )
+      setProcessPaymentEnable(true);
+  }, [query, setProcessPaymentEnable, selectedMethod, selectedPaymentMethod]);
 
   useEffect(() => {
     const processPaypalExpress = async () => {
@@ -31,7 +45,14 @@ export default function usePaypalExpress() {
         method => method.code === 'paypal_express'
       );
 
-      if (!token || !payerId || !cartId || !selectedMethod || !paymentMethod) {
+      if (
+        !token ||
+        !payerId ||
+        !cartId ||
+        !selectedMethod ||
+        !paymentMethod ||
+        !cartBillingAddress
+      ) {
         return;
       }
 
@@ -57,7 +78,6 @@ export default function usePaypalExpress() {
         );
       }
     };
-
     if (processPaymentEnable) {
       processPaypalExpress(cartId, methodList);
     }
@@ -69,25 +89,14 @@ export default function usePaypalExpress() {
     selectedMethod,
     setErrorMessage,
     setPageLoader,
+    cartBillingAddress,
   ]);
-
-  /*
-   Check if is possible to proceed on placing the order.
-   */
-  useEffect(() => {
-    if (
-      query &&
-      selectedMethod?.methodCode &&
-      selectedPaymentMethod?.code === ''
-    )
-      setProcessPaymentEnable(true);
-  }, [query, setProcessPaymentEnable, selectedMethod, selectedPaymentMethod]);
 
   /*
    Get the customer token from the BE and redirect to paypal.
    */
-  const authorizeUser = async () => {
-    if (!selectedMethod?.carrierCode) {
+  const authorizeUser = useCallback(async () => {
+    if (!selectedMethod?.carrierCode || !cartBillingAddress?.firstname) {
       setErrorMessage(__('Please complete all the required data.'));
       return;
     }
@@ -101,11 +110,13 @@ export default function usePaypalExpress() {
     if (response) {
       const paypalExpressUrl =
         response.createPaypalExpressToken?.paypal_urls.start;
-      if (!paypalExpressUrl) setErrorMessage('Paypal Error');
-      setPageLoader(false);
+      if (!paypalExpressUrl) {
+        setErrorMessage('Paypal Error');
+        return;
+      }
       window.location.href = paypalExpressUrl;
     }
-  };
+  }, [selectedMethod, setErrorMessage, setPageLoader, cartBillingAddress]);
 
   return {
     authorizeUser,
