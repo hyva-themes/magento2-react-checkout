@@ -1,6 +1,6 @@
 import { CREATE_PAYPAL_EXPRESS_TOKEN } from './mutation';
-import sendRequest from '../../../sendRequest';
-import LocalStorage from '../../../../utils/localStorage';
+import sendRequest from '../../sendRequest';
+import LocalStorage from '../../../utils/localStorage';
 import modifier from './modifier';
 
 export default async function createCustomerToken({ returnUrl, cancelUrl }) {

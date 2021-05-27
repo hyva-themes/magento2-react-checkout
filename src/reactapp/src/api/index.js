@@ -21,8 +21,8 @@ import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
 import updateCustomerAddress from './customer/updateCustomerAddress';
-import setPaymentMethodPaypalExpress from "./cart/paypalExpress/setPaymentMethod";
-import createCustomerToken from "./cart/paypalExpress/createCustomerToken";
+import setPaymentMethodPaypalExpress from './paypalExpress/setPaymentMethod';
+import createCustomerToken from './paypalExpress/createCustomerToken';
 
 export const isResponseError = isError;
 
