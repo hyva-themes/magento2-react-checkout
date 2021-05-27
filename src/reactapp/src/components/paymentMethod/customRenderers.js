@@ -12,10 +12,17 @@
  * }
  *
  */
+<<<<<<< HEAD
 import CreditCard from '../payone/components/creditCard/CreditCard';
 
 const customRenderers = {
   payone_creditcard: CreditCard,
+=======
+import PaypalExpress from '../paypalExpress/components/PaypalExpress';
+
+const customRenderers = {
+  paypal_express: PaypalExpress,
+>>>>>>> 3b2d018... Paypal express checkout integration
 };
 
 export default customRenderers;
