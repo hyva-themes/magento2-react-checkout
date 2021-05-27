@@ -1,11 +1,4 @@
 <?php
-/**
- * KitBuilder Connector
- *
- * @category  DigitalBoutique
- * @package   Kitbuilder
- * @copyright Copyright (c) 2020 Digital Boutique (http://www.digitalboutique.co.uk/)
- */
 declare(strict_types=1);
 
 namespace Hyva\Checkout\Result;
