@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Hyva\Checkout\Plugin\CustomerController;
 
 use Hyva\Checkout\Config\Checkout as HyvaCheckoutConfig;
-use Hyva\Checkout\Model\SectionData\LoginSectionDataServiceFactory;
+use Hyva\Checkout\Model\LoginSectionDataServiceFactory;
 use Magento\Customer\Controller\Ajax\Login as CustomerAjaxLoginController;
 use Hyva\Checkout\Result\Json as JsonResult;
 use Magento\Framework\Controller\ResultInterface;
@@ -29,9 +29,9 @@ class AjaxLogin
     private $logger;
 
     /**
-     * @var \Hyva\Checkout\Model\SectionData\LoginSectionDataServiceFactory
+     * @var \Hyva\Checkout\Model\LoginSectionDataServiceFactory
      */
-    private LoginSectionDataServiceFactory $loginSectionDataServiceFactory;
+    private $loginSectionDataServiceFactory;
 
     /**
      * AjaxLogin constructor.
@@ -70,10 +70,10 @@ class AjaxLogin
         }
 
         try {
-            /** @var \Hyva\Checkout\Model\SectionData\LoginSectionDataService $sectionDataService */
+            /** @var \Hyva\Checkout\Model\LoginSectionDataService $sectionDataService */
             $sectionDataService = $this->loginSectionDataServiceFactory->create();
             $response = $result->getData();
-            $response['data'] = $sectionDataService->getSectionData();
+            $response['customerData'] = $sectionDataService->getSectionData();
 
             return $result->setData($response);
         } catch (\Exception $exception) {
