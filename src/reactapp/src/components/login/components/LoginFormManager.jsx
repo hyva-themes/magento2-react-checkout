@@ -113,6 +113,8 @@ function LoginFormManager({ children }) {
 
       if (loginData.errors) {
         setErrorMessage(__(loginData.message || 'Login failed.'));
+        setPageLoader(false);
+        return;
       }
 
       await getCustomerCartInfo();

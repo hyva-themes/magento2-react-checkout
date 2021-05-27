@@ -57,7 +57,6 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
       const cartId = _get(data, 'cart.cartId');
       LocalStorage.saveCartId(cartId);
       LocalStorage.saveCustomerToken(signInToken);
-      // LocalStorage.saveCartCustomerInfo(data);
     }
 
     return response;
