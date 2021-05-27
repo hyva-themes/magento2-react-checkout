@@ -1,11 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\Model\SectionData;
+namespace Hyva\Checkout\Model;
 
 use Magento\Checkout\CustomerData\Cart as CartCustomerData;
 use Magento\Customer\CustomerData\Customer as CustomerCustomerData;
 
+/**
+ * This is used to provide necessary section data directly in the ajax login response
+ * without an additional AJAX call
+ */
 class LoginSectionDataService
 {
     /**
