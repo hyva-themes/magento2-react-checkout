@@ -12,6 +12,10 @@
  * }
  *
  */
-const customRenderers = {};
+import PaypalExpress from '../paypalExpress/components/PaypalExpress';
+
+const customRenderers = {
+  paypal_express: PaypalExpress,
+};
 
 export default customRenderers;
