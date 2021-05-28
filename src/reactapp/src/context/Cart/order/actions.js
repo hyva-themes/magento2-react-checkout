@@ -4,6 +4,7 @@ import { PAYMENT_METHOD_FORM, SHIPPING_METHOD } from '../../../config';
 import { setPaymentMethodAction } from '../paymentMethod/actions';
 import { setShippingMethodAction } from '../shippingMethod/actions';
 import { SET_ORDER_INFO } from './types';
+import { __ } from '../../../i18n';
 
 async function verifyShippingMethod(dispatch, values, shippingMethod) {
   if (!shippingMethod.carrierCode || shippingMethod.methodCode) {
@@ -13,7 +14,7 @@ async function verifyShippingMethod(dispatch, values, shippingMethod) {
       !shippingMethodSelected.carrierCode ||
       !shippingMethodSelected.methodCode
     ) {
-      throw new Error('Shipping method not available');
+      throw new Error(__('Shipping method not available'));
     }
 
     await setShippingMethodAction(dispatch, shippingMethodSelected);
@@ -25,7 +26,7 @@ async function verifyPaymentMethod(dispatch, values, selectedPaymentMethod) {
     const paymentMethod = _get(values, PAYMENT_METHOD_FORM);
 
     if (!paymentMethod.code) {
-      throw new Error('Payment method not available');
+      throw new Error(__('Payment method not available'));
     }
 
     await setPaymentMethodAction(dispatch, paymentMethod);
