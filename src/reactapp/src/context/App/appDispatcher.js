@@ -9,6 +9,7 @@ import {
   fetchCountryStatesAction,
 } from './countries/actions';
 import {
+  ajaxLoginAction,
   getCustomerAddressListAction,
   getCustomerInfoAction,
   setLoggedInStatusAction,
@@ -21,6 +22,7 @@ const dispatchMapper = {
   setPageLoader: setPageLoaderAction,
   fetchCountryStates: fetchCountryStatesAction,
   signInCustomer: sigInCustomerAction,
+  ajaxLogin: ajaxLoginAction,
   setSuccessMessage: setSuccessMessageAction,
   setErrorMessage: setErrroMessageAction,
   setMessage: setMessageAction,

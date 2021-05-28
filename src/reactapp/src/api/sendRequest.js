@@ -7,10 +7,11 @@ export const RESPONSE_JSON = 'json';
 export default function sendRequest(
   queryParams = {},
   relativeUrl,
-  responseType = 'json'
+  responseType = 'json',
+  additionalHeaders = {}
 ) {
   const token = LocalStorage.getCustomerToken();
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = { 'Content-Type': 'application/json', ...additionalHeaders };
   const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
 
   if (token) {
