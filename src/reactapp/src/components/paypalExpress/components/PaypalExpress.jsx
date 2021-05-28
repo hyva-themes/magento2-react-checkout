@@ -1,39 +1,37 @@
 import { func, shape, string } from 'prop-types';
 import React, { useEffect } from 'react';
+import _get from 'lodash.get';
 import RadioInput from '../../common/Form/RadioInput';
 import usePaypalExpress from '../hooks/usePaypalExpress';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
 function PaypalExpress({ method, selected, actions }) {
-  const isSelected = method.code === selected.code;
-  const { authorizeUser } = usePaypalExpress();
+  const {
+    authorizeUser,
+    placePaypalExpressOrder,
+    processPaymentEnable,
+  } = usePaypalExpress({ paymentMethod: method });
   const { registerPaymentAction } = useCheckoutFormContext();
+  const methodCode = _get(method, 'code');
+  const isSelected = methodCode === selected.code;
 
   useEffect(() => {
-    registerPaymentAction('paypal_express', authorizeUser);
-  }, [authorizeUser, registerPaymentAction]);
+    registerPaymentAction(methodCode, authorizeUser);
+  }, [authorizeUser, registerPaymentAction, methodCode]);
 
-  if (!isSelected) {
-    return (
-      <>
-        <RadioInput
-          label={method.title}
-          name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
-          checked={isSelected}
-        />
-      </>
-    );
-  }
+  useEffect(() => {
+    if (processPaymentEnable) {
+      placePaypalExpressOrder();
+    }
+  }, [placePaypalExpressOrder, processPaymentEnable]);
 
   return (
     <div className="w-full">
       <div>
         <RadioInput
-          label={method.title}
+          label={_get(method, 'title')}
           name="paymentMethod"
-          value={method.code}
+          value={_get(method, 'code')}
           onChange={actions.change}
           checked={isSelected}
         />

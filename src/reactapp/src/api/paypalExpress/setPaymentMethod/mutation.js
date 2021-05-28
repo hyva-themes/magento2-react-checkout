@@ -3,12 +3,13 @@ export const SET_PAYMENT_METHOD_ON_CART_PAYPAL_EXPRESS = `
     $payerId: String!
     $token: String!
     $cartId: String!
+    $paymentCode: String!
   ) {
     setPaymentMethodOnCart(
       input: {
         cart_id: $cartId,
         payment_method: {
-          code: "paypal_express"
+          code: $paymentCode
           paypal_express: {
             payer_id: $payerId
             token: $token

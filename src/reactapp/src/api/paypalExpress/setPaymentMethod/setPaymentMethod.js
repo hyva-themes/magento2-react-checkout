@@ -3,11 +3,8 @@ import sendRequest from '../../sendRequest';
 import LocalStorage from '../../../utils/localStorage';
 import modifier from './modifier';
 
-export default async function setPaymentMethodPaypalExpress({
-  payerId,
-  token,
-}) {
-  const variables = { payerId, token, cartId: LocalStorage.getCartId() };
+export default async function setPaymentMethodPaypalExpress(setPaymentInput) {
+  const variables = { ...setPaymentInput, cartId: LocalStorage.getCartId() };
 
   return modifier(
     await sendRequest({

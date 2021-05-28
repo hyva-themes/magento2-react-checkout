@@ -3,11 +3,12 @@ mutation createPaypalExpressToken(
     $cartId: String!
     $returnUrl: String!
     $cancelUrl: String!
+    $paymentCode: String!
   ) {
     createPaypalExpressToken(
       input: {
         cart_id: $cartId
-        code: "paypal_express"
+        code: $paymentCode
         express_button: true
         urls: {
           return_url: $returnUrl,
