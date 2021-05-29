@@ -33,6 +33,7 @@ function LoginForm() {
     <>
       <div className="py-2">
         <TextInput
+          type="email"
           label={__('E-mail')}
           name={fields.email}
           placeholder="john.doe@gmail.com"
@@ -57,6 +58,7 @@ function LoginForm() {
               type="password"
               name={fields.password}
               placeholder={__('Password')}
+              autocomplete="on"
               required
             />
           </div>

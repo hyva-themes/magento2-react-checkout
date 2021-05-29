@@ -33,6 +33,9 @@ function BillingAddressForm() {
 
   return (
     <>
+      <BillingSameAsShippingCheckbox />
+      <ORBox />
+
       <div className="py-2">
         <TextInput
           label={__('Company')}
@@ -103,10 +106,6 @@ function BillingAddressForm() {
         <CancelButton />
         <SaveButton isFormValid={isFormValid} actions={{ saveAddress }} />
       </div>
-
-      <ORBox />
-
-      <BillingSameAsShippingCheckbox />
     </>
   );
 }

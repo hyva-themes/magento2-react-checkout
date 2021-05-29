@@ -52,7 +52,12 @@ const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
   const { values, setFieldValue } = useFormikContext();
-  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
+  const {
+    editMode,
+    setFormToEditMode,
+    setFormEditMode,
+    setFormToViewMode,
+  } = useFormEditMode();
   const {
     isLoggedIn,
     customerAddressList,
@@ -139,9 +144,11 @@ function BillingAddressFormManager({ children }) {
   useEffect(() => {
     if (isCartBillingAddressValid(cartBillingAddress)) {
       setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
-      setFormEditMode(false);
+      if (!isSame) {
+        setFormEditMode(false);
+      }
     }
-  }, [cartBillingAddress, setFieldValue, setFormEditMode]);
+  }, [isSame, cartBillingAddress, setFieldValue, setFormEditMode]);
 
   const formContext = useFormSection({
     id: BILLING_ADDR_FORM,
@@ -194,6 +201,7 @@ function BillingAddressFormManager({ children }) {
     editMode,
     setFormToEditMode,
     setFormEditMode,
+    setFormToViewMode,
     isBillingAddressSameAsShipping: isSame,
     resetBillingAddressFormFields,
     toggleBillingEqualsShippingState,

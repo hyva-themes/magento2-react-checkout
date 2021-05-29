@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { arrayOf, bool, func, shape, string } from 'prop-types';
 
@@ -18,8 +19,8 @@ function AddressCard({ address: { id, address }, isSelected, actions }) {
         />
       </li>
 
-      {address.map(addrAttr => (
-        <li key={`${id}_${addrAttr}`} className="text-sm italic">
+      {address.map((addrAttr, index) => (
+        <li key={`${id}_${addrAttr}_${index}`} className="text-sm italic">
           {addrAttr}
         </li>
       ))}

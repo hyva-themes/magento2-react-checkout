@@ -58,10 +58,11 @@ export function prepareShippingAddressCardList(
   customerAddressSelected
 ) {
   const cartShippingAddress = _get(values, SHIPPING_ADDR_FORM, {});
-  const { country } = cartShippingAddress;
+  const { country, firstname, zipcode } = cartShippingAddress;
+  const hasCartShippingAddress = country && firstname && zipcode;
   let cartShippingAddrCardInfo = [];
 
-  if (!customerAddressSelected) {
+  if (!customerAddressSelected && hasCartShippingAddress) {
     cartShippingAddrCardInfo = formatAddressListToCardData([
       {
         ...cartShippingAddress,

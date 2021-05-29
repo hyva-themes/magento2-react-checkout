@@ -58,10 +58,11 @@ export function prepareBillingAddressCardList(
   customerAddressSelected
 ) {
   const cartBillingAddress = _get(values, BILLING_ADDR_FORM, {});
-  const { country } = cartBillingAddress;
+  const { country, firstname, zipcode } = cartBillingAddress;
+  const hasCartBillingAddress = country && firstname && zipcode;
   let cartBillingAddrCardInfo = [];
 
-  if (!customerAddressSelected) {
+  if (!customerAddressSelected && hasCartBillingAddress) {
     cartBillingAddrCardInfo = formatAddressListToCardData([
       {
         ...cartBillingAddress,

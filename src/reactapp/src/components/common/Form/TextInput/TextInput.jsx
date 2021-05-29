@@ -14,6 +14,7 @@ function TextInput({
   placeholder,
   className,
   width,
+  type,
   ...rest
 }) {
   const inputId = id || name;
@@ -39,7 +40,7 @@ function TextInput({
       </div>
       <Field
         {...rest}
-        type="text"
+        type={type || 'text'}
         name={name}
         id={inputId}
         placeholder={placeholder}
@@ -59,6 +60,7 @@ TextInput.propTypes = {
   required: bool,
   width: string,
   className: string,
+  type: string,
 };
 
 TextInput.defaultProps = {
@@ -69,6 +71,7 @@ TextInput.defaultProps = {
   required: false,
   placeholder: '',
   className: '',
+  type: 'text',
 };
 
 export default TextInput;

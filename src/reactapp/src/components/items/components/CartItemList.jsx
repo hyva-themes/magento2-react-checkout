@@ -12,11 +12,13 @@ function CartItemList() {
       <div className="">
         <table className="table w-full">
           <thead className="hidden text-left md:table-header-group">
-            <th>{__('Item')}</th>
-            <th>{__('Qty')}</th>
-            <th>{__('Price')}</th>
-            <th>{__('Total')}</th>
-            <th>{__('Actions')}</th>
+            <tr>
+              <th>{__('Item')}</th>
+              <th>{__('Qty')}</th>
+              <th>{__('Price')}</th>
+              <th>{__('Total')}</th>
+              <th>{__('Actions')}</th>
+            </tr>
           </thead>
           <tbody>
             {cartItems.map((cartItem, index) => (

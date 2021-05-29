@@ -10,7 +10,6 @@ import {
 
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useFormSection from '../../../hook/useFormSection';
-import useFormEditMode from '../../../hook/useFormEditMode';
 import useShippingAddrAppContext from '../hooks/useShippingAddressAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
@@ -49,7 +48,6 @@ const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function ShippingAddressFormikProvider({ children }) {
   const [forceFillFields, setForceFillFields] = useState(false);
-  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const { setFieldValue } = useFormikContext();
   const { setPageLoader } = useShippingAddrAppContext();
   const {
@@ -179,9 +177,6 @@ function ShippingAddressFormikProvider({ children }) {
     <ShippingAddressFormContext.Provider
       value={{
         ...context,
-        editMode,
-        setFormToEditMode,
-        setFormEditMode,
         resetShippingAddressFormFields,
         setShippingAddressFormFields,
         submitHandler: formSubmit,

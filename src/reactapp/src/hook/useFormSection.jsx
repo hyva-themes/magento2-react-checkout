@@ -1,5 +1,5 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
+import { useContext, useEffect } from 'react';
 
 import CheckoutFormContext from '../context/Form/CheckoutFormContext';
 import { prepareFields } from '../context/utility';
@@ -13,11 +13,9 @@ function useFormSection({
   validationSchema,
   submitHandler,
 }) {
-  const [isFormValid, setIsFormValid] = useState(false);
-  const { dirty, isValid } = useFormikContext();
-  const { registerFormSection, activeFormSection } = useContext(
-    CheckoutFormContext
-  );
+  const { registerFormSection } = useContext(CheckoutFormContext);
+  const { dirty, touched, errors } = useFormikContext();
+  const isFormValid = dirty && touched[id] && !errors[id];
 
   /**
    * It register the form to checkout-form-formik so that the form will be
@@ -32,32 +30,17 @@ function useFormSection({
   }, [id, initialValues, validationSchema, registerFormSection]);
 
   /**
-   * When the form in context stays as the active form section, then when the
-   * form section fields get filled, we are tracking down the form section
-   * becomes valid at any time.
-   * We are keeping this data in state so that we can submit the form section
-   * as soon as the form section at focus is getting changed.
-   */
-  useEffect(() => {
-    if (activeFormSection === id) {
-      setIsFormValid(dirty && isValid);
-    }
-  }, [activeFormSection, dirty, isValid, id]);
-
-  /**
    * Preparing the form context value.
    * It contains some useful methods which will deal with form section in the
    * context. Else, these information needs to be derived from the global
    * checkout-form-formik context. We are making that job easy here
    */
-  const context = useMemo(
-    () => ({
-      isFormValid,
-      fields: prepareFields(initialValues, id),
-      submitHandler,
-    }),
-    [isFormValid, initialValues, id, submitHandler]
-  );
+  const context = {
+    formId: id,
+    isFormValid,
+    fields: prepareFields(initialValues, id),
+    submitHandler,
+  };
 
   return context;
 }
