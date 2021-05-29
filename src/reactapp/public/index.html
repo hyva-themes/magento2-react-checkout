@@ -1,13 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#000000"/>
 
     <!--
   Notice the use of %PUBLIC_URL% in the tags above.
@@ -19,7 +18,7 @@
   Learn how to configure a non-root public URL by running `npm run build`.
 -->
     <title>React App</title>
-    <link  rel="stylesheet" type="text/css"  defer="defer" media="all" href="tailwind.output.css" />
+    <link rel="stylesheet" type="text/css" defer="defer" media="all" href="tailwind.output.css"/>
 </head>
 <body data-container="body" class="checkout-index-index page-layout-checkout">
 <noscript>
@@ -27,26 +26,31 @@
 </noscript>
 
 <script>
-    // if we don't have localStorage data, prompt for a manual input
-    var mageCacheStorage = window.localStorage.getItem(
-        'mage-cache-storage'
+  // if we don't have localStorage data, prompt for a manual input
+  var mageCacheStorage = window.localStorage.getItem(
+    "mage-cache-storage"
+  );
+  if (!mageCacheStorage) {
+    const input = prompt(
+      "No quoteId or Token found. Enter quoteId:Token or only quoteId for guest quote"
     );
-    if (!mageCacheStorage) {
-        const input = prompt(
-            'No quoteId or Token found. Enter quoteId:Token or only quoteId for guest quote'
-        );
-        const [cartId, signin_token] = input.split(':');
-        window.localStorage.setItem(
-            'mage-cache-storage',
-            JSON.stringify({ cart: { cartId }, customer: { signin_token}})
-        );
-    }
+    const [cartId, signin_token] = input.split(":");
+    window.localStorage.setItem(
+      "mage-cache-storage",
+      JSON.stringify({cart: {cartId}, customer: {signin_token}})
+    );
+  }
 </script>
 <div class="page-wrapper">
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="columns">
             <div class="column main">
-                <div id="react-checkout" class="checkout-container" data-language="en_US" />
+                <div
+                        id="react-checkout"
+                        class="checkout-container"
+                        data-language="en_US"
+                        data-payment="&#x7B;&quot;payment&quot;&#x3A;&#x7B;&quot;payone&quot;&#x3A;&#x7B;&quot;locale&quot;&#x3A;&quot;en&quot;,&quot;fullLocale&quot;&#x3A;&quot;en_US&quot;,&quot;availableCardTypes&quot;&#x3A;&#x5B;&#x7B;&quot;id&quot;&#x3A;&quot;V&quot;,&quot;title&quot;&#x3A;&quot;Visa&quot;,&quot;cvc_length&quot;&#x3A;3&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;M&quot;,&quot;title&quot;&#x3A;&quot;Mastercard&quot;,&quot;cvc_length&quot;&#x3A;3&#x7D;&#x5D;,&quot;fieldConfig&quot;&#x3A;&#x7B;&quot;fields&quot;&#x3A;&#x7B;&quot;cardpan&quot;&#x3A;&#x7B;&quot;selector&quot;&#x3A;&quot;cardpan&quot;,&quot;type&quot;&#x3A;&quot;tel&quot;,&quot;size&quot;&#x3A;&quot;30&quot;,&quot;maxlength&quot;&#x3A;&quot;16&quot;&#x7D;,&quot;cardcvc2&quot;&#x3A;&#x7B;&quot;selector&quot;&#x3A;&quot;cardcvc2&quot;,&quot;type&quot;&#x3A;&quot;tel&quot;,&quot;size&quot;&#x3A;&quot;30&quot;,&quot;maxlength&quot;&#x3A;&quot;4&quot;,&quot;length&quot;&#x3A;&#x7B;&quot;visa&quot;&#x3A;3,&quot;mastercard&quot;&#x3A;3,&quot;americanexpress&quot;&#x3A;4,&quot;dinersclub&quot;&#x3A;3,&quot;jcb&quot;&#x3A;3,&quot;maestroint&quot;&#x3A;3,&quot;cartebleue&quot;&#x3A;3&#x7D;&#x7D;,&quot;cardexpiremonth&quot;&#x3A;&#x7B;&quot;selector&quot;&#x3A;&quot;cardexpiremonth&quot;,&quot;type&quot;&#x3A;&quot;select&quot;,&quot;size&quot;&#x3A;&quot;3&quot;,&quot;maxlength&quot;&#x3A;&quot;2&quot;,&quot;iframe&quot;&#x3A;&#x7B;&quot;width&quot;&#x3A;&quot;120px&quot;,&quot;height&quot;&#x3A;&quot;20px&quot;&#x7D;&#x7D;,&quot;cardexpireyear&quot;&#x3A;&#x7B;&quot;selector&quot;&#x3A;&quot;cardexpireyear&quot;,&quot;type&quot;&#x3A;&quot;select&quot;,&quot;size&quot;&#x3A;&quot;5&quot;,&quot;maxlength&quot;&#x3A;&quot;4&quot;,&quot;iframe&quot;&#x3A;&#x7B;&quot;width&quot;&#x3A;&quot;120px&quot;,&quot;height&quot;&#x3A;&quot;20px&quot;&#x7D;&#x7D;&#x7D;,&quot;defaultStyle&quot;&#x3A;&#x7B;&quot;input&quot;&#x3A;&quot;width&#x3A;223px&#x3B;height&#x3A;30px&#x3B;padding&#x3A;&#x20;0&#x20;9px&#x3B;font-size&#x3A;14px&#x3B;font-family&#x3A;&#x27;Helvetica&#x20;Neue&#x27;,Verdana,Arial,sans-serif&#x3B;&quot;,&quot;select&quot;&#x3A;&quot;width&#x3A;100px&#x3B;&quot;,&quot;iframe&quot;&#x3A;&#x7B;&quot;width&quot;&#x3A;&quot;365px&quot;,&quot;height&quot;&#x3A;&quot;30px&quot;&#x7D;&#x7D;&#x7D;,&quot;sepaCountries&quot;&#x3A;&#x5B;&#x7B;&quot;id&quot;&#x3A;&quot;DE&quot;,&quot;title&quot;&#x3A;&quot;Germany&quot;&#x7D;&#x5D;,&quot;hostedRequest&quot;&#x3A;&#x7B;&quot;request&quot;&#x3A;&quot;creditcardcheck&quot;,&quot;responsetype&quot;&#x3A;&quot;JSON&quot;,&quot;mode&quot;&#x3A;&quot;test&quot;,&quot;mid&quot;&#x3A;&quot;25099&quot;,&quot;aid&quot;&#x3A;&quot;41719&quot;,&quot;portalid&quot;&#x3A;&quot;2017838&quot;,&quot;encoding&quot;&#x3A;&quot;UTF-8&quot;,&quot;storecarddata&quot;&#x3A;&quot;yes&quot;,&quot;hash&quot;&#x3A;&quot;9e8b1b6c7ab4b4223c8724fdd7df0356&quot;&#x7D;,&quot;mandateManagementActive&quot;&#x3A;false,&quot;checkCvc&quot;&#x3A;true,&quot;ccMinValidity&quot;&#x3A;&quot;35&quot;,&quot;requestBic&quot;&#x3A;false,&quot;requestIbanBicSofortUeberweisung&quot;&#x3A;true,&quot;validateBankCode&quot;&#x3A;false,&quot;disableSafeInvoice&quot;&#x3A;false,&quot;bankaccountcheckRequest&quot;&#x3A;&quot;&quot;,&quot;bankCodeValidatedAndValid&quot;&#x3A;false,&quot;blockedMessage&quot;&#x3A;&quot;Bankdata&#x20;invalid.&quot;,&quot;epsBankGroups&quot;&#x3A;&#x5B;&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_OAB&quot;,&quot;title&quot;&#x3A;&quot;Apothekerbank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_BAF&quot;,&quot;title&quot;&#x3A;&quot;&#x5C;u00c4rztebank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_AAB&quot;,&quot;title&quot;&#x3A;&quot;Austrian&#x20;Anadi&#x20;Bank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;BA_AUS&quot;,&quot;title&quot;&#x3A;&quot;Bank&#x20;Austria&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_BCS&quot;,&quot;title&quot;&#x3A;&quot;Bankhaus&#x20;Carl&#x20;Sp&#x5C;u00e4ngler&#x20;&amp;&#x20;Co.AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_SCHEL&quot;,&quot;title&quot;&#x3A;&quot;Bankhaus&#x20;Schelhammer&#x20;&amp;&#x20;Schattera&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;BAWAG_PSK&quot;,&quot;title&quot;&#x3A;&quot;BAWAG&#x20;P.S.K.&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_BKS&quot;,&quot;title&quot;&#x3A;&quot;BKS&#x20;Bank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_BKB&quot;,&quot;title&quot;&#x3A;&quot;Br&#x5C;u00fcll&#x20;Kallmus&#x20;Bank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_VLB&quot;,&quot;title&quot;&#x3A;&quot;BTV&#x20;VIER&#x20;L&#x5C;u00c4NDER&#x20;BANK&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_CBGG&quot;,&quot;title&quot;&#x3A;&quot;Capital&#x20;Bank&#x20;Grawe&#x20;Gruppe&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_DB&quot;,&quot;title&quot;&#x3A;&quot;Dolomitenbank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;BAWAG_ESY&quot;,&quot;title&quot;&#x3A;&quot;Easybank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;SPARDAT_EBS&quot;,&quot;title&quot;&#x3A;&quot;Erste&#x20;Bank&#x20;und&#x20;Sparkassen&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_HAA&quot;,&quot;title&quot;&#x3A;&quot;Hypo&#x20;Alpe-Adria-Bank&#x20;International&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_VLH&quot;,&quot;title&quot;&#x3A;&quot;Hypo&#x20;Landesbank&#x20;Vorarlberg&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_NOEGB&quot;,&quot;title&quot;&#x3A;&quot;HYPO&#x20;NOE&#x20;Gruppe&#x20;Bank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_NOELB&quot;,&quot;title&quot;&#x3A;&quot;HYPO&#x20;NOE&#x20;Landesbank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;HRAC_OOS&quot;,&quot;title&quot;&#x3A;&quot;HYPO&#x20;Ober&#x5C;u00f6sterreich,&#x20;Salzburg,&#x20;Steiermark&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_HTB&quot;,&quot;title&quot;&#x3A;&quot;Hypo&#x20;Tirol&#x20;Bank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_HBL&quot;,&quot;title&quot;&#x3A;&quot;HYPO-BANK&#x20;BURGENLAND&#x20;Aktiengesellschaft&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_IMB&quot;,&quot;title&quot;&#x3A;&quot;Immo-Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_MFB&quot;,&quot;title&quot;&#x3A;&quot;Marchfelder&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_OBAG&quot;,&quot;title&quot;&#x3A;&quot;Oberbank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;RAC_RAC&quot;,&quot;title&quot;&#x3A;&quot;Raiffeisen&#x20;Bankengruppe&#x20;&#x5C;u00d6sterreich&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_SCHOELLER&quot;,&quot;title&quot;&#x3A;&quot;Schoellerbank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_SPDBW&quot;,&quot;title&quot;&#x3A;&quot;Sparda&#x20;Bank&#x20;Wien&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_SPDBA&quot;,&quot;title&quot;&#x3A;&quot;SPARDA-BANK&#x20;AUSTRIA&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ARZ_OVB&quot;,&quot;title&quot;&#x3A;&quot;Volksbank&#x20;Gruppe&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_VKB&quot;,&quot;title&quot;&#x3A;&quot;Volkskreditbank&#x20;AG&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;EPS_VRBB&quot;,&quot;title&quot;&#x3A;&quot;VR-Bank&#x20;Braunau&quot;&#x7D;&#x5D;,&quot;idealBankGroups&quot;&#x3A;&#x5B;&#x7B;&quot;id&quot;&#x3A;&quot;ABN_AMRO_BANK&quot;,&quot;title&quot;&#x3A;&quot;ABN&#x20;Amro&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;BUNQ_BANK&quot;,&quot;title&quot;&#x3A;&quot;Bunq&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;RABOBANK&quot;,&quot;title&quot;&#x3A;&quot;Rabobank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ASN_BANK&quot;,&quot;title&quot;&#x3A;&quot;ASN&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;SNS_BANK&quot;,&quot;title&quot;&#x3A;&quot;SNS&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;TRIODOS_BANK&quot;,&quot;title&quot;&#x3A;&quot;Triodos&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;SNS_REGIO_BANK&quot;,&quot;title&quot;&#x3A;&quot;SNS&#x20;Regio&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;ING_BANK&quot;,&quot;title&quot;&#x3A;&quot;ING&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;KNAB_BANK&quot;,&quot;title&quot;&#x3A;&quot;Knab&#x20;Bank&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;VAN_LANSCHOT_BANKIERS&quot;,&quot;title&quot;&#x3A;&quot;van&#x20;Lanschot&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;MONEYOU&quot;,&quot;title&quot;&#x3A;&quot;Moneyou&quot;&#x7D;,&#x7B;&quot;id&quot;&#x3A;&quot;HANDELSBANKEN&quot;,&quot;title&quot;&#x3A;&quot;Handelsbanken&quot;&#x7D;&#x5D;,&quot;customerHasGivenGender&quot;&#x3A;false,&quot;customerBirthday&quot;&#x3A;false,&quot;addresscheckEnabled&quot;&#x3A;0,&quot;addresscheckBillingEnabled&quot;&#x3A;0,&quot;addresscheckShippingEnabled&quot;&#x3A;0,&quot;addresscheckConfirmCorrection&quot;&#x3A;0,&quot;canShowPaymentHintText&quot;&#x3A;false,&quot;paymentHintText&quot;&#x3A;null,&quot;canShowAgreementMessage&quot;&#x3A;false,&quot;agreementMessage&quot;&#x3A;null,&quot;consumerScoreEnabledMethods&quot;&#x3A;&#x5B;&quot;&quot;&#x5D;,&quot;payolution&quot;&#x3A;&#x7B;&quot;b2bMode&quot;&#x3A;&#x7B;&quot;invoice&quot;&#x3A;&quot;0&quot;&#x7D;,&quot;privacyDeclaration&quot;&#x3A;&#x7B;&quot;invoice&quot;&#x3A;false,&quot;debit&quot;&#x3A;false,&quot;installment&quot;&#x3A;false&#x7D;&#x7D;,&quot;canceledPaymentMethod&quot;&#x3A;false,&quot;isError&quot;&#x3A;null,&quot;orderDeferredExists&quot;&#x3A;true,&quot;saveCCDataEnabled&quot;&#x3A;false,&quot;savedPaymentData&quot;&#x3A;&#x5B;&#x5D;,&quot;isPaydirektOneKlickDisplayable&quot;&#x3A;false,&quot;currency&quot;&#x3A;&quot;base&quot;,&quot;klarnaTitles&quot;&#x3A;&#x7B;&quot;payone_klarna_invoice&quot;&#x3A;&quot;Pay&#x20;Later.&quot;,&quot;payone_klarna_debit&quot;&#x3A;&quot;Pay&#x20;Now.&quot;,&quot;payone_klarna_installment&quot;&#x3A;&quot;Slice&#x20;It.&quot;&#x7D;&#x7D;,&quot;instructions&quot;&#x3A;&#x7B;&quot;payone_creditcard&quot;&#x3A;&quot;&quot;,&quot;payone_debit&quot;&#x3A;&quot;&quot;,&quot;payone_paypal&quot;&#x3A;&quot;&quot;,&quot;payone_cash_on_delivery&quot;&#x3A;&quot;&quot;,&quot;payone_advance_payment&quot;&#x3A;&quot;&quot;,&quot;payone_invoice&quot;&#x3A;&quot;&quot;,&quot;payone_obt_sofortueberweisung&quot;&#x3A;&quot;&quot;,&quot;payone_obt_giropay&quot;&#x3A;&quot;&quot;,&quot;payone_obt_eps&quot;&#x3A;&quot;&quot;,&quot;payone_obt_postfinance_efinance&quot;&#x3A;&quot;&quot;,&quot;payone_obt_postfinance_card&quot;&#x3A;&quot;&quot;,&quot;payone_obt_ideal&quot;&#x3A;&quot;&quot;,&quot;payone_obt_przelewy&quot;&#x3A;&quot;&quot;,&quot;payone_barzahlen&quot;&#x3A;&quot;&quot;,&quot;payone_paydirekt&quot;&#x3A;&quot;&quot;,&quot;payone_safe_invoice&quot;&#x3A;&quot;&quot;,&quot;payone_payolution_invoice&quot;&#x3A;&quot;&quot;,&quot;payone_payolution_debit&quot;&#x3A;&quot;&quot;,&quot;payone_payolution_installment&quot;&#x3A;&quot;&quot;,&quot;payone_alipay&quot;&#x3A;&quot;&quot;,&quot;payone_amazonpay&quot;&#x3A;&quot;&quot;,&quot;payone_klarna_base&quot;&#x3A;&quot;&quot;,&quot;payone_klarna_debit&quot;&#x3A;&quot;&quot;,&quot;payone_klarna_invoice&quot;&#x3A;&quot;&quot;,&quot;payone_klarna_installment&quot;&#x3A;&quot;&quot;,&quot;payone_ratepay_invoice&quot;&#x3A;&quot;&quot;&#x7D;&#x7D;&#x7D;"
+                />
             </div>
         </div>
     </main>
@@ -61,5 +65,22 @@ The build step will place the bundled scripts into the <body> tag.
 To begin the development, run `npm start` or `yarn start`.
 To create a production bundle, use `npm run build` or `yarn build`.
 -->
+<script type="text/javascript" src="https://secure.pay1.de/client-api/js/ajax.js"></script>
+<script type="text/javascript" src="https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"></script>
+<script type="text/javascript">
+</script>
+<script language="JavaScript">
+  var di = {
+    t: "97a9caa107aceb31e6d3809977b2eb8e",
+    v: "ratepay", //defined by RatePAY
+    l: "Checkout"
+  };
+</script>
+<script type="text/javascript" src="https://d.ratepay.com/ratepay/di.js"></script>
+<noscript>
+    <link rel="stylesheet" type="text/css"
+          href="https://d.ratepay.com/di.css?t=97a9caa107aceb31e6d3809977b2eb8e&v=ratepay&l=Checkout">
+</noscript>
+
 </body>
 </html>
