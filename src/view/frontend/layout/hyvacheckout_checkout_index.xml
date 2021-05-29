@@ -9,6 +9,10 @@
       */
 -->
     <css src="Hyva_Checkout::css/styles.css" defer="defer"/>
+    <css src="Payone_Core::css/payolution.css"/>
+    <css src="Payone_Core::css/creditcard.css"/>
+    <css src="Payone_Core::css/klarna.css"/>
+    <css src="Payone_Core::css/payone.css"/>
     </head>
     <body>
         <referenceContainer name="content">
@@ -26,6 +30,13 @@
                         xsi:type="object">Hyva\Checkout\ViewModel\CheckoutConfigProvider</argument>
                 </arguments>
             </block>
+            <block class="Payone\Core\Block\ClientApi"
+                   name="payone_client_api"
+                   template="Payone_Core::client_api.phtml" />
+            <block class="Payone\Core\Block\RatepayDeviceFingerprint"
+                   name="payone_ratepay_device_fingerprint"
+                   template="Payone_Core::ratepay_device_fingerprint.phtml" />
+
         </referenceContainer>
         <referenceContainer name="before.body.end">
             <block name="checkout.scripts" template="Hyva_Checkout::react-script.phtml" after="-"/>
