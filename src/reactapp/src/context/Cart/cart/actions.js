@@ -62,6 +62,10 @@ export async function mergeCartsAction(dispatch, cartIds) {
   try {
     const cartInfo = await mergeCartsRequest(cartIds);
 
+    if (cartInfo.error) {
+      return cartInfo;
+    }
+
     setCartInfoAction(dispatch, cartInfo);
     LocalStorage.saveCartId(cartInfo.id);
 

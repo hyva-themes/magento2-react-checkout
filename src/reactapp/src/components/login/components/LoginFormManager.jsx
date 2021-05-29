@@ -9,8 +9,6 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useLoginCartContext from '../hooks/useLoginCartContext';
 import useLoginAppContext from '../hooks/useLoginAppContext';
-import { isCartHoldingAddressInfo } from '../../../utils/address';
-import { _makePromise } from '../../../utils';
 import { GUEST_EMAIL_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
@@ -50,16 +48,14 @@ function LoginFormManager({ children }) {
     cartEmail,
     setEmailOnGuestCart,
     createEmptyCart,
-    getCustomerCartId,
     mergeCarts,
     getCustomerCartInfo,
-    setCustomerDefaultAddressToCart,
   } = useLoginCartContext();
   const {
-    signInCustomer,
+    ajaxLogin,
     setPageLoader,
-    getCustomerAddressList,
     setSuccessMessage,
+    setErrorMessage,
   } = useLoginAppContext();
 
   const saveEmailOnCartRequest = async email => {
@@ -69,34 +65,22 @@ function LoginFormManager({ children }) {
     setPageLoader(false);
   };
 
-  const collectCustomerCartAndAddressInfoRequest = async () => {
-    const customerCartIdPromise = _makePromise(getCustomerCartId);
-    const customerAddrListPromise = _makePromise(getCustomerAddressList);
-
-    const [customerCartId] = await Promise.all([
-      customerCartIdPromise(),
-      customerAddrListPromise(),
-    ]);
-
-    return customerCartId;
-  };
-
-  const mergeCurrentCartToCustomerCartRequest = async customerCartId => {
+  const mergeCartsRequest = async (currentCartId, customerCartId) => {
     let cartInfo;
-    const cartIdInCache = LocalStorage.getCartId();
 
     if (!customerCartId) {
       const newCartId = await createEmptyCart();
       cartInfo = await mergeCarts({
-        sourceCartId: cartIdInCache,
+        sourceCartId: currentCartId,
         destinationCartId: newCartId,
       });
-    } else if (customerCartId !== cartIdInCache) {
+    } else if (customerCartId !== currentCartId) {
       cartInfo = await mergeCarts({
-        sourceCartId: cartIdInCache,
+        sourceCartId: currentCartId,
         destinationCartId: customerCartId,
       });
     }
+
     return cartInfo;
   };
 
@@ -111,38 +95,40 @@ function LoginFormManager({ children }) {
    * cart.
    */
   const formSubmit = async values => {
-    const emailFieldValue = _get(values, 'email');
-    const customerWantsToSignin = _get(values, 'customerWantsToSignin');
+    const email = _get(values, 'email');
+    const password = _get(values, 'password');
+    const customerWantsToSignIn = _get(values, 'customerWantsToSignin');
+    const currentCartId = LocalStorage.getCartId();
 
     try {
       setPageLoader(true);
 
-      if (!customerWantsToSignin) {
-        await saveEmailOnCartRequest(emailFieldValue);
-        return;
-      }
-
-      const isSignInSuccess = await signInCustomer(values);
-
-      if (!isSignInSuccess) {
+      if (!customerWantsToSignIn) {
+        await saveEmailOnCartRequest(email);
         setPageLoader(false);
         return;
       }
 
-      const customerCartId = await collectCustomerCartAndAddressInfoRequest();
-      const cartInfo = await mergeCurrentCartToCustomerCartRequest(
-        customerCartId
-      );
+      const loginData = await ajaxLogin({ username: email, password });
 
-      if (!isCartHoldingAddressInfo(cartInfo)) {
-        await setCustomerDefaultAddressToCart(cartInfo);
-        await getCustomerCartInfo();
+      if (loginData.errors) {
+        setErrorMessage(__(loginData.message || 'Login failed.'));
+        setPageLoader(false);
+        return;
       }
 
+      await getCustomerCartInfo();
       setPageLoader(false);
+
+      window.dispatchEvent(new Event('reload-customer-section-data'));
+
+      // this mergeCarts needed only when we launch react app.
+      // when it works in a site, ajaxLogin will merge carts it seems
+      const customerCartId = _get(loginData, 'data.cart.cartId');
+      await mergeCartsRequest(currentCartId, customerCartId);
     } catch (error) {
       setPageLoader(false);
-      console.log('GuestEmailFormManager', { error });
+      console.error(error);
     }
   };
 
