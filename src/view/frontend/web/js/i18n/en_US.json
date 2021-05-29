@@ -60,5 +60,8 @@
   "Street":"Street",
   "Total":"Total",
   "Update":"Update",
-  "{} zipcode: {}":"{} zipcode: {}"
+  "{} zipcode: {}":"{} zipcode: {}",
+  "Payment method not available": "Payment method not available",
+  "Shipping method not available": "Shipping method not available",
+  "Please complete all the required data": "Please complete all the required data"
 }

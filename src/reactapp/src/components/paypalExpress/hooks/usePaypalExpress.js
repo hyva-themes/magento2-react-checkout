@@ -7,6 +7,7 @@ import placeOrder from '../../../api/cart/placeOrder';
 import LocalStorage from '../../../utils/localStorage';
 import { config } from '../../../config';
 import usePaypalExpressCartContext from './usePaypalExpressCartContext';
+import usePaymentMethodAppContext from '../../paymentMethod/hooks/usePaymentMethodAppContext';
 
 export default function usePaypalExpress({ paymentMethod }) {
   const [processPaymentEnable, setProcessPaymentEnable] = useState(false);
@@ -14,14 +15,13 @@ export default function usePaypalExpress({ paymentMethod }) {
     hasCartBillingAddress,
     selectedShippingMethod,
     selectedPaymentMethod,
-    setPageLoader,
-    setErrorMessage,
     cartId,
   } = usePaypalExpressCartContext();
+  const { setErrorMessage, setPageLoader } = usePaymentMethodAppContext();
   const query = window.location.search;
   const selectedShippingMethodCode = _get(selectedShippingMethod, 'methodCode');
   const selectedPaymentMethodCode = _get(selectedPaymentMethod, 'code');
-  const { code } = paymentMethod;
+  const { code: paymentMethodCode } = paymentMethod;
 
   /*
    Check if is possible to proceed on placing the order.
@@ -30,11 +30,11 @@ export default function usePaypalExpress({ paymentMethod }) {
     if (
       query &&
       selectedShippingMethodCode &&
-      ['', code].includes(selectedPaymentMethodCode)
+      ['', paymentMethodCode].includes(selectedPaymentMethodCode)
     )
       setProcessPaymentEnable(true);
   }, [
-    code,
+    paymentMethodCode,
     query,
     setProcessPaymentEnable,
     selectedShippingMethodCode,
@@ -66,7 +66,7 @@ export default function usePaypalExpress({ paymentMethod }) {
       await setPaymentMethodPaypalExpress({
         payerId,
         token,
-        paymentCode: code,
+        paymentCode: paymentMethodCode,
       });
       const response = await placeOrder();
 
@@ -88,7 +88,7 @@ export default function usePaypalExpress({ paymentMethod }) {
       );
     }
   }, [
-    code,
+    paymentMethodCode,
     cartId,
     query,
     selectedShippingMethod,
@@ -110,7 +110,7 @@ export default function usePaypalExpress({ paymentMethod }) {
     const response = await createCustomerToken({
       returnUrl: `checkout/index/index`,
       cancelUrl: `checkout/index/index`,
-      paymentCode: code,
+      paymentCode: paymentMethodCode,
     });
 
     if (response) {
@@ -126,7 +126,7 @@ export default function usePaypalExpress({ paymentMethod }) {
       window.location.href = paypalExpressUrl;
     }
   }, [
-    code,
+    paymentMethodCode,
     selectedShippingMethodCode,
     setErrorMessage,
     setPageLoader,
