@@ -1,13 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#000000"/>
 
     <!--
   Notice the use of %PUBLIC_URL% in the tags above.
@@ -19,7 +18,7 @@
   Learn how to configure a non-root public URL by running `npm run build`.
 -->
     <title>React App</title>
-    <link  rel="stylesheet" type="text/css"  defer="defer" media="all" href="styles.css" />
+    <link rel="stylesheet" type="text/css" defer="defer" media="all" href="tailwind.output.css"/>
 </head>
 <body data-container="body" class="checkout-index-index page-layout-checkout bg-container">
 <noscript>
@@ -27,20 +26,20 @@
 </noscript>
 
 <script>
-    // if we don't have localStorage data, prompt for a manual input
-    var mageCacheStorage = window.localStorage.getItem(
-        'mage-cache-storage'
+  // if we don't have localStorage data, prompt for a manual input
+  var mageCacheStorage = window.localStorage.getItem(
+    "mage-cache-storage"
+  );
+  if (!mageCacheStorage) {
+    const input = prompt(
+      "No quoteId or Token found. Enter quoteId:Token or only quoteId for guest quote"
     );
-    if (!mageCacheStorage) {
-        const input = prompt(
-            'No quoteId or Token found. Enter quoteId:Token or only quoteId for guest quote'
-        );
-        const [cartId, signin_token] = input.split(':');
-        window.localStorage.setItem(
-            'mage-cache-storage',
-            JSON.stringify({ cart: { cartId }, customer: { signin_token}})
-        );
-    }
+    const [cartId, signin_token] = input.split(":");
+    window.localStorage.setItem(
+      "mage-cache-storage",
+      JSON.stringify({cart: {cartId}, customer: {signin_token}})
+    );
+  }
 </script>
 <div class="page-wrapper">
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
@@ -64,5 +63,22 @@ The build step will place the bundled scripts into the <body> tag.
 To begin the development, run `npm start` or `yarn start`.
 To create a production bundle, use `npm run build` or `yarn build`.
 -->
+<script type="text/javascript" src="https://secure.pay1.de/client-api/js/ajax.js"></script>
+<script type="text/javascript" src="https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"></script>
+<script type="text/javascript">
+</script>
+<script language="JavaScript">
+  var di = {
+    t: "97a9caa107aceb31e6d3809977b2eb8e",
+    v: "ratepay", //defined by RatePAY
+    l: "Checkout"
+  };
+</script>
+<script type="text/javascript" src="https://d.ratepay.com/ratepay/di.js"></script>
+<noscript>
+    <link rel="stylesheet" type="text/css"
+          href="https://d.ratepay.com/di.css?t=97a9caa107aceb31e6d3809977b2eb8e&v=ratepay&l=Checkout">
+</noscript>
+
 </body>
 </html>
