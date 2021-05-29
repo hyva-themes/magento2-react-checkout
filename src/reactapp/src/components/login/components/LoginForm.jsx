@@ -58,7 +58,7 @@ function LoginForm() {
               type="password"
               name={fields.password}
               placeholder={__('Password')}
-              autocomplete="on"
+              autoComplete="on"
               required
             />
           </div>

@@ -9,7 +9,7 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useLoginCartContext from '../hooks/useLoginCartContext';
 import useLoginAppContext from '../hooks/useLoginAppContext';
-import { GUEST_EMAIL_FORM } from '../../../config';
+import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
 
@@ -39,7 +39,7 @@ const validationSchema = {
   ),
 };
 
-const EMAIL_FIELD = 'email.email';
+const EMAIL_FIELD = `${LOGIN_FORM}.email`;
 
 function LoginFormManager({ children }) {
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
@@ -124,8 +124,10 @@ function LoginFormManager({ children }) {
 
       // this mergeCarts needed only when we launch react app.
       // when it works in a site, ajaxLogin will merge carts it seems
-      const customerCartId = _get(loginData, 'data.cart.cartId');
-      await mergeCartsRequest(currentCartId, customerCartId);
+      if (config.isDevelopmentMode) {
+        const customerCartId = _get(loginData, 'data.cart.cartId');
+        await mergeCartsRequest(currentCartId, customerCartId);
+      }
     } catch (error) {
       setPageLoader(false);
       console.error(error);
@@ -142,7 +144,7 @@ function LoginFormManager({ children }) {
   }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);
 
   const context = useFormSection({
-    id: GUEST_EMAIL_FORM,
+    id: LOGIN_FORM,
     validationSchema,
     initialValues,
     submitHandler: formSubmit,
