@@ -15,6 +15,7 @@ import updateCartItems from './cart/updateCartItems';
 import { isError } from './cart/utility';
 import fetchCountryList from './countries/fetchCountryList';
 import fetchCountryStateList from './countries/fetchCountryStateList';
+import ajaxLogin from './customer/ajaxLogin';
 import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
@@ -26,6 +27,8 @@ import createCustomerToken from './paypalExpress/createCustomerToken';
 export const isResponseError = isError;
 
 export const generateCustomerToken = generateToken;
+
+export const ajaxLoginRequest = ajaxLogin;
 
 export const fetchCustomerInfoRequest = fetchCustomerInfo;
 

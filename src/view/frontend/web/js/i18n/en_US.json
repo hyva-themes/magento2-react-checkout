@@ -61,7 +61,11 @@
   "Total":"Total",
   "Update":"Update",
   "{} zipcode: {}":"{} zipcode: {}",
+<<<<<<< HEAD
   "Payment method not available": "Payment method not available",
   "Shipping method not available": "Shipping method not available",
   "Please complete all the required data": "Please complete all the required data"
+=======
+  "Login failed.": "Login failed."
+>>>>>>> 65b27b47d2a3af29db09e4cdbe17aae893658010
 }

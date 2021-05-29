@@ -5,18 +5,18 @@ export default function useLoginAppContext() {
   const [appData, appActions] = useContext(AppContext);
   const { isLoggedIn, customer } = appData;
   const {
-    signInCustomer,
     setPageLoader,
-    getCustomerAddressList,
     setSuccessMessage,
+    setErrorMessage,
+    ajaxLogin,
   } = appActions;
 
   return {
     customer,
     isLoggedIn,
-    signInCustomer,
     setPageLoader,
-    getCustomerAddressList,
+    ajaxLogin,
     setSuccessMessage,
+    setErrorMessage,
   };
 }
