@@ -12,6 +12,10 @@
  * }
  *
  */
-const customRenderers = {};
+import CreditCard from '../payone/components/creditCard/CreditCard';
+
+const customRenderers = {
+  payone_creditcard: CreditCard,
+};
 
 export default customRenderers;
