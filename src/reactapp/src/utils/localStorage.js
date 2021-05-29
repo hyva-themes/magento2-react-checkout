@@ -175,6 +175,7 @@ const LocalStorage = {
 
     const hyvaStorageKey = _get(config, 'hyvaStorageSource.storageKey');
     window.localStorage.setItem(hyvaStorageKey, '{}');
+    LocalStorage.saveCartId('');
   },
 };
 
