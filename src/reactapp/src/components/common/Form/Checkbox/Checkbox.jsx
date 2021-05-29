@@ -25,7 +25,6 @@ function Checkbox({
         id={inputId}
         name={name}
         checked={isChecked}
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
         {...field}
         {...rest}
       />

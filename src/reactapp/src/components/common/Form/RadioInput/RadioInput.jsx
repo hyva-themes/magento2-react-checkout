@@ -25,7 +25,6 @@ function RadioInput({
         id={inputId}
         name={name}
         checked={checked}
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
         {...field}
         {...rest}
       />

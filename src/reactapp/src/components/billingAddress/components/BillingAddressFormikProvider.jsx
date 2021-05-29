@@ -73,7 +73,7 @@ function BillingAddressFormManager({ children }) {
       setFormEditMode(false);
       setPageLoader(false);
     } catch (error) {
-      console.log({ error });
+      console.error(error);
       setPageLoader(false);
     }
   }, [
@@ -98,7 +98,7 @@ function BillingAddressFormManager({ children }) {
         setFormEditMode(false);
         setPageLoader(false);
       } catch (error) {
-        console.log({ error });
+        console.error(error);
         setPageLoader(false);
       }
     },

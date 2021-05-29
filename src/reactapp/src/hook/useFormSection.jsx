@@ -1,5 +1,6 @@
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
 import CheckoutFormContext from '../context/Form/CheckoutFormContext';
 import { prepareFields } from '../context/utility';
 
@@ -14,30 +15,9 @@ function useFormSection({
 }) {
   const [isFormValid, setIsFormValid] = useState(false);
   const { dirty, isValid } = useFormikContext();
-  const {
-    registerFormSection,
-    setActiveFormSection,
-    activeFormSection,
-  } = useContext(CheckoutFormContext);
-
-  /**
-   * This handler is used to know whether the form section in the context
-   * is actually focussed at the moment. This method will be used by the
-   * form fields. If anyone of the form field is focused, then this form
-   * section will be set as the active form.
-   */
-  const setFormFocused = useCallback(
-    isFocused => {
-      setActiveFormSection(isFocused && id);
-    },
-    [id, setActiveFormSection]
+  const { registerFormSection, activeFormSection } = useContext(
+    CheckoutFormContext
   );
-
-  /**
-   * Whenever a form field is on focus, we need to update the active form
-   * value depending on the form context in which the field lies.
-   */
-  const handleFocus = useCallback(() => setFormFocused(true), [setFormFocused]);
 
   /**
    * It register the form to checkout-form-formik so that the form will be
@@ -74,11 +54,9 @@ function useFormSection({
     () => ({
       isFormValid,
       fields: prepareFields(initialValues, id),
-      setFormFocused,
-      handleFocus,
       submitHandler,
     }),
-    [isFormValid, initialValues, id, submitHandler, setFormFocused, handleFocus]
+    [isFormValid, initialValues, id, submitHandler]
   );
 
   return context;

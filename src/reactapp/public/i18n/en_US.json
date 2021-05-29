@@ -61,5 +61,6 @@
   "Total":"Total",
   "Update":"Update",
   "{} zipcode: {}":"{} zipcode: {}",
-  "Login failed.": "Login failed."
+  "Login failed.": "Login failed.",
+  "-- Please Select --": "-- Please Select --"
 }

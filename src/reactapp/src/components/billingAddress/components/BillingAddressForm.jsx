@@ -15,7 +15,6 @@ function BillingAddressForm() {
   const { viewMode } = useBillingAddressWrapper();
   const {
     fields,
-    handleFocus,
     isFormValid,
     isBillingAddressSameAsShipping,
   } = useBillingAddressFormikContext();
@@ -40,42 +39,36 @@ function BillingAddressForm() {
           name={fields.company}
           placeholder={__('Company')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('First name')}
           name={fields.firstname}
           placeholder={__('First name')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Last name')}
           name={fields.lastname}
           placeholder={__('Last name')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Street')}
           name={`${fields.street}[0]`}
           placeholder={__('Street')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Postal Code')}
           name={fields.zipcode}
           placeholder="12345"
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('City')}
           name={fields.city}
           placeholder={__('City')}
           required
-          onFocus={handleFocus}
         />
         {hasStateOptions ? (
           <SelectInput
@@ -83,7 +76,6 @@ function BillingAddressForm() {
             name={fields.region}
             required
             options={stateOptions}
-            onFocus={handleFocus}
           />
         ) : (
           <TextInput
@@ -91,7 +83,6 @@ function BillingAddressForm() {
             name={fields.region}
             placeholder={__('State')}
             required
-            onFocus={handleFocus}
           />
         )}
         <SelectInput
@@ -99,14 +90,12 @@ function BillingAddressForm() {
           name={fields.country}
           required
           options={countryOptions}
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Phone')}
           name={fields.phone}
           placeholder="+32 000 000 000"
           required
-          onFocus={handleFocus}
         />
       </div>
 

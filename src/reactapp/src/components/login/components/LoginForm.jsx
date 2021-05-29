@@ -14,7 +14,6 @@ function LoginForm() {
     isFormValid,
     editMode,
     fields,
-    handleFocus,
     submitHandler,
   } = useLoginFormContext();
   const { values, setFieldValue } = useFormikContext();
@@ -38,7 +37,6 @@ function LoginForm() {
           name={fields.email}
           placeholder="john.doe@gmail.com"
           required
-          onFocus={handleFocus}
         />
 
         {!customerWantsToSignin && (

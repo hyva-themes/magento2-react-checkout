@@ -19,7 +19,6 @@ function TextInput({
   const inputId = id || name;
   const [, meta] = useField(name) || [];
   const hasError = !!_get(meta, 'error', false);
-  const hasTouched = !!_get(meta, 'touched', false);
 
   return (
     <div className="mt-2 form-control">
@@ -29,8 +28,6 @@ function TextInput({
           {required && <sup> *</sup>}
         </label>
         <div
-          id={`${inputId}-feedback`}
-          aria-live="polite"
           className={`feedback text-sm md:text-xs text-right ${
             hasError ? 'text-red-500' : 'text-green-500'
           }`}
@@ -38,20 +35,17 @@ function TextInput({
           <ErrorMessage name={name}>
             {msg => msg.replace('%1', label)}
           </ErrorMessage>
-          {!hasError && hasTouched && '✓'}
         </div>
       </div>
       <Field
         {...rest}
+        type="text"
         name={name}
         id={inputId}
         placeholder={placeholder}
         className={`form-input ${className} ${width || 'w-full'}`}
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
       />
-      <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">
-        {helpText}
-      </div>
+      <div className="text-xs">{helpText}</div>
     </div>
   );
 }
