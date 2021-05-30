@@ -23,6 +23,10 @@ import {
   setSelectedShippingAddressAction,
   setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
+import {
+  createPaypalExpressCustomerTokenAction,
+  setPaypalExpressPaymentMethodAction,
+} from './paypalExpress/actions';
 
 const dispatchMapper = {
   setEmailOnGuestCart: setEmailOnGuestCartAction,
@@ -43,6 +47,8 @@ const dispatchMapper = {
   createEmptyCart: createEmptyCartAction,
   mergeCarts: mergeCartsAction,
   setRestPaymentMethod: setRestPaymentMethodAction,
+  createPaypalExpressCustomerToken: createPaypalExpressCustomerTokenAction,
+  setPaypalExpressPaymentMethod: setPaypalExpressPaymentMethodAction,
 };
 
 function cartDispatchers(dispatch) {

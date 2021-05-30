@@ -1,27 +1,35 @@
 import { useCallback, useEffect, useState } from 'react';
 import _get from 'lodash.get';
-import createCustomerToken from '../../../api/paypalExpress/createCustomerToken';
-import { __ } from '../../../i18n';
-import setPaymentMethodPaypalExpress from '../../../api/paypalExpress/setPaymentMethod';
-import placeOrder from '../../../api/cart/placeOrder';
-import LocalStorage from '../../../utils/localStorage';
-import { config } from '../../../config';
-import usePaypalExpressCartContext from './usePaypalExpressCartContext';
-import usePaymentMethodAppContext from '../../paymentMethod/hooks/usePaymentMethodAppContext';
 
-export default function usePaypalExpress({ paymentMethod }) {
+import { __ } from '../../../i18n';
+import { config } from '../../../config';
+import LocalStorage from '../../../utils/localStorage';
+import usePaypalExpressAppContext from './usePaypalExpressAppContext';
+import usePaypalExpressCartContext from './usePaypalExpressCartContext';
+
+/*
+ Utility to get the token and the payer id from the URL
+ */
+ const getTokenPayerId = query => {
+  const params = new URLSearchParams(query);
+  return { token: params.get('token'), payerId: params.get('PayerID') };
+};
+
+export default function usePaypalExpress({ paymentMethodCode }) {
   const [processPaymentEnable, setProcessPaymentEnable] = useState(false);
   const {
+    cartId,
     hasCartBillingAddress,
     selectedShippingMethod,
     selectedPaymentMethod,
-    cartId,
+    placeOrder,
+    setPaypalExpressPaymentMethod,
+    createPaypalExpressCustomerToken,
   } = usePaypalExpressCartContext();
-  const { setErrorMessage, setPageLoader } = usePaymentMethodAppContext();
+  const { setErrorMessage, setPageLoader } = usePaypalExpressAppContext();
   const query = window.location.search;
   const selectedShippingMethodCode = _get(selectedShippingMethod, 'methodCode');
   const selectedPaymentMethodCode = _get(selectedPaymentMethod, 'code');
-  const { code: paymentMethodCode } = paymentMethod;
 
   /*
    Check if is possible to proceed on placing the order.
@@ -63,7 +71,7 @@ export default function usePaypalExpress({ paymentMethod }) {
      */
     try {
       setPageLoader(true);
-      await setPaymentMethodPaypalExpress({
+      await setPaypalExpressPaymentMethod({
         payerId,
         token,
         paymentCode: paymentMethodCode,
@@ -107,7 +115,7 @@ export default function usePaypalExpress({ paymentMethod }) {
     }
 
     setPageLoader(true);
-    const response = await createCustomerToken({
+    const response = await createPaypalExpressCustomerToken({
       returnUrl: `checkout/index/index`,
       cancelUrl: `checkout/index/index`,
       paymentCode: paymentMethodCode,
@@ -139,11 +147,3 @@ export default function usePaypalExpress({ paymentMethod }) {
     processPaymentEnable,
   };
 }
-
-/*
- Utility to get the token and the payer id from the URL
- */
-const getTokenPayerId = query => {
-  const params = new URLSearchParams(query);
-  return { token: params.get('token'), payerId: params.get('PayerID') };
-};

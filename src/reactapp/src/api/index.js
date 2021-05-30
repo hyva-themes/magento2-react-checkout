@@ -21,8 +21,8 @@ import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
 import updateCustomerAddress from './customer/updateCustomerAddress';
-import setPaymentMethodPaypalExpress from './paypalExpress/setPaymentMethod';
-import createCustomerToken from './paypalExpress/createCustomerToken';
+import setPaypalExpressPaymentMethod from './paypalExpress/setPaymentMethod';
+import createPaypalExpressCustomerToken from './paypalExpress/createCustomerToken';
 
 export const isResponseError = isError;
 
@@ -70,6 +70,6 @@ export const restSetGuestPaymentMethodRequest = restSetGuestPaymentMethod;
 
 export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;
 
-export const setPaymentMethodPaypalExpressRequest = setPaymentMethodPaypalExpress;
+export const setPaypalExpressPaymentMethodRequest = setPaypalExpressPaymentMethod;
 
-export const createCustomerTokenRequest = createCustomerToken;
+export const createPaypalExpressCustomerTokenRequest = createPaypalExpressCustomerToken;

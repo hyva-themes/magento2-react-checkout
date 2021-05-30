@@ -1,3 +1,3 @@
-import createCustomerToken from './createCustomerToken';
+import createPaypalExpressCustomerToken from './createCustomerToken';
 
-export default createCustomerToken;
+export default createPaypalExpressCustomerToken;

@@ -6,13 +6,13 @@ import usePaypalExpress from '../hooks/usePaypalExpress';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
 function PaypalExpress({ method, selected, actions }) {
+  const methodCode = _get(method, 'code');
   const {
     authorizeUser,
     placePaypalExpressOrder,
     processPaymentEnable,
-  } = usePaypalExpress({ paymentMethod: method });
+  } = usePaypalExpress({ paymentMethodCode: methodCode });
   const { registerPaymentAction } = useCheckoutFormContext();
-  const methodCode = _get(method, 'code');
   const isSelected = methodCode === selected.code;
 
   useEffect(() => {

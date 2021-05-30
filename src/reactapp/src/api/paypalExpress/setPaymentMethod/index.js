@@ -1,3 +1,3 @@
-import setPaymentMethodPaypalExpress from './setPaymentMethod';
+import setPaypalExpressPaymentMethod from './setPaymentMethod';
 
-export default setPaymentMethodPaypalExpress;
+export default setPaypalExpressPaymentMethod;
