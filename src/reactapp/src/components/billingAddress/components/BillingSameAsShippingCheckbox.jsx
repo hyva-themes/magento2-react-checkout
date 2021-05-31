@@ -3,16 +3,18 @@ import { useFormikContext } from 'formik';
 
 import Checkbox from '../../common/Form/Checkbox';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
-import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
+import { isCartAddressValid } from '../../../utils/address';
 
 function BillingSameAsShippingCheckbox() {
   const { setFieldValue } = useFormikContext();
-  const { isLoggedIn } = useBillingAddressAppContext();
-  const { cartBillingAddress } = useBillingAddressCartContext();
+  const {
+    cartBillingAddress,
+    cartShippingAddress,
+  } = useBillingAddressCartContext();
   const {
     setToEditMode,
     setToViewMode,
@@ -30,10 +32,6 @@ function BillingSameAsShippingCheckbox() {
     setFieldValue(fields.isSameAsShipping, newSameAsShipping);
     LocalStorage.saveBillingSameAsShipping(newSameAsShipping);
 
-    if (!isLoggedIn) {
-      return;
-    }
-
     if (newSameAsShipping) {
       await makeBillingSameAsShippingRequest();
       setToEditMode();
@@ -41,6 +39,10 @@ function BillingSameAsShippingCheckbox() {
       setToViewMode();
     }
   };
+
+  if (!isCartAddressValid(cartShippingAddress)) {
+    return <></>;
+  }
 
   return (
     <Checkbox

@@ -1,23 +1,24 @@
-import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressCartContext from './useBillingAddressCartContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import __ from '../../../i18n/__';
-import { SHIPPING_ADDR_FORM } from '../../../config';
 import {
   isCartAddressValid,
   isValidCustomerAddressId,
+  prepareFormAddressFromCartAddress,
   saveCustomerAddressToLocalStorage,
 } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
+import { BILLING_ADDR_FORM } from '../../../config';
 
 /**
  * When user click on "billing same as shipping" checkbox, then if there is valid
  * shipping address, then make both billing and shipping same.
  */
 export default function useSaveBillingSameAsShipping() {
+  const { setFieldValue } = useFormikContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -25,17 +26,16 @@ export default function useSaveBillingSameAsShipping() {
     setErrorMessage,
   } = useBillingAddressAppContext();
   const {
+    cartShippingAddress,
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
-  const { values } = useFormikContext();
   const { setCustomerAddressSelected } = useBillingAddressFormikContext();
-  const shippingAddress = _get(values, SHIPPING_ADDR_FORM);
   const shippingAddressSelected = LocalStorage.getCustomerShippingAddressId();
 
   const makeBillingSameAsShippingRequest = async () => {
     try {
-      if (!isCartAddressValid(shippingAddress)) {
+      if (!isCartAddressValid(cartShippingAddress)) {
         return;
       }
 
@@ -48,10 +48,14 @@ export default function useSaveBillingSameAsShipping() {
         (isLoggedIn && !isValidCustomerAddressId(shippingAddressSelected))
       ) {
         setPageLoader(true);
-        await setCartBillingAddress({ ...shippingAddress });
+        await setCartBillingAddress({ ...cartShippingAddress });
+        setFieldValue(
+          BILLING_ADDR_FORM,
+          prepareFormAddressFromCartAddress(cartShippingAddress)
+        );
         setCustomerAddressSelected(false);
         setSuccessMessage(successMessage);
-        setPageLoader(true);
+        setPageLoader(false);
         return;
       }
 

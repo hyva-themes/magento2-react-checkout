@@ -93,6 +93,37 @@ export function getFirstItemIdFromShippingAddrList(addressList) {
   return _isArrayEmpty(addressIds) ? '' : addressIds[0];
 }
 
+export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
+  const newAddress = { ...address };
+  const { countryCode, regionCode } = address;
+
+  if (countryCode) {
+    newAddress.country = countryCode;
+  }
+  if (regionCode) {
+    newAddress.region = regionCode;
+  }
+  if (selectedAddressId) {
+    newAddress.selectedAddress = selectedAddressId;
+  }
+
+  const keysToRemove = [
+    'countryCode',
+    'fullName',
+    'isDefaultBilling',
+    'isDefaultShipping',
+    'fullName',
+    'middlename',
+    'regionCode',
+    'regionLabel',
+  ];
+
+  return {
+    ...shippingAddressFormInitValues,
+    ..._cleanObjByKeys(newAddress, keysToRemove),
+  };
+}
+
 export function prepareFormAddressFromAddressListById(
   addressList,
   selectedAddressId
@@ -101,31 +132,9 @@ export function prepareFormAddressFromAddressListById(
     return;
   }
   const address = { ..._get(addressList, selectedAddressId, {}) };
-  const { countryCode, regionCode } = address;
-
-  if (countryCode) {
-    address.country = countryCode;
-  }
-  if (regionCode) {
-    address.region = regionCode;
-  }
-
-  const keysToRemove = [
-    'countryCode',
-    'fullName',
-    'isDefaultBilling',
-    'isDefaultShipping',
-    'middlename',
-    'regionCode',
-    'regionLabel',
-  ];
 
   // eslint-disable-next-line consistent-return
-  return {
-    ...shippingAddressFormInitValues,
-    ..._cleanObjByKeys(address, keysToRemove),
-    selectedAddress: selectedAddressId,
-  };
+  return prepareFormAddressFromCartAddress(address, selectedAddressId);
 }
 
 export function prepareCartAddressWithId(addressList, addressId) {
@@ -155,5 +164,6 @@ export function isCartAddressValid(address) {
 }
 
 export function isValidCustomerAddressId(addressId) {
-  return !Number.isNaN(addressId);
+  // Number.isNaN should not use here. both functions works differently.
+  return !isNaN(addressId);
 }

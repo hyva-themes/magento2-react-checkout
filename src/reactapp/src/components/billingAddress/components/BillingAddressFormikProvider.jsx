@@ -282,6 +282,7 @@ function BillingAddressFormManager({ children }) {
     ...addressContext,
     editMode,
     customerAddressSelected,
+    selectedBillingAddressId: addressInUsage,
     setCustomerAddressSelected,
     setFormToEditMode,
     setFormEditMode,

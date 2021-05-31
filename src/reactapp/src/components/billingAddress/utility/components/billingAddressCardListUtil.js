@@ -3,7 +3,8 @@ import _get from 'lodash.get';
 import { BILLING_ADDR_FORM } from '../../../../config';
 import { __ } from '../../../../i18n';
 import { _objToArray, _toString } from '../../../../utils';
-import { CART_BILLING_ADDRESS } from '../common';
+import { isCartAddressValid } from '../../../../utils/address';
+import { CART_BILLING_ADDRESS, MY_CART_NEW_ADDRESS } from '../common';
 
 function formatAddressListToCardData(addressList) {
   return addressList.map(addr => {
@@ -55,19 +56,20 @@ export function prepareBillingAddressCardList(
   values,
   customerAddressList,
   regionData,
-  customerAddressSelected
+  customerAddressSelected,
+  isLoggedIn
 ) {
+  console.log(customerAddressSelected)
   const cartBillingAddress = _get(values, BILLING_ADDR_FORM, {});
-  const { country, firstname, zipcode } = cartBillingAddress;
-  const hasCartBillingAddress = country && firstname && zipcode;
+  const { country } = cartBillingAddress;
   let cartBillingAddrCardInfo = [];
 
-  if (!customerAddressSelected && hasCartBillingAddress) {
+  if (!customerAddressSelected && isCartAddressValid(cartBillingAddress)) {
     cartBillingAddrCardInfo = formatAddressListToCardData([
       {
         ...cartBillingAddress,
         fullName: prepareFullName(cartBillingAddress),
-        id: CART_BILLING_ADDRESS,
+        id: isLoggedIn ? MY_CART_NEW_ADDRESS : CART_BILLING_ADDRESS,
         countryCode: country,
         regionLabel: _get(regionData, 'name'),
       },

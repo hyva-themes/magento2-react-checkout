@@ -11,15 +11,16 @@ import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import { _toString } from '../../../utils';
 import { prepareBillingAddressCardList } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
+import { isValidCustomerAddressId } from '../../../utils/address';
 
 function BillingAddressCardList() {
   const { values } = useFormikContext();
-  const { customerAddressList } = useBillingAddressAppContext();
-  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
+  const { selectedBillingAddressId } = useBillingAddressFormikContext();console.log({selectedBillingAddressId});
+  const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const {
     regionData,
     selectedAddress,
-    customerAddressSelected,
     setSelectedAddress,
     setToEditMode,
     setBackupAddress,
@@ -29,8 +30,10 @@ function BillingAddressCardList() {
     values,
     customerAddressList,
     regionData,
-    customerAddressSelected
+    isValidCustomerAddressId(selectedBillingAddressId),
+    isLoggedIn
   );
+  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
 
   const performAddressEdit = () => {
     setBackupAddress({ ...billingAddress });
@@ -55,7 +58,7 @@ function BillingAddressCardList() {
           inputName="billingAddressChooser"
           key={address.id}
           address={address}
-          isSelected={selectedAddress === address.id}
+          isSelected={!isLoggedIn || selectedBillingAddressId === address.id}
           actions={{ performAddressSwitching, performAddressEdit }}
         />
       ))}

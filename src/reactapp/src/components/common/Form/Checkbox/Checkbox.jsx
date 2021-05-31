@@ -28,7 +28,7 @@ function Checkbox({
         {...field}
         {...rest}
       />
-      <label htmlFor={inputId} className="pl-2">
+      <label htmlFor={inputId} className="inline pl-2">
         {label}
       </label>
 

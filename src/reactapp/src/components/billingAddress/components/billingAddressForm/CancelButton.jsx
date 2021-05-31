@@ -1,18 +1,15 @@
-import React, { useCallback } from 'react';
-import { useFormikContext } from 'formik';
+import React from 'react';
 
 import Button from '../../../common/Button';
 import useBillingAddressWrapper from '../../hooks/useBillingAddressWrapper';
 import useBillingAddressCartContext from '../../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../../hooks/useBillingAddressFormikContext';
-import { formHasBillingAddress } from '../../utility';
-import { isCartHoldingAddressInfo } from '../../../../utils/address';
+import { isCartAddressValid } from '../../../../utils/address';
 import LocalStorage from '../../../../utils/localStorage';
 import { __ } from '../../../../i18n';
 
 function CancelButton() {
-  const { values } = useFormikContext();
-  const { cartInfo } = useBillingAddressCartContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
   const { setBillingAddressFormFields } = useBillingAddressFormikContext();
   const {
     setToViewMode,
@@ -20,21 +17,16 @@ function CancelButton() {
     setCustomerAddressSelected,
   } = useBillingAddressWrapper();
 
-  const clickHandler = useCallback(() => {
+  const clickHandler = () => {
     setBillingAddressFormFields({
       ...backupAddress,
       isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
     });
     setToViewMode();
     setCustomerAddressSelected(!!LocalStorage.getCustomerBillingAddressId());
-  }, [
-    backupAddress,
-    setToViewMode,
-    setBillingAddressFormFields,
-    setCustomerAddressSelected,
-  ]);
+  };
 
-  if (!formHasBillingAddress(values) && !isCartHoldingAddressInfo(cartInfo)) {
+  if (!isCartAddressValid(cartBillingAddress)) {
     return <></>;
   }
 

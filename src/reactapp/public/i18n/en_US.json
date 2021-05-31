@@ -63,6 +63,7 @@
   "{} zipcode: {}":"{} zipcode: {}",
   "Login failed.": "Login failed.",
   "-- Please Select --": "-- Please Select --",
+  "Use different address": "Use different address",
   "Billing address made same as shipping address": "Billing address made same as shipping address",
   "Billing address update failed. Please try later": "Billing address update failed. Please try later"
 }
