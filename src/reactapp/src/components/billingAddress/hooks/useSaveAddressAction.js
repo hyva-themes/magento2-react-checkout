@@ -5,7 +5,7 @@ import useBillingAddressWrapper from './useBillingAddressWrapper';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import { _emptyFunc, _makePromise } from '../../../utils';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
+import { BILLING_ADDR_FORM } from '../../../config';
 import {
   CART_BILLING_ADDRESS,
   saveCustomerAddressToLocalStorage,
@@ -49,7 +49,7 @@ export default function useSaveAddressAction() {
           updateCustomerAddrPromise = _makePromise(
             updateCustomerAddress,
             selectedAddress,
-            _get(formikValues, SHIPPING_ADDR_FORM, {}),
+            _get(formikValues, BILLING_ADDR_FORM, {}),
             regionData
           );
         }

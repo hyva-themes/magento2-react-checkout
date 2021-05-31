@@ -20,7 +20,7 @@ import {
 } from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
-import { _isObjEmpty, _keys } from '../../../utils';
+import { _isObjEmpty, _keys, _toString } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 
 const initialValues = {
@@ -55,11 +55,18 @@ const validationSchema = {
   isSameAsShipping: YupBool(),
 };
 
+const initialAddressIdInCache = !!_toString(
+  LocalStorage.getCustomerBillingAddressId()
+);
+
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
   const [addressInUsage, setAddressInUsage] = useState(null);
   const [addressPopulated, setAddressPopulated] = useState(null);
+  const [customerAddressSelected, setCustomerAddressSelected] = useState(
+    initialAddressIdInCache
+  );
   const { values, setFieldValue } = useFormikContext();
   const {
     editMode,
@@ -274,6 +281,8 @@ function BillingAddressFormManager({ children }) {
     ...formContext,
     ...addressContext,
     editMode,
+    customerAddressSelected,
+    setCustomerAddressSelected,
     setFormToEditMode,
     setFormEditMode,
     setFormToViewMode,
@@ -286,7 +295,7 @@ function BillingAddressFormManager({ children }) {
   };
 
   return (
-    <BillingAddressFormContext.Provider value={{ ...context }}>
+    <BillingAddressFormContext.Provider value={context}>
       <Form>{children}</Form>
     </BillingAddressFormContext.Provider>
   );

@@ -26,9 +26,6 @@ function BillingAddressWrapper({ children }) {
   const [selectedAddress, setSelectedAddress] = useState(
     addressIdInCache || CART_BILLING_ADDRESS
   );
-  const [customerAddressSelected, setCustomerAddressSelected] = useState(
-    !!addressIdInCache
-  );
   const { values } = useFormikContext();
   const { cartInfo } = useBillingAddressCartContext();
   const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
@@ -39,6 +36,8 @@ function BillingAddressWrapper({ children }) {
     setFormToEditMode: setToEditMode,
     setFormToViewMode: setToViewMode,
     isBillingAddressSameAsShipping,
+    customerAddressSelected,
+    setCustomerAddressSelected,
   } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
