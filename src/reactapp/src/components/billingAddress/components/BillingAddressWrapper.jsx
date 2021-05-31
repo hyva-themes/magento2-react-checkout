@@ -7,14 +7,12 @@ import BillingAddressWrapperContext from '../context/BillingAddressWrapperContex
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import {
-  CART_BILLING_ADDRESS,
-  customerHasAddress,
-  isCartHoldingBillingAddress,
-} from '../utility';
+import { CART_BILLING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
 import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
+import { isCartAddressValid } from '../../../utils/address';
+import { customerHasAddress } from '../../../utils/customer';
 
 function BillingAddressWrapper({ children }) {
   const [forceViewMode, setForceViewMode] = useState(false);
@@ -27,7 +25,7 @@ function BillingAddressWrapper({ children }) {
     addressIdInCache || CART_BILLING_ADDRESS
   );
   const { values } = useFormikContext();
-  const { cartInfo } = useBillingAddressCartContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
   const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
   const { stateList, customerAddressList } = useBillingAddressAppContext();
   const {
@@ -41,6 +39,7 @@ function BillingAddressWrapper({ children }) {
   } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
+  const cartHasBillingAddress = isCartAddressValid(cartBillingAddress);
 
   useEffect(() => {
     setSelectedAddress(addressIdInCache);
@@ -52,8 +51,7 @@ function BillingAddressWrapper({ children }) {
     if (
       !forceViewMode &&
       !isBillingAddressSameAsShipping &&
-      (isCartHoldingBillingAddress(cartInfo) ||
-        customerHasAddress(customerAddressList))
+      (cartHasBillingAddress || customerHasAddress(customerAddressList))
     ) {
       // this needs to be executed once. to make sure that we are using
       // forceViewMode state
@@ -61,7 +59,7 @@ function BillingAddressWrapper({ children }) {
       setForceViewMode(true);
     }
   }, [
-    cartInfo,
+    cartHasBillingAddress,
     customerAddressList,
     setToViewMode,
     forceViewMode,

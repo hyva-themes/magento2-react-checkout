@@ -3,15 +3,14 @@ import { useFormikContext } from 'formik';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressCartContext from './useBillingAddressCartContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
-import __ from '../../../i18n/__';
+import { __ } from '../../../i18n';
 import {
   isCartAddressValid,
   isValidCustomerAddressId,
-  prepareFormAddressFromCartAddress,
-  saveCustomerAddressToLocalStorage,
 } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
 import { BILLING_ADDR_FORM } from '../../../config';
+import { prepareFormAddressFromCartAddress } from '../utility';
 
 /**
  * When user click on "billing same as shipping" checkbox, then if there is valid
@@ -61,7 +60,7 @@ export default function useSaveBillingSameAsShipping() {
 
       if (isLoggedIn && isValidCustomerAddressId(shippingAddressSelected)) {
         const billingIsSame = true;
-        saveCustomerAddressToLocalStorage(
+        LocalStorage.saveCustomerAddressInfo(
           shippingAddressSelected,
           billingIsSame
         );

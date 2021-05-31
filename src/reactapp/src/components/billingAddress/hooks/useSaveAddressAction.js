@@ -6,11 +6,9 @@ import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import { BILLING_ADDR_FORM } from '../../../config';
-import {
-  CART_BILLING_ADDRESS,
-  saveCustomerAddressToLocalStorage,
-} from '../utility';
+import { CART_BILLING_ADDRESS } from '../utility';
 import { __ } from '../../../i18n';
+import LocalStorage from '../../../utils/localStorage';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -55,9 +53,9 @@ export default function useSaveAddressAction() {
         }
 
         if (customerAddressUsed) {
-          saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
+          LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
         } else {
-          saveCustomerAddressToLocalStorage('', isBillingSame);
+          LocalStorage.saveCustomerAddressInfo('', isBillingSame);
           setSelectedAddress(CART_BILLING_ADDRESS);
           setCustomerAddressSelected(false);
         }

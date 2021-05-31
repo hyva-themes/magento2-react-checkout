@@ -13,16 +13,21 @@ import useFormSection from '../../../hook/useFormSection';
 import useShippingAddrAppContext from '../hooks/useShippingAddressAppContext';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
-import {
-  isCartHoldingShippingAddress,
-  shippingAddressFormInitValues,
-} from '../utility';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
 import { __ } from '../../../i18n';
+import { isCartAddressValid } from '../../../utils/address';
 
-export const initialValues = {
-  ...shippingAddressFormInitValues,
+const initialValues = {
+  company: '',
+  firstname: '',
+  lastname: '',
+  street: [''],
+  phone: '',
+  zipcode: '',
+  city: '',
+  region: '',
+  country: '',
 };
 
 const requiredMessage = __('%1 is required');
@@ -51,7 +56,6 @@ function ShippingAddressFormikProvider({ children }) {
   const { setFieldValue } = useFormikContext();
   const { setPageLoader } = useShippingAddrAppContext();
   const {
-    cartInfo,
     cartShippingAddress,
     addCartShippingAddress,
     setCartBillingAddress,
@@ -59,7 +63,7 @@ function ShippingAddressFormikProvider({ children }) {
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
 
-  const cartHasShippingAddress = isCartHoldingShippingAddress(cartInfo);
+  const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
   const formSubmit = useCallback(
     async (formValues, customerAddressId) => {
@@ -131,13 +135,13 @@ function ShippingAddressFormikProvider({ children }) {
   );
 
   const resetShippingAddressFormFields = useCallback(() => {
-    setFieldValue(SHIPPING_ADDR_FORM, { ...shippingAddressFormInitValues });
+    setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
   }, [setFieldValue]);
 
   const setShippingAddressFormFields = useCallback(
     addressToSet => {
       setFieldValue(SHIPPING_ADDR_FORM, {
-        ...shippingAddressFormInitValues,
+        ...initialValues,
         ...addressToSet,
       });
     },

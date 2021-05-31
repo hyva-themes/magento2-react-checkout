@@ -16,7 +16,7 @@ import { isValidCustomerAddressId } from '../../../utils/address';
 
 function BillingAddressCardList() {
   const { values } = useFormikContext();
-  const { selectedBillingAddressId } = useBillingAddressFormikContext();console.log({selectedBillingAddressId});
+  const { selectedBillingAddressId } = useBillingAddressFormikContext();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const {
     regionData,

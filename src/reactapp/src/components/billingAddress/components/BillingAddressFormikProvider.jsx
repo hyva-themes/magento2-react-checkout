@@ -9,14 +9,12 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import { isCartAddressValid } from '../../../utils/address';
 import {
-  isCartAddressValid,
-  prepareFormAddressFromAddressListById,
-} from '../../../utils/address';
-import {
-  billingAddressFormInitValues,
   GUEST_CART_NEW_ADDRESS,
   MY_CART_NEW_ADDRESS,
+  billingAddressFormInitValues,
+  prepareFormAddressFromAddressListById,
 } from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';

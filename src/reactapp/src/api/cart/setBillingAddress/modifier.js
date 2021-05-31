@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
 
 import LocalStorage from '../../../utils/localStorage';
-import { prepareFullName } from '../../customer/utility';
+import { prepareFullName } from '../../../utils/customer';
 
 export function modifyBillingAddressData(billingAddress) {
   const {
