@@ -21,7 +21,10 @@ function CancelButton() {
   } = useBillingAddressWrapper();
 
   const clickHandler = useCallback(() => {
-    setBillingAddressFormFields({ ...backupAddress });
+    setBillingAddressFormFields({
+      ...backupAddress,
+      isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
+    });
     setToViewMode();
     setCustomerAddressSelected(!!LocalStorage.getCustomerBillingAddressId());
   }, [

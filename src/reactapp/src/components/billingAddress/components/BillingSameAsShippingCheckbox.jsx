@@ -2,10 +2,10 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 
 import Checkbox from '../../common/Form/Checkbox';
-import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
 
@@ -17,22 +17,25 @@ function BillingSameAsShippingCheckbox() {
     setToEditMode,
     setToViewMode,
     setBackupAddress,
+    makeBillingSameAsShippingRequest,
   } = useBillingAddressWrapper();
   const {
     fields,
     isBillingAddressSameAsShipping,
   } = useBillingAddressFormikContext();
 
-  const toggleBillingEqualsShippingState = () => {
+  const toggleBillingEqualsShippingState = async () => {
+    const newSameAsShipping = !isBillingAddressSameAsShipping;
     setBackupAddress({ ...cartBillingAddress });
-    setFieldValue(fields.isSameAsShipping, !isBillingAddressSameAsShipping);
-    LocalStorage.saveBillingSameAsShipping(!isBillingAddressSameAsShipping);
+    setFieldValue(fields.isSameAsShipping, newSameAsShipping);
+    LocalStorage.saveBillingSameAsShipping(newSameAsShipping);
 
     if (!isLoggedIn) {
       return;
     }
 
-    if (!isBillingAddressSameAsShipping === true) {
+    if (newSameAsShipping) {
+      await makeBillingSameAsShippingRequest();
       setToEditMode();
     } else {
       setToViewMode();

@@ -94,10 +94,13 @@ export function getFirstItemIdFromShippingAddrList(addressList) {
 }
 
 export function prepareFormAddressFromAddressListById(
-  shippingAddressList,
+  addressList,
   selectedAddressId
 ) {
-  const address = { ..._get(shippingAddressList, selectedAddressId, {}) };
+  if (!selectedAddressId || !addressList || _isObjEmpty(addressList)) {
+    return;
+  }
+  const address = { ..._get(addressList, selectedAddressId, {}) };
   const { countryCode, regionCode } = address;
 
   if (countryCode) {
@@ -117,6 +120,7 @@ export function prepareFormAddressFromAddressListById(
     'regionLabel',
   ];
 
+  // eslint-disable-next-line consistent-return
   return {
     ...shippingAddressFormInitValues,
     ..._cleanObjByKeys(address, keysToRemove),
@@ -142,10 +146,14 @@ export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
   }
 }
 
-export function isCartBillingAddressValid(cartBillingAddress) {
-  return (
-    cartBillingAddress &&
-    cartBillingAddress.firstname &&
-    cartBillingAddress.country
-  );
+export function isCartBillingAddressValid(address) {
+  return address && address.firstname && address.country;
+}
+
+export function isCartAddressValid(address) {
+  return address && address.firstname && address.country;
+}
+
+export function isValidCustomerAddressId(addressId) {
+  return !Number.isNaN(addressId);
 }

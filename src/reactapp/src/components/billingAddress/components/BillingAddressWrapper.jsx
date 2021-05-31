@@ -14,6 +14,7 @@ import {
 } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
+import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
 
 function BillingAddressWrapper({ children }) {
   const [forceViewMode, setForceViewMode] = useState(false);
@@ -30,6 +31,7 @@ function BillingAddressWrapper({ children }) {
   );
   const { values } = useFormikContext();
   const { cartInfo } = useBillingAddressCartContext();
+  const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
   const { stateList, customerAddressList } = useBillingAddressAppContext();
   const {
     fields,
@@ -40,6 +42,10 @@ function BillingAddressWrapper({ children }) {
   } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
+
+  useEffect(() => {
+    setSelectedAddress(addressIdInCache);
+  }, [addressIdInCache]);
 
   // when user sign-in, if the cart has billing address, then we need to
   // turn off edit mode of the address section
@@ -91,6 +97,7 @@ function BillingAddressWrapper({ children }) {
     setBackupAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
+    makeBillingSameAsShippingRequest,
   };
 
   return (

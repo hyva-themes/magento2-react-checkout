@@ -17,6 +17,7 @@ export function modifyBillingAddressData(billingAddress) {
   } = billingAddress;
 
   return {
+    id: LocalStorage.getCustomerBillingAddressId(),
     company,
     firstname,
     lastname,

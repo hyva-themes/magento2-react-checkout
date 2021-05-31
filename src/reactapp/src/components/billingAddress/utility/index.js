@@ -9,6 +9,7 @@ import {
   _objToArray,
   _toString,
 } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 export * from './components/billingAddressCardListUtil';
 export * from './components/CancelButtonUtil';
@@ -100,6 +101,13 @@ export function prepareFormAddressFromAddressListById(
   billingAddressList,
   selectedAddressId
 ) {
+  if (
+    !selectedAddressId ||
+    !billingAddressList ||
+    _isObjEmpty(billingAddressList)
+  ) {
+    return;
+  }
   const address = { ..._get(billingAddressList, selectedAddressId, {}) };
   const { countryCode, regionCode } = address;
 
@@ -136,14 +144,21 @@ export function prepareCartAddressWithId(addressList, addressId) {
   };
 }
 
-export function isCartBillingAddressValid(cartBillingAddress) {
-  return (
-    cartBillingAddress &&
-    cartBillingAddress.firstname &&
-    cartBillingAddress.country
-  );
-}
-
 export function customerHasAddress(customerAddressList) {
   return !!_keys(customerAddressList).length;
+}
+
+export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
+  LocalStorage.saveBillingSameAsShipping(isBillingSame);
+  LocalStorage.saveCustomerBillingAddressId(addressId);
+
+  if (isBillingSame) {
+    LocalStorage.saveCustomerBillingAddressId(addressId);
+  } else {
+    const selectedShippingAddrId = LocalStorage.getCustomerShippingAddressId();
+
+    if (selectedShippingAddrId === addressId) {
+      LocalStorage.saveBillingSameAsShipping(true);
+    }
+  }
 }

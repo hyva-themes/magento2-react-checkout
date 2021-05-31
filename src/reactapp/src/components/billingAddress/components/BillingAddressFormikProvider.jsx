@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
@@ -9,12 +9,19 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
-import { BILLING_ADDR_FORM } from '../../../config';
-import { isCartBillingAddressValid } from '../../../utils/address';
-import LocalStorage from '../../../utils/localStorage';
-import { _isObjEmpty, _keys } from '../../../utils';
-import { billingAddressFormInitValues } from '../utility';
+import {
+  isCartAddressValid,
+  prepareFormAddressFromAddressListById,
+} from '../../../utils/address';
+import {
+  billingAddressFormInitValues,
+  GUEST_CART_NEW_ADDRESS,
+  MY_CART_NEW_ADDRESS,
+} from '../utility';
 import { __ } from '../../../i18n';
+import { BILLING_ADDR_FORM } from '../../../config';
+import { _isObjEmpty, _keys } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 const initialValues = {
   company: '',
@@ -51,6 +58,8 @@ const validationSchema = {
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
+  const [addressInUsage, setAddressInUsage] = useState(null);
+  const [addressPopulated, setAddressPopulated] = useState(null);
   const { values, setFieldValue } = useFormikContext();
   const {
     editMode,
@@ -64,12 +73,17 @@ function BillingAddressFormManager({ children }) {
     setPageLoader,
   } = useBillingAddressAppContext();
   const {
+    selectedAddressId,
     cartBillingAddress,
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
   const isSame = _get(values, isSameAsShippingField);
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
+  const selectedCustomerAddress = prepareFormAddressFromAddressListById(
+    customerAddressList,
+    selectedAddressId
+  );
 
   const formSubmit = useCallback(async () => {
     try {
@@ -133,7 +147,7 @@ function BillingAddressFormManager({ children }) {
   );
 
   const mapCartBillingAddressToBillingForm = useCallback(() => {
-    if (isCartBillingAddressValid(cartBillingAddress)) {
+    if (isCartAddressValid(cartBillingAddress)) {
       setFieldValue(BILLING_ADDR_FORM, {
         ...cartBillingAddress,
         isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
@@ -141,14 +155,75 @@ function BillingAddressFormManager({ children }) {
     }
   }, [cartBillingAddress, setFieldValue]);
 
+  // determines billing address needs to be populated into form
   useEffect(() => {
-    if (isCartBillingAddressValid(cartBillingAddress)) {
-      setFieldValue(BILLING_ADDR_FORM, cartBillingAddress);
-      if (!isSame) {
-        setFormEditMode(false);
+    if (
+      !isLoggedIn &&
+      isCartAddressValid(cartBillingAddress) &&
+      addressInUsage !== GUEST_CART_NEW_ADDRESS
+    ) {
+      setAddressInUsage(GUEST_CART_NEW_ADDRESS);
+    } else if (
+      isLoggedIn &&
+      !selectedAddressId &&
+      isCartAddressValid(cartBillingAddress) &&
+      addressInUsage !== MY_CART_NEW_ADDRESS
+    ) {
+      setAddressInUsage(MY_CART_NEW_ADDRESS);
+    } else if (
+      isLoggedIn &&
+      selectedAddressId &&
+      addressInUsage !== selectedAddressId
+    ) {
+      setAddressInUsage(selectedAddressId);
+    }
+  }, [isLoggedIn, addressInUsage, selectedAddressId, cartBillingAddress]);
+
+  // populating the form based on the billing address determined to be used.
+  useEffect(() => {
+    if (addressPopulated !== addressInUsage) {
+      let canPopulate = false;
+      const isSameAsShipping = LocalStorage.getBillingSameAsShippingInfo();
+      if (
+        [GUEST_CART_NEW_ADDRESS, MY_CART_NEW_ADDRESS].includes(addressInUsage)
+      ) {
+        canPopulate = true;
+        setFieldValue(BILLING_ADDR_FORM, {
+          ...cartBillingAddress,
+          isSameAsShipping,
+        });
+      } else if (
+        addressInUsage === selectedAddressId &&
+        isCartAddressValid(selectedCustomerAddress)
+      ) {
+        canPopulate = true;
+        setFieldValue(BILLING_ADDR_FORM, {
+          ...selectedCustomerAddress,
+          isSameAsShipping,
+        });
+      }
+
+      if (canPopulate) {
+        setAddressPopulated(addressInUsage);
+
+        if (isSameAsShipping) {
+          setFormEditMode(true);
+        } else {
+          setFormEditMode(false);
+        }
       }
     }
-  }, [isSame, cartBillingAddress, setFieldValue, setFormEditMode]);
+  }, [
+    addressInUsage,
+    addressPopulated,
+    cartBillingAddress,
+    selectedAddressId,
+    selectedCustomerAddress,
+    isSame,
+    setFieldValue,
+    setFormEditMode,
+    setAddressPopulated,
+  ]);
 
   const formContext = useFormSection({
     id: BILLING_ADDR_FORM,

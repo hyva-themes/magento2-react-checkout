@@ -130,6 +130,7 @@ export async function updateCustomerAddressAction(
       'phone',
       'selectedAddress',
       'zipcode',
+      'fullName',
     ];
 
     const customerAddressInfo = await updateCustomerAddressRequest(

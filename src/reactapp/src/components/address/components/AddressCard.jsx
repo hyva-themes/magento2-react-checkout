@@ -6,12 +6,17 @@ import Button from '../../common/Button';
 import RadioInput from '../../common/Form/RadioInput';
 import { __ } from '../../../i18n';
 
-function AddressCard({ address: { id, address }, isSelected, actions }) {
+function AddressCard({
+  address: { id, address },
+  isSelected,
+  inputName,
+  actions,
+}) {
   return (
     <ul className="px-4 pb-4 bg-white border-white rounded-md shadow-sm">
       <li className="flex items-end justify-end">
         <RadioInput
-          name="shippingAddressChooser"
+          name={inputName}
           checked={isSelected}
           value={id}
           style={isSelected ? {} : { borderColor: '#aaa' }}
@@ -40,6 +45,7 @@ function AddressCard({ address: { id, address }, isSelected, actions }) {
 
 AddressCard.propTypes = {
   isSelected: bool,
+  inputName: string.isRequired,
   address: shape({ id: string, address: arrayOf(string) }).isRequired,
   actions: shape({ performAddressSwitching: func, performAddressEdit: func })
     .isRequired,

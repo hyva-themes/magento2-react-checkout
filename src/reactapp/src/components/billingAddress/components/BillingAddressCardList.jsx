@@ -1,20 +1,20 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import { AddressCard } from '../../address';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
-import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import { _toString } from '../../../utils';
 import { prepareBillingAddressCardList } from '../utility';
+import { BILLING_ADDR_FORM } from '../../../config';
 
 function BillingAddressCardList() {
   const { values } = useFormikContext();
   const { customerAddressList } = useBillingAddressAppContext();
-  const { cartBillingAddress } = useBillingAddressCartContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const {
     regionData,
@@ -24,6 +24,7 @@ function BillingAddressCardList() {
     setToEditMode,
     setBackupAddress,
   } = useBillingAddressWrapper();
+  const billingAddress = _get(values, BILLING_ADDR_FORM, {});
   const addressList = prepareBillingAddressCardList(
     values,
     customerAddressList,
@@ -32,7 +33,7 @@ function BillingAddressCardList() {
   );
 
   const performAddressEdit = () => {
-    setBackupAddress({ ...cartBillingAddress });
+    setBackupAddress({ ...billingAddress });
     setToEditMode();
   };
 
@@ -51,6 +52,7 @@ function BillingAddressCardList() {
     <div className="mx-2 space-y-3">
       {addressList.map(address => (
         <AddressCard
+          inputName="billingAddressChooser"
           key={address.id}
           address={address}
           isSelected={selectedAddress === address.id}

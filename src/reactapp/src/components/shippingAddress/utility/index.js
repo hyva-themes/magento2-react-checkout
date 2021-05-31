@@ -136,14 +136,6 @@ export function prepareCartAddressWithId(addressList, addressId) {
   };
 }
 
-export function isCartBillingAddressValid(cartBillingAddress) {
-  return (
-    cartBillingAddress &&
-    cartBillingAddress.firstname &&
-    cartBillingAddress.country
-  );
-}
-
 export function customerHasAddress(customerAddressList) {
   return !!_keys(customerAddressList).length;
 }
