@@ -1,6 +1,8 @@
 import React from 'react';
+import { bool } from 'prop-types';
 import { useFormikContext } from 'formik';
 
+import { ORBox } from '../../address';
 import Checkbox from '../../common/Form/Checkbox';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
@@ -9,7 +11,7 @@ import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
 import { isCartAddressValid } from '../../../utils/address';
 
-function BillingSameAsShippingCheckbox() {
+function BillingSameAsShippingCheckbox({ addOR }) {
   const { setFieldValue } = useFormikContext();
   const {
     cartBillingAddress,
@@ -35,23 +37,37 @@ function BillingSameAsShippingCheckbox() {
     if (newSameAsShipping) {
       await makeBillingSameAsShippingRequest();
       setToEditMode();
-    } else {
+    } else if (isCartAddressValid(cartBillingAddress)) {
       setToViewMode();
     }
   };
 
-  if (!isCartAddressValid(cartShippingAddress)) {
+  if (
+    !isCartAddressValid(cartShippingAddress) &&
+    isCartAddressValid(cartBillingAddress)
+  ) {
     return <></>;
   }
 
   return (
-    <Checkbox
-      name={fields.isSameAsShipping}
-      label={__('My billing & shipping address are same')}
-      isChecked={isBillingAddressSameAsShipping}
-      onChange={toggleBillingEqualsShippingState}
-    />
+    <>
+      <Checkbox
+        name={fields.isSameAsShipping}
+        label={__('My billing & shipping address are same')}
+        isChecked={isBillingAddressSameAsShipping}
+        onChange={toggleBillingEqualsShippingState}
+      />
+      {addOR && <ORBox />}
+    </>
   );
 }
+
+BillingSameAsShippingCheckbox.propTypes = {
+  addOR: bool,
+};
+
+BillingSameAsShippingCheckbox.defaultProps = {
+  addOR: false,
+};
 
 export default BillingSameAsShippingCheckbox;

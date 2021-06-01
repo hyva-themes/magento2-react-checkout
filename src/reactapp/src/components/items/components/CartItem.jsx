@@ -21,7 +21,7 @@ function CartItem({ item, isLastItem }) {
       <td className="hidden w-1/3 md:table-cell">
         <div className="py-2 pl-2">
           <img
-            className="w-16 h-16"
+            className="w-12 h-auto"
             alt={item.productSku}
             src={item.productSmallImgUrl}
           />

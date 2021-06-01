@@ -5,8 +5,7 @@ import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
-import { isCartAddressValid } from '../../../utils/address';
-import { CreateNewAddressLink, ORBox } from '../../address';
+import { CreateNewAddressLink } from '../../address';
 
 function BillingAddressView() {
   const {
@@ -16,10 +15,7 @@ function BillingAddressView() {
     setCustomerAddressSelected,
   } = useBillingAddressWrapper();
   const { resetBillingAddressFormFields } = useBillingAddressFormikContext();
-  const {
-    cartBillingAddress,
-    cartShippingAddress,
-  } = useBillingAddressCartContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
 
   const newAddressClickHandler = () => {
     setBackupAddress({ ...cartBillingAddress });
@@ -34,10 +30,8 @@ function BillingAddressView() {
 
   return (
     <div className="py-2">
-      <CreateNewAddressLink actions={{ click: newAddressClickHandler }} />
-      <ORBox />
-      <BillingSameAsShippingCheckbox />
-      {isCartAddressValid(cartShippingAddress) && <ORBox />}
+      <CreateNewAddressLink addOR actions={{ click: newAddressClickHandler }} />
+      <BillingSameAsShippingCheckbox addOR />
       <BillingAddressCardList />
     </div>
   );

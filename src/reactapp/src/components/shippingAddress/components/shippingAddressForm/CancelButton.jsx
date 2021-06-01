@@ -3,13 +3,14 @@ import React, { useCallback } from 'react';
 import Button from '../../../common/Button';
 import useShippingAddressWrapper from '../../hooks/useShippingAddressWrapper';
 import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
-import useShippingAddressAppContext from '../../hooks/useShippingAddressAppContext';
+import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
 import LocalStorage from '../../../../utils/localStorage';
 import { __ } from '../../../../i18n';
+import { isCartAddressValid } from '../../../../utils/address';
 
 function CancelButton() {
+  const { cartShippingAddress } = useShippingAddressCartContext();
   const { setShippingAddressFormFields } = useShippingAddressFormikContext();
-  const { isLoggedIn } = useShippingAddressAppContext();
   const {
     setToViewMode,
     backupAddress,
@@ -27,7 +28,7 @@ function CancelButton() {
     setCustomerAddressSelected,
   ]);
 
-  if (!isLoggedIn) {
+  if (!isCartAddressValid(cartShippingAddress)) {
     return <></>;
   }
 

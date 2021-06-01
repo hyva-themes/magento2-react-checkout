@@ -18,6 +18,6 @@ export function setSuccessMessageAction(dispatch, message) {
   setMessageAction(dispatch, { type: 'success', message });
 }
 
-export function setErrroMessageAction(dispatch, message) {
+export function setErrorMessageAction(dispatch, message) {
   setMessageAction(dispatch, { type: 'error', message });
 }

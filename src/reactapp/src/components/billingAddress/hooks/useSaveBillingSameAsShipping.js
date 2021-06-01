@@ -50,7 +50,10 @@ export default function useSaveBillingSameAsShipping() {
         await setCartBillingAddress({ ...cartShippingAddress });
         setFieldValue(
           BILLING_ADDR_FORM,
-          prepareFormAddressFromCartAddress(cartShippingAddress)
+          prepareFormAddressFromCartAddress({
+            ...cartShippingAddress,
+            isSameAsShipping: true,
+          })
         );
         setCustomerAddressSelected(false);
         setSuccessMessage(successMessage);
