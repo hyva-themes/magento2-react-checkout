@@ -52,9 +52,7 @@
     ]
   },
   "config": {
-    "paymentMethodsRepo": {
-      "payone": "-b payone-creditcard-pc git@github.com:hyva-themes/magento2-hyva-checkout-payone.git"
-    }
+    "paymentMethodsRepo": "Add your payment methods here"
   },
   "eslintConfig": {
     "extends": "react-app"
