@@ -1,5 +1,5 @@
 import {
-  setErrroMessageAction,
+  setErrorMessageAction,
   setMessageAction,
   setPageLoaderAction,
   setSuccessMessageAction,
@@ -24,7 +24,7 @@ const dispatchMapper = {
   signInCustomer: sigInCustomerAction,
   ajaxLogin: ajaxLoginAction,
   setSuccessMessage: setSuccessMessageAction,
-  setErrorMessage: setErrroMessageAction,
+  setErrorMessage: setErrorMessageAction,
   setMessage: setMessageAction,
   getCustomerInfo: getCustomerInfoAction,
   getCustomerAddressList: getCustomerAddressListAction,

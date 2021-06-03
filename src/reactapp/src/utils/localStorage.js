@@ -168,6 +168,21 @@ const LocalStorage = {
     window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 
+  saveCustomerAddressInfo(addressId, isBillingSame) {
+    LocalStorage.saveBillingSameAsShipping(isBillingSame);
+    LocalStorage.saveCustomerBillingAddressId(addressId);
+
+    if (isBillingSame) {
+      LocalStorage.saveCustomerBillingAddressId(addressId);
+    } else {
+      const selectedShippingAddrId = LocalStorage.getCustomerShippingAddressId();
+
+      if (selectedShippingAddrId === addressId) {
+        LocalStorage.saveBillingSameAsShipping(true);
+      }
+    }
+  },
+
   clearCheckoutStorage() {
     if (!LocalStorage.isBrowser()) {
       return;
@@ -175,6 +190,7 @@ const LocalStorage = {
 
     const hyvaStorageKey = _get(config, 'hyvaStorageSource.storageKey');
     window.localStorage.setItem(hyvaStorageKey, '{}');
+    LocalStorage.saveCartId('');
   },
 };
 

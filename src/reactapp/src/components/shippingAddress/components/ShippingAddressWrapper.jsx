@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import _get from 'lodash.get';
+import { node } from 'prop-types';
 import { useFormikContext } from 'formik';
 
 import ShippingAddressWrapperContext from '../context/ShippingAddressWrapperContext';
@@ -7,13 +8,11 @@ import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext'
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 import useToggler from '../hooks/useToggler';
-import {
-  CART_SHIPPING_ADDRESS,
-  customerHasAddress,
-  isCartHoldingShippingAddress,
-} from '../utility';
+import { CART_SHIPPING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
+import { isCartAddressValid } from '../../../utils/address';
+import { customerHasAddress } from '../../../utils/customer';
 
 function ShippingAddressWrapper({ children }) {
   const addressIdInCache = _toString(
@@ -30,26 +29,31 @@ function ShippingAddressWrapper({ children }) {
   );
   const [editMode, setToEditMode, setToViewMode] = useToggler(true);
   const { values } = useFormikContext();
-  const { cartInfo } = useShippingAddressCartContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
   const { stateList, customerAddressList } = useShippingAddressAppContext();
   const { fields } = useShippingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
+  const isCartShippingAddrValid = isCartAddressValid(cartShippingAddress);
 
   // when user sign-in, if the cart has shipping address, then we need to
   // turn off edit mode of the address section
   useEffect(() => {
     if (
       !forceViewMode &&
-      (isCartHoldingShippingAddress(cartInfo) ||
-        customerHasAddress(customerAddressList))
+      (isCartShippingAddrValid || customerHasAddress(customerAddressList))
     ) {
       // this needs to be executed once. to make sure that we are using
       // forceViewMode state
       setToViewMode();
       setForceViewMode(true);
     }
-  }, [cartInfo, customerAddressList, setToViewMode, forceViewMode]);
+  }, [
+    isCartShippingAddrValid,
+    customerAddressList,
+    setToViewMode,
+    forceViewMode,
+  ]);
 
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate
@@ -94,5 +98,9 @@ function ShippingAddressWrapper({ children }) {
     </ShippingAddressWrapperContext.Provider>
   );
 }
+
+ShippingAddressWrapper.propTypes = {
+  children: node.isRequired,
+};
 
 export default ShippingAddressWrapper;

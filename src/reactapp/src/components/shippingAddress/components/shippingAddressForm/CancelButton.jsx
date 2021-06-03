@@ -1,18 +1,15 @@
 import React, { useCallback } from 'react';
-import { useFormikContext } from 'formik';
 
 import Button from '../../../common/Button';
 import useShippingAddressWrapper from '../../hooks/useShippingAddressWrapper';
-import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
-import { formHasShippingAddress } from '../../utility';
-import { isCartHoldingAddressInfo } from '../../../../utils/address';
+import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
 import LocalStorage from '../../../../utils/localStorage';
 import { __ } from '../../../../i18n';
+import { isCartAddressValid } from '../../../../utils/address';
 
 function CancelButton() {
-  const { values } = useFormikContext();
-  const { cartInfo } = useShippingAddressCartContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
   const { setShippingAddressFormFields } = useShippingAddressFormikContext();
   const {
     setToViewMode,
@@ -31,7 +28,7 @@ function CancelButton() {
     setCustomerAddressSelected,
   ]);
 
-  if (!formHasShippingAddress(values) && !isCartHoldingAddressInfo(cartInfo)) {
+  if (!isCartAddressValid(cartShippingAddress)) {
     return <></>;
   }
 

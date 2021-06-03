@@ -2,18 +2,10 @@ import LocalStorage from '../../../utils/localStorage';
 import { SET_CART_INFO } from './types';
 import {
   createEmptyCartRequest,
-  fetchCustomerAddressListRequest,
   fetchCustomerCartRequest,
   fetchGuestCartRequest,
   mergeCartsRequest,
 } from '../../../api';
-import { _emptyFunc, _makePromise } from '../../../utils';
-import { setCustomerAddrAsShippingAddrAction } from '../shippingAddress/actions';
-import { setCustomerAddrAsBillingAddrAction } from '../billingAddress/actions';
-import {
-  isCartHoldingBillingAddress,
-  isCartHoldingShippingAddress,
-} from '../../../utils/address';
 
 export async function setCartInfoAction(dispatch, cartInfo) {
   dispatch({
@@ -29,7 +21,7 @@ export async function getGuestCartInfoAction(dispatch) {
     return cartInfo;
   } catch (error) {
     // @todo show error message
-    console.error(error)
+    console.error(error);
   }
 
   return {};
@@ -41,7 +33,7 @@ export async function getCustomerCartIdAction() {
     return customerCartId;
   } catch (error) {
     // @todo show error message
-    console.log({ error });
+    console.error(error);
   }
 
   return null;
@@ -106,62 +98,4 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
   }
 
   return {};
-}
-
-export async function setCustomerDefaultAddressToCartAction(
-  dispatch,
-  cartInfo
-) {
-  try {
-    let customerShippingAddressId;
-    let customerBillingAddressId;
-    let customerAddressInfo;
-    let shippingAddrPromise = _emptyFunc();
-    let billingAddrPromise = _emptyFunc();
-
-    // if empty, that indicates there is no shipping address for the cart
-    if (!isCartHoldingShippingAddress(cartInfo)) {
-      customerAddressInfo = await fetchCustomerAddressListRequest();
-      const { defaultShippingAddress } = customerAddressInfo;
-
-      if (defaultShippingAddress) {
-        customerShippingAddressId = defaultShippingAddress;
-        shippingAddrPromise = _makePromise(
-          setCustomerAddrAsShippingAddrAction,
-          dispatch,
-          defaultShippingAddress
-        );
-      }
-    }
-
-    if (!isCartHoldingBillingAddress(cartInfo)) {
-      if (!customerAddressInfo) {
-        customerAddressInfo = await fetchCustomerAddressListRequest();
-      }
-
-      const { defaultBillingAddress } = customerAddressInfo;
-
-      if (defaultBillingAddress) {
-        customerBillingAddressId = defaultBillingAddress;
-        billingAddrPromise = _makePromise(
-          setCustomerAddrAsBillingAddrAction,
-          dispatch,
-          defaultBillingAddress
-        );
-      }
-    }
-
-    await Promise.all([shippingAddrPromise(), billingAddrPromise()]);
-
-    if (customerShippingAddressId) {
-      LocalStorage.saveCustomerShippingAddressId(customerShippingAddressId);
-    }
-
-    if (customerBillingAddressId) {
-      LocalStorage.saveCustomerBillingAddressId(customerBillingAddressId);
-    }
-  } catch (error) {
-    // @todo show error message
-    console.error(error);
-  }
 }

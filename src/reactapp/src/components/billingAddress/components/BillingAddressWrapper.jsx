@@ -7,47 +7,51 @@ import BillingAddressWrapperContext from '../context/BillingAddressWrapperContex
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import useToggler from '../hooks/useToggler';
-import {
-  CART_BILLING_ADDRESS,
-  customerHasAddress,
-  isCartHoldingBillingAddress,
-} from '../utility';
+import { CART_BILLING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
+import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
+import { isCartAddressValid } from '../../../utils/address';
+import { customerHasAddress } from '../../../utils/customer';
 
 function BillingAddressWrapper({ children }) {
-  const addressIdInCache = _toString(
-    LocalStorage.getCustomerBillingAddressId()
-  );
   const [forceViewMode, setForceViewMode] = useState(false);
   const [backupAddress, setBackupAddress] = useState(null);
   const [regionData, setRegionData] = useState({});
+  const addressIdInCache = _toString(
+    LocalStorage.getCustomerBillingAddressId()
+  );
   const [selectedAddress, setSelectedAddress] = useState(
     addressIdInCache || CART_BILLING_ADDRESS
   );
-  const [customerAddressSelected, setCustomerAddressSelected] = useState(
-    !!addressIdInCache
-  );
-  const [editMode, setToEditMode, setToViewMode] = useToggler(true);
   const { values } = useFormikContext();
-  const { cartInfo } = useBillingAddressCartContext();
+  const { cartBillingAddress } = useBillingAddressCartContext();
+  const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
   const { stateList, customerAddressList } = useBillingAddressAppContext();
   const {
     fields,
+    editMode,
+    setFormToEditMode: setToEditMode,
+    setFormToViewMode: setToViewMode,
     isBillingAddressSameAsShipping,
+    customerAddressSelected,
+    setCustomerAddressSelected,
   } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
+  const cartHasBillingAddress = isCartAddressValid(cartBillingAddress);
 
-  // when user sign-in, if the cart has shipping address, then we need to
+  useEffect(() => {
+    setSelectedAddress(addressIdInCache);
+  }, [addressIdInCache]);
+
+  // when user sign-in, if the cart has billing address, then we need to
   // turn off edit mode of the address section
   useEffect(() => {
     if (
       !forceViewMode &&
       !isBillingAddressSameAsShipping &&
-      (isCartHoldingBillingAddress(cartInfo) ||
-        customerHasAddress(customerAddressList))
+      (cartHasBillingAddress || customerHasAddress(customerAddressList))
     ) {
       // this needs to be executed once. to make sure that we are using
       // forceViewMode state
@@ -55,7 +59,7 @@ function BillingAddressWrapper({ children }) {
       setForceViewMode(true);
     }
   }, [
-    cartInfo,
+    cartHasBillingAddress,
     customerAddressList,
     setToViewMode,
     forceViewMode,
@@ -90,6 +94,7 @@ function BillingAddressWrapper({ children }) {
     setBackupAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
+    makeBillingSameAsShippingRequest,
   };
 
   return (

@@ -48,9 +48,12 @@ const magentoDataSources = {
   },
 };
 
+const nodeEnv = process.env.NODE_ENV;
 const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSources.m2BrowserPersistence` for PWA;
 
 export const config = {
+  isDevelopmentMode: nodeEnv === 'development',
+  isProductionMode: nodeEnv === 'production',
   storageSource: activeSource,
   hyvaStorageSource: magentoDataSources.hyvaCheckoutCacheStorage,
   cartId: getConfigFromLocalStorage(activeSource.cartId),
@@ -66,7 +69,9 @@ export const config = {
   },
 };
 
-export const GUEST_EMAIL_FORM = 'email';
+config.successPageRedirectUrl = `${config.baseUrl}/checkout/onepage/success`;
+
+export const LOGIN_FORM = 'login';
 export const BILLING_ADDR_FORM = 'billing_address';
 export const SHIPPING_ADDR_FORM = 'shipping_address';
 export const CART_ITEMS_FORM = 'items';

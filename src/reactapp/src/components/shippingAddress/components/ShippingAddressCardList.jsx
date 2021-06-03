@@ -52,6 +52,7 @@ function ShippingAddressCardList() {
       {addressList.map(address => (
         <AddressCard
           key={address.id}
+          inputName="shippingAddressChooser"
           address={address}
           isSelected={selectedAddress === address.id}
           actions={{ performAddressSwitching, performAddressEdit }}

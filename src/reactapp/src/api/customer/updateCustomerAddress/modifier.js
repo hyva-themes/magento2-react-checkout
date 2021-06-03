@@ -1,5 +1,5 @@
 import _get from 'lodash.get';
-import { prepareFullName } from '../utility';
+import { prepareFullName } from '../../../utils/customer';
 
 export default function updateCustomerAddressModifier(result) {
   const address = _get(result, 'data.updateCustomerAddress', {});

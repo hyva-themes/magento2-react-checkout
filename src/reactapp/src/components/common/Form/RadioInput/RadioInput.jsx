@@ -25,11 +25,10 @@ function RadioInput({
         id={inputId}
         name={name}
         checked={checked}
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
         {...field}
         {...rest}
       />
-      <label htmlFor={inputId} className="pl-2">
+      <label htmlFor={inputId} className="inline-block pl-2">
         {label}
       </label>
 

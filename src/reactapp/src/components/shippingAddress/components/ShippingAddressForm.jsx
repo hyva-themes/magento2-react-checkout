@@ -12,11 +12,7 @@ import { __ } from '../../../i18n';
 
 function ShippingAddressForm() {
   const { viewMode } = useShippingAddressWrapper();
-  const {
-    fields,
-    handleFocus,
-    isFormValid,
-  } = useShippingAddressFormikContext();
+  const { fields, isFormValid } = useShippingAddressFormikContext();
   const saveAddress = useSaveAddressAction();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
@@ -34,42 +30,36 @@ function ShippingAddressForm() {
           name={fields.company}
           placeholder={__('Company')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('First name')}
           name={fields.firstname}
           placeholder={__('First name')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Last name')}
           name={fields.lastname}
           placeholder={__('Last name')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Street')}
           name={`${fields.street}[0]`}
           placeholder={__('Street')}
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Postal Code')}
           name={fields.zipcode}
           placeholder="12345"
           required
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('City')}
           name={fields.city}
           placeholder={__('City')}
           required
-          onFocus={handleFocus}
         />
         {hasStateOptions ? (
           <SelectInput
@@ -77,7 +67,6 @@ function ShippingAddressForm() {
             name={fields.region}
             required
             options={stateOptions}
-            onFocus={handleFocus}
           />
         ) : (
           <TextInput
@@ -85,7 +74,6 @@ function ShippingAddressForm() {
             name={fields.region}
             placeholder={__('State')}
             required
-            onFocus={handleFocus}
           />
         )}
         <SelectInput
@@ -93,14 +81,12 @@ function ShippingAddressForm() {
           name={fields.country}
           required
           options={countryOptions}
-          onFocus={handleFocus}
         />
         <TextInput
           label={__('Phone')}
           name={fields.phone}
           placeholder="+32 000 000 000"
           required
-          onFocus={handleFocus}
         />
       </div>
 
