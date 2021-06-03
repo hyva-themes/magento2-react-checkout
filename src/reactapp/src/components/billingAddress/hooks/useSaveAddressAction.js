@@ -1,14 +1,16 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
 
-import { _emptyFunc, _makePromise } from '../../../utils';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { CART_BILLING_ADDRESS } from '../utility';
 import useBillingAddressWrapper from './useBillingAddressWrapper';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
-import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
+import { _emptyFunc, _makePromise } from '../../../utils';
+import { BILLING_ADDR_FORM } from '../../../config';
+import { CART_BILLING_ADDRESS } from '../utility';
 import { __ } from '../../../i18n';
+import LocalStorage from '../../../utils/localStorage';
+
+const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 export default function useSaveAddressAction() {
   const { submitHandler } = useBillingAddressFormikContext();
@@ -29,13 +31,11 @@ export default function useSaveAddressAction() {
     setCustomerAddressSelected,
   } = useBillingAddressWrapper();
 
-  const isSameAsBillingField = `${BILLING_ADDR_FORM}.isSameAsBilling`;
-
   return useCallback(
     async formikValues => {
       try {
         let customerAddressUsed = false;
-        const isBillingSame = _get(formikValues, isSameAsBillingField);
+        const isBillingSame = _get(formikValues, isSameAsShippingField);
         let updateCustomerAddrPromise = _emptyFunc();
         const updateCartAddressPromise = _makePromise(
           submitHandler,
@@ -47,15 +47,15 @@ export default function useSaveAddressAction() {
           updateCustomerAddrPromise = _makePromise(
             updateCustomerAddress,
             selectedAddress,
-            _get(formikValues, SHIPPING_ADDR_FORM, {}),
+            _get(formikValues, BILLING_ADDR_FORM, {}),
             regionData
           );
         }
 
         if (customerAddressUsed) {
-          saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
+          LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
         } else {
-          saveCustomerAddressToLocalStorage('', isBillingSame);
+          LocalStorage.saveCustomerAddressInfo('', isBillingSame);
           setSelectedAddress(CART_BILLING_ADDRESS);
           setCustomerAddressSelected(false);
         }
@@ -75,7 +75,6 @@ export default function useSaveAddressAction() {
       }
     },
     [
-      isSameAsBillingField,
       submitHandler,
       isLoggedIn,
       selectedAddress,

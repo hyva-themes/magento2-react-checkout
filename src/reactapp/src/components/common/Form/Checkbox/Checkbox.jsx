@@ -25,11 +25,10 @@ function Checkbox({
         id={inputId}
         name={name}
         checked={isChecked}
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
         {...field}
         {...rest}
       />
-      <label htmlFor={inputId} className="pl-2">
+      <label htmlFor={inputId} className="inline pl-2">
         {label}
       </label>
 

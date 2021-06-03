@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import _get from 'lodash.get';
 import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
@@ -91,11 +92,14 @@ function CheckoutFormProvider({ children }) {
         selectedShippingMethod,
         selectedPaymentMethod
       );
+      LocalStorage.clearCheckoutStorage();
 
-      if (order && order.redirectUrl) {
-        LocalStorage.clearCheckoutStorage();
-        window.location.replace(`${config.baseUrl}${order.redirectUrl}`);
+      const orderNumber = _get(order, 'order_number');
+
+      if (orderNumber && config.isProductionMode) {
+        window.location.replace(config.successPageRedirectUrl);
       }
+      setPageLoader(false);
     } catch (error) {
       setPageLoader(false);
     }

@@ -4,6 +4,7 @@ import React from 'react';
 import _get from 'lodash.get';
 import { ErrorMessage, Field, useField } from 'formik';
 import { arrayOf, bool, shape, string } from 'prop-types';
+import { __ } from '../../../../i18n';
 
 export function SelectInput({
   id,
@@ -18,7 +19,6 @@ export function SelectInput({
   const inputId = id || name;
   const [, meta] = useField(name) || [];
   const hasError = !!_get(meta, 'error', false);
-  const hasTouched = !!_get(meta, 'touched', false);
 
   return (
     <div className="mt-2 form-control">
@@ -29,7 +29,6 @@ export function SelectInput({
         </label>
         <div
           id={`${inputId}-feedback`}
-          aria-live="polite"
           className={`feedback text-sm md:text-xs text-right ${
             hasError ? 'text-red-500' : 'text-green-500'
           }`}
@@ -37,7 +36,6 @@ export function SelectInput({
           <ErrorMessage name={name}>
             {msg => msg.replace('%1', label)}
           </ErrorMessage>
-          {!hasError && hasTouched && '✓'}
         </div>
       </div>
       <Field
@@ -47,9 +45,8 @@ export function SelectInput({
         id={inputId}
         placeholder={placeholder}
         className="w-full p-2 border form-select bg-container border-container xs:block"
-        aria-describedby={`${inputId}-feedback ${inputId}-help`}
       >
-        <option value="">-- Please Select --</option>
+        <option value="">{__('-- Please Select --')}</option>
         {options.map(option => (
           <option key={option.value} value={option.value}>
             {option.label}

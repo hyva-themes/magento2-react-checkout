@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import _get from 'lodash.get';
 
 import useAppContext from '../../../hook/useAppContext';
+import { _emptyFunc } from '../../../utils';
 
 function Message() {
   const [{ message }, { setMessage }] = useAppContext();
@@ -10,12 +11,16 @@ function Message() {
 
   // auto-disappear message after some time.
   useEffect(() => {
+    if (!message) {
+      return _emptyFunc();
+    }
+
     const timer = setTimeout(() => {
       setMessage(false);
-    }, 5000);
+    }, 4000);
 
     return () => clearTimeout(timer);
-  }, [setMessage]);
+  }, [message, setMessage]);
 
   if (!message) {
     return <></>;

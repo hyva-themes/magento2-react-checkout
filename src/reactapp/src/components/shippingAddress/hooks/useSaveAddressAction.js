@@ -4,11 +4,11 @@ import _get from 'lodash.get';
 import useShippingAddressWrapper from './useShippingAddressWrapper';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import useShippingAddressFormikContext from './useShippingAddressFormikContext';
-import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { __ } from '../../../i18n';
+import LocalStorage from '../../../utils/localStorage';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -53,9 +53,9 @@ export default function useSaveAddressAction() {
         }
 
         if (customerAddressUsed) {
-          saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
+          LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
         } else {
-          saveCustomerAddressToLocalStorage('', isBillingSame);
+          LocalStorage.saveCustomerAddressInfo('', isBillingSame);
           setSelectedAddress(CART_SHIPPING_ADDRESS);
           setCustomerAddressSelected(false);
         }
