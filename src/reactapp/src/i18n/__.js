@@ -1,11 +1,29 @@
 /* eslint-disable no-underscore-dangle */
-import fetchTranslation from './fetchTranslation';
+import fetchAppTranslation from './fetchTranslation';
+import fetchPaymentMethodsTranslations from '../paymentMethods/i18nProvider';
 
 let i18n;
 
-// self invoking function that populates the translation string object
+/**
+ * Preparing the translations
+ *
+ * There are app translations which you can find inside public/i18n directory.
+ * Also, there will be translations available from the custom payment methods.
+ * Both translations are fetching and merging them here.
+ */
 (async () => {
-  i18n = await fetchTranslation();
+  const appTranslations = () => fetchAppTranslation();
+  const paymentMethodsTranslations = () => fetchPaymentMethodsTranslations();
+
+  const translationCollection = await Promise.all([
+    appTranslations(),
+    paymentMethodsTranslations(),
+  ]);
+
+  i18n = translationCollection.reduce(
+    (translations, item) => ({ ...translations, ...item }),
+    {}
+  );
 })();
 
 /**

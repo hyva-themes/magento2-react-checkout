@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import { paymentFetcher } from './utility';
 
 /**
  * Preparing custom renderers from the available payment methods configured
@@ -11,37 +11,12 @@ import _get from 'lodash.get';
  * it into the PaymentMethods component.
  */
 export default async function getCustomRenderers() {
-  // collecting payment methods from paymentConfig.json
-  const config = await import('./paymentConfig.json');
-  const customPaymentMethods = _get(
-    config,
-    'default.availablePaymentMethods',
+  const paymentMethodRenderers = await paymentFetcher.fetchDataFromPaymentMethods(
+    'renderers.js',
     []
   );
 
-  if (!customPaymentMethods || !customPaymentMethods.length) {
-    return {};
-  }
-
-  /**
-   * Dynamically loading the renderers.js from the available payment methods.
-   *
-   * Since we are doing dynamic imports, it will generate chunks for each dynamic
-   * import.
-   */
-  const rendererCollection = await Promise.all(
-    customPaymentMethods.map(async paymentMethod => {
-      const paymentRenderersJsFile = `./${paymentMethod}/renderers.js`;
-      const data = await import(
-        /* webpackMode: "eager" */
-        paymentRenderersJsFile
-      );
-      return _get(data, 'default');
-    })
-  );
-
-  // preparing the renderers from all available payment methods.
-  return rendererCollection.reduce(
+  return paymentMethodRenderers.reduce(
     (renderers, item) => ({ ...renderers, ...item }),
     {}
   );
