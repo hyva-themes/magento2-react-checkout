@@ -29,7 +29,7 @@ function PulseBox({ repeat }) {
 
 function Loader() {
   return (
-    <div className="flex flex-col max-h-screen mx-12 my-6 overflow-hidden md:flex-row">
+    <div className="flex flex-col max-h-screen mx-2 my-6 overflow-hidden md:mx-12 md:flex-row">
       <div className="md:w-1/4">
         <div className="mr-1 space-y-2">
           <PulseBox repeat={1} />

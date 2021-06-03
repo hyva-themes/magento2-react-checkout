@@ -3,13 +3,14 @@ import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
 
-import CartItemsFormContext from '../context/CartItemsFormContext';
-import useFormSection from '../../../hook/useFormSection';
-import useItemsAppContext from '../hooks/useItemsAppContext';
-import useItemsCartContext from '../hooks/useItemsCartContext';
-import { _objToArray } from '../../../utils';
-import { CART_ITEMS_FORM } from '../../../config';
-import { __ } from '../../../i18n';
+import CartItemsFormContext from '../../context/CartItemsFormContext';
+import useFormSection from '../../../../hook/useFormSection';
+import useItemsAppContext from '../../hooks/useItemsAppContext';
+import useItemsCartContext from '../../hooks/useItemsCartContext';
+import { _objToArray } from '../../../../utils';
+import { CART_ITEMS_FORM } from '../../../../config';
+import { __ } from '../../../../i18n';
+import { prepareCartItemsUniqueId } from './utility';
 
 const initialValues = {};
 
@@ -18,7 +19,7 @@ const validationSchema = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children }) {
-  const [populateForm, setPopulateForm] = useState(true);
+  const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const { values, setFieldValue } = useFormikContext();
   const {
     setPageLoader,
@@ -33,6 +34,8 @@ function CartItemsFormManager({ children }) {
 
   const cartItemsArr = _objToArray(cartItems);
   const cartItemsValue = _get(values, 'items');
+  const cartItemIds = prepareCartItemsUniqueId(cartItemsArr);
+  const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
     try {
@@ -45,14 +48,14 @@ function CartItemsFormManager({ children }) {
         setPageLoader(false);
       }
     } catch (error) {
-      console.log({ error });
+      console.error(error);
       setErrorMessage(__('Something went wrong while updating the cart item.'));
       setPageLoader(false);
     }
   };
 
   useEffect(() => {
-    if (populateForm && cartItemsAvailable) {
+    if (needToPopulateForm && cartItemsAvailable) {
       const cartItemFormData = cartItemsArr.reduce((formData, item) => {
         const cartItemId = parseInt(item.id, 10);
         // eslint-disable-next-line no-param-reassign
@@ -62,10 +65,16 @@ function CartItemsFormManager({ children }) {
         };
         return formData;
       }, {});
-      setPopulateForm(false);
+      setItemsUniqueId(cartItemIds);
       setFieldValue(CART_ITEMS_FORM, cartItemFormData);
     }
-  }, [cartItemsArr, cartItemsAvailable, populateForm, setFieldValue]);
+  }, [
+    cartItemsArr,
+    cartItemIds,
+    cartItemsAvailable,
+    needToPopulateForm,
+    setFieldValue,
+  ]);
 
   const context = useFormSection({
     id: CART_ITEMS_FORM,

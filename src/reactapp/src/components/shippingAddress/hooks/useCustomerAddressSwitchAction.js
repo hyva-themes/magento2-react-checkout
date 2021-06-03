@@ -5,12 +5,10 @@ import { _emptyFunc, _makePromise } from '../../../utils';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import useShippingAddressFormikContext from './useShippingAddressFormikContext';
 import useShippingAddressWrapper from './useShippingAddressWrapper';
-import {
-  CART_SHIPPING_ADDRESS,
-  saveCustomerAddressToLocalStorage,
-} from '../utility';
+import { CART_SHIPPING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
 import { __ } from '../../../i18n';
+import LocalStorage from '../../../utils/localStorage';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -54,7 +52,7 @@ export default function useCustomerAddressSwitchAction() {
         // keep this always performing the update operation; otherwise
         // memory leakage happens and you wont see the radio button switching
         // in frontend
-        saveCustomerAddressToLocalStorage(addressId, isBillingSame);
+        LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame);
         await Promise.all([updateAddressPromise()]);
         setSuccessMessage(__('Shipping address updated successfully'));
       } catch (error) {

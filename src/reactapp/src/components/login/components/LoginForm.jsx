@@ -14,7 +14,6 @@ function LoginForm() {
     isFormValid,
     editMode,
     fields,
-    handleFocus,
     submitHandler,
   } = useLoginFormContext();
   const { values, setFieldValue } = useFormikContext();
@@ -34,11 +33,11 @@ function LoginForm() {
     <>
       <div className="py-2">
         <TextInput
+          type="email"
           label={__('E-mail')}
           name={fields.email}
           placeholder="john.doe@gmail.com"
           required
-          onFocus={handleFocus}
         />
 
         {!customerWantsToSignin && (
@@ -59,6 +58,7 @@ function LoginForm() {
               type="password"
               name={fields.password}
               placeholder={__('Password')}
+              autoComplete="on"
               required
             />
           </div>

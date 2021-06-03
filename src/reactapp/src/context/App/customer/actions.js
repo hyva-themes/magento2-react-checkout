@@ -10,7 +10,7 @@ import {
 import { _cleanObjByKeys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import {
-  setErrroMessageAction,
+  setErrorMessageAction,
   setSuccessMessageAction,
 } from '../page/actions';
 import {
@@ -37,7 +37,7 @@ export async function sigInCustomerAction(dispatch, userCredentials) {
     return true;
   } catch (error) {
     console.log('sigInCustomerAction', { error });
-    setErrroMessageAction(
+    setErrorMessageAction(
       dispatch,
       _get(error, 'message') ||
         'Something went wrong with sign-in. Please try later'
@@ -130,6 +130,7 @@ export async function updateCustomerAddressAction(
       'phone',
       'selectedAddress',
       'zipcode',
+      'fullName',
     ];
 
     const customerAddressInfo = await updateCustomerAddressRequest(
