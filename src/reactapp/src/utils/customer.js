@@ -2,7 +2,7 @@ import _get from 'lodash.get';
 import { _keys } from '.';
 
 export function capitalize(str) {
-  if (typeof str !== 'string') {
+  if (typeof str !== 'string' || !str) {
     return '';
   }
 
