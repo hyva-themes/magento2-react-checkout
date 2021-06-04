@@ -14,13 +14,15 @@ async function installRepo(directory, repoUri) {
 
 function collectPaymentMethodReposFromEnv() {
   const { env } = process;
-  const paymentRepoConfigPrefix = 'npm_package_config_paymentMethodsRepo';
+  const paymentRepoConfigPrefix = 'npm_package_config_paymentMethodsRepo_';
   const paymentRepos = {};
 
   Object.keys(env).forEach(envProp => {
     if (envProp.startsWith(paymentRepoConfigPrefix)) {
-      paymentRepos[envProp.replace(`${paymentRepoConfigPrefix}_`, '')] =
-        env[envProp];
+      const paymentCode = envProp.replace(paymentRepoConfigPrefix, '');
+      if (paymentCode) {
+        paymentRepos[paymentCode] = env[envProp];
+      }
     }
   });
 
