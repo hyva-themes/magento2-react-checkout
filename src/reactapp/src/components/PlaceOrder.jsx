@@ -9,15 +9,15 @@ function PlaceOrder() {
   const [isValid, setIsValid] = useState(false);
   const { values } = useFormikContext();
   const {
-    checkoutFormValidationShema,
+    checkoutFormValidationSchema,
     submitHandler,
   } = useCheckoutFormContext();
 
   useEffect(() => {
-    checkoutFormValidationShema.isValid(values).then(valid => {
+    checkoutFormValidationSchema.isValid(values).then(valid => {
       setIsValid(valid);
     });
-  }, [values, checkoutFormValidationShema]);
+  }, [values, checkoutFormValidationSchema]);
 
   return (
     <div className="flex items-center justify-center h-24">

@@ -92,12 +92,16 @@ function CheckoutFormProvider({ children }) {
         selectedShippingMethod,
         selectedPaymentMethod
       );
-      LocalStorage.clearCheckoutStorage();
 
       const orderNumber = _get(order, 'order_number');
 
       if (orderNumber && config.isProductionMode) {
+        LocalStorage.clearCheckoutStorage();
         window.location.replace(config.successPageRedirectUrl);
+      }
+
+      if (config.isDevelopmentMode) {
+        LocalStorage.clearCheckoutStorage();
       }
       setPageLoader(false);
     } catch (error) {
@@ -147,7 +151,7 @@ function CheckoutFormProvider({ children }) {
     <CheckoutFormContext.Provider
       value={{
         ...context,
-        checkoutFormValidationShema: formValidationSchema,
+        checkoutFormValidationSchema: formValidationSchema,
         submitHandler: formSubmit,
         registerPaymentAction,
       }}

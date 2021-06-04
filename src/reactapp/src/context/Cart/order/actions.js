@@ -1,4 +1,5 @@
 import _get from 'lodash.get';
+
 import { placeOrderRequest } from '../../../api';
 import { PAYMENT_METHOD_FORM, SHIPPING_METHOD } from '../../../config';
 import { setPaymentMethodAction } from '../paymentMethod/actions';
@@ -25,7 +26,7 @@ async function verifyPaymentMethod(dispatch, values, selectedPaymentMethod) {
     const paymentMethod = _get(values, PAYMENT_METHOD_FORM);
 
     if (!paymentMethod.code) {
-      throw new Error('Pyament method not available');
+      throw new Error('Payment method not available');
     }
 
     await setPaymentMethodAction(dispatch, paymentMethod);
@@ -65,6 +66,7 @@ export async function placeOrderAction(
     /**
      * error message needs to be implemented
      */
+    console.error(error);
   }
 
   return {};
