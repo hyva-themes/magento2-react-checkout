@@ -100,7 +100,7 @@ function CheckoutFormProvider({ children }) {
         window.location.replace(config.successPageRedirectUrl);
       }
 
-      if (config.isDevelopmentMode) {
+      if (orderNumber && config.isDevelopmentMode) {
         LocalStorage.clearCheckoutStorage();
       }
       setPageLoader(false);

@@ -15,6 +15,7 @@ import {
   MY_CART_NEW_ADDRESS,
   billingAddressFormInitValues,
   prepareFormAddressFromAddressListById,
+  prepareFormAddressFromCartAddress,
 } from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
@@ -146,6 +147,7 @@ function BillingAddressFormManager({ children }) {
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
+        isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
       });
     },
     [setFieldValue]
@@ -194,7 +196,7 @@ function BillingAddressFormManager({ children }) {
       ) {
         canPopulate = true;
         setFieldValue(BILLING_ADDR_FORM, {
-          ...cartBillingAddress,
+          ...prepareFormAddressFromCartAddress(cartBillingAddress),
           isSameAsShipping,
         });
       } else if (
@@ -274,6 +276,8 @@ function BillingAddressFormManager({ children }) {
       },
     };
   }, [isLoggedIn, cartBillingAddress, customerAddressList]);
+
+  console.log({ editMode, isSame })
 
   const context = {
     ...formContext,
