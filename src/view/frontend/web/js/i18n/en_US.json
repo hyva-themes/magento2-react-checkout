@@ -19,10 +19,10 @@
   "Email is invalid":"Email is invalid",
   "Email is required":"Email is required",
   "Email is successfully attached to your cart.":"Email is successfully attached to your cart.",
-  "First name":"Firstname",
+  "First name":"First name",
   "I will sign-in and checkout":"I will sign-in and checkout",
   "Item":"Item",
-  "Last name":"Lastname",
+  "Last name":"Last name",
   "My billing & shipping address are same":"My billing & shipping address are same",
   "No cart items available":"No cart items available",
   "No payment methods available at the moment":"No payment methods available at the moment",
@@ -65,5 +65,7 @@
   "-- Please Select --": "-- Please Select --",
   "Use different address": "Use different address",
   "Billing address made same as shipping address": "Billing address made same as shipping address",
-  "Billing address update failed. Please try later": "Billing address update failed. Please try later"
+  "Billing address update failed. Please try later": "Billing address update failed. Please try later",
+  "Shipping method not available": "Shipping method not available",
+  "Payment method not available": "Payment method not available"
 }

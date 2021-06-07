@@ -12,13 +12,13 @@ import {
 } from './shippingAddress/reducers';
 import {
   SET_CART_SELECTED_SHIPPING_ADDRESS,
-  SET_CART_SHIPPING_ADDDRESSES,
+  SET_CART_SHIPPING_ADDRESSES,
 } from './shippingAddress/types';
 
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
   [SET_CART_INFO]: setCartInfo,
-  [SET_CART_SHIPPING_ADDDRESSES]: setCartShippingAddresses,
+  [SET_CART_SHIPPING_ADDRESSES]: setCartShippingAddresses,
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
   [SET_CART_SELECTED_SHIPPING_ADDRESS]: setCartSelectedShippingAddress,
   [SET_ORDER_INFO]: setOrderInfo,

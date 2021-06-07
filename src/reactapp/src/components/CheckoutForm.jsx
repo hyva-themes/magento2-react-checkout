@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import Message from './common/Message';
 import PageLoader from './common/Loader';
+import FormStep from './common/Form/FormStep';
 import Login from './login';
 import { AddressWrapper } from './address';
 import BillingAddress from './billingAddress';
@@ -14,10 +15,6 @@ import PlaceOrder from './PlaceOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
-
-function FormStep({ children, className }) {
-  return <div className={className}>{children}</div>;
-}
 
 function CheckoutForm() {
   const { orderId, getGuestCartInfo } = useCartContext();
