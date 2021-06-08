@@ -1,4 +1,6 @@
 import React from 'react';
+import _get from 'lodash.get';
+import { useFormikContext } from 'formik';
 
 import SelectInput from '../../common/Form/SelectInput';
 import TextInput from '../../common/Form/TextInput';
@@ -11,12 +13,14 @@ import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import { __ } from '../../../i18n';
 
 function ShippingAddressForm() {
+  const { values } = useFormikContext();
   const { viewMode } = useShippingAddressWrapper();
   const { fields, isFormValid } = useShippingAddressFormikContext();
   const saveAddress = useSaveAddressAction();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
   });
+  const selectedCountry = _get(values, fields.country);
 
   if (viewMode) {
     return <></>;
@@ -61,21 +65,22 @@ function ShippingAddressForm() {
           placeholder={__('City')}
           required
         />
-        {hasStateOptions ? (
-          <SelectInput
-            label={__('State')}
-            name={fields.region}
-            required
-            options={stateOptions}
-          />
-        ) : (
-          <TextInput
-            label={__('State')}
-            name={fields.region}
-            placeholder={__('State')}
-            required
-          />
-        )}
+        {selectedCountry &&
+          (hasStateOptions ? (
+            <SelectInput
+              label={__('State')}
+              name={fields.region}
+              required
+              options={stateOptions}
+            />
+          ) : (
+            <TextInput
+              label={__('State')}
+              name={fields.region}
+              placeholder={__('State')}
+              required
+            />
+          ))}
         <SelectInput
           label={__('Country')}
           name={fields.country}

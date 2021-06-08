@@ -1,4 +1,6 @@
 import React from 'react';
+import _get from 'lodash.get';
+import { useFormikContext } from 'formik';
 
 import { ORBox, SaveButton } from '../../address';
 import SelectInput from '../../common/Form/SelectInput';
@@ -12,6 +14,7 @@ import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikCont
 import { __ } from '../../../i18n';
 
 function BillingAddressForm() {
+  const { values } = useFormikContext();
   const { viewMode } = useBillingAddressWrapper();
   const {
     fields,
@@ -22,6 +25,7 @@ function BillingAddressForm() {
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
   });
+  const selectedCountry = _get(values, fields.country);
 
   if (viewMode) {
     return <></>;
@@ -73,21 +77,22 @@ function BillingAddressForm() {
           placeholder={__('City')}
           required
         />
-        {hasStateOptions ? (
-          <SelectInput
-            label={__('State')}
-            name={fields.region}
-            required
-            options={stateOptions}
-          />
-        ) : (
-          <TextInput
-            label={__('State')}
-            name={fields.region}
-            placeholder={__('State')}
-            required
-          />
-        )}
+        {selectedCountry &&
+          (hasStateOptions ? (
+            <SelectInput
+              label={__('State')}
+              name={fields.region}
+              required
+              options={stateOptions}
+            />
+          ) : (
+            <TextInput
+              label={__('State')}
+              name={fields.region}
+              placeholder={__('State')}
+              required
+            />
+          ))}
         <SelectInput
           label={__('Country')}
           name={fields.country}
