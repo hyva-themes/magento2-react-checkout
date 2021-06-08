@@ -67,6 +67,5 @@
   "Billing address made same as shipping address": "Billing address made same as shipping address",
   "Billing address update failed. Please try later": "Billing address update failed. Please try later",
   "Shipping method not available": "Shipping method not available",
-  "Payment method not available": "Payment method not available",
-  "Discount": "Discount"
+  "Payment method not available": "Payment method not available"
 }
