@@ -7,6 +7,7 @@ export function isCartAddressValid(address) {
 
 export function isValidCustomerAddressId(addressId) {
   // Number.isNaN should not use here. both functions works differently.
+  // eslint-disable-next-line no-restricted-globals
   return !isNaN(addressId);
 }
 

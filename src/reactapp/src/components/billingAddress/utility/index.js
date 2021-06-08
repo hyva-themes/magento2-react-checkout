@@ -22,7 +22,7 @@ export const billingAddressFormInitValues = {
   city: '',
   region: '',
   country: '',
-  isSameAsBilling: true,
+  isSameAsShipping: true,
 };
 
 export function prepareFormAddressFromCartAddress(address, selectedAddressId) {

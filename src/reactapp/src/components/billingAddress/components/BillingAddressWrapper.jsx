@@ -5,17 +5,13 @@ import { useFormikContext } from 'formik';
 
 import BillingAddressWrapperContext from '../context/BillingAddressWrapperContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
-import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import { CART_BILLING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
 import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
-import { isCartAddressValid } from '../../../utils/address';
-import { customerHasAddress } from '../../../utils/customer';
 
 function BillingAddressWrapper({ children }) {
-  const [forceViewMode, setForceViewMode] = useState(false);
   const [backupAddress, setBackupAddress] = useState(null);
   const [regionData, setRegionData] = useState({});
   const addressIdInCache = _toString(
@@ -25,46 +21,22 @@ function BillingAddressWrapper({ children }) {
     addressIdInCache || CART_BILLING_ADDRESS
   );
   const { values } = useFormikContext();
-  const { cartBillingAddress } = useBillingAddressCartContext();
   const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
-  const { stateList, customerAddressList } = useBillingAddressAppContext();
+  const { stateList } = useBillingAddressAppContext();
   const {
     fields,
     editMode,
     setFormToEditMode: setToEditMode,
     setFormToViewMode: setToViewMode,
-    isBillingAddressSameAsShipping,
     customerAddressSelected,
     setCustomerAddressSelected,
   } = useBillingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
-  const cartHasBillingAddress = isCartAddressValid(cartBillingAddress);
 
   useEffect(() => {
     setSelectedAddress(addressIdInCache);
   }, [addressIdInCache]);
-
-  // when user sign-in, if the cart has billing address, then we need to
-  // turn off edit mode of the address section
-  useEffect(() => {
-    if (
-      !forceViewMode &&
-      !isBillingAddressSameAsShipping &&
-      (cartHasBillingAddress || customerHasAddress(customerAddressList))
-    ) {
-      // this needs to be executed once. to make sure that we are using
-      // forceViewMode state
-      setToViewMode();
-      setForceViewMode(true);
-    }
-  }, [
-    cartHasBillingAddress,
-    customerAddressList,
-    setToViewMode,
-    forceViewMode,
-    isBillingAddressSameAsShipping,
-  ]);
 
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate

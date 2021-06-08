@@ -1,4 +1,6 @@
 import React from 'react';
+import { number } from 'prop-types';
+
 import Card from '../Card';
 
 function PulseBox({ repeat }) {
@@ -26,6 +28,10 @@ function PulseBox({ repeat }) {
     </Card>
   );
 }
+
+PulseBox.propTypes = {
+  repeat: number.isRequired,
+};
 
 function Loader() {
   return (
