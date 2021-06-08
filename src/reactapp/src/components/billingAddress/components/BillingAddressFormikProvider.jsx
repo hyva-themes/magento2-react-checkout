@@ -277,8 +277,6 @@ function BillingAddressFormManager({ children }) {
     };
   }, [isLoggedIn, cartBillingAddress, customerAddressList]);
 
-  console.log({ editMode, isSame })
-
   const context = {
     ...formContext,
     ...addressContext,

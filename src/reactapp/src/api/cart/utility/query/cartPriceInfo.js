@@ -8,6 +8,13 @@ prices {
     value
     currency
   }
+  discounts {
+    label
+    amount {
+      currency
+      value
+    }
+  }
 }
 `;
 

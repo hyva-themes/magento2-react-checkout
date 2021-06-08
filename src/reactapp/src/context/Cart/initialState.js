@@ -19,6 +19,9 @@ const initialState = {
     selected_payment_method: { code: '', title: '' },
     applied_coupons: null,
     prices: {
+      discount: '',
+      discountLabel: '',
+      discountAmount: 0,
       subTotal: '',
       subTotalAmount: 0,
       grandTotal: '',
