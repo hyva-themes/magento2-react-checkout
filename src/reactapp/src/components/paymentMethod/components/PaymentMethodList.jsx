@@ -10,17 +10,27 @@ import { _objToArray } from '../../../utils';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 
 function PaymentMethodList({ methodRenderers }) {
-  const { fields } = usePaymentMethodFormContext();
   const { values, setFieldValue, setFieldTouched } = useFormikContext();
+  const { fields, submitHandler } = usePaymentMethodFormContext();
   const { methodList } = usePaymentMethodCartContext();
   const selectedPaymentMethod = _get(values, PAYMENT_METHOD_FORM);
 
-  const handlePaymentMethodSelection = event => {
-    const methodSelected = _get(methodList, event.target.value);
+  const handlePaymentMethodSelection = async event => {
+    const methodSelected = _get(methodList, `${event.target.value}.code`);
 
-    if (methodSelected) {
-      setFieldValue(fields.code, methodSelected.code);
-      setFieldTouched(fields.code, true);
+    if (!methodSelected) {
+      return;
+    }
+
+    setFieldValue(fields.code, methodSelected);
+    setFieldTouched(fields.code, true);
+
+    // don't need to save payment method in case the method opted has a custom
+    // renderer. This is because custom payment renderers may have custom
+    // functionalities associated with them. So if in case they want to perform
+    // save payment operation upon selection, then they need to deal with it there.
+    if (!methodRenderers[methodSelected]) {
+      await submitHandler(methodSelected);
     }
   };
 

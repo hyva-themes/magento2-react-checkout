@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { node } from 'prop-types';
-import _get from 'lodash.get';
 import { string as YupString } from 'yup';
 import { Form, useFormikContext } from 'formik';
 
@@ -33,13 +32,11 @@ function PaymentMethodFormManager({ children }) {
     setErrorMessage,
   } = usePaymentMethodAppContext();
 
-  const formSubmit = async values => {
-    const paymentMethodSelected = _get(values, PAYMENT_METHOD_FORM);
-
+  const formSubmit = async paymentMethod => {
     try {
-      if (paymentMethodSelected.code) {
+      if (paymentMethod) {
         setPageLoader(true);
-        await setPaymentMethod(paymentMethodSelected);
+        await setPaymentMethod(paymentMethod);
         setSuccessMessage(__('Payment method added successfully.'));
         setPageLoader(false);
       }
