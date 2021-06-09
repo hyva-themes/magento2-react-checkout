@@ -13,6 +13,9 @@ export default function useEnterActionInForm({
     if (event.keyCode !== 13) {
       return;
     }
+
+    event.preventDefault();
+
     const {
       target,
       target: {

@@ -67,5 +67,12 @@
   "Billing address made same as shipping address": "Billing address made same as shipping address",
   "Billing address update failed. Please try later": "Billing address update failed. Please try later",
   "Shipping method not available": "Shipping method not available",
-  "Payment method not available": "Payment method not available"
+  "Payment method not available": "Payment method not available",
+  "Please provide your login details.": "Please provide your login details.",
+  "Please provide your email address.": "Please provide your email address.",
+  "Please provide your shipping address information.": "Please provide your shipping address information.",
+  "Please provide your billing address information.": "Please provide your billing address information.",
+  "Please select your shipping method.": "Please select your shipping method.",
+  "Please select your payment method.": "Please select your payment method.",
+  "Your checkout details are not valid. Please verify your details.": "Your checkout details are not valid. Please verify your details."
 }

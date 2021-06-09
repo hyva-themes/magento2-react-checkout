@@ -149,7 +149,8 @@ function LoginFormManager({ children }) {
   useEffect(() => {
     if (cartEmail) {
       setFieldValue(EMAIL_FIELD, cartEmail);
-      setFieldTouched(EMAIL_FIELD, true);
+      // formik bug: we need to call this in setTimeout; else errors persist
+      setTimeout(() => setFieldTouched(EMAIL_FIELD, true));
       setFormEditMode(false);
     }
   }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);

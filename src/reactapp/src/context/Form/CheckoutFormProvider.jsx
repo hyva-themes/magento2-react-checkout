@@ -54,11 +54,7 @@ function CheckoutFormProvider({ children }) {
    */
   const [paymentActionList, setPaymentActions] = useState({});
 
-  const {
-    placeOrder,
-    selectedShippingMethod,
-    selectedPaymentMethod,
-  } = useCartContext();
+  const { placeOrder } = useCartContext();
   const [, { setPageLoader }] = useAppContext();
 
   /**
@@ -86,12 +82,7 @@ function CheckoutFormProvider({ children }) {
   const formSubmit = async values => {
     try {
       setPageLoader(true);
-      const order = await placeOrder(
-        values,
-        paymentActionList,
-        selectedShippingMethod,
-        selectedPaymentMethod
-      );
+      const order = await placeOrder(values, paymentActionList);
 
       const orderNumber = _get(order, 'order_number');
 

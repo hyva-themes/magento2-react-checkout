@@ -2,8 +2,12 @@ import _get from 'lodash.get';
 import { object as YupObject } from 'yup';
 import { useFormikContext } from 'formik';
 
-import { _isObjEmpty, _keys } from '../utils';
 import useAppContext from './useAppContext';
+import { _isObjEmpty } from '../utils';
+import {
+  focusOnFormErrorElement,
+  prepareFormSectionErrorMessage,
+} from '../utils/form';
 
 export default function useFormValidateThenSubmit({
   validationSchema,
@@ -18,14 +22,8 @@ export default function useFormValidateThenSubmit({
     const formSectionErrors = _get(errors, formId);
 
     if (isFormSectionTouched && !_isObjEmpty(formSectionErrors)) {
-      const errorMessage = _keys(formSectionErrors)
-        .map(field => formSectionErrors[field].replace('%1', field))
-        .join('; ');
-      setErrorMessage(errorMessage);
-
-      const firstErrorKey = _get(_keys(formSectionErrors), '0');
-      const firstErrorElementId = `${formId}.${firstErrorKey}`;
-      document.getElementById(firstErrorElementId).focus();
+      setErrorMessage(prepareFormSectionErrorMessage(formId, errors));
+      focusOnFormErrorElement(formId, errors);
 
       return;
     }
