@@ -2,25 +2,24 @@ import React from 'react';
 
 import ShippingAddressCardList from './ShippingAddressCardList';
 import { CreateNewAddressLink, ORBox } from '../../address';
-import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
-import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 function ShippingAddressView() {
   const {
     editMode,
-    setToEditMode,
+    setFormToEditMode,
     setBackupAddress,
     setCustomerAddressSelected,
-  } = useShippingAddressWrapper();
-  const { resetShippingAddressFormFields } = useShippingAddressFormikContext();
+    resetShippingAddressFormFields,
+  } = useShippingAddressFormikContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
 
   const newAddressClickHandler = () => {
     setBackupAddress({ ...cartShippingAddress });
     resetShippingAddressFormFields();
     setCustomerAddressSelected(false);
-    setToEditMode();
+    setFormToEditMode();
   };
 
   if (editMode) {

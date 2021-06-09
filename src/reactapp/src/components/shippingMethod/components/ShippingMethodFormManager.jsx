@@ -66,7 +66,7 @@ function ShippingMethodFormManager({ children }) {
 
   return (
     <ShippingMethodFormContext.Provider value={context}>
-      <Form>{children}</Form>
+      <Form id={SHIPPING_METHOD}>{children}</Form>
     </ShippingMethodFormContext.Provider>
   );
 }

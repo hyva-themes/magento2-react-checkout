@@ -8,22 +8,26 @@ import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import useLoginFormContext from '../hooks/useLoginFormContext';
 import { __ } from '../../../i18n';
+import { LOGIN_FORM } from '../../../config';
+import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 
 function LoginForm() {
+  const { values, touched, setFieldValue } = useFormikContext();
   const {
-    isFormValid,
     editMode,
     fields,
+    formId,
+    validationSchema,
     submitHandler,
+    handleKeyDown,
   } = useLoginFormContext();
-  const { values, setFieldValue } = useFormikContext();
-  const customerWantsToSignin = _get(values, fields.customerWantsToSignin);
-  const email = _get(values, fields.email);
-  const password = _get(values, fields.password);
-
-  const submitButtonHandler = () => {
-    submitHandler({ email, password, customerWantsToSignin });
-  };
+  const customerWantsToSignIn = _get(values, fields.customerWantsToSignIn);
+  const isFormTouched = !!_get(touched, LOGIN_FORM);
+  const handleButtonClick = useFormValidateThenSubmit({
+    validationSchema,
+    submitHandler,
+    formId,
+  });
 
   if (!editMode) {
     return <></>;
@@ -38,20 +42,21 @@ function LoginForm() {
           name={fields.email}
           placeholder="john.doe@gmail.com"
           required
+          onKeyDown={handleKeyDown}
         />
 
-        {!customerWantsToSignin && (
+        {!customerWantsToSignIn && (
           <h6
             className="py-3 text-sm text-center text-black underline cursor-pointer"
             onClick={() => {
-              setFieldValue(fields.customerWantsToSignin, true);
+              setFieldValue(fields.customerWantsToSignIn, true);
             }}
           >
             {__('I will sign-in and checkout')}
           </h6>
         )}
 
-        {customerWantsToSignin && (
+        {customerWantsToSignIn && (
           <div>
             <TextInput
               label={__('Password')}
@@ -60,25 +65,26 @@ function LoginForm() {
               placeholder={__('Password')}
               autoComplete="on"
               required
+              onKeyDown={handleKeyDown}
             />
           </div>
         )}
       </div>
       <div className="flex items-center justify-center">
         <Button
-          click={submitButtonHandler}
+          click={handleButtonClick}
           variant="success"
-          disable={!isFormValid}
+          disable={!isFormTouched}
         >
-          {customerWantsToSignin ? __('Sign In') : __('Update')}
+          {customerWantsToSignIn ? __('Sign In') : __('Update')}
         </Button>
       </div>
 
-      {customerWantsToSignin && (
+      {customerWantsToSignIn && (
         <h6
           className="py-3 text-sm text-center text-black underline cursor-pointer"
           onClick={() => {
-            setFieldValue(fields.customerWantsToSignin, false);
+            setFieldValue(fields.customerWantsToSignIn, false);
           }}
         >
           {__('No, I like to continue as guest')}

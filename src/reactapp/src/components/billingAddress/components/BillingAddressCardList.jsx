@@ -5,7 +5,6 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import { AddressCard } from '../../address';
-import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import { _toString } from '../../../utils';
@@ -16,15 +15,15 @@ import { isValidCustomerAddressId } from '../../../utils/address';
 
 function BillingAddressCardList() {
   const { values } = useFormikContext();
-  const { selectedBillingAddressId } = useBillingAddressFormikContext();
-  const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const {
+    selectedBillingAddressId,
     regionData,
     selectedAddress,
     setSelectedAddress,
-    setToEditMode,
+    setFormToEditMode,
     setBackupAddress,
-  } = useBillingAddressWrapper();
+  } = useBillingAddressFormikContext();
+  const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const billingAddress = _get(values, BILLING_ADDR_FORM, {});
   const addressList = prepareBillingAddressCardList(
     values,
@@ -37,7 +36,7 @@ function BillingAddressCardList() {
 
   const performAddressEdit = () => {
     setBackupAddress({ ...billingAddress });
-    setToEditMode();
+    setFormToEditMode();
   };
 
   // when the address box radio button is clicked, this will be fired

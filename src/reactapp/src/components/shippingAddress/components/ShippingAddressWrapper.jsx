@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _get from 'lodash.get';
 import { node } from 'prop-types';
 import { useFormikContext } from 'formik';
@@ -7,7 +7,6 @@ import ShippingAddressWrapperContext from '../context/ShippingAddressWrapperCont
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import useToggler from '../hooks/useToggler';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
 import { _toString } from '../../../utils';
@@ -27,11 +26,16 @@ function ShippingAddressWrapper({ children }) {
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     !!addressIdInCache
   );
-  const [editMode, setToEditMode, setToViewMode] = useToggler(true);
   const { values } = useFormikContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const { stateList, customerAddressList } = useShippingAddressAppContext();
-  const { fields } = useShippingAddressFormikContext();
+  const {
+    fields,
+    editMode,
+    viewMode,
+    setFormToEditMode: setToEditMode,
+    setFormToViewMode: setToViewMode,
+  } = useShippingAddressFormikContext();
   const regionValue = _get(values, fields.region);
   const countryValue = _get(values, fields.country);
   const isCartShippingAddrValid = isCartAddressValid(cartShippingAddress);
@@ -71,18 +75,11 @@ function ShippingAddressWrapper({ children }) {
     }
   }, [regionValue, countryValue, regionData, stateList]);
 
-  const editModeContext = useMemo(
-    () => ({
-      editMode,
-      viewMode: !editMode,
-      setToEditMode,
-      setToViewMode,
-    }),
-    [editMode, setToEditMode, setToViewMode]
-  );
-
   const context = {
-    ...editModeContext,
+    editMode,
+    viewMode,
+    setToEditMode,
+    setToViewMode,
     selectedAddress,
     setSelectedAddress,
     regionData,

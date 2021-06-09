@@ -4,10 +4,10 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 
 import { AddressCard } from '../../address';
-import useShippingAddressWrapper from '../hooks/useShippingAddressWrapper';
 import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 import { _toString } from '../../../utils';
 import { prepareShippingAddressCardList } from '../utility';
 
@@ -21,9 +21,9 @@ function ShippingAddressCardList() {
     selectedAddress,
     customerAddressSelected,
     setSelectedAddress,
-    setToEditMode,
+    setFormToEditMode,
     setBackupAddress,
-  } = useShippingAddressWrapper();
+  } = useShippingAddressFormikContext();
   const addressList = prepareShippingAddressCardList(
     values,
     customerAddressList,
@@ -33,7 +33,7 @@ function ShippingAddressCardList() {
 
   const performAddressEdit = () => {
     setBackupAddress({ ...cartShippingAddress });
-    setToEditMode();
+    setFormToEditMode();
   };
 
   // when the address box radio button is clicked, this will be fired

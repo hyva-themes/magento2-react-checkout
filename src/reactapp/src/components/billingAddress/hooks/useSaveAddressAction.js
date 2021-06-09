@@ -1,9 +1,8 @@
-import { useCallback } from 'react';
 import _get from 'lodash.get';
 
-import useBillingAddressWrapper from './useBillingAddressWrapper';
+import { useFormikContext } from 'formik';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
-import useBillingAddressFormikContext from './useBillingAddressFormikContext';
+import useBillingAddressCartContext from './useBillingAddressCartContext';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import { BILLING_ADDR_FORM } from '../../../config';
 import { CART_BILLING_ADDRESS } from '../utility';
@@ -12,8 +11,9 @@ import LocalStorage from '../../../utils/localStorage';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
-export default function useSaveAddressAction() {
-  const { submitHandler } = useBillingAddressFormikContext();
+export default function useSaveAddressAction(shippingFormikContext) {
+  const { values } = useFormikContext();
+  const { setCartBillingAddress } = useBillingAddressCartContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -25,69 +25,53 @@ export default function useSaveAddressAction() {
     editMode,
     selectedAddress,
     regionData,
-    setToViewMode,
+    setFormToViewMode,
     customerAddressSelected,
     setSelectedAddress,
     setCustomerAddressSelected,
-  } = useBillingAddressWrapper();
+  } = shippingFormikContext;
+  const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
 
-  return useCallback(
-    async formikValues => {
-      try {
-        let customerAddressUsed = false;
-        const isBillingSame = _get(formikValues, isSameAsShippingField);
-        let updateCustomerAddrPromise = _emptyFunc();
-        const updateCartAddressPromise = _makePromise(
-          submitHandler,
-          formikValues
+  return async () => {
+    try {
+      let customerAddressUsed = false;
+      const isBillingSame = _get(values, isSameAsShippingField);
+      let updateCustomerAddrPromise = _emptyFunc();
+      const updateCartAddressPromise = _makePromise(
+        setCartBillingAddress,
+        billingAddrFieldValues
+      );
+
+      if (isLoggedIn && customerAddressSelected && editMode) {
+        customerAddressUsed = true;
+        updateCustomerAddrPromise = _makePromise(
+          updateCustomerAddress,
+          selectedAddress,
+          billingAddrFieldValues,
+          regionData
         );
-
-        if (isLoggedIn && customerAddressSelected && editMode) {
-          customerAddressUsed = true;
-          updateCustomerAddrPromise = _makePromise(
-            updateCustomerAddress,
-            selectedAddress,
-            _get(formikValues, BILLING_ADDR_FORM, {}),
-            regionData
-          );
-        }
-
-        if (customerAddressUsed) {
-          LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
-        } else {
-          LocalStorage.saveCustomerAddressInfo('', isBillingSame);
-          setSelectedAddress(CART_BILLING_ADDRESS);
-          setCustomerAddressSelected(false);
-        }
-
-        setPageLoader(true);
-        await Promise.all([
-          updateCustomerAddrPromise(),
-          updateCartAddressPromise(),
-        ]);
-        setToViewMode(false);
-        setSuccessMessage(__('Billing address updated successfully.'));
-        setPageLoader(false);
-      } catch (error) {
-        console.log({ error });
-        setErrorMessage(__('Billing address update failed. Please try again'));
-        setPageLoader(false);
       }
-    },
-    [
-      submitHandler,
-      isLoggedIn,
-      selectedAddress,
-      editMode,
-      updateCustomerAddress,
-      setSuccessMessage,
-      setErrorMessage,
-      regionData,
-      setToViewMode,
-      setPageLoader,
-      setSelectedAddress,
-      setCustomerAddressSelected,
-      customerAddressSelected,
-    ]
-  );
+
+      if (customerAddressUsed) {
+        LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
+      } else {
+        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
+        setSelectedAddress(CART_BILLING_ADDRESS);
+        setCustomerAddressSelected(false);
+      }
+
+      setPageLoader(true);
+      await Promise.all([
+        updateCustomerAddrPromise(),
+        updateCartAddressPromise(),
+      ]);
+      setFormToViewMode(false);
+      setSuccessMessage(__('Billing address updated successfully.'));
+      setPageLoader(false);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(__('Billing address update failed. Please try again'));
+      setPageLoader(false);
+    }
+  };
 }

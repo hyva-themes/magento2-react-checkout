@@ -12,15 +12,16 @@ import useLoginAppContext from '../hooks/useLoginAppContext';
 import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
+import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 
 const initialValues = {
   email: '',
   password: '',
-  customerWantsToSignin: false,
+  customerWantsToSignIn: false,
 };
 
 const validationSchema = {
-  customerWantsToSignin: YupBool(),
+  customerWantsToSignIn: YupBool(),
   email: YupString()
     .required(__('Email is required'))
     .email(__('Email is invalid')),
@@ -28,7 +29,7 @@ const validationSchema = {
     'requiredIfSignIn',
     __('Password is required'),
     (value, context) => {
-      const sigInStatus = _get(context, 'parent.customerWantsToSignin');
+      const sigInStatus = _get(context, 'parent.customerWantsToSignIn');
 
       if (sigInStatus) {
         return !!value;
@@ -42,8 +43,8 @@ const validationSchema = {
 const EMAIL_FIELD = `${LOGIN_FORM}.email`;
 
 function LoginFormManager({ children }) {
+  const { values, setFieldValue, setFieldTouched } = useFormikContext();
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
-  const { setFieldValue, setFieldTouched } = useFormikContext();
   const {
     cartEmail,
     setEmailOnGuestCart,
@@ -57,6 +58,7 @@ function LoginFormManager({ children }) {
     setSuccessMessage,
     setErrorMessage,
   } = useLoginAppContext();
+  const loginFormValues = _get(values, LOGIN_FORM);
 
   const saveEmailOnCartRequest = async email => {
     setPageLoader(true);
@@ -94,10 +96,13 @@ function LoginFormManager({ children }) {
    * customer cart details, then finally, merge the guest cart with the customer
    * cart.
    */
-  const formSubmit = async values => {
-    const email = _get(values, 'email');
-    const password = _get(values, 'password');
-    const customerWantsToSignIn = _get(values, 'customerWantsToSignin');
+  const formSubmit = async () => {
+    const email = _get(loginFormValues, 'email');
+    const password = _get(loginFormValues, 'password');
+    const customerWantsToSignIn = _get(
+      loginFormValues,
+      'customerWantsToSignIn'
+    );
     const currentCartId = LocalStorage.getCartId();
 
     try {
@@ -134,6 +139,12 @@ function LoginFormManager({ children }) {
     }
   };
 
+  const handleKeyDown = useEnterActionInForm({
+    validationSchema,
+    submitHandler: formSubmit,
+    formId: LOGIN_FORM,
+  });
+
   // Whenever cart-data email info get updated, the email field will be filled with that value
   useEffect(() => {
     if (cartEmail) {
@@ -143,18 +154,23 @@ function LoginFormManager({ children }) {
     }
   }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);
 
-  const context = useFormSection({
+  const formSectionContext = useFormSection({
     id: LOGIN_FORM,
     validationSchema,
     initialValues,
     submitHandler: formSubmit,
   });
 
+  const context = {
+    ...formSectionContext,
+    editMode,
+    setFormToEditMode,
+    handleKeyDown,
+  };
+
   return (
-    <LoginFormContext.Provider
-      value={{ ...context, editMode, setFormToEditMode }}
-    >
-      <Form>{children}</Form>
+    <LoginFormContext.Provider value={context}>
+      <Form id={LOGIN_FORM}>{children}</Form>
     </LoginFormContext.Provider>
   );
 }

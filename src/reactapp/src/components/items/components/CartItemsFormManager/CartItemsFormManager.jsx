@@ -7,6 +7,7 @@ import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useFormSection from '../../../../hook/useFormSection';
 import useItemsAppContext from '../../hooks/useItemsAppContext';
 import useItemsCartContext from '../../hooks/useItemsCartContext';
+import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
 import { __ } from '../../../../i18n';
@@ -76,23 +77,30 @@ function CartItemsFormManager({ children }) {
     setFieldValue,
   ]);
 
-  const context = useFormSection({
+  const handleKeyDown = useEnterActionInForm({
+    formId: CART_ITEMS_FORM,
+    validationSchema,
+    submitHandler: itemUpdateHandler,
+  });
+
+  const formSectionContext = useFormSection({
     id: CART_ITEMS_FORM,
     validationSchema,
     initialValues,
     submitHandler: formSubmit,
   });
 
+  const context = {
+    ...formSectionContext,
+    cartItems: cartItemsArr,
+    cartItemsAvailable: !!cartItemsArr.length,
+    itemUpdateHandler,
+    handleKeyDown,
+  };
+
   return (
-    <CartItemsFormContext.Provider
-      value={{
-        ...context,
-        cartItems: cartItemsArr,
-        cartItemsAvailable: !!cartItemsArr.length,
-        itemUpdateHandler,
-      }}
-    >
-      <Form>{children}</Form>
+    <CartItemsFormContext.Provider value={context}>
+      <Form id={CART_ITEMS_FORM}>{children}</Form>
     </CartItemsFormContext.Provider>
   );
 }

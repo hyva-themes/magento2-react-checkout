@@ -4,7 +4,6 @@ import _get from 'lodash.get';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressFormikContext from './useBillingAddressFormikContext';
-import useBillingAddressWrapper from './useBillingAddressWrapper';
 import { CART_BILLING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
 import { __ } from '../../../i18n';
@@ -13,8 +12,7 @@ import LocalStorage from '../../../utils/localStorage';
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 export default function useCustomerAddressSwitchAction() {
-  const { submitHandler } = useBillingAddressFormikContext();
-  const { editMode } = useBillingAddressWrapper();
+  const { editMode, submitHandler } = useBillingAddressFormikContext();
   const {
     isLoggedIn,
     setSuccessMessage,

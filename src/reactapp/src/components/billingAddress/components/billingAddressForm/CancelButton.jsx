@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Button from '../../../common/Button';
-import useBillingAddressWrapper from '../../hooks/useBillingAddressWrapper';
 import useBillingAddressCartContext from '../../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../../hooks/useBillingAddressFormikContext';
 import { isCartAddressValid } from '../../../../utils/address';
@@ -10,19 +9,19 @@ import { __ } from '../../../../i18n';
 
 function CancelButton() {
   const { cartBillingAddress } = useBillingAddressCartContext();
-  const { setBillingAddressFormFields } = useBillingAddressFormikContext();
   const {
-    setToViewMode,
+    setFormToViewMode,
     backupAddress,
     setCustomerAddressSelected,
-  } = useBillingAddressWrapper();
+    setBillingAddressFormFields,
+  } = useBillingAddressFormikContext();
 
   const clickHandler = () => {
     setBillingAddressFormFields({
       ...backupAddress,
       isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
     });
-    setToViewMode();
+    setFormToViewMode();
     setCustomerAddressSelected(!!LocalStorage.getCustomerBillingAddressId());
   };
 

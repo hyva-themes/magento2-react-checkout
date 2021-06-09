@@ -19,7 +19,9 @@ function TextInput({
 }) {
   const inputId = id || name;
   const [, meta] = useField(name) || [];
-  const hasError = !!_get(meta, 'error', false);
+  const hasFieldError = !!_get(meta, 'error', false);
+  const hasFieldTouched = !!_get(meta, 'touched', false);
+  const hasError = hasFieldError && hasFieldTouched;
 
   return (
     <div className="mt-2 form-control">
@@ -44,7 +46,9 @@ function TextInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className={`form-input ${className} ${width || 'w-full'}`}
+        className={`form-input ${
+          hasError ? 'border-dashed border-red-500' : ''
+        } ${className} ${width || 'w-full'}`}
       />
       <div className="text-xs">{helpText}</div>
     </div>

@@ -7,6 +7,8 @@ import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
+import useSaveAddressAction from '../hooks/useSaveAddressAction';
+import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import { isCartAddressValid } from '../../../utils/address';
@@ -16,6 +18,7 @@ import {
   billingAddressFormInitValues,
   prepareFormAddressFromAddressListById,
   prepareFormAddressFromCartAddress,
+  CART_BILLING_ADDRESS,
 } from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
@@ -58,21 +61,27 @@ const initialAddressIdInCache = !!_toString(
   LocalStorage.getCustomerBillingAddressId()
 );
 
+const regionField = `${BILLING_ADDR_FORM}.region`;
+const countryField = `${BILLING_ADDR_FORM}.country`;
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
+  const addressIdInCache = _toString(
+    LocalStorage.getCustomerBillingAddressId()
+  );
+  const [backupAddress, setBackupAddress] = useState(null);
+  const [regionData, setRegionData] = useState({});
+  const [selectedAddress, setSelectedAddress] = useState(
+    addressIdInCache || CART_BILLING_ADDRESS
+  );
   const [addressInUsage, setAddressInUsage] = useState(null);
   const [addressPopulated, setAddressPopulated] = useState(null);
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     initialAddressIdInCache
   );
   const { values, setFieldValue } = useFormikContext();
-  const {
-    editMode,
-    setFormToEditMode,
-    setFormEditMode,
-    setFormToViewMode,
-  } = useFormEditMode();
+  const { stateList } = useBillingAddressAppContext();
+  const editModeContext = useFormEditMode();
   const {
     isLoggedIn,
     customerAddressList,
@@ -81,32 +90,16 @@ function BillingAddressFormManager({ children }) {
   const {
     selectedAddressId,
     cartBillingAddress,
-    setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
+  const regionValue = _get(values, regionField);
+  const countryValue = _get(values, countryField);
   const isSame = _get(values, isSameAsShippingField);
-  const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
+  const { setFormEditMode } = editModeContext;
   const selectedCustomerAddress = prepareFormAddressFromAddressListById(
     customerAddressList,
     selectedAddressId
   );
-
-  const formSubmit = useCallback(async () => {
-    try {
-      setPageLoader(true);
-      await setCartBillingAddress(billingAddrFieldValues);
-      setFormEditMode(false);
-      setPageLoader(false);
-    } catch (error) {
-      console.error(error);
-      setPageLoader(false);
-    }
-  }, [
-    billingAddrFieldValues,
-    setPageLoader,
-    setCartBillingAddress,
-    setFormEditMode,
-  ]);
 
   const updateCustomerAddressAsCartAddress = useCallback(
     async customerAddressId => {
@@ -232,12 +225,25 @@ function BillingAddressFormManager({ children }) {
     setAddressPopulated,
   ]);
 
-  const formContext = useFormSection({
-    id: BILLING_ADDR_FORM,
-    validationSchema,
-    initialValues,
-    submitHandler: formSubmit,
-  });
+  useEffect(() => {
+    setSelectedAddress(addressIdInCache);
+  }, [addressIdInCache]);
+
+  // whenever state value changed, we will find the state entry from the stateList
+  // state info needed in multiple occasions. it is useful to store this data separate
+  useEffect(() => {
+    if (
+      _get(regionData, 'code') !== regionValue &&
+      regionValue &&
+      countryValue &&
+      stateList
+    ) {
+      const region = _get(stateList, countryValue, []).find(
+        state => state.code === regionValue
+      );
+      setRegionData(region);
+    }
+  }, [regionValue, countryValue, regionData, stateList]);
 
   const addressContext = useMemo(() => {
     if (!isLoggedIn && !cartBillingAddress) {
@@ -277,17 +283,18 @@ function BillingAddressFormManager({ children }) {
     };
   }, [isLoggedIn, cartBillingAddress, customerAddressList]);
 
-  const context = {
-    ...formContext,
+  let context = {
     ...addressContext,
-    editMode,
+    ...editModeContext,
+    selectedAddress,
+    regionData,
+    backupAddress,
     customerAddressSelected,
     selectedBillingAddressId: addressInUsage,
-    setCustomerAddressSelected,
-    setFormToEditMode,
-    setFormEditMode,
-    setFormToViewMode,
     isBillingAddressSameAsShipping: isSame,
+    setSelectedAddress,
+    setBackupAddress,
+    setCustomerAddressSelected,
     resetBillingAddressFormFields,
     toggleBillingEqualsShippingState,
     mapCartBillingAddressToBillingForm,
@@ -295,9 +302,25 @@ function BillingAddressFormManager({ children }) {
     setBillingAddressFormFields,
   };
 
+  const formSubmit = useSaveAddressAction(context);
+  const handleKeyDown = useEnterActionInForm({
+    validationSchema,
+    submitHandler: formSubmit,
+    formId: BILLING_ADDR_FORM,
+  });
+
+  const formContext = useFormSection({
+    id: BILLING_ADDR_FORM,
+    validationSchema,
+    initialValues,
+    submitHandler: formSubmit,
+  });
+
+  context = { ...context, ...formContext, handleKeyDown };
+
   return (
     <BillingAddressFormContext.Provider value={context}>
-      <Form>{children}</Form>
+      <Form id={BILLING_ADDR_FORM}>{children}</Form>
     </BillingAddressFormContext.Provider>
   );
 }

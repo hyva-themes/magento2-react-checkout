@@ -4,8 +4,8 @@ import { useFormikContext } from 'formik';
 
 import { ORBox } from '../../address';
 import Checkbox from '../../common/Form/Checkbox';
-import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import LocalStorage from '../../../utils/localStorage';
 import { __ } from '../../../i18n';
@@ -13,19 +13,17 @@ import { isCartAddressValid } from '../../../utils/address';
 
 function BillingSameAsShippingCheckbox({ addOR }) {
   const { setFieldValue } = useFormikContext();
+  const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
   const {
     cartBillingAddress,
     cartShippingAddress,
   } = useBillingAddressCartContext();
   const {
-    setToEditMode,
-    setToViewMode,
-    setBackupAddress,
-    makeBillingSameAsShippingRequest,
-  } = useBillingAddressWrapper();
-  const {
     fields,
     isBillingAddressSameAsShipping,
+    setFormToEditMode,
+    setFormToViewMode,
+    setBackupAddress,
   } = useBillingAddressFormikContext();
 
   const toggleBillingEqualsShippingState = async () => {
@@ -36,9 +34,9 @@ function BillingSameAsShippingCheckbox({ addOR }) {
 
     if (newSameAsShipping) {
       await makeBillingSameAsShippingRequest();
-      setToEditMode();
+      setFormToEditMode();
     } else if (isCartAddressValid(cartBillingAddress)) {
-      setToViewMode();
+      setFormToViewMode();
     }
   };
 

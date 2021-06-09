@@ -63,7 +63,7 @@ function PaymentMethodFormManager({ children }) {
 
   return (
     <PaymentMethodFormContext.Provider value={context}>
-      <Form>{children}</Form>
+      <Form id={PAYMENT_METHOD_FORM}>{children}</Form>
     </PaymentMethodFormContext.Provider>
   );
 }
