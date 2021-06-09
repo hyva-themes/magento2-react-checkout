@@ -3,7 +3,7 @@
 import React, { useContext } from 'react';
 import { bool, func, shape } from 'prop-types';
 
-import { ORBox } from '..';
+import ORBox from './ORBox';
 import { __ } from '../../../i18n';
 import { _emptyFunc } from '../../../utils';
 import AppContext from '../../../context/App/AppContext';
