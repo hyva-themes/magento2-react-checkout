@@ -40,7 +40,7 @@ function PaymentMethodList({ methodRenderers }) {
         {_objToArray(methodList).map(method => {
           const MethodRenderer = methodRenderers[method.code];
           return (
-            <li key={method.code} className="flex">
+            <li key={method.code}>
               {MethodRenderer ? (
                 <MethodRenderer
                   method={method}
