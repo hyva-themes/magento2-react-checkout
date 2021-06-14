@@ -7,9 +7,9 @@ import { useFormikContext } from 'formik';
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import useLoginFormContext from '../hooks/useLoginFormContext';
+import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 import { __ } from '../../../i18n';
 import { LOGIN_FORM } from '../../../config';
-import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 
 function LoginForm() {
   const { values, touched, setFieldValue } = useFormikContext();
@@ -79,17 +79,6 @@ function LoginForm() {
           {customerWantsToSignIn ? __('Sign In') : __('Update')}
         </Button>
       </div>
-
-      {customerWantsToSignIn && (
-        <h6
-          className="py-3 text-sm text-center text-black underline cursor-pointer"
-          onClick={() => {
-            setFieldValue(fields.customerWantsToSignIn, false);
-          }}
-        >
-          {__('No, I like to continue as guest')}
-        </h6>
-      )}
     </>
   );
 }

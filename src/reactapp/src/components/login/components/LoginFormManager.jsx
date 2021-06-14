@@ -9,10 +9,10 @@ import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useLoginCartContext from '../hooks/useLoginCartContext';
 import useLoginAppContext from '../hooks/useLoginAppContext';
+import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import { __ } from '../../../i18n';
 import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
-import { __ } from '../../../i18n';
-import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 
 const initialValues = {
   email: '',
