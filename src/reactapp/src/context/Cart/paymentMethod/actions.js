@@ -36,7 +36,6 @@ export async function setRestPaymentMethodAction(
     return result;
   } catch (error) {
     console.error(error);
+    throw error;
   }
-
-  return {};
 }
