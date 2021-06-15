@@ -5,12 +5,12 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import { AddressCard } from '../../address';
-import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
-import { _toString } from '../../../utils';
-import { prepareBillingAddressCardList } from '../utility';
-import { BILLING_ADDR_FORM } from '../../../config';
+import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
+import { _toString } from '../../../utils';
+import { BILLING_ADDR_FORM } from '../../../config';
+import { prepareBillingAddressCardList } from '../utility';
 import { isValidCustomerAddressId } from '../../../utils/address';
 
 function BillingAddressCardList() {
@@ -47,7 +47,7 @@ function BillingAddressCardList() {
     }
 
     setSelectedAddress(_toString(addressId));
-    await performCustomerAddressSwitching(addressId, values);
+    await performCustomerAddressSwitching(addressId);
   };
 
   return (

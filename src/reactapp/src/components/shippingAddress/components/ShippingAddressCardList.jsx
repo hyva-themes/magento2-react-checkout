@@ -44,7 +44,8 @@ function ShippingAddressCardList() {
     }
 
     setSelectedAddress(_toString(addressId));
-    await performCustomerAddressSwitching(addressId, values);
+
+    await performCustomerAddressSwitching(addressId);
   };
 
   return (

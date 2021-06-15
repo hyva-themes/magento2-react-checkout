@@ -3,11 +3,11 @@ import { useFormikContext } from 'formik';
 
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import useShippingAddressCartContext from './useShippingAddressCartContext';
-import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
-import { CART_SHIPPING_ADDRESS } from '../utility';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import { __ } from '../../../i18n';
+import { CART_SHIPPING_ADDRESS } from '../utility';
 import LocalStorage from '../../../utils/localStorage';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
+import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
@@ -96,15 +96,19 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     }
   };
 
-  return async () => {
+  return async addressId => {
     try {
-      let customerAddressUsed = false;
+      let customerAddressNeeded = false;
       const isBillingSame = _get(values, isSameAsShippingField);
+      const hasCustomerAddr = addressId && addressId !== CART_SHIPPING_ADDRESS;
       let updateCustomerAddrPromise = _emptyFunc();
-      const updateCartAddressPromise = _makePromise(submitHandler);
+      const updateCartAddressPromise = _makePromise(
+        submitHandler,
+        hasCustomerAddr && addressId
+      );
 
       if (isLoggedIn && customerAddressSelected && editMode) {
-        customerAddressUsed = true;
+        customerAddressNeeded = true;
         updateCustomerAddrPromise = _makePromise(
           updateCustomerAddress,
           selectedAddress,
@@ -113,8 +117,13 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         );
       }
 
-      if (customerAddressUsed) {
+      if (hasCustomerAddr) {
+        LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame);
+        setSelectedAddress(addressId);
+        setCustomerAddressSelected(true);
+      } else if (customerAddressNeeded) {
         LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
+        setCustomerAddressSelected(true);
       } else {
         LocalStorage.saveCustomerAddressInfo('', isBillingSame);
         setSelectedAddress(CART_SHIPPING_ADDRESS);

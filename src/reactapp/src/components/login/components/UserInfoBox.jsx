@@ -2,13 +2,15 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
+import Button from '../../common/Button';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginFormContext from '../hooks/useLoginFormContext';
+import { __ } from '../../../i18n';
 
 function UserInfoBox() {
   const { values } = useFormikContext();
   const { isLoggedIn, customer } = useLoginAppContext();
-  const { fields, editMode } = useLoginFormContext();
+  const { fields, editMode, setFormToEditMode } = useLoginFormContext();
 
   if (editMode) {
     return <></>;
@@ -27,6 +29,14 @@ function UserInfoBox() {
           {!isLoggedIn && _get(values, fields.email)}
         </span>
       </div>
+
+      {!isLoggedIn && (
+        <div className="flex items-center justify-center">
+          <Button click={setFormToEditMode} variant="warning">
+            {__('Edit')}
+          </Button>
+        </div>
+      )}
     </>
   );
 }

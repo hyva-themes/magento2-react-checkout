@@ -13,7 +13,7 @@ const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 export default function useSaveAddressAction(shippingFormikContext) {
   const { values } = useFormikContext();
-  const { setCartBillingAddress } = useBillingAddressCartContext();
+  const { setCartBillingAddress, setCustomerAddressAsBillingAddress } = useBillingAddressCartContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -32,15 +32,24 @@ export default function useSaveAddressAction(shippingFormikContext) {
   } = shippingFormikContext;
   const billingAddrFieldValues = _get(values, BILLING_ADDR_FORM);
 
-  return async () => {
+  return async addressId => {
     try {
       let customerAddressUsed = false;
       const isBillingSame = _get(values, isSameAsShippingField);
+      const hasCustomerAddr = addressId && addressId !== CART_BILLING_ADDRESS;
       let updateCustomerAddrPromise = _emptyFunc();
-      const updateCartAddressPromise = _makePromise(
+      let updateCartAddressPromise = _makePromise(
         setCartBillingAddress,
         billingAddrFieldValues
       );
+
+      if (hasCustomerAddr) {
+        updateCartAddressPromise = _makePromise(
+          setCustomerAddressAsBillingAddress,
+          addressId,
+          isBillingSame
+        );
+      }
 
       if (isLoggedIn && customerAddressSelected && editMode) {
         customerAddressUsed = true;
@@ -52,10 +61,18 @@ export default function useSaveAddressAction(shippingFormikContext) {
         );
       }
 
-      if (customerAddressUsed) {
-        LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
+      if (hasCustomerAddr) {
+        LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame, false);
+        setSelectedAddress(addressId);
+        setCustomerAddressSelected(true);
+      } else if (customerAddressUsed) {
+        LocalStorage.saveCustomerAddressInfo(
+          selectedAddress,
+          isBillingSame,
+          false
+        );
       } else {
-        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
+        LocalStorage.saveCustomerAddressInfo('', isBillingSame, false);
         setSelectedAddress(CART_BILLING_ADDRESS);
         setCustomerAddressSelected(false);
       }
