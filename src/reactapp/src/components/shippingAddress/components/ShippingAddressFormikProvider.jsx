@@ -10,13 +10,18 @@ import {
 
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useFormSection from '../../../hook/useFormSection';
-import useShippingAddrAppContext from '../hooks/useShippingAddressAppContext';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
+import useFormEditMode from '../../../hook/useFormEditMode';
+import useSaveAddressAction from '../hooks/useSaveAddressAction';
+import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
-import { billingAddressFormInitValues } from '../../billingAddress/utility';
 import { __ } from '../../../i18n';
 import { isCartAddressValid } from '../../../utils/address';
+import { SHIPPING_ADDR_FORM } from '../../../config';
+import { _emptyFunc, _toString } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
+import { CART_SHIPPING_ADDRESS } from '../utility';
+import { customerHasAddress } from '../../../utils/customer';
 
 const initialValues = {
   company: '',
@@ -49,94 +54,36 @@ const validationSchema = {
   isSameAsShipping: YupBoolean(),
 };
 
-const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
+const regionField = `${SHIPPING_ADDR_FORM}.region`;
+const countryField = `${SHIPPING_ADDR_FORM}.country`;
 
 function ShippingAddressFormikProvider({ children }) {
-  const [forceFillFields, setForceFillFields] = useState(false);
-  const { setFieldValue } = useFormikContext();
-  const { setPageLoader } = useShippingAddrAppContext();
-  const {
-    cartShippingAddress,
-    addCartShippingAddress,
-    setCartBillingAddress,
-    setCustomerAddressAsBillingAddress,
-    setCustomerAddressAsShippingAddress,
-  } = useShippingAddressCartContext();
-
-  const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
-
-  const formSubmit = useCallback(
-    async (formValues, customerAddressId) => {
-      try {
-        setPageLoader(true);
-
-        const isBillingSame = _get(formValues, isSameAsShippingField);
-        const shippingAddressToSave = _get(formValues, SHIPPING_ADDR_FORM);
-        let updateBillingAddress = _emptyFunc();
-        let updateShippingAddress = _makePromise(
-          addCartShippingAddress,
-          shippingAddressToSave,
-          isBillingSame
-        );
-
-        if (customerAddressId) {
-          updateShippingAddress = _makePromise(
-            setCustomerAddressAsShippingAddress,
-            Number(customerAddressId),
-            isBillingSame
-          );
-        }
-
-        if (isBillingSame) {
-          if (customerAddressId) {
-            updateBillingAddress = _makePromise(
-              setCustomerAddressAsBillingAddress,
-              Number(customerAddressId),
-              isBillingSame
-            );
-          } else {
-            updateBillingAddress = _makePromise(setCartBillingAddress, {
-              ...shippingAddressToSave,
-              isSameAsShipping: true,
-            });
-          }
-        }
-
-        const [shippingAddrResponse] = await Promise.all([
-          updateShippingAddress(),
-          updateBillingAddress(),
-        ]);
-
-        if (isBillingSame) {
-          const addressToSet = _cleanObjByKeys(
-            _get(shippingAddrResponse, 'shipping_addresses'),
-            ['fullName']
-          );
-          setFieldValue(BILLING_ADDR_FORM, {
-            ...billingAddressFormInitValues,
-            ...addressToSet,
-          });
-        }
-
-        setPageLoader(false);
-      } catch (error) {
-        console.log({ error });
-        setPageLoader(false);
-      }
-    },
-    [
-      addCartShippingAddress,
-      setCartBillingAddress,
-      setPageLoader,
-      setCustomerAddressAsShippingAddress,
-      setCustomerAddressAsBillingAddress,
-      setFieldValue,
-    ]
+  const addressIdInCache = _toString(
+    LocalStorage.getCustomerShippingAddressId()
   );
+  const [forceFillFields, setForceFillFields] = useState(false);
+  const [forceViewMode, setForceViewMode] = useState(false);
+  const [backupAddress, setBackupAddress] = useState(null);
+  const [regionData, setRegionData] = useState({});
+  const [selectedAddress, setSelectedAddress] = useState(
+    addressIdInCache || CART_SHIPPING_ADDRESS
+  );
+  const [customerAddressSelected, setCustomerAddressSelected] = useState(
+    !!addressIdInCache
+  );
+  const { values, setFieldValue, setFieldTouched } = useFormikContext();
+  const { stateList, customerAddressList } = useShippingAddressAppContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
+  const editModeContext = useFormEditMode();
+  const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
+  const regionValue = _get(values, regionField);
+  const countryValue = _get(values, countryField);
+  const { setFormToViewMode } = editModeContext;
 
   const resetShippingAddressFormFields = useCallback(() => {
     setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
-  }, [setFieldValue]);
+    setFieldTouched(SHIPPING_ADDR_FORM, {});
+  }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
     addressToSet => {
@@ -170,23 +117,74 @@ function ShippingAddressFormikProvider({ children }) {
     setShippingAddressFormFields,
   ]);
 
-  const context = useFormSection({
+  // when user sign-in, if the cart has shipping address, then we need to
+  // turn off edit mode of the address section
+  useEffect(() => {
+    if (
+      !forceViewMode &&
+      (cartHasShippingAddress || customerHasAddress(customerAddressList))
+    ) {
+      // this needs to be executed once. to make sure that we are using
+      // forceViewMode state
+      setFormToViewMode();
+      setForceViewMode(true);
+    }
+  }, [
+    cartHasShippingAddress,
+    customerAddressList,
+    setFormToViewMode,
+    forceViewMode,
+  ]);
+
+  // whenever state value changed, we will find the state entry from the stateList
+  // state info needed in multiple occasions. it is useful to store this data separate
+  useEffect(() => {
+    if (
+      _get(regionData, 'code') !== regionValue &&
+      regionValue &&
+      countryValue &&
+      stateList
+    ) {
+      const region = _get(stateList, countryValue, []).find(
+        state => state.code === regionValue
+      );
+      setRegionData(region);
+    }
+  }, [regionValue, countryValue, regionData, stateList]);
+
+  let context = {
+    ...editModeContext,
+    resetShippingAddressFormFields,
+    setShippingAddressFormFields,
+    selectedAddress,
+    setSelectedAddress,
+    regionData,
+    backupAddress,
+    setBackupAddress,
+    customerAddressSelected,
+    setCustomerAddressSelected,
+  };
+
+  const formSubmit = useSaveAddressAction(context);
+
+  const handleKeyDown = useEnterActionInForm({
+    validationSchema,
+    submitHandler: formSubmit,
+    formId: SHIPPING_ADDR_FORM,
+  });
+
+  const formSectionContext = useFormSection({
     id: SHIPPING_ADDR_FORM,
     validationSchema,
     initialValues,
     submitHandler: formSubmit,
   });
 
+  context = { ...context, ...formSectionContext, formSubmit, handleKeyDown };
+
   return (
-    <ShippingAddressFormContext.Provider
-      value={{
-        ...context,
-        resetShippingAddressFormFields,
-        setShippingAddressFormFields,
-        submitHandler: formSubmit,
-      }}
-    >
-      <Form>{children}</Form>
+    <ShippingAddressFormContext.Provider value={context}>
+      <Form id={SHIPPING_ADDR_FORM}>{children}</Form>
     </ShippingAddressFormContext.Provider>
   );
 }

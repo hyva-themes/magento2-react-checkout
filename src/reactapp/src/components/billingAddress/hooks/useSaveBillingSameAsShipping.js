@@ -65,7 +65,8 @@ export default function useSaveBillingSameAsShipping() {
         const billingIsSame = true;
         LocalStorage.saveCustomerAddressInfo(
           shippingAddressSelected,
-          billingIsSame
+          billingIsSame,
+          false
         );
         setPageLoader(true);
         await setCustomerAddressAsBillingAddress(

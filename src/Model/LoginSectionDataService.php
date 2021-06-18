@@ -15,12 +15,12 @@ class LoginSectionDataService
     /**
      * @var \Magento\Checkout\CustomerData\Cart
      */
-    private CartCustomerData $cartCustomerData;
+    private $cartCustomerData;
 
     /**
      * @var \Magento\Customer\CustomerData\Customer
      */
-    private CustomerCustomerData $customerCustomerData;
+    private $customerCustomerData;
 
     /**
      * LoginSectionDataService constructor.

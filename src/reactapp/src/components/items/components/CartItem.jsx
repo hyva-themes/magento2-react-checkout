@@ -11,7 +11,7 @@ import { __ } from '../../../i18n';
 
 function CartItem({ item, isLastItem }) {
   const { touched } = useFormikContext();
-  const { itemUpdateHandler } = useItemsFormContext();
+  const { handleKeyDown, itemUpdateHandler } = useItemsFormContext();
   const qtyField = `${CART_ITEMS_FORM}.${item.id}.quantity`;
   const isQtyFieldTouched = _get(touched, qtyField);
 
@@ -37,6 +37,7 @@ function CartItem({ item, isLastItem }) {
           id={`${qtyField}-desktop`}
           className="w-10 h-10"
           name={qtyField}
+          onKeyDown={handleKeyDown}
         />
       </td>
       <td className="hidden md:table-cell">{item.price}</td>
@@ -88,6 +89,7 @@ function CartItem({ item, isLastItem }) {
                             id={`${qtyField}-mobile`}
                             className="h-8"
                             name={qtyField}
+                            onKeyDown={handleKeyDown}
                           />
                           <div className="pt-2 pl-2">
                             <Button

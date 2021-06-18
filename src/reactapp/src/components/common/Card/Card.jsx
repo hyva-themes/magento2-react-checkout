@@ -6,7 +6,7 @@ function Card({ children, bg, classes }) {
     <div
       className={`card w-full px-4 py-4 ${
         bg === 'dark' ? 'bg-container-darker' : ''
-      } ${classes}`}
+      } ${bg === 'white' ? 'bg-white' : ''} ${classes}`}
     >
       {children}
     </div>

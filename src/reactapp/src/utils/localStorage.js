@@ -168,9 +168,14 @@ const LocalStorage = {
     window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 
-  saveCustomerAddressInfo(addressId, isBillingSame) {
+  saveCustomerAddressInfo(addressId, isBillingSame, isShipping = true) {
     LocalStorage.saveBillingSameAsShipping(isBillingSame);
-    LocalStorage.saveCustomerBillingAddressId(addressId);
+
+    if (isShipping) {
+      LocalStorage.saveCustomerShippingAddressId(addressId);
+    } else {
+      LocalStorage.saveCustomerBillingAddressId(addressId);
+    }
 
     if (isBillingSame) {
       LocalStorage.saveCustomerBillingAddressId(addressId);

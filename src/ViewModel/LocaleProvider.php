@@ -11,7 +11,7 @@ class LocaleProvider implements ArgumentInterface
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
-    private ResolverInterface $localeResolver;
+    private $localeResolver;
 
     /**
      * LocaleProvider constructor.

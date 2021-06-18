@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import _get from 'lodash.get';
 import { config } from '../../../config';
+import { _isArrayEmpty } from '../../../utils';
 import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 import {
   modifySelectedShippingMethod,
@@ -44,11 +45,19 @@ function modifyCartItemsData(cartItems) {
 function modifyCartPricesData(cartPrices) {
   const grandTotal = _get(cartPrices, 'grand_total', {});
   const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
+  const discountPrices = _get(cartPrices, 'discounts', []) || [];
   const currencySymbol = config.currencySymbols[_get(grandTotal, 'currency')];
+  const discounts = discountPrices.map(discount => ({
+    label: discount.label,
+    price: `-${currencySymbol}${discount.amount.value}`,
+    amount: discount.amount.value,
+  }));
   const grandTotalAmount = _get(grandTotal, 'value');
   const subTotalAmount = _get(subTotal, 'value');
 
   return {
+    discounts,
+    hasDiscounts: !_isArrayEmpty(discountPrices),
     subTotal: `${currencySymbol}${subTotalAmount}`,
     subTotalAmount,
     grandTotal: `${currencySymbol}${grandTotalAmount}`,

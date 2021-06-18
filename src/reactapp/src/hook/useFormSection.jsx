@@ -40,6 +40,7 @@ function useFormSection({
     isFormValid,
     fields: prepareFields(initialValues, id),
     submitHandler,
+    validationSchema,
   };
 
   return context;
