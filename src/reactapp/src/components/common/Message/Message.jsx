@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import _get from 'lodash.get';
 
 import useAppContext from '../../../hook/useAppContext';
+import { _emptyFunc } from '../../../utils';
 
 function Message() {
   const [{ message }, { setMessage }] = useAppContext();
@@ -10,12 +11,16 @@ function Message() {
 
   // auto-disappear message after some time.
   useEffect(() => {
+    if (!message) {
+      return _emptyFunc();
+    }
+
     const timer = setTimeout(() => {
       setMessage(false);
-    }, 5000);
+    }, 4000);
 
     return () => clearTimeout(timer);
-  }, [setMessage]);
+  }, [message, setMessage]);
 
   if (!message) {
     return <></>;
@@ -26,7 +31,7 @@ function Message() {
       <div
         className={`relative px-6 py-2 my-4 text-white border-0 rounded ${
           msgType === 'error' ? 'bg-red-400' : ''
-        } ${msgType === 'success' ? 'bg-teal-400' : ''}`}
+        } ${msgType === 'success' ? 'bg-green-500' : ''}`}
       >
         <span className="inline-block mr-8 align-middle">{msg}</span>
         <button

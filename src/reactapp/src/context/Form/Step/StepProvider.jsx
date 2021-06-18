@@ -1,3 +1,4 @@
+import { node } from 'prop-types';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import StepContext from './StepContext';
@@ -22,5 +23,9 @@ function StepProvider({ children }) {
     <StepContext.Provider value={context}>{children}</StepContext.Provider>
   );
 }
+
+StepProvider.propTypes = {
+  children: node.isRequired,
+};
 
 export default StepProvider;

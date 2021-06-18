@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import Message from './common/Message';
 import PageLoader from './common/Loader';
+import FormStep from './common/Form/FormStep';
 import Login from './login';
 import { AddressWrapper } from './address';
 import BillingAddress from './billingAddress';
@@ -14,10 +15,6 @@ import PlaceOrder from './PlaceOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
-
-function FormStep({ children, className }) {
-  return <div className={className}>{children}</div>;
-}
 
 function CheckoutForm() {
   const { orderId, getGuestCartInfo } = useCartContext();
@@ -46,46 +43,48 @@ function CheckoutForm() {
   return (
     <CheckoutFormWrapper>
       <Message />
-      <div
-        className={`${
-          pageLoader
-            ? 'hidden'
-            : 'flex flex-col flex-wrap mx-12 my-6 md:flex-row'
-        }`}
-      >
-        <div className="md:w-1/4">
-          <div className="mr-1">
-            <FormStep className="space-y-2">
-              <Login />
-              <AddressWrapper>
-                <BillingAddress />
-                <ShippingAddress />
-              </AddressWrapper>
-            </FormStep>
-          </div>
-        </div>
+      <div className="flex justify-center">
+        <div className="container">
+          <div
+            className={`${
+              pageLoader ? 'hidden' : 'flex flex-col my-6 md:flex-row space-y-2'
+            }`}
+          >
+            <div className="md:w-1/4">
+              <div className="mt-2 md:pr-1">
+                <FormStep className="space-y-2">
+                  <Login />
+                  <AddressWrapper>
+                    <BillingAddress />
+                    <ShippingAddress />
+                  </AddressWrapper>
+                </FormStep>
+              </div>
+            </div>
 
-        <div className="md:w-1/3">
-          <div className="mx-1 space-y-2">
-            <FormStep>
-              <ShippingMethodsForm />
-            </FormStep>
+            <div className="md:w-1/3">
+              <div className="space-y-2 md:px-1">
+                <FormStep>
+                  <ShippingMethodsForm />
+                </FormStep>
 
-            <FormStep>
-              <PaymentMethod />
-            </FormStep>
-          </div>
-        </div>
+                <FormStep>
+                  <PaymentMethod />
+                </FormStep>
+              </div>
+            </div>
 
-        <div className="flex-grow">
-          <div className="ml-1 space-y-2">
-            <CartItemsForm />
-            <Totals />
-            <PlaceOrder />
+            <div className="flex-grow">
+              <div className="space-y-2 md:pl-1">
+                <CartItemsForm />
+                <Totals />
+                <PlaceOrder />
+              </div>
+            </div>
           </div>
+          {pageLoader && <PageLoader />}
         </div>
       </div>
-      {pageLoader && <PageLoader />}
     </CheckoutFormWrapper>
   );
 }

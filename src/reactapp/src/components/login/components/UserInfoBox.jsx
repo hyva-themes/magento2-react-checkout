@@ -29,11 +29,14 @@ function UserInfoBox() {
           {!isLoggedIn && _get(values, fields.email)}
         </span>
       </div>
-      <div className="flex items-center justify-center">
-        <Button click={setFormToEditMode} variant="warning">
-          {__('Edit')}
-        </Button>
-      </div>
+
+      {!isLoggedIn && (
+        <div className="flex items-center justify-center">
+          <Button click={setFormToEditMode} variant="warning">
+            {__('Edit')}
+          </Button>
+        </div>
+      )}
     </>
   );
 }

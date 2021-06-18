@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import _get from 'lodash.get';
 import { config } from '../../../config';
-import { prepareFullName } from '../../customer/utility';
+import { prepareFullName } from '../../../utils/customer';
 
 export function modifySelectedShippingMethod(addressList) {
   const selectedMethod = _get(addressList, '0.selected_shipping_method');

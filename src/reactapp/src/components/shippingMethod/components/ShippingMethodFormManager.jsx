@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { node } from 'prop-types';
-import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
 import { string as YupString } from 'yup';
 
@@ -32,18 +31,16 @@ function ShippingMethodFormManager({ children }) {
     setErrorMessage,
   } = useShippingMethodAppContext();
 
-  const formSubmit = async values => {
-    const shippingMethodToSave = _get(values, SHIPPING_METHOD, {});
-
+  const formSubmit = async shippingMethod => {
     try {
-      if (shippingMethodToSave.carrierCode && shippingMethodToSave.methodCode) {
+      if (shippingMethod.carrierCode && shippingMethod.methodCode) {
         setPageLoader(true);
-        await setShippingMethod(shippingMethodToSave);
+        await setShippingMethod(shippingMethod);
         setSuccessMessage(__('Shipping method updated successfully'));
         setPageLoader(false);
       }
     } catch (error) {
-      console.log({ error });
+      console.error(error);
       setErrorMessage(
         __('Something went wrong while updating shipping method')
       );
@@ -69,7 +66,7 @@ function ShippingMethodFormManager({ children }) {
 
   return (
     <ShippingMethodFormContext.Provider value={context}>
-      <Form>{children}</Form>
+      <Form id={SHIPPING_METHOD}>{children}</Form>
     </ShippingMethodFormContext.Provider>
   );
 }

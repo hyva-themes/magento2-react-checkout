@@ -2,7 +2,6 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import Button from '../../common/Button';
 import RadioInput from '../../common/Form/RadioInput';
 import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
@@ -11,28 +10,24 @@ import { SHIPPING_METHOD } from '../../../config';
 import { __ } from '../../../i18n';
 
 function ShippingMethodList() {
+  const { values, setFieldValue, setFieldTouched } = useFormikContext();
+  const { methodsAvailable, methodList } = useShippingMethodCartContext();
   const { fields, submitHandler } = useShippingMethodFormContext();
-  const {
-    values,
-    touched,
-    setFieldValue,
-    setFieldTouched,
-  } = useFormikContext();
   const selectedMethod = _get(values, SHIPPING_METHOD, {});
   const selectedMethodId = `${selectedMethod.carrierCode}__${selectedMethod.methodCode}`;
-  const { methodsAvailable, methodList } = useShippingMethodCartContext();
-  const buttonDisable =
-    !_get(touched, fields.carrierCode) || !_get(touched, fields.methodCode);
 
-  const handleShippingMethodSelection = event => {
+  const handleShippingMethodSelection = async event => {
     const methodSelected = methodList[event.target.value];
-    const { carrierCode, methodCode } = methodSelected;
+    const { carrierCode, methodCode, id: methodId } = methodSelected;
 
-    if (methodSelected) {
-      setFieldValue(SHIPPING_METHOD, { carrierCode, methodCode });
-      setFieldTouched(fields.carrierCode, true);
-      setFieldTouched(fields.methodCode, true);
+    if (methodId === selectedMethodId) {
+      return;
     }
+
+    setFieldValue(SHIPPING_METHOD, { carrierCode, methodCode });
+    setFieldTouched(fields.carrierCode, true);
+    setFieldTouched(fields.methodCode, true);
+    await submitHandler({ carrierCode, methodCode });
   };
 
   if (!methodsAvailable) {
@@ -62,16 +57,6 @@ function ShippingMethodList() {
           );
         })}
       </ul>
-
-      <div className="flex items-center justify-center mt-2">
-        <Button
-          click={() => submitHandler(values)}
-          variant="success"
-          disable={buttonDisable}
-        >
-          {__('Update')}
-        </Button>
-      </div>
     </div>
   );
 }

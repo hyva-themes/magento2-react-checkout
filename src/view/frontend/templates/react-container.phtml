@@ -14,133 +14,277 @@ $configProvider = $block->getCheckoutConfigProvider();
     data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
     data-payment="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >
-    <div class="container flex flex-col px-6 mb-4 md:flex-row">
-        <div class="w-full pb-4 md:w-2/3 xl:w-3/4">
-            <div class="relative p-4 pb-6 text-center bg-white md:p-0 md:pr-4">
-                <div class="items-start hidden border-b md:flex">
-                    <div class="w-2/5 py-2 text-left border-r">item</div>
-                    <div class="w-1/5 py-2 border-r">price</div>
-                    <div class="w-1/5 py-2 border-r">quantity</div>
-                    <div class="w-1/5 py-2">subtotal</div>
-                </div>
-                <div class="border-b">
-                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
-                        <div
-                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
-                            <span
-                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
-                                    style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
-                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
-                                <div class="text-left"><span
-                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
-                                        for="product-title"></span><span
-                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
-                                        for="sku"></span></div>
+    <div class="container">
+        <div class="flex flex-col max-h-screen mx-2 my-6 overflow-hidden md:mx-12 md:flex-row">
+            <div class="md:w-1/4">
+                <div class="mr-1 space-y-2">
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
                     </div>
-                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
-                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="edit-icon"></span> <span
-                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="trash-icon"></span></div>
-                </div>
-                <div class="border-b">
-                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
-                        <div
-                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
-                            <span
-                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
-                                    style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
-                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
-                                <div class="text-left"><span
-                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
-                                        for="product-title"></span><span
-                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
-                                        for="sku"></span></div>
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
                     </div>
-                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
-                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="edit-icon"></span> <span
-                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="trash-icon"></span></div>
-                </div>
-                <div class="border-b">
-                    <div class="flex flex-col items-stretch mb-2 border-b md:flex-row">
-                        <div
-                            class="flex flex-col items-stretch justify-center w-full py-4 md:border-r md:flex-row md:w-2/5">
-                            <span
-                                class="box-content self-center block w-2/3 h-64 h-auto mb-4 mr-0 bg-container-darker animate-pulse border-block md:w-1/3 md:mb-0 md:mr-2"><span
-                                    style="padding-top: 100%; display: block;"></span></span>
-                            <div class="flex flex-row mt-2 md:w-2/3 md:mt-0">
-                                <div class="w-1/3 mr-6 text-right md:hidden">item</div>
-                                <div class="text-left"><span
-                                        class="box-content block w-24 h-6 mb-2 bg-container-darker animate-pulse border-block"
-                                        for="product-title"></span><span
-                                        class="box-content block w-16 h-6 bg-container-darker animate-pulse border-block sku"
-                                        for="sku"></span></div>
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center w-full py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">price</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 md:border-r justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">quantity</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
-                        <div class="flex items-center py-4 md:w-1/5 justify-left md:justify-center">
-                            <div class="w-1/3 mr-6 text-right md:hidden">subtotal</div>
-                            <span
-                                class="box-content block w-20 h-6 bg-container-darker animate-pulse border-block sku"
-                                for="price"></span></div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex w-full mb-6 mr-6 text-center sm:w-1/3 sm:text-right md:text-left"><span
-                            class="box-content inline-flex block w-5 h-5 p-2 mr-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="edit-icon"></span> <span
-                            class="box-content inline-flex block w-5 h-5 p-2 border bg-container-darker animate-pulse border-block border-primary"
-                            for="trash-icon"></span></div>
+                </div>
+            </div>
+            <div class="md:w-2/4">
+                <div class="mx-1 space-y-2">
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow">
+                <div class="ml-1 space-y-2">
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card w-full px-4 py-4 bg-container-darker overflow-hidden">
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-4 animate-pulse">
+                            <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
+                            <div class="flex-1 py-1 space-y-4">
+                                <div class="w-3/4 h-4 bg-gray-400 rounded"></div>
+                                <div class="space-y-2">
+                                    <div class="h-4 bg-gray-400 rounded"></div>
+                                    <div class="w-5/6 h-4 bg-gray-400 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="w-full p-6 bg-gray-100 md:w-1/3 xl:w-1/4"><h2
-                class="mb-4 text-2xl font-medium text-gray-900 sm:text-3xl title-font">Summary</h2>
-        </div>
     </div>
 </div>
+

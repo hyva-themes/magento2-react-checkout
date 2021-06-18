@@ -6,3 +6,8 @@ build
 .DS_Store
 public/tailwind.output.css
 public/styles.css
+src/paymentMethods/*
+!src/paymentMethods/paymentConfig.json
+!src/paymentMethods/customRenderers.js
+!src/paymentMethods/i18nProvider.js
+!src/paymentMethods/utility
