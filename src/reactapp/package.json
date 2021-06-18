@@ -27,6 +27,7 @@
     "yup": "^0.32.8"
   },
   "scripts": {
+    "preinstall": "node scripts/configurePaymentMethods",
     "start": "npm-run-all build:tailwind --parallel app:start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
@@ -49,6 +50,9 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "config": {
+    "paymentMethodsRepo": "Add your payment methods here"
   },
   "eslintConfig": {
     "extends": "react-app"

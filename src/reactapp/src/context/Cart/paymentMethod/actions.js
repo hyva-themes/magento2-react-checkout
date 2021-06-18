@@ -16,6 +16,7 @@ export async function setPaymentMethodAction(dispatch, paymentMethod) {
   } catch (error) {
     /** @todo error message */
     console.error(error);
+    throw error;
   }
 }
 
@@ -35,7 +36,6 @@ export async function setRestPaymentMethodAction(
     return result;
   } catch (error) {
     console.error(error);
+    throw error;
   }
-
-  return {};
 }

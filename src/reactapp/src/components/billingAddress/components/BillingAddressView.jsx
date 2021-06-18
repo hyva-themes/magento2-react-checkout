@@ -1,26 +1,26 @@
 import React from 'react';
 
 import BillingAddressCardList from './BillingAddressCardList';
-import { CreateNewAddressLink, ORBox } from '../../address';
-import useBillingAddressWrapper from '../hooks/useBillingAddressWrapper';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import { CreateNewAddressLink } from '../../address';
 
 function BillingAddressView() {
   const {
     editMode,
-    setToEditMode,
+    setFormToEditMode,
     setBackupAddress,
     setCustomerAddressSelected,
-  } = useBillingAddressWrapper();
-  const { resetBillingAddressFormFields } = useBillingAddressFormikContext();
+    resetBillingAddressFormFields,
+  } = useBillingAddressFormikContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
 
   const newAddressClickHandler = () => {
     setBackupAddress({ ...cartBillingAddress });
     resetBillingAddressFormFields();
     setCustomerAddressSelected(false);
-    setToEditMode();
+    setFormToEditMode();
   };
 
   if (editMode) {
@@ -29,8 +29,8 @@ function BillingAddressView() {
 
   return (
     <div className="py-2">
-      <CreateNewAddressLink actions={{ click: newAddressClickHandler }} />
-      <ORBox />
+      <CreateNewAddressLink addOR actions={{ click: newAddressClickHandler }} />
+      <BillingSameAsShippingCheckbox addOR />
       <BillingAddressCardList />
     </div>
   );

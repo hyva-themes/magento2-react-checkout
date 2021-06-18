@@ -12,7 +12,6 @@ export default function useLoginCartContext() {
     setEmailOnGuestCart,
     getCartInfoAfterMerge,
     getCustomerCartInfo,
-    setCustomerDefaultAddressToCart,
     getCustomerCartId,
   } = cartActions;
   const cart = _get(cartData, 'cart');
@@ -30,6 +29,5 @@ export default function useLoginCartContext() {
     getCustomerCartId,
     getCartInfoAfterMerge,
     getCustomerCartInfo,
-    setCustomerDefaultAddressToCart,
   };
 }

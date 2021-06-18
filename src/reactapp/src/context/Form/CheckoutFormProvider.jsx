@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import _get from 'lodash.get';
 import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
@@ -53,11 +54,7 @@ function CheckoutFormProvider({ children }) {
    */
   const [paymentActionList, setPaymentActions] = useState({});
 
-  const {
-    placeOrder,
-    selectedShippingMethod,
-    selectedPaymentMethod,
-  } = useCartContext();
+  const { placeOrder } = useCartContext();
   const [, { setPageLoader }] = useAppContext();
 
   /**
@@ -85,17 +82,19 @@ function CheckoutFormProvider({ children }) {
   const formSubmit = async values => {
     try {
       setPageLoader(true);
-      const order = await placeOrder(
-        values,
-        paymentActionList,
-        selectedShippingMethod,
-        selectedPaymentMethod
-      );
+      const order = await placeOrder(values, paymentActionList);
 
-      if (order && order.redirectUrl) {
+      const orderNumber = _get(order, 'order_number');
+
+      if (orderNumber && config.isProductionMode) {
         LocalStorage.clearCheckoutStorage();
-        window.location.replace(`${config.baseUrl}${order.redirectUrl}`);
+        window.location.replace(config.successPageRedirectUrl);
       }
+
+      if (orderNumber && config.isDevelopmentMode) {
+        LocalStorage.clearCheckoutStorage();
+      }
+      setPageLoader(false);
     } catch (error) {
       setPageLoader(false);
     }
@@ -143,7 +142,7 @@ function CheckoutFormProvider({ children }) {
     <CheckoutFormContext.Provider
       value={{
         ...context,
-        checkoutFormValidationShema: formValidationSchema,
+        checkoutFormValidationSchema: formValidationSchema,
         submitHandler: formSubmit,
         registerPaymentAction,
       }}

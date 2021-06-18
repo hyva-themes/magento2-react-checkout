@@ -1,18 +1,16 @@
 import _get from 'lodash.get';
 
-import { __ } from '../../../i18n';
 import {
-  _cleanObjByKeys,
-  _isArrayEmpty,
-  _isObjEmpty,
-  _keys,
-  _objToArray,
-  _toString,
-} from '../../../utils';
+  formatAddressListToCardData,
+  isCartAddressValid,
+} from '../../../utils/address';
+import { _cleanObjByKeys, _isObjEmpty, _objToArray } from '../../../utils';
+import { BILLING_ADDR_FORM } from '../../../config';
+import { prepareFullName } from '../../../utils/customer';
 
-export * from './components/billingAddressCardListUtil';
-export * from './components/CancelButtonUtil';
-export * from './common';
+export const CART_BILLING_ADDRESS = 'cart_billing_address';
+export const MY_CART_NEW_ADDRESS = `my_${CART_BILLING_ADDRESS}`;
+export const GUEST_CART_NEW_ADDRESS = CART_BILLING_ADDRESS;
 
 export const billingAddressFormInitValues = {
   company: '',
@@ -24,97 +22,29 @@ export const billingAddressFormInitValues = {
   city: '',
   region: '',
   country: '',
-  isSameAsBilling: true,
+  isSameAsShipping: true,
 };
 
-export function modifyAddrObjListToArrayList(addressList) {
-  const newList = _objToArray(addressList).map(addr => {
-    const {
-      id,
-      fullName = '',
-      street = [],
-      city = '',
-      regionLabel = '',
-      countryCode = '',
-      zipcode = '',
-      phone = '',
-      company = '',
-    } = addr;
-    return {
-      id: _toString(id),
-      address: [
-        fullName,
-        company,
-        ...street,
-        city,
-        regionLabel,
-        __('{} zipcode: {}', countryCode, zipcode),
-        __('phone: {}', phone),
-      ].filter(i => !!i),
-    };
-  });
-
-  // if a new address entry there, then we want to show it first
-  if (addressList.new) {
-    return newList.reverse();
-  }
-
-  return newList;
-}
-
-export function isCartHoldingAddressInfo(cartInfo) {
-  return (
-    isCartHoldingBillingAddress(cartInfo) &&
-    isCartHoldingBillingAddress(cartInfo)
-  );
-}
-
-export function isCartHoldingShippingAddress(cartInfo) {
-  const cartBillingAddress = _get(cartInfo, 'shipping_addresses');
-
-  return !_isObjEmpty(cartBillingAddress);
-}
-
-export function isCartHoldingBillingAddress(cartInfo) {
-  const cartBillingAddress = _get(cartInfo, 'billing_address');
-
-  return (
-    !!_get(cartBillingAddress, 'firstname') &&
-    !!_get(cartBillingAddress, 'country')
-  );
-}
-
-export function getFirstItemFromBillingAddrList(addressList) {
-  return _isObjEmpty(addressList)
-    ? addressList
-    : addressList[_keys(addressList)[0]];
-}
-
-export function getFirstItemIdFromBillingAddrList(addressList) {
-  const addressIds = _keys(addressList);
-
-  return _isArrayEmpty(addressIds) ? '' : addressIds[0];
-}
-
-export function prepareFormAddressFromAddressListById(
-  billingAddressList,
-  selectedAddressId
-) {
-  const address = { ..._get(billingAddressList, selectedAddressId, {}) };
+export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
+  const newAddress = { ...address };
   const { countryCode, regionCode } = address;
 
   if (countryCode) {
-    address.country = countryCode;
+    newAddress.country = countryCode;
   }
   if (regionCode) {
-    address.region = regionCode;
+    newAddress.region = regionCode;
+  }
+  if (selectedAddressId) {
+    newAddress.selectedAddress = selectedAddressId;
   }
 
   const keysToRemove = [
     'countryCode',
     'fullName',
     'isDefaultBilling',
-    'isDefaultBilling',
+    'isDefaultShipping',
+    'fullName',
     'middlename',
     'regionCode',
     'regionLabel',
@@ -122,28 +52,54 @@ export function prepareFormAddressFromAddressListById(
 
   return {
     ...billingAddressFormInitValues,
-    ..._cleanObjByKeys(address, keysToRemove),
-    selectedAddress: selectedAddressId,
+    ..._cleanObjByKeys(newAddress, keysToRemove),
   };
 }
 
-export function prepareCartAddressWithId(addressList, addressId) {
-  return {
-    [addressId]: {
-      id: addressId,
-      ...getFirstItemFromBillingAddrList(addressList),
-    },
-  };
+export function prepareFormAddressFromAddressListById(
+  billingAddressList,
+  selectedAddressId
+) {
+  if (
+    !selectedAddressId ||
+    !billingAddressList ||
+    _isObjEmpty(billingAddressList)
+  ) {
+    return;
+  }
+
+  const address = { ..._get(billingAddressList, selectedAddressId, {}) };
+
+  // eslint-disable-next-line consistent-return
+  return prepareFormAddressFromCartAddress(address, selectedAddressId);
 }
 
-export function isCartBillingAddressValid(cartBillingAddress) {
-  return (
-    cartBillingAddress &&
-    cartBillingAddress.firstname &&
-    cartBillingAddress.country
+export function prepareBillingAddressCardList(
+  values,
+  customerAddressList,
+  regionData,
+  customerAddressSelected,
+  isLoggedIn
+) {
+  const cartBillingAddress = _get(values, BILLING_ADDR_FORM, {});
+  const { country } = cartBillingAddress;
+  let cartBillingAddrCardInfo = [];
+
+  if (!customerAddressSelected && isCartAddressValid(cartBillingAddress)) {
+    cartBillingAddrCardInfo = formatAddressListToCardData([
+      {
+        ...cartBillingAddress,
+        fullName: prepareFullName(cartBillingAddress),
+        id: isLoggedIn ? MY_CART_NEW_ADDRESS : CART_BILLING_ADDRESS,
+        countryCode: country,
+        regionLabel: _get(regionData, 'name'),
+      },
+    ]);
+  }
+
+  const customerAddressCardInfo = formatAddressListToCardData(
+    _objToArray(customerAddressList)
   );
-}
 
-export function customerHasAddress(customerAddressList) {
-  return !!_keys(customerAddressList).length;
+  return [...cartBillingAddrCardInfo, ...customerAddressCardInfo];
 }

@@ -8,13 +8,13 @@ export default function useBillingAddressCartContext() {
 
   return useMemo(() => {
     const cart = _get(cartData, 'cart');
-    const selectedAddressId = _get(cart, 'selected_shipping_address');
-    const cartBillingAddress = _get(cart, `shipping_addresses`);
+    const cartBillingAddress = _get(cart, `billing_address`);
+    const cartShippingAddress = _get(cart, 'shipping_addresses');
+    const selectedAddressId = _get(cartBillingAddress, 'id');
 
     const {
       addCartBillingAddress,
       setCartBillingAddress,
-      updateCustomerAddress,
       setCartSelectedBillingAddress,
       setCustomerAddressAsBillingAddress,
     } = cartActions;
@@ -23,11 +23,11 @@ export default function useBillingAddressCartContext() {
       cartInfo: cart,
       cartBillingAddress,
       selectedAddressId,
+      cartShippingAddress,
 
       // actions
       addCartBillingAddress,
       setCartBillingAddress,
-      updateCustomerAddress,
       setCartSelectedBillingAddress,
       setCustomerAddressAsBillingAddress,
     };

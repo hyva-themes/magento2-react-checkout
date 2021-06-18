@@ -1,19 +1,19 @@
-import { useCallback } from 'react';
 import _get from 'lodash.get';
+import { useFormikContext } from 'formik';
 
-import useShippingAddressWrapper from './useShippingAddressWrapper';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
-import useShippingAddressFormikContext from './useShippingAddressFormikContext';
-import { saveCustomerAddressToLocalStorage } from '../../../utils/address';
-import { _emptyFunc, _makePromise } from '../../../utils';
-import { CART_SHIPPING_ADDRESS } from '../utility';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
+import useShippingAddressCartContext from './useShippingAddressCartContext';
 import { __ } from '../../../i18n';
+import { CART_SHIPPING_ADDRESS } from '../utility';
+import LocalStorage from '../../../utils/localStorage';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
+import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
+import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
-export default function useSaveAddressAction() {
-  const { submitHandler } = useShippingAddressFormikContext();
+export default function useSaveAddressAction(shippingAddressFormContext) {
+  const { values, setFieldValue } = useFormikContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -25,69 +25,123 @@ export default function useSaveAddressAction() {
     editMode,
     selectedAddress,
     regionData,
-    setToViewMode,
+    setFormToViewMode,
     customerAddressSelected,
     setSelectedAddress,
     setCustomerAddressSelected,
-  } = useShippingAddressWrapper();
+  } = shippingAddressFormContext;
+  const {
+    addCartShippingAddress,
+    setCartBillingAddress,
+    setCustomerAddressAsBillingAddress,
+    setCustomerAddressAsShippingAddress,
+  } = useShippingAddressCartContext();
 
-  return useCallback(
-    async formikValues => {
-      try {
-        let customerAddressUsed = false;
-        const isBillingSame = _get(formikValues, isSameAsShippingField);
-        let updateCustomerAddrPromise = _emptyFunc();
-        const updateCartAddressPromise = _makePromise(
-          submitHandler,
-          formikValues
+  const submitHandler = async customerAddressId => {
+    try {
+      setPageLoader(true);
+
+      const isBillingSame = _get(values, isSameAsShippingField);
+      const shippingAddressToSave = _get(values, SHIPPING_ADDR_FORM);
+      let updateBillingAddress = _emptyFunc();
+      let updateShippingAddress = _makePromise(
+        addCartShippingAddress,
+        shippingAddressToSave,
+        isBillingSame
+      );
+
+      if (customerAddressId) {
+        updateShippingAddress = _makePromise(
+          setCustomerAddressAsShippingAddress,
+          Number(customerAddressId),
+          isBillingSame
         );
-
-        if (isLoggedIn && customerAddressSelected && editMode) {
-          customerAddressUsed = true;
-          updateCustomerAddrPromise = _makePromise(
-            updateCustomerAddress,
-            selectedAddress,
-            _get(formikValues, SHIPPING_ADDR_FORM, {}),
-            regionData
-          );
-        }
-
-        if (customerAddressUsed) {
-          saveCustomerAddressToLocalStorage(selectedAddress, isBillingSame);
-        } else {
-          saveCustomerAddressToLocalStorage('', isBillingSame);
-          setSelectedAddress(CART_SHIPPING_ADDRESS);
-          setCustomerAddressSelected(false);
-        }
-
-        setPageLoader(true);
-        await Promise.all([
-          updateCustomerAddrPromise(),
-          updateCartAddressPromise(),
-        ]);
-        setToViewMode(false);
-        setSuccessMessage(__('Shipping address updated successfully'));
-        setPageLoader(false);
-      } catch (error) {
-        console.log({ error });
-        setErrorMessage(__('Shipping address update failed. Please try again'));
-        setPageLoader(false);
       }
-    },
-    [
-      submitHandler,
-      isLoggedIn,
-      selectedAddress,
-      editMode,
-      updateCustomerAddress,
-      setSuccessMessage,
-      setErrorMessage,
-      regionData,
-      setToViewMode,
-      setPageLoader,
-      setSelectedAddress,
-      setCustomerAddressSelected,
-      customerAddressSelected,
-    ]
-  );
+
+      if (isBillingSame) {
+        if (customerAddressId) {
+          updateBillingAddress = _makePromise(
+            setCustomerAddressAsBillingAddress,
+            Number(customerAddressId),
+            isBillingSame
+          );
+        } else {
+          updateBillingAddress = _makePromise(setCartBillingAddress, {
+            ...shippingAddressToSave,
+            isSameAsShipping: true,
+          });
+        }
+      }
+
+      const [shippingAddrResponse] = await Promise.all([
+        updateShippingAddress(),
+        updateBillingAddress(),
+      ]);
+
+      if (isBillingSame) {
+        const addressToSet = _cleanObjByKeys(
+          _get(shippingAddrResponse, 'shipping_addresses'),
+          ['fullName']
+        );
+        setFieldValue(BILLING_ADDR_FORM, {
+          ...billingAddressFormInitValues,
+          ...addressToSet,
+        });
+      }
+
+      setPageLoader(false);
+    } catch (error) {
+      console.error(error);
+      setPageLoader(false);
+    }
+  };
+
+  return async addressId => {
+    try {
+      let customerAddressNeeded = false;
+      const isBillingSame = _get(values, isSameAsShippingField);
+      const hasCustomerAddr = addressId && addressId !== CART_SHIPPING_ADDRESS;
+      let updateCustomerAddrPromise = _emptyFunc();
+      const updateCartAddressPromise = _makePromise(
+        submitHandler,
+        hasCustomerAddr && addressId
+      );
+
+      if (isLoggedIn && customerAddressSelected && editMode) {
+        customerAddressNeeded = true;
+        updateCustomerAddrPromise = _makePromise(
+          updateCustomerAddress,
+          selectedAddress,
+          _get(values, SHIPPING_ADDR_FORM, {}),
+          regionData
+        );
+      }
+
+      if (hasCustomerAddr) {
+        LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame);
+        setSelectedAddress(addressId);
+        setCustomerAddressSelected(true);
+      } else if (customerAddressNeeded) {
+        LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
+        setCustomerAddressSelected(true);
+      } else {
+        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
+        setSelectedAddress(CART_SHIPPING_ADDRESS);
+        setCustomerAddressSelected(false);
+      }
+
+      setPageLoader(true);
+      await Promise.all([
+        updateCustomerAddrPromise(),
+        updateCartAddressPromise(),
+      ]);
+      setFormToViewMode(false);
+      setSuccessMessage(__('Shipping address updated successfully'));
+      setPageLoader(false);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(__('Shipping address update failed. Please try again'));
+      setPageLoader(false);
+    }
+  };
 }
