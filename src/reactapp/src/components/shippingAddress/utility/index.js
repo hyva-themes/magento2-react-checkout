@@ -11,8 +11,8 @@ export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
 
 export function prepareShippingAddressCardList(
   values,
-  customerAddressList,
   regionData,
+  customerAddressList,
   customerAddressSelected
 ) {
   const cartShippingAddress = _get(values, SHIPPING_ADDR_FORM, {});

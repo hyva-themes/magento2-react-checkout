@@ -1,17 +1,19 @@
 import React, { useCallback } from 'react';
 
 import Button from '../../../common/Button';
-import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
-import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
-import LocalStorage from '../../../../utils/localStorage';
 import { __ } from '../../../../i18n';
+import { _toString } from '../../../../utils';
+import LocalStorage from '../../../../utils/localStorage';
 import { isCartAddressValid } from '../../../../utils/address';
+import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
+import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
 
 function CancelButton() {
   const { cartShippingAddress } = useShippingAddressCartContext();
   const {
-    setFormToViewMode,
     backupAddress,
+    setFormToViewMode,
+    setSelectedAddress,
     setCustomerAddressSelected,
     setShippingAddressFormFields,
   } = useShippingAddressFormikContext();
@@ -20,11 +22,16 @@ function CancelButton() {
     setShippingAddressFormFields({ ...backupAddress });
     setFormToViewMode();
     setCustomerAddressSelected(!!LocalStorage.getCustomerShippingAddressId());
+
+    if (backupAddress.id) {
+      setSelectedAddress(_toString(backupAddress.id));
+    }
   }, [
     backupAddress,
     setFormToViewMode,
-    setShippingAddressFormFields,
+    setSelectedAddress,
     setCustomerAddressSelected,
+    setShippingAddressFormFields,
   ]);
 
   if (!isCartAddressValid(cartShippingAddress)) {
