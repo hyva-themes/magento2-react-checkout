@@ -15,6 +15,7 @@ import PlaceOrder from './PlaceOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
+import CheckoutAgreements from './checkoutAgreements';
 
 function CheckoutForm() {
   const { orderId, getGuestCartInfo } = useCartContext();
@@ -70,6 +71,7 @@ function CheckoutForm() {
 
                 <FormStep>
                   <PaymentMethod />
+                  <CheckoutAgreements />
                 </FormStep>
               </div>
             </div>

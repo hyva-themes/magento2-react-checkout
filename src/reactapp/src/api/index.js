@@ -21,6 +21,7 @@ import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import generateToken from './customer/generateToken';
 import updateCustomerAddress from './customer/updateCustomerAddress';
+import getCheckoutAgreements from './cart/getCheckoutAgreements';
 
 export const isResponseError = isError;
 
@@ -67,3 +68,5 @@ export const placeOrderRequest = placeOrder;
 export const restSetGuestPaymentMethodRequest = restSetGuestPaymentMethod;
 
 export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;
+
+export const getCheckoutAgreementsRequest = getCheckoutAgreements;

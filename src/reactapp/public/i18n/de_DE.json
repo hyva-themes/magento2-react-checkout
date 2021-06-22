@@ -59,5 +59,6 @@
     "{} zipcode: {}": "{} Postleitzahl: {}",
     "Cart Subtotal": "Warenkorb Zwischensumme",
     "Shipping": "Versand",
-    "Order Total": "Auftragssumme"
+    "Order Total": "Auftragssumme",
+    "Checkout Agreements": "Kassenvereinbarungen"
 }

@@ -22,6 +22,10 @@ import {
   setSelectedShippingAddressAction,
   setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
+import {
+  getCheckoutAgreementsAction,
+  changeCheckoutAgreementAction,
+} from './checkoutAgreements/actions';
 
 const dispatchMapper = {
   setEmailOnGuestCart: setEmailOnGuestCartAction,
@@ -41,6 +45,8 @@ const dispatchMapper = {
   createEmptyCart: createEmptyCartAction,
   mergeCarts: mergeCartsAction,
   setRestPaymentMethod: setRestPaymentMethodAction,
+  getCheckoutAgreements: getCheckoutAgreementsAction,
+  changeCheckoutAgreement: changeCheckoutAgreementAction,
 };
 
 function cartDispatchers(dispatch) {

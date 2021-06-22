@@ -28,6 +28,7 @@ const initialState = {
       grandTotalAmount: 0,
     },
     is_virtual: false,
+    checkout_agreements: [],
   },
 };
 

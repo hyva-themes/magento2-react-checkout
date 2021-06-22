@@ -14,6 +14,14 @@ import {
   SET_CART_SELECTED_SHIPPING_ADDRESS,
   SET_CART_SHIPPING_ADDRESSES,
 } from './shippingAddress/types';
+import {
+  getCheckoutAgreements,
+  changeCheckoutAgreements,
+} from './checkoutAgreements/reducers';
+import {
+  GET_CHECKOUT_AGREEMENTS,
+  CHANGE_CHECKOUT_AGREEMENTS,
+} from './checkoutAgreements/types';
 
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
@@ -22,6 +30,8 @@ const actions = {
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
   [SET_CART_SELECTED_SHIPPING_ADDRESS]: setCartSelectedShippingAddress,
   [SET_ORDER_INFO]: setOrderInfo,
+  [GET_CHECKOUT_AGREEMENTS]: getCheckoutAgreements,
+  [CHANGE_CHECKOUT_AGREEMENTS]: changeCheckoutAgreements,
 };
 
 function cartReducer(state, { type, payload }) {
