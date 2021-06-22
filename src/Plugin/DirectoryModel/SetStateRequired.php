@@ -128,7 +128,7 @@ class SetStateRequired
     {
         $store = $this->getStore();
         if ($this->showOptionalRegions === null) {
-            $this->showOptionalRegions = $this->scopeConfig->getValue(
+            $this->showOptionalRegions = (bool) $this->scopeConfig->getValue(
                 'general/region/display_all',
                 ScopeInterface::SCOPE_STORES,
                 $store->getCode()
