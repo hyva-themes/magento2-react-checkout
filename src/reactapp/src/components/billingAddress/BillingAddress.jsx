@@ -10,7 +10,7 @@ import { __ } from '../../i18n';
 function BillingAddress() {
   return (
     <BillingAddressFormikProvider>
-      <Card bg="dark">
+      <Card>
         <ToggleBox title={__('Billing Information')} show>
           <BillingAddressForm />
           <BillingAddressView />

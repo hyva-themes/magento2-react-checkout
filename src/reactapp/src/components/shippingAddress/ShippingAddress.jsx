@@ -10,7 +10,7 @@ import { __ } from '../../i18n';
 function ShippingAddress() {
   return (
     <ShippingAddressFormikProvider>
-      <Card bg="dark">
+      <Card>
         <ToggleBox title={__('Shipping Information')} show>
           <ShippingAddressForm />
           <ShippingAddressView />

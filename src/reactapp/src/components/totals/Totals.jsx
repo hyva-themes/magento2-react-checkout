@@ -17,7 +17,7 @@ function Totals() {
   } = useTotalsCartContext();
 
   return (
-    <Card bg="dark">
+    <Card>
       <Header>{__('Order Summary')}</Header>
       <div className="py-4">
         <div>

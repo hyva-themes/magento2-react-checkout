@@ -73,7 +73,7 @@ function LoginForm() {
       <div className="flex items-center justify-center">
         <Button
           click={handleButtonClick}
-          variant="success"
+          variant="primary"
           disable={!isFormTouched}
         >
           {customerWantsToSignIn ? __('Sign In') : __('Update')}

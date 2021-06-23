@@ -3,19 +3,20 @@ import { bool, node } from 'prop-types';
 
 import Header from '../Header';
 import { ArrowUpIcon, ArrowDownIcon } from '../icons';
+import {ArrowSmDownIcon, ArrowSmUpIcon} from "@heroicons/react/outline";
 
-function ToggleBox({ children, title, show }) {
+function ToggleBox({ children, title, show, classes }) {
   const [open, setOpen] = useState(show);
 
   const arrowContent = (
     <div className="flex items-center justify-center">
-      {open && <ArrowUpIcon size={16} className="w-4 h-4" />}
-      {!open && <ArrowDownIcon size={16} className="w-4 h-4" />}
+      {open && <ArrowSmUpIcon className="w-6 h-6" />}
+      {!open && <ArrowSmDownIcon className="w-6 h-6" />}
     </div>
   );
 
   return (
-    <div className="">
+    <div>
       <Header
         extra={arrowContent}
         onClick={() => setOpen(!open)}
