@@ -7,15 +7,9 @@ declare(strict_types=1);
 
 namespace Hyva\Checkout\Model\Resolver;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
-use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\Framework\Reflection\DataObjectProcessor;
-use Magento\Directory\Api\CountryInformationAcquirerInterface;
-use Magento\Directory\Api\Data\CountryInformationInterface;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 /**
  * ExtensionAttribute field resolver, used for GraphQL request processing.
@@ -23,18 +17,6 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
  */
 class ExtensionAttribute implements ResolverInterface
 {
-    /**
-     * @param DataObjectProcessor $dataProcessor
-     * @param CountryInformationAcquirerInterface $countryInformationAcquirer
-     */
-    public function __construct(
-        DataObjectProcessor $dataProcessor,
-        CountryInformationAcquirerInterface $countryInformationAcquirer
-    ) {
-        $this->dataProcessor = $dataProcessor;
-        $this->countryInformationAcquirer = $countryInformationAcquirer;
-    }
-
     /**
      * @inheritdoc
      */
@@ -44,7 +26,8 @@ class ExtensionAttribute implements ResolverInterface
         ResolveInfo $info,
         array $value = null,
         array $args = null
-    ) {
-            return $value['extension_attributes'][$field->getName()] ?? null;
+    )
+    {
+        return $value['extension_attributes'][$field->getName()] ?? null;
     }
 }
