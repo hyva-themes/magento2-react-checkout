@@ -126,12 +126,9 @@ function ShippingAddressFormikProvider({ children }) {
     cartHasShippingAddress,
   ]);
 
-  // whenever state value changed, we will find the state entry from the stateList
-  // state info needed in multiple occasions. it is useful to store this data separate
-
   let context = {
-    ...editModeContext,
     ...regionData,
+    ...editModeContext,
     backupAddress,
     selectedAddress,
     setBackupAddress,

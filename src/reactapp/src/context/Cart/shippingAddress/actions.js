@@ -1,8 +1,8 @@
 import _set from 'lodash.set';
 
 import {
-  setCustomerAddrAsCartShippingAddrRequest,
   setShippingAddressRequest,
+  setCustomerAddrAsCartShippingAddrRequest,
 } from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 import { SET_CART_SELECTED_SHIPPING_ADDRESS } from './types';
@@ -31,6 +31,7 @@ export async function addCartShippingAddressAction(
     return cartInfo;
   } catch (error) {
     // @todo error message
+    console.error(error);
   }
 
   return {};
@@ -53,6 +54,7 @@ export async function setCustomerAddrAsShippingAddrAction(
     return cartInfo;
   } catch (error) {
     // @todo error message
+    console.error(error);
   }
 
   return {};

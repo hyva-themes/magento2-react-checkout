@@ -4,25 +4,26 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import { AddressCard } from '../../address';
-import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
-import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
-import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 import { _toString } from '../../../utils';
+import { AddressCard } from '../../address';
 import { BILLING_ADDR_FORM } from '../../../config';
 import { prepareBillingAddressCardList } from '../utility';
 import { isValidCustomerAddressId } from '../../../utils/address';
+import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
+import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAction';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 
 function BillingAddressCardList() {
-  const { values } = useFormikContext();
   const {
-    selectedBillingAddressId,
     regionData,
     selectedAddress,
-    setSelectedAddress,
-    setFormToEditMode,
     setBackupAddress,
+    setFormToEditMode,
+    setSelectedAddress,
+    selectedBillingAddressId,
   } = useBillingAddressFormikContext();
+  const { values } = useFormikContext();
+  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const billingAddress = _get(values, BILLING_ADDR_FORM, {});
   const addressList = prepareBillingAddressCardList(
@@ -32,7 +33,6 @@ function BillingAddressCardList() {
     isValidCustomerAddressId(selectedBillingAddressId),
     isLoggedIn
   );
-  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
 
   const performAddressEdit = () => {
     setBackupAddress({ ...billingAddress });
@@ -54,11 +54,11 @@ function BillingAddressCardList() {
     <div className="mx-2 space-y-3">
       {addressList.map(address => (
         <AddressCard
-          inputName="billingAddressChooser"
           key={address.id}
           address={address}
-          isSelected={!isLoggedIn || selectedBillingAddressId === address.id}
+          inputName="billingAddressChooser"
           actions={{ performAddressSwitching, performAddressEdit }}
+          isSelected={!isLoggedIn || selectedBillingAddressId === address.id}
         />
       ))}
     </div>

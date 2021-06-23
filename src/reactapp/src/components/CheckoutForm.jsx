@@ -11,7 +11,7 @@ import CartItemsForm from './items';
 import ShippingMethodsForm from './shippingMethod';
 import PaymentMethod from './paymentMethod';
 import Totals from './totals';
-import PlaceOrder from './PlaceOrder';
+import PlaceOrder from './placeOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';

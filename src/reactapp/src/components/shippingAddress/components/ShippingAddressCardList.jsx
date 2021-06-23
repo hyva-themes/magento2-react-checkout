@@ -13,7 +13,7 @@ import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikCo
 
 function ShippingAddressCardList() {
   const { values } = useFormikContext();
-  const { customerAddressList } = useShippingAddressAppContext();
+  const { customerAddressList, isLoggedIn } = useShippingAddressAppContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const {
     regionData,
@@ -32,7 +32,7 @@ function ShippingAddressCardList() {
 
   const performAddressEdit = addressId => {
     const addressToBackup = _get(customerAddressList, addressId);
-    if (!addressToBackup) {
+    if (isLoggedIn && !addressToBackup) {
       return;
     }
     setBackupAddress({ ...addressToBackup });
