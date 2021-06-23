@@ -8,9 +8,7 @@
       * When using Hyvä Themes, don't generate a separate style-sheet!
       */
 -->
-<!--
     <css src="Hyva_Checkout::css/styles.css" defer="defer"/>
--->
     </head>
     <body>
         <referenceContainer name="content">
