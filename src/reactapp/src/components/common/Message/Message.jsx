@@ -21,7 +21,7 @@ function Message() {
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, [message, setMessage]);
+  }, [message, setMessage, msgType]);
 
   if (!message) {
     return <></>;
