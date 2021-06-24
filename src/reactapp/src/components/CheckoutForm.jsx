@@ -11,6 +11,7 @@ import PaymentMethod from './paymentMethod';
 import BillingAddress from './billingAddress';
 import ShippingAddress from './shippingAddress';
 import ShippingMethodsForm from './shippingMethod';
+import StickyRightSidebar from './StickyRightSidebar';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useAppContext from '../hook/useAppContext';
 import useCartContext from '../hook/useCartContext';
@@ -51,23 +52,17 @@ function CheckoutForm() {
                 <AddressWrapper>
                   <ShippingAddress />
                   <ShippingMethodsForm />
-
                   <BillingAddress />
                   <PaymentMethod />
                 </AddressWrapper>
               </div>
             </div>
 
-            <div
-              className="sticky self-start w-full lg:w-2/5"
-              style={{ top: '100px' }}
-            >
-              <div className="space-y-2">
-                <CartItemsForm />
-                <Totals />
-                <PlaceOrder />
-              </div>
-            </div>
+            <StickyRightSidebar>
+              <CartItemsForm />
+              <Totals />
+              <PlaceOrder />
+            </StickyRightSidebar>
           </div>
           {pageLoader && <PageLoader />}
         </div>

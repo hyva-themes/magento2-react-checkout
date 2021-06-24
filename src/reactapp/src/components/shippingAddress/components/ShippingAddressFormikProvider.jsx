@@ -20,6 +20,7 @@ import { customerHasAddress } from '../../../utils/customer';
 import useRegionData from '../../address/hooks/useRegionData';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import useRegionValidation from '../../address/hooks/useRegionValidation';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
@@ -38,7 +39,7 @@ const initialValues = {
 
 const requiredMessage = __('%1 is required');
 
-const validationSchema = {
+const initValidationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
@@ -50,24 +51,10 @@ const validationSchema = {
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
-  region: YupString()
-    .required(requiredMessage)
-    .nullable(),
+  region: YupString().nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBoolean(),
 };
-
-const toggleRegionRequiredSchema = regionRequired => {
-  if (!regionRequired && validationSchema.region) {
-    validationSchema.region = YupString().nullable();
-  } else {
-    validationSchema.region = YupString()
-      .required(requiredMessage)
-      .nullable();
-  }
-};
-
-const countryField = `${SHIPPING_ADDR_FORM}.country`;
 
 function ShippingAddressFormikProvider({ children }) {
   const addressIdInCache = _toString(
@@ -82,13 +69,16 @@ function ShippingAddressFormikProvider({ children }) {
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     !!addressIdInCache
   );
+  const validationSchema = useRegionValidation(
+    SHIPPING_ADDR_FORM,
+    initValidationSchema
+  );
   const editModeContext = useFormEditMode();
   const regionData = useRegionData(SHIPPING_ADDR_FORM);
   const { cartShippingAddress } = useShippingAddressCartContext();
-  const { values, setFieldValue, setFieldTouched } = useFormikContext();
-  const { countryList, customerAddressList } = useShippingAddressAppContext();
+  const { setFieldValue, setFieldTouched } = useFormikContext();
+  const { customerAddressList } = useShippingAddressAppContext();
   const { setFormToViewMode } = editModeContext;
-  const countryValue = _get(values, countryField);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
   const resetShippingAddressFormFields = useCallback(() => {
@@ -140,18 +130,6 @@ function ShippingAddressFormikProvider({ children }) {
     customerAddressList,
     cartHasShippingAddress,
   ]);
-
-  // whenever country value changed, we will find the country entry from the countryList
-  // so that we can toggle the validation on the `region` field
-  useEffect(() => {
-    if (countryList && countryValue) {
-      const regionRequired = !!countryList.find(
-        country => country.id === countryValue
-      )?.stateRequired;
-
-      toggleRegionRequiredSchema(regionRequired);
-    }
-  }, [countryValue, countryList]);
 
   let context = {
     ...regionData,

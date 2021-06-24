@@ -35,7 +35,10 @@ function AddressCard({
         {isSelected && (
           <li>
             <div className="flex items-center justify-center mt-2">
-              <Button click={actions.performAddressEdit} variant="secondary">
+              <Button
+                variant="secondary"
+                click={() => actions.performAddressEdit(id)}
+              >
                 {__('Edit')}
               </Button>
             </div>

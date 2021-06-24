@@ -25,6 +25,7 @@ import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useRegionValidation from '../../address/hooks/useRegionValidation';
 
 const initialValues = {
   company: '',
@@ -41,7 +42,7 @@ const initialValues = {
 
 const requiredMessage = __('%1 is required');
 
-const validationSchema = {
+const initValidationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
@@ -58,19 +59,10 @@ const validationSchema = {
   isSameAsShipping: YupBool(),
 };
 
-const toggleRegionRequiredSchema = regionRequired => {
-  if (!regionRequired && validationSchema.region) {
-    validationSchema.region = YupString().nullable();
-  } else {
-    validationSchema.region = YupString().required(requiredMessage);
-  }
-};
-
 const initialAddressIdInCache = !!_toString(
   LocalStorage.getCustomerBillingAddressId()
 );
 
-const countryField = `${BILLING_ADDR_FORM}.country`;
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
@@ -96,12 +88,14 @@ function BillingAddressFormManager({ children }) {
     cartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
+  const validationSchema = useRegionValidation(
+    BILLING_ADDR_FORM,
+    initValidationSchema
+  );
   const editModeContext = useFormEditMode();
   const regionData = useRegionData(BILLING_ADDR_FORM);
   const { values, setFieldValue } = useFormikContext();
-  const { countryList } = useBillingAddressAppContext();
   const { setFormEditMode } = editModeContext;
-  const countryValue = _get(values, countryField);
   const isSame = _get(values, isSameAsShippingField);
   const selectedCustomerAddress = prepareFormAddressFromAddressListById(
     customerAddressList,
@@ -237,18 +231,6 @@ function BillingAddressFormManager({ children }) {
   useEffect(() => {
     setSelectedAddress(addressIdInCache);
   }, [addressIdInCache]);
-
-  // whenever country value changed, we will find the country entry from the countryList
-  // so that we can toggle the validation on the `region` field
-  useEffect(() => {
-    if (countryList && countryValue) {
-      const regionRequired = !!countryList.find(
-        country => country.id === countryValue
-      )?.stateRequired;
-
-      toggleRegionRequiredSchema(regionRequired);
-    }
-  }, [countryValue, countryList]);
 
   const addressContext = useMemo(() => {
     if (!isLoggedIn && !cartBillingAddress) {
