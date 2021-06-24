@@ -13,7 +13,7 @@ function CartItemsForm() {
 
   return (
     <CartItemsFormManager>
-      <Card bg="dark" classes={cartItemsAvailable ? '' : 'opacity-75'}>
+      <Card classes={cartItemsAvailable ? '' : 'opacity-75'}>
         <Header>{__('Product Details')}</Header>
         {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
       </Card>

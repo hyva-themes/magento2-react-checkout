@@ -8,6 +8,7 @@ import TextInput from '../../common/Form/TextInput';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 import { CART_ITEMS_FORM } from '../../../config';
 import { __ } from '../../../i18n';
+import { RefreshIcon } from '@heroicons/react/solid';
 
 function CartItem({ item, isLastItem }) {
   const { touched } = useFormikContext();
@@ -33,9 +34,10 @@ function CartItem({ item, isLastItem }) {
       </td>
       <td className="hidden md:table-cell">
         <TextInput
-          width="w-10"
+          width="w-20"
+          type="number"
           id={`${qtyField}-desktop`}
-          className="w-10 h-10"
+          className=""
           name={qtyField}
           onKeyDown={handleKeyDown}
         />
@@ -44,11 +46,13 @@ function CartItem({ item, isLastItem }) {
       <td className="hidden md:table-cell">{item.rowTotal}</td>
       <td className="hidden md:table-cell">
         <Button
-          variant="success"
+          variant="secondary"
+          size="sm"
           disable={!isQtyFieldTouched}
           click={itemUpdateHandler}
         >
-          {__('Update')}
+          <RefreshIcon className="h-5 w-5 text-black" />
+          <span className="sr-only">{__('Update')}</span>
         </Button>
       </td>
 
@@ -87,17 +91,20 @@ function CartItem({ item, isLastItem }) {
                         <div className="flex items-center justify-between">
                           <TextInput
                             id={`${qtyField}-mobile`}
-                            className="h-8"
+                            className="w-20"
                             name={qtyField}
+                            type="number"
                             onKeyDown={handleKeyDown}
                           />
-                          <div className="pt-2 pl-2">
+                          <div className="mt-2 ml-2">
                             <Button
-                              variant="success"
+                              variant="secondary"
+                              size="sm"
                               disable={!isQtyFieldTouched}
                               click={itemUpdateHandler}
                             >
-                              {__('Update')}
+                              <RefreshIcon className="h-5 w-5 text-black" />
+                              <span className="sr-only">{__('Update')}</span>
                             </Button>
                           </div>
                         </div>

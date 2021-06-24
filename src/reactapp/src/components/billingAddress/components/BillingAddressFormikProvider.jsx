@@ -57,6 +57,14 @@ const validationSchema = {
   isSameAsShipping: YupBool(),
 };
 
+const toggleRegionRequiredSchema = (regionRequired) => {
+    if (!regionRequired && validationSchema.region) {
+        validationSchema.region = YupString().nullable();
+    } else {
+        validationSchema.region = YupString().required(requiredMessage);
+    }
+};
+
 const initialAddressIdInCache = !!_toString(
   LocalStorage.getCustomerBillingAddressId()
 );
@@ -80,7 +88,7 @@ function BillingAddressFormManager({ children }) {
     initialAddressIdInCache
   );
   const { values, setFieldValue } = useFormikContext();
-  const { stateList } = useBillingAddressAppContext();
+  const { stateList, countryList } = useBillingAddressAppContext();
   const editModeContext = useFormEditMode();
   const {
     isLoggedIn,
@@ -229,7 +237,19 @@ function BillingAddressFormManager({ children }) {
     setSelectedAddress(addressIdInCache);
   }, [addressIdInCache]);
 
-  // whenever state value changed, we will find the state entry from the stateList
+    // whenever country value changed, we will find the country entry from the countryList
+    // so that we can toggle the validation on the `region` field
+    useEffect(() => {
+        if (countryList && countryValue) {
+            const regionRequired = !!countryList.find(
+                (country) => country.id === countryValue
+            )?.state_required;
+
+            toggleRegionRequiredSchema(regionRequired);
+        }
+    }, [countryValue, countryList]);
+
+    // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate
   useEffect(() => {
     if (

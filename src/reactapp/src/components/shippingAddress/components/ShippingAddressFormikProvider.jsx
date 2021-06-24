@@ -22,6 +22,8 @@ import { _emptyFunc, _toString } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { customerHasAddress } from '../../../utils/customer';
+import useCountryState from '../../address/hooks/useCountryState';
+import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 const initialValues = {
   company: '',
@@ -44,14 +46,22 @@ const validationSchema = {
   street: YupArray().test(
     'street1Required',
     requiredMessage,
-    value => !!_get(value, 0)
+    (value) => !!_get(value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
-  region: YupString().required(requiredMessage),
+  region: YupString().required(requiredMessage).nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBoolean(),
+};
+
+const toggleRegionRequiredSchema = (regionRequired) => {
+  if (!regionRequired && validationSchema.region) {
+    validationSchema.region = YupString().nullable();
+  } else {
+    validationSchema.region = YupString().required(requiredMessage).nullable();
+  }
 };
 
 const regionField = `${SHIPPING_ADDR_FORM}.region`;
@@ -72,7 +82,11 @@ function ShippingAddressFormikProvider({ children }) {
     !!addressIdInCache
   );
   const { values, setFieldValue, setFieldTouched } = useFormikContext();
-  const { stateList, customerAddressList } = useShippingAddressAppContext();
+  const {
+    stateList,
+    countryList,
+    customerAddressList,
+  } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const editModeContext = useFormEditMode();
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
@@ -86,7 +100,7 @@ function ShippingAddressFormikProvider({ children }) {
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
-    addressToSet => {
+    (addressToSet) => {
       setFieldValue(SHIPPING_ADDR_FORM, {
         ...initialValues,
         ...addressToSet,
@@ -136,6 +150,18 @@ function ShippingAddressFormikProvider({ children }) {
     forceViewMode,
   ]);
 
+  // whenever country value changed, we will find the country entry from the countryList
+  // so that we can toggle the validation on the `region` field
+  useEffect(() => {
+    if (countryList && countryValue) {
+      const regionRequired = !!countryList.find(
+        (country) => country.id === countryValue
+      )?.state_required;
+
+      toggleRegionRequiredSchema(regionRequired);
+    }
+  }, [countryValue, countryList]);
+
   // whenever state value changed, we will find the state entry from the stateList
   // state info needed in multiple occasions. it is useful to store this data separate
   useEffect(() => {
@@ -146,7 +172,7 @@ function ShippingAddressFormikProvider({ children }) {
       stateList
     ) {
       const region = _get(stateList, countryValue, []).find(
-        state => state.code === regionValue
+        (state) => state.code === regionValue
       );
       setRegionData(region);
     }

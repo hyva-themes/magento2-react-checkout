@@ -10,14 +10,16 @@ function CartItemList() {
   return (
     <div className="py-4">
       <div className="">
-        <table className="table w-full">
+        <table className="table w-full text-left">
           <thead className="hidden text-left md:table-header-group">
             <tr>
               <th>{__('Item')}</th>
               <th>{__('Qty')}</th>
               <th>{__('Price')}</th>
               <th>{__('Total')}</th>
-              <th>{__('Actions')}</th>
+              <th>
+                <span className={'sr-only'}>{__('Actions')}</span>{' '}
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -91,30 +91,20 @@ function BillingAddressForm() {
           required
           onKeyDown={handleKeyDown}
         />
-        {selectedCountry &&
-          (hasStateOptions ? (
-            <SelectInput
-              label={__('State')}
-              name={fields.region}
-              required
-              options={stateOptions}
-              onKeyDown={handleKeyDown}
-            />
-          ) : (
-            <TextInput
-              label={__('State')}
-              name={fields.region}
-              placeholder={__('State')}
-              required
-              onKeyDown={handleKeyDown}
-            />
-          ))}
         <SelectInput
           label={__('Country')}
           name={fields.country}
           required
           options={countryOptions}
           onKeyDown={handleKeyDown}
+        />
+        <SelectInput
+          label={__('State')}
+          name={fields.region}
+          required
+          options={stateOptions}
+          onKeyDown={handleKeyDown}
+          isHidden={!selectedCountry || !hasStateOptions}
         />
         <TextInput
           label={__('Phone')}

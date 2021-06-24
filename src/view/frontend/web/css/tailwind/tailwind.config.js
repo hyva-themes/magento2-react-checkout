@@ -1,60 +1,98 @@
-const { colors } = require('tailwindcss/defaultTheme')
+const colors = require("tailwindcss/colors");
 
 module.exports = {
-    important: true,
-    theme: {
-        colors: {
-            black: colors.black,
-            white: colors.white,
-            gray: colors.gray,
-            indigo: colors.indigo,
-            red: colors.red,
-            yellow: colors.yellow,
-            green: colors.green,
-            teal: colors.teal,
-            primary: {
-                lighter: colors.blue['300'],
-                default: colors.blue['500'],
-                darker: colors.blue['600'],
-            },
-            secondary: {
-                lighter: colors.blue['100'],
-                default: colors.blue['200'],
-                darker: colors.blue['300'],
-            },
-            background: {
-                lighter: colors.blue['100'],
-                default: colors.blue['200'],
-                darker: colors.blue['300'],
-            },
-            container: {
-                lighter: colors.white,
-                default: colors.gray['100'],
-                darker: colors.gray['200'],
-            }
+  important: true,
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          lighter: colors.blue["300"],
+          DEFAULT: colors.blue["800"],
+          darker: colors.blue["900"],
         },
-        screens: {
-            'sm': '640px',
-            // => @media (min-width: 640px) { ... }
-            'md': '768px',
-            // => @media (min-width: 768px) { ... }
-            'lg': '1024px',
-            // => @media (min-width: 1024px) { ... }
-            'xl': '1280px',
-            // => @media (min-width: 1280px) { ... }
+        secondary: {
+          lighter: colors.blue["100"],
+          DEFAULT: colors.blue["200"],
+          darker: colors.blue["300"],
         },
+        background: {
+          lighter: colors.blue["100"],
+          DEFAULT: colors.blue["200"],
+          darker: colors.blue["300"],
+        },
+      },
+      textColor: {
+        orange: colors.orange,
+        primary: {
+          lighter: colors.gray["700"],
+          DEFAULT: colors.gray["800"],
+          darker: colors.gray["900"],
+        },
+        secondary: {
+          lighter: colors.gray["400"],
+          DEFAULT: colors.gray["600"],
+          darker: colors.gray["800"],
+        },
+      },
+      backgroundColor: {
+        primary: {
+          lighter: colors.blue["600"],
+          DEFAULT: colors.blue["700"],
+          darker: colors.blue["800"],
+        },
+        secondary: {
+          lighter: colors.blue["100"],
+          DEFAULT: colors.blue["200"],
+          darker: colors.blue["300"],
+        },
+        container: {
+          lighter: "#ffffff",
+          DEFAULT: "#fafafa",
+          darker: "#f5f5f5",
+        },
+      },
+      borderColor: {
+        primary: {
+          lighter: colors.blue["600"],
+          DEFAULT: colors.blue["700"],
+          darker: colors.blue["800"],
+        },
+        secondary: {
+          lighter: colors.blue["100"],
+          DEFAULT: colors.blue["200"],
+          darker: colors.blue["300"],
+        },
+        container: {
+          lighter: "#f5f5f5",
+          DEFAULT: "#e7e7e7",
+          darker: "#b6b6b6",
+        },
+      },
+      screens: {
+        sm: "640px",
+        // => @media (min-width: 640px) { ... }
+        md: "768px",
+        // => @media (min-width: 768px) { ... }
+        lg: "1024px",
+        // => @media (min-width: 1024px) { ... }
+        xl: "1280px",
+        // => @media (min-width: 1280px) { ... }
+      },
     },
-    variants: {
-        borderWidth: ['responsive', 'last', 'hover', 'focus'],
-        margin: ['responsive', 'last', 'hover', 'focus'],
+  },
+  variants: {
+    extend: {
+      borderWidth: ["last", "hover", "focus"],
+      margin: ["last"],
+      opacity: ["disabled"],
+      backgroundColor: ["even", "odd"],
     },
-    plugins: [
-        require('@tailwindcss/custom-forms'),
+  },
+  plugins: [require("@tailwindcss/forms")],
+  purge: {
+    content: [
+      "../../../../../reactapp/src/**/*.jsx",
+      "../../../templates/*.phtml",
     ],
-    purge: {
-        content: [
-            '../../../../../reactapp/src/**/*.jsx',
-            '../../../templates/*.phtml'
-        ]
-    }
-}
+  },
+};

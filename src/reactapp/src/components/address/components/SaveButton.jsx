@@ -11,7 +11,7 @@ function SaveButton({ actions, isFormValid }) {
   return (
     <Button
       click={() => actions.saveAddress(values)}
-      variant="success"
+      variant="primary"
       disable={!isFormValid}
     >
       {__('Save')}

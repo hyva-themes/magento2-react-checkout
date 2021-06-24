@@ -45,37 +45,25 @@ function CheckoutForm() {
       <Message />
       <div className="flex justify-center">
         <div className="container">
-          <div
-            className={`${
-              pageLoader ? 'hidden' : 'flex flex-col my-6 md:flex-row space-y-2'
-            }`}
-          >
-            <div className="md:w-1/4">
-              <div className="mt-2 md:pr-1">
-                <FormStep className="space-y-2">
-                  <Login />
-                  <AddressWrapper>
-                    <BillingAddress />
-                    <ShippingAddress />
-                  </AddressWrapper>
-                </FormStep>
-              </div>
-            </div>
-
-            <div className="md:w-1/3">
-              <div className="space-y-2 md:px-1">
-                <FormStep>
+          <div className="flex flex-col my-6 md:flex-row">
+            <div className="w-full lg:w-3/5 md:mr-2">
+              <div className="w-full md:max-w-md xl:max-w-full space-y-2">
+                <Login />
+                <AddressWrapper>
+                  <ShippingAddress />
                   <ShippingMethodsForm />
-                </FormStep>
 
-                <FormStep>
+                  <BillingAddress />
                   <PaymentMethod />
-                </FormStep>
+                </AddressWrapper>
               </div>
             </div>
 
-            <div className="flex-grow">
-              <div className="space-y-2 md:pl-1">
+            <div
+              className="w-full lg:w-2/5 sticky self-start"
+              style={{ top: '100px' }}
+            >
+              <div className="space-y-2">
                 <CartItemsForm />
                 <Totals />
                 <PlaceOrder />
