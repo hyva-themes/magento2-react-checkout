@@ -81,7 +81,6 @@ function CheckoutFormProvider({ children }) {
 
   const formSubmit = async values => {
     try {
-      console.log({ values })
       setPageLoader(true);
       const order = await placeOrder(values, paymentActionList);
 
