@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react';
 
+import Login from './login';
+import Totals from './totals';
+import CartItemsForm from './items';
+import PlaceOrder from './placeOrder';
 import Message from './common/Message';
 import PageLoader from './common/Loader';
-import FormStep from './common/Form/FormStep';
-import Login from './login';
 import { AddressWrapper } from './address';
+import PaymentMethod from './paymentMethod';
 import BillingAddress from './billingAddress';
 import ShippingAddress from './shippingAddress';
-import CartItemsForm from './items';
 import ShippingMethodsForm from './shippingMethod';
-import PaymentMethod from './paymentMethod';
-import Totals from './totals';
-import PlaceOrder from './placeOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
-import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
+import useCartContext from '../hook/useCartContext';
 
 function CheckoutForm() {
   const { orderId, getGuestCartInfo } = useCartContext();
