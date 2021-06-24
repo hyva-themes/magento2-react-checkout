@@ -3,5 +3,6 @@ export const GET_COUNTRY_LIST_QUERY = `query {
     id
     full_name_locale
     full_name_english
+    state_required
   }
 }`;

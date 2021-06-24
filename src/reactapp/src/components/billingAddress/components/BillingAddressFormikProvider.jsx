@@ -1,9 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { node } from 'prop-types';
 import _get from 'lodash.get';
+import { node } from 'prop-types';
 import { Form, useFormikContext } from 'formik';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
+import {
+  MY_CART_NEW_ADDRESS,
+  CART_BILLING_ADDRESS,
+  GUEST_CART_NEW_ADDRESS,
+  billingAddressFormInitValues,
+  prepareFormAddressFromCartAddress,
+  prepareFormAddressFromAddressListById,
+} from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
@@ -17,14 +25,6 @@ import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
-import {
-  MY_CART_NEW_ADDRESS,
-  CART_BILLING_ADDRESS,
-  GUEST_CART_NEW_ADDRESS,
-  billingAddressFormInitValues,
-  prepareFormAddressFromCartAddress,
-  prepareFormAddressFromAddressListById,
-} from '../utility';
 
 const initialValues = {
   company: '',
@@ -58,10 +58,19 @@ const validationSchema = {
   isSameAsShipping: YupBool(),
 };
 
+const toggleRegionRequiredSchema = regionRequired => {
+  if (!regionRequired && validationSchema.region) {
+    validationSchema.region = YupString().nullable();
+  } else {
+    validationSchema.region = YupString().required(requiredMessage);
+  }
+};
+
 const initialAddressIdInCache = !!_toString(
   LocalStorage.getCustomerBillingAddressId()
 );
 
+const countryField = `${BILLING_ADDR_FORM}.country`;
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 function BillingAddressFormManager({ children }) {
@@ -77,9 +86,6 @@ function BillingAddressFormManager({ children }) {
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     initialAddressIdInCache
   );
-  const { values, setFieldValue } = useFormikContext();
-  const editModeContext = useFormEditMode();
-  const regionData = useRegionData(BILLING_ADDR_FORM);
   const {
     isLoggedIn,
     customerAddressList,
@@ -90,8 +96,13 @@ function BillingAddressFormManager({ children }) {
     cartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
-  const isSame = _get(values, isSameAsShippingField);
+  const editModeContext = useFormEditMode();
+  const regionData = useRegionData(BILLING_ADDR_FORM);
+  const { values, setFieldValue } = useFormikContext();
+  const { countryList } = useBillingAddressAppContext();
   const { setFormEditMode } = editModeContext;
+  const countryValue = _get(values, countryField);
+  const isSame = _get(values, isSameAsShippingField);
   const selectedCustomerAddress = prepareFormAddressFromAddressListById(
     customerAddressList,
     selectedAddressId
@@ -226,6 +237,18 @@ function BillingAddressFormManager({ children }) {
   useEffect(() => {
     setSelectedAddress(addressIdInCache);
   }, [addressIdInCache]);
+
+  // whenever country value changed, we will find the country entry from the countryList
+  // so that we can toggle the validation on the `region` field
+  useEffect(() => {
+    if (countryList && countryValue) {
+      const regionRequired = !!countryList.find(
+        country => country.id === countryValue
+      )?.state_required;
+
+      toggleRegionRequiredSchema(regionRequired);
+    }
+  }, [countryValue, countryList]);
 
   const addressContext = useMemo(() => {
     if (!isLoggedIn && !cartBillingAddress) {

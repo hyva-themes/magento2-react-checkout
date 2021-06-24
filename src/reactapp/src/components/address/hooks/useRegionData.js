@@ -28,5 +28,5 @@ export default function useRegionData(addressType) {
     }
   }, [regionValue, countryValue, regionData, stateList]);
 
-  return { regionData };
+  return { regionData, setRegionData };
 }

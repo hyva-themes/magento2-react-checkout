@@ -15,28 +15,31 @@ function TextInput({
   className,
   width,
   type,
+  isHidden,
   ...rest
 }) {
   const inputId = id || name;
-  const [, meta] = useField(name) || [];
+  const [, meta, helper] = useField(name) || [];
   const hasFieldError = !!_get(meta, 'error', false);
   const hasFieldTouched = !!_get(meta, 'touched', false);
   const hasError = hasFieldError && hasFieldTouched;
 
   return (
-    <div className="mt-2 form-control">
+    <div className={`mt-2 form-control ${isHidden ? 'hidden' : ''}`}>
       <div className="flex items-center justify-between">
-        <label htmlFor={inputId} className="md:text-sm">
-          {label}
-          {required && <sup> *</sup>}
-        </label>
+        {label && (
+          <label htmlFor={inputId} className="md:text-sm">
+            {label}
+            {required && <sup> *</sup>}
+          </label>
+        )}
         <div
           className={`feedback text-sm md:text-xs text-right ${
             hasError ? 'text-red-500' : 'text-green-500'
           }`}
         >
           <ErrorMessage name={name}>
-            {msg => msg.replace('%1', label)}
+            {(msg) => msg.replace('%1', label)}
           </ErrorMessage>
         </div>
       </div>
@@ -46,7 +49,11 @@ function TextInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className={`form-input ${
+        onChange={(event) => {
+          helper.setTouched(true);
+          helper.setValue(event.target.value);
+        }}
+        className={`form-input max-w-md ${
           hasError ? 'border-dashed border-red-500' : ''
         } ${className} ${width || 'w-full'}`}
       />
@@ -65,6 +72,7 @@ TextInput.propTypes = {
   width: string,
   className: string,
   type: string,
+  isHidden: bool,
 };
 
 TextInput.defaultProps = {
@@ -76,6 +84,7 @@ TextInput.defaultProps = {
   placeholder: '',
   className: '',
   type: 'text',
+  isHidden: false,
 };
 
 export default TextInput;

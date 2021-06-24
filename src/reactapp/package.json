@@ -13,6 +13,7 @@
   "private": true,
   "proxy": "https://demo.hyva.io",
   "dependencies": {
+    "@heroicons/react": "^1.0.1",
     "formik": "^2.2.6",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "preinstall": "node scripts/configurePaymentMethods",
-    "start": "npm-run-all build:tailwind --parallel app:start",
+    "start": "npm run app:start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
@@ -36,14 +37,9 @@
     "app:start": "react-app-rewired start",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "build:tailwind": "tailwindcss build src/asset/css/tailwind.css -o public/tailwind.output.css",
-    "prestart": "npm run build:tailwind",
-    "prebuild": "NODE_ENV=production npm run build:tailwind && npm run minify",
-    "minify": "npx csso public/tailwind.output.css --output public/styles.css",
-    "move-css-to-static-dir": "cp public/styles.css ../view/frontend/web/css/styles.css",
-    "move-i18n-to-static-dir": "cp -R public/i18n ../view/frontend/web/js/",
-    "postbuild": "npm run move-css-to-static-dir && npm run move-i18n-to-static-dir &&  npm run output-success",
-    "output-success": "echo \"\\033[0;32mDone!\\033[0m\""
+    "prestart": "cd ../view/frontend/web/css/tailwind/ && npm run build-dev",
+    "prebuild": "cd ../view/frontend/web/css/tailwind/ && npm run build-prod",
+    "move-i18n-to-static-dir": "cp -R public/i18n ../view/frontend/web/js/"
   },
   "lint-staged": {
     "src/*.{js,jsx,json,scss,css,md}": [

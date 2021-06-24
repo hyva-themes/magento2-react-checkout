@@ -13,7 +13,7 @@ function ShippingMethodsForm() {
 
   return (
     <ShippingMethodFormManager>
-      <Card bg="dark" classes={methodsAvailable ? '' : 'opacity-75'}>
+      <Card classes={methodsAvailable ? '' : 'opacity-75'}>
         <Header>{__('Shipping Methods')}</Header>
         <NoShippingMethodInfoBox />
         <ShippingMethodList />

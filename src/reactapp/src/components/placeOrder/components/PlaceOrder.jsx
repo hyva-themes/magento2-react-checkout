@@ -84,8 +84,8 @@ function PlaceOrder() {
   };
 
   return (
-    <div className="flex items-center justify-center h-24">
-      <Button variant="warning" big click={handlePerformPlaceOrder}>
+    <div className="flex items-center justify-center py-4">
+      <Button variant="primary" size="lg" click={handlePerformPlaceOrder}>
         {__('Place Order')}
       </Button>
     </div>

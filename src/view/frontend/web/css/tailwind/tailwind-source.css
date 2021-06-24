@@ -2,4 +2,10 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 /* purgecss end ignore */
+
+@import url(components/forms.css);
+@import url(components/messages.css);
+@import url(components/button.css);
+@import url(components/theming.css);
+
 @import "tailwindcss/utilities";
