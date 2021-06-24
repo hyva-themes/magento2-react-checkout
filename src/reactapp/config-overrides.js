@@ -28,8 +28,12 @@ module.exports = function override(config, env) {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
-        react: 'preact/compat',
-        'react-dom': 'preact/compat',
+        // Uncomment these to reduce the size of the compiled app
+        // this improves performance, but you loose compatibility
+        // with the React browser extension for debugging
+        //
+        // react: 'preact/compat',
+        // 'react-dom': 'preact/compat',
       },
     },
   };

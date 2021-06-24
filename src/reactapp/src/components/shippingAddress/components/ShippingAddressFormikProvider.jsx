@@ -147,7 +147,7 @@ function ShippingAddressFormikProvider({ children }) {
     if (countryList && countryValue) {
       const regionRequired = !!countryList.find(
         country => country.id === countryValue
-      )?.state_required;
+      )?.stateRequired;
 
       toggleRegionRequiredSchema(regionRequired);
     }

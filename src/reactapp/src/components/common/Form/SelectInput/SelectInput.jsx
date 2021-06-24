@@ -24,7 +24,7 @@ export function SelectInput({
   const hasError = hasFieldError && hasFieldTouched;
 
   return (
-    <div className={`mt-2 form-contro ${isHidden && 'hidden'}`}>
+    <div className={`mt-2 form-control ${isHidden && 'hidden'}`}>
       <div className="flex items-center justify-between">
         <label htmlFor={inputId} className="md:text-sm">
           {label}
