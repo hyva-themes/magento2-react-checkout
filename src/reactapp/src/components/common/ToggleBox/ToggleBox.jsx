@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { bool, node } from 'prop-types';
+import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
 
 import Header from '../Header';
-import {ArrowSmDownIcon, ArrowSmUpIcon} from "@heroicons/react/outline";
 
-function ToggleBox({ children, title, show, classes }) {
+function ToggleBox({ children, title, show }) {
   const [open, setOpen] = useState(show);
 
   const arrowContent = (
@@ -29,9 +29,9 @@ function ToggleBox({ children, title, show, classes }) {
 }
 
 ToggleBox.propTypes = {
-  children: node.isRequired,
-  title: node.isRequired,
   show: bool,
+  title: node.isRequired,
+  children: node.isRequired,
 };
 
 ToggleBox.defaultProps = {

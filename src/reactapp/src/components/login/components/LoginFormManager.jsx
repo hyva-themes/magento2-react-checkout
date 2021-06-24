@@ -4,15 +4,15 @@ import _get from 'lodash.get';
 import { Form, useFormikContext } from 'formik';
 import { string as YupString, bool as YupBool } from 'yup';
 
-import LoginFormContext from '../context/LoginFormContext';
-import useFormSection from '../../../hook/useFormSection';
-import useFormEditMode from '../../../hook/useFormEditMode';
-import useLoginCartContext from '../hooks/useLoginCartContext';
-import useLoginAppContext from '../hooks/useLoginAppContext';
-import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import { __ } from '../../../i18n';
 import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
+import useFormSection from '../../../hook/useFormSection';
+import LoginFormContext from '../context/LoginFormContext';
+import useFormEditMode from '../../../hook/useFormEditMode';
+import useLoginAppContext from '../hooks/useLoginAppContext';
+import useLoginCartContext from '../hooks/useLoginCartContext';
+import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 
 const initialValues = {
   email: '',

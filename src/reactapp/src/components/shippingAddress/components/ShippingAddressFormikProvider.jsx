@@ -1,27 +1,28 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { node } from 'prop-types';
-import _get from 'lodash.get';
-import { Form, useFormikContext } from 'formik';
 import {
-  string as YupString,
   array as YupArray,
+  string as YupString,
   boolean as YupBoolean,
 } from 'yup';
+import _get from 'lodash.get';
+import { node } from 'prop-types';
+import { Form, useFormikContext } from 'formik';
 
-import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
+import { __ } from '../../../i18n';
+import { _toString } from '../../../utils';
+import { CART_SHIPPING_ADDRESS } from '../utility';
+import { SHIPPING_ADDR_FORM } from '../../../config';
+import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
+import { isCartAddressValid } from '../../../utils/address';
+import { customerHasAddress } from '../../../utils/customer';
+import useRegionData from '../../address/hooks/useRegionData';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
-import { __ } from '../../../i18n';
-import { isCartAddressValid } from '../../../utils/address';
-import { SHIPPING_ADDR_FORM } from '../../../config';
-import { _emptyFunc, _toString } from '../../../utils';
-import LocalStorage from '../../../utils/localStorage';
-import { CART_SHIPPING_ADDRESS } from '../utility';
-import { customerHasAddress } from '../../../utils/customer';
 
 const initialValues = {
   company: '',
@@ -44,53 +45,51 @@ const validationSchema = {
   street: YupArray().test(
     'street1Required',
     requiredMessage,
-    (value) => !!_get(value, 0)
+    value => !!_get(value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
-  region: YupString().required(requiredMessage).nullable(),
+  region: YupString()
+    .required(requiredMessage)
+    .nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBoolean(),
 };
 
-const toggleRegionRequiredSchema = (regionRequired) => {
+const toggleRegionRequiredSchema = regionRequired => {
   if (!regionRequired && validationSchema.region) {
     validationSchema.region = YupString().nullable();
   } else {
-    validationSchema.region = YupString().required(requiredMessage).nullable();
+    validationSchema.region = YupString()
+      .required(requiredMessage)
+      .nullable();
   }
 };
 
-const regionField = `${SHIPPING_ADDR_FORM}.region`;
 const countryField = `${SHIPPING_ADDR_FORM}.country`;
 
 function ShippingAddressFormikProvider({ children }) {
   const addressIdInCache = _toString(
     LocalStorage.getCustomerShippingAddressId()
   );
-  const [forceFillFields, setForceFillFields] = useState(false);
-  const [forceViewMode, setForceViewMode] = useState(false);
   const [backupAddress, setBackupAddress] = useState(null);
-  const [regionData, setRegionData] = useState({});
+  const [forceViewMode, setForceViewMode] = useState(false);
+  const [forceFilledAddress, setForceFilledAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(
     addressIdInCache || CART_SHIPPING_ADDRESS
   );
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     !!addressIdInCache
   );
-  const { values, setFieldValue, setFieldTouched } = useFormikContext();
-  const {
-    stateList,
-    countryList,
-    customerAddressList,
-  } = useShippingAddressAppContext();
-  const { cartShippingAddress } = useShippingAddressCartContext();
   const editModeContext = useFormEditMode();
-  const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
-  const regionValue = _get(values, regionField);
-  const countryValue = _get(values, countryField);
+  const regionData = useRegionData(SHIPPING_ADDR_FORM);
+  const { cartShippingAddress } = useShippingAddressCartContext();
+  const { values, setFieldValue, setFieldTouched } = useFormikContext();
+  const { countryList, customerAddressList } = useShippingAddressAppContext();
   const { setFormToViewMode } = editModeContext;
+  const countryValue = _get(values, countryField);
+  const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
   const resetShippingAddressFormFields = useCallback(() => {
     setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
@@ -98,7 +97,7 @@ function ShippingAddressFormikProvider({ children }) {
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
-    (addressToSet) => {
+    addressToSet => {
       setFieldValue(SHIPPING_ADDR_FORM, {
         ...initialValues,
         ...addressToSet,
@@ -109,23 +108,17 @@ function ShippingAddressFormikProvider({ children }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (forceFillFields || !cartShippingAddress) {
-      return _emptyFunc();
+    if (forceFilledAddress === selectedAddress || !cartHasShippingAddress) {
+      return;
     }
 
-    if (!cartHasShippingAddress) {
-      return _emptyFunc();
-    }
-
-    // needs to do this only once; forceFillFields make sure of it.
-    setShippingAddressFormFields(cartShippingAddress);
-    setForceFillFields(true);
-    return _emptyFunc();
+    setShippingAddressFormFields({ ...cartShippingAddress });
+    setForceFilledAddress(selectedAddress);
   }, [
-    forceFillFields,
+    selectedAddress,
+    forceFilledAddress,
     cartShippingAddress,
     cartHasShippingAddress,
-    setFieldValue,
     setShippingAddressFormFields,
   ]);
 
@@ -142,10 +135,10 @@ function ShippingAddressFormikProvider({ children }) {
       setForceViewMode(true);
     }
   }, [
-    cartHasShippingAddress,
-    customerAddressList,
-    setFormToViewMode,
     forceViewMode,
+    setFormToViewMode,
+    customerAddressList,
+    cartHasShippingAddress,
   ]);
 
   // whenever country value changed, we will find the country entry from the countryList
@@ -153,40 +146,24 @@ function ShippingAddressFormikProvider({ children }) {
   useEffect(() => {
     if (countryList && countryValue) {
       const regionRequired = !!countryList.find(
-        (country) => country.id === countryValue
+        country => country.id === countryValue
       )?.stateRequired;
 
       toggleRegionRequiredSchema(regionRequired);
     }
   }, [countryValue, countryList]);
 
-  // whenever state value changed, we will find the state entry from the stateList
-  // state info needed in multiple occasions. it is useful to store this data separate
-  useEffect(() => {
-    if (
-      _get(regionData, 'code') !== regionValue &&
-      regionValue &&
-      countryValue &&
-      stateList
-    ) {
-      const region = _get(stateList, countryValue, []).find(
-        (state) => state.code === regionValue
-      );
-      setRegionData(region);
-    }
-  }, [regionValue, countryValue, regionData, stateList]);
-
   let context = {
+    ...regionData,
     ...editModeContext,
-    resetShippingAddressFormFields,
-    setShippingAddressFormFields,
-    selectedAddress,
-    setSelectedAddress,
-    regionData,
     backupAddress,
+    selectedAddress,
     setBackupAddress,
+    setSelectedAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
+    setShippingAddressFormFields,
+    resetShippingAddressFormFields,
   };
 
   const formSubmit = useSaveAddressAction(context);
@@ -198,9 +175,9 @@ function ShippingAddressFormikProvider({ children }) {
   });
 
   const formSectionContext = useFormSection({
-    id: SHIPPING_ADDR_FORM,
-    validationSchema,
     initialValues,
+    validationSchema,
+    id: SHIPPING_ADDR_FORM,
     submitHandler: formSubmit,
   });
 

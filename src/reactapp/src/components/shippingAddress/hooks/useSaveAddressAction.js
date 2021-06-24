@@ -119,14 +119,12 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
 
       if (hasCustomerAddr) {
         LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame);
-        setSelectedAddress(addressId);
         setCustomerAddressSelected(true);
       } else if (customerAddressNeeded) {
         LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
         setCustomerAddressSelected(true);
       } else {
         LocalStorage.saveCustomerAddressInfo('', isBillingSame);
-        setSelectedAddress(CART_SHIPPING_ADDRESS);
         setCustomerAddressSelected(false);
       }
 
@@ -136,6 +134,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         updateCartAddressPromise(),
       ]);
       setFormToViewMode(false);
+      setSelectedAddress(hasCustomerAddr ? addressId : CART_SHIPPING_ADDRESS);
       setSuccessMessage(__('Shipping address updated successfully'));
       setPageLoader(false);
     } catch (error) {

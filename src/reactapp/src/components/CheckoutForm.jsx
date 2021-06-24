@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 
+import Login from './login';
+import Totals from './totals';
+import CartItemsForm from './items';
+import PlaceOrder from './placeOrder';
 import Message from './common/Message';
 import PageLoader from './common/Loader';
-import Login from './login';
 import { AddressWrapper } from './address';
+import PaymentMethod from './paymentMethod';
 import BillingAddress from './billingAddress';
 import ShippingAddress from './shippingAddress';
-import CartItemsForm from './items';
 import ShippingMethodsForm from './shippingMethod';
-import PaymentMethod from './paymentMethod';
-import Totals from './totals';
-import PlaceOrder from './PlaceOrder';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
-import useCartContext from '../hook/useCartContext';
 import useAppContext from '../hook/useAppContext';
+import useCartContext from '../hook/useCartContext';
 
 function CheckoutForm() {
   const { orderId, getGuestCartInfo } = useCartContext();
@@ -46,7 +46,7 @@ function CheckoutForm() {
         <div className="container">
           <div className="flex flex-col my-6 md:flex-row">
             <div className="w-full lg:w-3/5 md:mr-2">
-              <div className="w-full md:max-w-md xl:max-w-full space-y-2">
+              <div className="w-full space-y-2 md:max-w-md xl:max-w-full">
                 <Login />
                 <AddressWrapper>
                   <ShippingAddress />
@@ -59,7 +59,7 @@ function CheckoutForm() {
             </div>
 
             <div
-              className="w-full lg:w-2/5 sticky self-start"
+              className="sticky self-start w-full lg:w-2/5"
               style={{ top: '100px' }}
             >
               <div className="space-y-2">
