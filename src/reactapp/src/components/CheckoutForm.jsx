@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import Message from './common/Message';
 import PageLoader from './common/Loader';
-import FormStep from './common/Form/FormStep';
 import Login from './login';
 import { AddressWrapper } from './address';
 import BillingAddress from './billingAddress';

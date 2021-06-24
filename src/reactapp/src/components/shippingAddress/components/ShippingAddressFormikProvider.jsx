@@ -22,8 +22,6 @@ import { _emptyFunc, _toString } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { customerHasAddress } from '../../../utils/customer';
-import useCountryState from '../../address/hooks/useCountryState';
-import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 const initialValues = {
   company: '',
@@ -156,7 +154,7 @@ function ShippingAddressFormikProvider({ children }) {
     if (countryList && countryValue) {
       const regionRequired = !!countryList.find(
         (country) => country.id === countryValue
-      )?.state_required;
+      )?.stateRequired;
 
       toggleRegionRequiredSchema(regionRequired);
     }

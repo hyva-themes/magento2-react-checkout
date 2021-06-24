@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { bool, node } from 'prop-types';
 
 import Header from '../Header';
-import { ArrowUpIcon, ArrowDownIcon } from '../icons';
 import {ArrowSmDownIcon, ArrowSmUpIcon} from "@heroicons/react/outline";
 
 function ToggleBox({ children, title, show, classes }) {
