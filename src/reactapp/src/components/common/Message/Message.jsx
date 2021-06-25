@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import _get from 'lodash.get';
 
-import useAppContext from '../../../hook/useAppContext';
 import { _emptyFunc } from '../../../utils';
+import useAppContext from '../../../hook/useAppContext';
 
 function Message() {
   const [{ message }, { setMessage }] = useAppContext();
-  const msgType = _get(message, 'type');
   const msg = _get(message, 'message');
+  const msgType = _get(message, 'type');
 
   // auto-disappear message after some time.
   useEffect(() => {
