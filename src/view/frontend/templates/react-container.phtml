@@ -10,9 +10,8 @@ $configProvider = $block->getCheckoutConfigProvider();
 ?>
 <div
     id="react-checkout"
-    data-language="<?= $localeProvider->getLocaleCode() ?>"
     data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
-    data-payment="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
+    data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >
     <div class="container">
         <div class="flex flex-col max-h-screen my-6 lg:flex-row">

@@ -14,6 +14,7 @@ import {
 } from '../utility';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
+import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
@@ -22,10 +23,10 @@ import useRegionData from '../../address/hooks/useRegionData';
 import { _isObjEmpty, _keys, _toString } from '../../../utils';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import useRegionValidation from '../../address/hooks/useRegionValidation';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
-import useRegionValidation from '../../address/hooks/useRegionValidation';
 
 const initialValues = {
   company: '',
@@ -36,7 +37,7 @@ const initialValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: '',
+  country: RootElement.getDefaultCountryId(),
   isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
 };
 

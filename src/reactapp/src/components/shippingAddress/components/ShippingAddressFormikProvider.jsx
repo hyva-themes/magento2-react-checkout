@@ -12,6 +12,7 @@ import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../config';
+import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import useFormEditMode from '../../../hook/useFormEditMode';
@@ -34,7 +35,7 @@ const initialValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: '',
+  country: RootElement.getDefaultCountryId(),
 };
 
 const requiredMessage = __('%1 is required');

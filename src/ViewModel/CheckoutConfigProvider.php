@@ -6,6 +6,7 @@ namespace Hyva\Checkout\ViewModel;
 use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Framework\Locale\ResolverInterface as LocaleResolverInterface;
 
 class CheckoutConfigProvider implements ArgumentInterface
 {
@@ -20,16 +21,24 @@ class CheckoutConfigProvider implements ArgumentInterface
     private $serializer;
 
     /**
+     * @var \Magento\Framework\Locale\ResolverInterface
+     */
+    private $localeResolver;
+
+    /**
      * CheckoutConfigProvider constructor.
      *
      * @param  \Magento\Framework\Serialize\SerializerInterface  $serializer
+     * @param  \Magento\Framework\Locale\ResolverInterface  $localeResolver
      * @param  \Magento\Checkout\Model\CompositeConfigProvider  $compositeConfigProvider
      */
     public function __construct(
         SerializerInterface $serializer,
+        LocaleResolverInterface $localeResolver,
         CompositeConfigProvider $compositeConfigProvider
     ) {
         $this->serializer = $serializer;
+        $this->localeResolver = $localeResolver;
         $this->compositeConfigProvider = $compositeConfigProvider;
     }
 
@@ -52,6 +61,10 @@ class CheckoutConfigProvider implements ArgumentInterface
         $storeCode = $checkoutConfig['storeCode'];
         $checkoutConfig['payment']['restUrlPrefix'] = "/rest/$storeCode/V1/";
 
-        return $this->serializer->serialize($checkoutConfig['payment']);
+        return $this->serializer->serialize([
+            'payment' => $checkoutConfig['payment'],
+            'language' => $this->localeResolver->getLocale(),
+            'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+        ]);
     }
 }
