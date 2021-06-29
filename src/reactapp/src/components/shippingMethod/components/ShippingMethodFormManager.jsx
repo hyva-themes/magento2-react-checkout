@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
-import { node } from 'prop-types';
-import { Form, useFormikContext } from 'formik';
+import { node, object } from 'prop-types';
+import { Form } from 'formik';
 import { string as YupString } from 'yup';
 
-import ShippingMethodFormContext from '../context/ShippingMethodFormContext';
-import useFormSection from '../../../hook/useFormSection';
-import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
-import useShippingMethodAppContext from '../hooks/useShippingMethodAppContext';
-import { SHIPPING_METHOD } from '../../../config';
 import { __ } from '../../../i18n';
+import { SHIPPING_METHOD } from '../../../config';
+import useFormSection from '../../../hook/useFormSection';
+import ShippingMethodFormContext from '../context/ShippingMethodFormContext';
+import useShippingMethodAppContext from '../hooks/useShippingMethodAppContext';
+import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 
 const initialValues = {
-  carrierCode: '',
   methodCode: '',
+  carrierCode: '',
 };
 
 const requiredMessage = __('Required');
 
 const validationSchema = {
-  carrierCode: YupString().required(requiredMessage),
   methodCode: YupString().required(requiredMessage),
+  carrierCode: YupString().required(requiredMessage),
 };
 
-function ShippingMethodFormManager({ children }) {
-  const { setFieldValue } = useFormikContext();
-  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
+function ShippingMethodFormManager({ children, formikData }) {
   const {
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
   } = useShippingMethodAppContext();
+  const { setFieldValue } = formikData;
+  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
 
   const formSubmit = async shippingMethod => {
     try {
@@ -51,18 +51,21 @@ function ShippingMethodFormManager({ children }) {
   useEffect(() => {
     if (selectedMethod.carrierCode && selectedMethod.methodCode) {
       setFieldValue(SHIPPING_METHOD, {
-        carrierCode: selectedMethod.carrierCode,
         methodCode: selectedMethod.methodCode,
+        carrierCode: selectedMethod.carrierCode,
       });
     }
   }, [selectedMethod, setFieldValue]);
 
-  const context = useFormSection({
-    id: SHIPPING_METHOD,
-    validationSchema,
+  let context = useFormSection({
+    formikData,
     initialValues,
+    validationSchema,
+    id: SHIPPING_METHOD,
     submitHandler: formSubmit,
   });
+
+  context = { ...context, ...formikData, formikData };
 
   return (
     <ShippingMethodFormContext.Provider value={context}>
@@ -73,6 +76,7 @@ function ShippingMethodFormManager({ children }) {
 
 ShippingMethodFormManager.propTypes = {
   children: node.isRequired,
+  formikData: object.isRequired,
 };
 
 export default ShippingMethodFormManager;

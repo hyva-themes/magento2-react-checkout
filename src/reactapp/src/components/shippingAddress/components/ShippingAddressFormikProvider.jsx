@@ -5,8 +5,8 @@ import {
   boolean as YupBoolean,
 } from 'yup';
 import _get from 'lodash.get';
-import { node } from 'prop-types';
-import { Form, useFormikContext } from 'formik';
+import { Form } from 'formik';
+import { node, object } from 'prop-types';
 
 import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
@@ -57,7 +57,13 @@ const initValidationSchema = {
   isSameAsShipping: YupBoolean(),
 };
 
-function ShippingAddressFormikProvider({ children }) {
+function ShippingAddressFormikProvider({ children, formikData }) {
+  const {
+    setFieldValue,
+    selectedRegion,
+    selectedCountry,
+    setFieldTouched,
+  } = formikData;
   const addressIdInCache = _toString(
     LocalStorage.getCustomerShippingAddressId()
   );
@@ -71,15 +77,14 @@ function ShippingAddressFormikProvider({ children }) {
     !!addressIdInCache
   );
   const validationSchema = useRegionValidation(
-    SHIPPING_ADDR_FORM,
+    selectedCountry,
     initValidationSchema
   );
   const editModeContext = useFormEditMode();
-  const regionData = useRegionData(SHIPPING_ADDR_FORM);
-  const { cartShippingAddress } = useShippingAddressCartContext();
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  const { customerAddressList } = useShippingAddressAppContext();
   const { setFormToViewMode } = editModeContext;
+  const { customerAddressList } = useShippingAddressAppContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
+  const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
   const resetShippingAddressFormFields = useCallback(() => {
@@ -134,7 +139,9 @@ function ShippingAddressFormikProvider({ children }) {
 
   let context = {
     ...regionData,
+    ...formikData,
     ...editModeContext,
+    formikData,
     backupAddress,
     selectedAddress,
     setBackupAddress,
@@ -148,19 +155,27 @@ function ShippingAddressFormikProvider({ children }) {
   const formSubmit = useSaveAddressAction(context);
 
   const handleKeyDown = useEnterActionInForm({
+    formikData,
     validationSchema,
     submitHandler: formSubmit,
-    formId: SHIPPING_ADDR_FORM,
   });
 
   const formSectionContext = useFormSection({
+    formikData,
     initialValues,
     validationSchema,
     id: SHIPPING_ADDR_FORM,
     submitHandler: formSubmit,
   });
 
-  context = { ...context, ...formSectionContext, formSubmit, handleKeyDown };
+  context = {
+    ...context,
+    ...formikData,
+    ...formSectionContext,
+    formikData,
+    formSubmit,
+    handleKeyDown,
+  };
 
   return (
     <ShippingAddressFormContext.Provider value={context}>
@@ -171,6 +186,7 @@ function ShippingAddressFormikProvider({ children }) {
 
 ShippingAddressFormikProvider.propTypes = {
   children: node.isRequired,
+  formikData: object.isRequired,
 };
 
 export default ShippingAddressFormikProvider;

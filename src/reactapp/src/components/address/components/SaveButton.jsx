@@ -1,16 +1,13 @@
 import React from 'react';
 import { bool, func, shape } from 'prop-types';
-import { useFormikContext } from 'formik';
 
 import Button from '../../common/Button';
 import { __ } from '../../../i18n';
 
 function SaveButton({ actions, isFormValid }) {
-  const { values } = useFormikContext();
-
   return (
     <Button
-      click={() => actions.saveAddress(values)}
+      click={actions.saveAddress}
       variant="primary"
       disable={!isFormValid}
     >

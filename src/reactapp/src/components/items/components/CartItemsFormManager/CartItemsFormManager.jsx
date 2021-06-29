@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { node } from 'prop-types';
-import _get from 'lodash.get';
-import { Form, useFormikContext } from 'formik';
+import { node, object } from 'prop-types';
+import { Form } from 'formik';
 
-import CartItemsFormContext from '../../context/CartItemsFormContext';
+import { __ } from '../../../../i18n';
+import { _objToArray } from '../../../../utils';
+import { CART_ITEMS_FORM } from '../../../../config';
+import { prepareCartItemsUniqueId } from './utility';
 import useFormSection from '../../../../hook/useFormSection';
 import useItemsAppContext from '../../hooks/useItemsAppContext';
 import useItemsCartContext from '../../hooks/useItemsCartContext';
+import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
-import { _objToArray } from '../../../../utils';
-import { CART_ITEMS_FORM } from '../../../../config';
-import { __ } from '../../../../i18n';
-import { prepareCartItemsUniqueId } from './utility';
 
 const initialValues = {};
 
@@ -19,22 +18,20 @@ const validationSchema = {};
 
 const formSubmit = () => {};
 
-function CartItemsFormManager({ children }) {
-  const [itemsUniqueId, setItemsUniqueId] = useState(true);
-  const { values, setFieldValue } = useFormikContext();
+function CartItemsFormManager({ children, formikData }) {
   const {
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
   } = useItemsAppContext();
   const {
     cartItems,
-    cartItemsAvailable,
     updateCartItem,
+    cartItemsAvailable,
   } = useItemsCartContext();
-
+  const { cartItemsValue, setFieldValue } = formikData;
+  const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const cartItemsArr = _objToArray(cartItems);
-  const cartItemsValue = _get(values, 'items');
   const cartItemIds = prepareCartItemsUniqueId(cartItemsArr);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
@@ -61,8 +58,8 @@ function CartItemsFormManager({ children }) {
         const cartItemId = parseInt(item.id, 10);
         // eslint-disable-next-line no-param-reassign
         formData[cartItemId] = {
-          quantity: parseFloat(item.quantity),
           cart_item_id: cartItemId,
+          quantity: parseFloat(item.quantity),
         };
         return formData;
       }, {});
@@ -70,32 +67,35 @@ function CartItemsFormManager({ children }) {
       setFieldValue(CART_ITEMS_FORM, cartItemFormData);
     }
   }, [
-    cartItemsArr,
     cartItemIds,
+    cartItemsArr,
+    setFieldValue,
     cartItemsAvailable,
     needToPopulateForm,
-    setFieldValue,
   ]);
 
   const handleKeyDown = useEnterActionInForm({
-    formId: CART_ITEMS_FORM,
+    formikData,
     validationSchema,
     submitHandler: itemUpdateHandler,
   });
 
   const formSectionContext = useFormSection({
-    id: CART_ITEMS_FORM,
-    validationSchema,
+    formikData,
     initialValues,
+    validationSchema,
+    id: CART_ITEMS_FORM,
     submitHandler: formSubmit,
   });
 
   const context = {
     ...formSectionContext,
+    ...formikData,
+    formikData,
+    handleKeyDown,
+    itemUpdateHandler,
     cartItems: cartItemsArr,
     cartItemsAvailable: !!cartItemsArr.length,
-    itemUpdateHandler,
-    handleKeyDown,
   };
 
   return (
@@ -107,6 +107,7 @@ function CartItemsFormManager({ children }) {
 
 CartItemsFormManager.propTypes = {
   children: node.isRequired,
+  formikData: object.isRequired,
 };
 
 export default CartItemsFormManager;

@@ -4,13 +4,12 @@ import {
   formatAddressListToCardData,
   isCartAddressValid,
 } from '../../../utils/address';
-import { _cleanObjByKeys, _isObjEmpty, _objToArray } from '../../../utils';
-import { BILLING_ADDR_FORM } from '../../../config';
 import { prepareFullName } from '../../../utils/customer';
+import { _cleanObjByKeys, _isObjEmpty, _objToArray } from '../../../utils';
 
 export const CART_BILLING_ADDRESS = 'cart_billing_address';
-export const MY_CART_NEW_ADDRESS = `my_${CART_BILLING_ADDRESS}`;
 export const GUEST_CART_NEW_ADDRESS = CART_BILLING_ADDRESS;
+export const MY_CART_NEW_ADDRESS = `my_${CART_BILLING_ADDRESS}`;
 
 export const billingAddressFormInitValues = {
   company: '',
@@ -40,14 +39,14 @@ export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
   }
 
   const keysToRemove = [
-    'countryCode',
     'fullName',
-    'isDefaultBilling',
-    'isDefaultShipping',
     'fullName',
     'middlename',
     'regionCode',
+    'countryCode',
     'regionLabel',
+    'isDefaultBilling',
+    'isDefaultShipping',
   ];
 
   return {
@@ -75,21 +74,20 @@ export function prepareFormAddressFromAddressListById(
 }
 
 export function prepareBillingAddressCardList(
-  values,
+  billingValues,
   customerAddressList,
   regionData,
   customerAddressSelected,
   isLoggedIn
 ) {
-  const cartBillingAddress = _get(values, BILLING_ADDR_FORM, {});
-  const { country } = cartBillingAddress;
+  const { country } = billingValues;
   let cartBillingAddrCardInfo = [];
 
-  if (!customerAddressSelected && isCartAddressValid(cartBillingAddress)) {
+  if (!customerAddressSelected && isCartAddressValid(billingValues)) {
     cartBillingAddrCardInfo = formatAddressListToCardData([
       {
-        ...cartBillingAddress,
-        fullName: prepareFullName(cartBillingAddress),
+        ...billingValues,
+        fullName: prepareFullName(billingValues),
         id: isLoggedIn ? MY_CART_NEW_ADDRESS : CART_BILLING_ADDRESS,
         countryCode: country,
         regionLabel: _get(regionData, 'name'),

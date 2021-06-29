@@ -1,12 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import { _toString } from '../../../utils';
 import { AddressCard } from '../../address';
-import { BILLING_ADDR_FORM } from '../../../config';
 import { prepareBillingAddressCardList } from '../utility';
 import { isValidCustomerAddressId } from '../../../utils/address';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
@@ -16,18 +13,17 @@ import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikCont
 function BillingAddressCardList() {
   const {
     regionData,
+    billingValues,
     selectedAddress,
     setBackupAddress,
     setFormToEditMode,
     setSelectedAddress,
     selectedBillingAddressId,
   } = useBillingAddressFormikContext();
-  const { values } = useFormikContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
-  const billingAddress = _get(values, BILLING_ADDR_FORM, {});
   const addressList = prepareBillingAddressCardList(
-    values,
+    billingValues,
     customerAddressList,
     regionData,
     isValidCustomerAddressId(selectedBillingAddressId),
@@ -35,7 +31,7 @@ function BillingAddressCardList() {
   );
 
   const performAddressEdit = () => {
-    setBackupAddress({ ...billingAddress });
+    setBackupAddress({ ...billingValues });
     setFormToEditMode();
   };
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import CartItem from './CartItem';
-import useItemsFormContext from '../hooks/useItemsFormContext';
 import { __ } from '../../../i18n';
+import useItemsFormContext from '../hooks/useItemsFormContext';
 
 function CartItemList() {
   const { cartItems } = useItemsFormContext();
@@ -18,15 +18,16 @@ function CartItemList() {
               <th>{__('Price')}</th>
               <th>{__('Total')}</th>
               <th>
-                <span className={'sr-only'}>{__('Actions')}</span>{' '}
+                <span className="sr-only">{__('Actions')}</span>
+                &nbsp;
               </th>
             </tr>
           </thead>
           <tbody>
             {cartItems.map((cartItem, index) => (
               <CartItem
-                key={cartItem.id}
                 item={cartItem}
+                key={cartItem.id}
                 isLastItem={index === cartItems.length - 1}
               />
             ))}
