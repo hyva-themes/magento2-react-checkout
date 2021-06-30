@@ -3,7 +3,7 @@ import {
   setCustomerAddrAsBillingAddrAction,
 } from './billingAddress/actions';
 import { updateCartItemAction } from './cartItems/actions';
-import { placeOrderAction } from './order/actions';
+import { placeOrderAction, setOrderInfoAction } from './order/actions';
 import {
   setPaymentMethodAction,
   setRestPaymentMethodAction,
@@ -11,11 +11,11 @@ import {
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import {
-  createEmptyCartAction,
-  getCartInfoAfterMergeAction,
-  getCustomerCartIdAction,
-  getGuestCartInfoAction,
   mergeCartsAction,
+  createEmptyCartAction,
+  getGuestCartInfoAction,
+  getCustomerCartIdAction,
+  getCartInfoAfterMergeAction,
 } from './cart/actions';
 import {
   addCartShippingAddressAction,
@@ -24,23 +24,24 @@ import {
 } from './shippingAddress/actions';
 
 const dispatchMapper = {
-  setEmailOnGuestCart: setEmailOnGuestCartAction,
+  placeOrder: placeOrderAction,
+  mergeCarts: mergeCartsAction,
+  setOrderInfo: setOrderInfoAction,
+  updateCartItem: updateCartItemAction,
+  createEmptyCart: createEmptyCartAction,
   getGuestCartInfo: getGuestCartInfoAction,
-  getCustomerCartInfo: getGuestCartInfoAction, // guest cart with auth = customer cart
+  setPaymentMethod: setPaymentMethodAction,
+  setShippingMethod: setShippingMethodAction,
+  getCustomerCartId: getCustomerCartIdAction,
+  getCustomerCartInfo: getGuestCartInfoAction,
+  setEmailOnGuestCart: setEmailOnGuestCartAction,
+  setCartBillingAddress: setBillingAddressAction,
+  setRestPaymentMethod: setRestPaymentMethodAction,
+  getCartInfoAfterMerge: getCartInfoAfterMergeAction,
   addCartShippingAddress: addCartShippingAddressAction,
   setCartSelectedShippingAddress: setSelectedShippingAddressAction,
-  setCartBillingAddress: setBillingAddressAction,
-  setShippingMethod: setShippingMethodAction,
-  setPaymentMethod: setPaymentMethodAction,
-  placeOrder: placeOrderAction,
-  updateCartItem: updateCartItemAction,
-  getCartInfoAfterMerge: getCartInfoAfterMergeAction,
   setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
-  getCustomerCartId: getCustomerCartIdAction,
-  createEmptyCart: createEmptyCartAction,
-  mergeCarts: mergeCartsAction,
-  setRestPaymentMethod: setRestPaymentMethodAction,
 };
 
 function cartDispatchers(dispatch) {

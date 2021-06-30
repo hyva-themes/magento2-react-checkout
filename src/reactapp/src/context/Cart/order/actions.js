@@ -4,6 +4,13 @@ import { placeOrderRequest } from '../../../api';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 import { SET_ORDER_INFO } from './types';
 
+export function setOrderInfoAction(dispatch, order) {
+  dispatch({
+    type: SET_ORDER_INFO,
+    payload: order,
+  });
+}
+
 export async function placeOrderAction(dispatch, values, paymentActionList) {
   try {
     let order;

@@ -14,14 +14,17 @@ export function SelectInput({
   required,
   placeholder,
   options,
+  isHidden,
   ...rest
 }) {
   const inputId = id || name;
-  const [, meta] = useField(name) || [];
-  const hasError = !!_get(meta, 'error', false);
+  const [, meta, helper] = useField(name) || [];
+  const hasFieldError = !!_get(meta, 'error', false);
+  const hasFieldTouched = !!_get(meta, 'touched', false);
+  const hasError = hasFieldError && hasFieldTouched;
 
   return (
-    <div className="mt-2 form-control">
+    <div className={`mt-2 form-control ${isHidden && 'hidden'}`}>
       <div className="flex items-center justify-between">
         <label htmlFor={inputId} className="md:text-sm">
           {label}
@@ -34,7 +37,7 @@ export function SelectInput({
           }`}
         >
           <ErrorMessage name={name}>
-            {msg => msg.replace('%1', label)}
+            {(msg) => msg.replace('%1', label)}
           </ErrorMessage>
         </div>
       </div>
@@ -44,10 +47,16 @@ export function SelectInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className="w-full p-2 border form-select bg-container border-container xs:block"
+        className={`w-full p-2 border form-select xs:block max-w-md ${
+            hasError ? 'border-dashed border-red-500' : ''
+        }`}
+        onChange={(event) => {
+            helper.setTouched(true);
+            helper.setValue(event.target.value);
+        }}
       >
         <option value="">{__('-- Please Select --')}</option>
-        {options.map(option => (
+        {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
@@ -73,6 +82,7 @@ SelectInput.propTypes = {
       value: string,
     })
   ),
+  isHidden: bool,
 };
 
 SelectInput.defaultProps = {
@@ -81,6 +91,7 @@ SelectInput.defaultProps = {
   required: false,
   placeholder: '',
   options: [],
+  isHidden: false,
 };
 
 export default SelectInput;
