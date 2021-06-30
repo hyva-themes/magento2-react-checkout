@@ -1,0 +1,45 @@
+.btn {
+    @apply flex bg-gray-500 rounded-lg px-4 py-1 text-white text-base font-medium shadow-md items-center;
+
+    @screen md {
+        @apply px-6 text-lg;
+    }
+    @screen xl {
+        @apply py-2 text-base;
+    }
+
+    svg {
+        @apply inline-flex;
+    }
+    span {
+        vertical-align: middle;
+    }
+
+    &:hover {
+        @apply bg-gray-600;
+    }
+}
+
+.btn-primary {
+    @apply bg-primary border-2 border-primary-darker text-white shadow-md;
+
+    &:hover {
+        @apply bg-primary-lighter border-primary text-white shadow-lg;
+    }
+}
+
+.btn-secondary {
+    @apply bg-white border-2 border-primary-lighter text-black shadow-md;
+
+    &:hover {
+        @apply bg-white border-primary-darker shadow-lg;
+    }
+}
+
+.btn-size-lg {
+    @apply px-10 py-4 text-lg;
+}
+
+.btn-size-sm {
+    @apply py-2 px-2 text-sm;
+}

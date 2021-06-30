@@ -10,7 +10,7 @@ import { __ } from '../../i18n';
 function Login() {
   return (
     <LoginFormManager>
-      <Card bg="dark">
+      <Card>
         <ToggleBox title={__('Email')} show>
           <LoginForm />
           <UserInfoBox />

@@ -23,7 +23,10 @@ export async function fetchCountryStatesAction(dispatch, countryId) {
       type: ADD_COUNTRY_STATES,
       payload: { [countryId]: stateList },
     });
+
+    return stateList;
   } catch (error) {
     // @todo show error message
+    return {};
   }
 }

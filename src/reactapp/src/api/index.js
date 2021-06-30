@@ -18,10 +18,8 @@ import getCheckoutAgreements from './cart/getCheckoutAgreements';
 import restSetMyPaymentMethod from './cart/restSetMyPaymentMethod';
 import updateCustomerAddress from './customer/updateCustomerAddress';
 import fetchCountryStateList from './countries/fetchCountryStateList';
-import createCustomerToken from './paypalExpress/createCustomerToken';
 import restSetGuestPaymentMethod from './cart/restSetGuestPaymentMethod';
 import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
-import setPaymentMethodPaypalExpress from './paypalExpress/setPaymentMethod';
 import setCustomerAddressOnCartBilling from './cart/setCustomerAddressOnBilling';
 import setCustomerAddrOnShippingAddr from './cart/setCustomerAddrOnShippingAddr';
 
@@ -72,7 +70,3 @@ export const restSetGuestPaymentMethodRequest = restSetGuestPaymentMethod;
 export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;
 
 export const getCheckoutAgreementsRequest = getCheckoutAgreements;
-
-export const setPaymentMethodPaypalExpressRequest = setPaymentMethodPaypalExpress;
-
-export const createCustomerTokenRequest = createCustomerToken;

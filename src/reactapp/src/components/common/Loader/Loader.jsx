@@ -12,8 +12,8 @@ function PulseBox({ repeat }) {
   }
 
   return (
-    <Card bg="dark" classes="overflow-hidden">
-      {repeatArr.map(num => (
+    <Card classes="overflow-hidden">
+      {repeatArr.map((num) => (
         <div key={num} className="flex space-x-4 animate-pulse">
           <div className="w-12 h-12 bg-gray-400 rounded-full"></div>
           <div className="flex-1 py-1 space-y-4">
@@ -35,29 +35,14 @@ PulseBox.propTypes = {
 
 function Loader() {
   return (
-    <div className="flex flex-col max-h-screen mx-2 my-6 overflow-hidden md:mx-12 md:flex-row">
-      <div className="md:w-1/4">
-        <div className="mr-1 space-y-2">
-          <PulseBox repeat={1} />
-          <PulseBox repeat={1} />
-          <PulseBox repeat={6} />
-        </div>
-      </div>
-
-      <div className="md:w-2/4">
-        <div className="mx-1 space-y-2">
-          <PulseBox repeat={2} />
-          <PulseBox repeat={2} />
-          <PulseBox repeat={4} />
-        </div>
-      </div>
-
-      <div className="flex-grow">
-        <div className="ml-1 space-y-2">
-          <PulseBox repeat={4} />
-          <PulseBox repeat={4} />
-        </div>
-      </div>
+    <div className="z-20 backdrop flex-col items-center justify-center">
+      <div
+        className="animate-spin rounded-full border-4 border-t-4 border-white h-12 w-12 mb-4"
+        style={{ borderTopColor: '#3498db' }}
+      ></div>
+      <h2 className="text-center text-white text-xl font-semibold">
+        Loading...
+      </h2>
     </div>
   );
 }

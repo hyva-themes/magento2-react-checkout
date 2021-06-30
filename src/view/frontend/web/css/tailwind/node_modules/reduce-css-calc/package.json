@@ -1,6 +1,6 @@
 {
   "name": "reduce-css-calc",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Reduce CSS calc() function to the maximum",
   "keywords": [
     "css",

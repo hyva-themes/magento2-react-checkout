@@ -23,7 +23,7 @@ function PaymentMethod() {
 
   return (
     <PaymentMethodFormManager>
-      <Card bg="dark" classes={isPaymentAvailable ? '' : 'opacity-75'}>
+      <Card classes={isPaymentAvailable ? '' : 'opacity-75'}>
         <Header>{__('Payment Methods')}</Header>
         {isPaymentAvailable ? (
           <PaymentMethodList methodRenderers={renderers} />

@@ -1,5 +1,9 @@
 # Changelog of `reduce-css-call`
 
+## 2.1.8 - 2020-01-08
+
+- Fix Parse error on custom property fallback ([#68](https://github.com/MoOx/reduce-css-calc/pull/68)) - @snowystinger)
+
 ## 2.1.7 - 2019-10-22
 
 - Switch to a maintained jison fork ([#57](https://github.com/MoOx/reduce-css-calc/pull/57)) - @davidgovea)
