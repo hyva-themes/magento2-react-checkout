@@ -1,7 +1,7 @@
 import {
-  setErrorMessageAction,
   setMessageAction,
   setPageLoaderAction,
+  setErrorMessageAction,
   setSuccessMessageAction,
 } from './page/actions';
 import {
@@ -10,26 +10,28 @@ import {
 } from './countries/actions';
 import {
   ajaxLoginAction,
-  getCustomerAddressListAction,
+  sigInCustomerAction,
   getCustomerInfoAction,
   setLoggedInStatusAction,
-  sigInCustomerAction,
   updateCustomerAddressAction,
+  getCustomerAddressListAction,
 } from './customer/actions';
+import { getCheckoutAgreementsAction } from './checkoutAgreements/actions';
 
 const dispatchMapper = {
-  fetchCountries: fetchCountriesAction,
-  setPageLoader: setPageLoaderAction,
-  fetchCountryStates: fetchCountryStatesAction,
-  signInCustomer: sigInCustomerAction,
   ajaxLogin: ajaxLoginAction,
-  setSuccessMessage: setSuccessMessageAction,
-  setErrorMessage: setErrorMessageAction,
   setMessage: setMessageAction,
+  setPageLoader: setPageLoaderAction,
+  signInCustomer: sigInCustomerAction,
+  fetchCountries: fetchCountriesAction,
+  setErrorMessage: setErrorMessageAction,
   getCustomerInfo: getCustomerInfoAction,
-  getCustomerAddressList: getCustomerAddressListAction,
-  updateCustomerAddress: updateCustomerAddressAction,
+  setSuccessMessage: setSuccessMessageAction,
   setLoggedInStatus: setLoggedInStatusAction,
+  fetchCountryStates: fetchCountryStatesAction,
+  updateCustomerAddress: updateCustomerAddressAction,
+  getCheckoutAgreements: getCheckoutAgreementsAction,
+  getCustomerAddressList: getCustomerAddressListAction,
 };
 
 export default function appDispatcher(dispatch) {

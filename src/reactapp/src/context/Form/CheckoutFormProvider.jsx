@@ -4,11 +4,12 @@ import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
 
-import CheckoutFormContext from './CheckoutFormContext';
-import useCartContext from '../../hook/useCartContext';
-import useAppContext from '../../hook/useAppContext';
 import { config } from '../../config';
 import LocalStorage from '../../utils/localStorage';
+import useAppContext from '../../hook/useAppContext';
+import useCartContext from '../../hook/useCartContext';
+import CheckoutFormContext from './CheckoutFormContext';
+import { _findIndexById, _objToArray } from '../../utils';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -31,6 +32,8 @@ function prepareFormValidationSchema(sections, sectionId) {
   sections.forEach(section => {
     schemaRules[section.id] = YupObject().shape(section.validationSchema);
   });
+
+  console.log({ schemaRules });
   return YupObject().shape(schemaRules);
 }
 
@@ -76,7 +79,15 @@ function CheckoutFormProvider({ children }) {
    * This will register individual form sections to the checkout-form-formik
    */
   const registerFormSection = useCallback(section => {
-    updateSections(prevSections => [...prevSections, section]);
+    updateSections(prevSections => {
+      const sectionIndex = _findIndexById(prevSections, section.id);
+
+      if (sectionIndex !== -1) {
+        return _objToArray({ ...prevSections, [sectionIndex]: section });
+      }
+
+      return [...prevSections, section];
+    });
   }, []);
 
   const formSubmit = async values => {
@@ -142,16 +153,16 @@ function CheckoutFormProvider({ children }) {
     <CheckoutFormContext.Provider
       value={{
         ...context,
-        checkoutFormValidationSchema: formValidationSchema,
-        submitHandler: formSubmit,
         registerPaymentAction,
+        submitHandler: formSubmit,
+        checkoutFormValidationSchema: formValidationSchema,
       }}
     >
       <Formik
         enableReinitialize
+        onSubmit={formSubmit}
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
-        onSubmit={formSubmit}
       >
         {children}
       </Formik>

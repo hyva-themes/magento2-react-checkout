@@ -2,14 +2,10 @@ import {
   setBillingAddressAction,
   setCustomerAddrAsBillingAddrAction,
 } from './billingAddress/actions';
-import { updateCartItemAction } from './cartItems/actions';
-import { placeOrderAction, setOrderInfoAction } from './order/actions';
 import {
   setPaymentMethodAction,
   setRestPaymentMethodAction,
 } from './paymentMethod/actions';
-import { setShippingMethodAction } from './shippingMethod/actions';
-import { setEmailOnGuestCartAction } from './email/actions';
 import {
   mergeCartsAction,
   createEmptyCartAction,
@@ -22,10 +18,10 @@ import {
   setSelectedShippingAddressAction,
   setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
-import {
-  getCheckoutAgreementsAction,
-  changeCheckoutAgreementAction,
-} from './checkoutAgreements/actions';
+import { updateCartItemAction } from './cartItems/actions';
+import { setEmailOnGuestCartAction } from './email/actions';
+import { setShippingMethodAction } from './shippingMethod/actions';
+import { placeOrderAction, setOrderInfoAction } from './order/actions';
 
 const dispatchMapper = {
   placeOrder: placeOrderAction,
@@ -46,8 +42,6 @@ const dispatchMapper = {
   setCartSelectedShippingAddress: setSelectedShippingAddressAction,
   setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
-  getCheckoutAgreements: getCheckoutAgreementsAction,
-  changeCheckoutAgreement: changeCheckoutAgreementAction,
 };
 
 function cartDispatchers(dispatch) {

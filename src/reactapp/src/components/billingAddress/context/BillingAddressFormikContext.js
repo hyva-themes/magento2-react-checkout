@@ -1,5 +1,5 @@
 import React from 'react';
 
-const ShippingAddressFormikContext = React.createContext();
+const BillingAddressFormikContext = React.createContext();
 
-export default ShippingAddressFormikContext;
+export default BillingAddressFormikContext;

@@ -91,6 +91,7 @@ module.exports = {
   plugins: [require("@tailwindcss/forms")],
   purge: {
     content: [
+      "../../../../../reactapp/src/*.jsx",
       "../../../../../reactapp/src/**/*.jsx",
       "../../../templates/*.phtml",
     ],

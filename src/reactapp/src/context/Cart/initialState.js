@@ -3,33 +3,32 @@ import LocalStorage from '../../utils/localStorage';
 const selectedShippingAddress = LocalStorage.getCustomerShippingAddressId();
 
 const initialState = {
-  errors: false,
-  order: {},
   cart: {
-    loaded: false,
+    applied_coupons: null,
+    available_payment_methods: {},
+    billing_address: null,
     email: null,
     id: null,
-    billing_address: null,
-    shipping_addresses: {},
-    selected_shipping_address: selectedShippingAddress || '',
-    shipping_methods: {},
-    selected_shipping_method: {},
+    is_virtual: false,
     items: {},
-    available_payment_methods: {},
-    selected_payment_method: { code: '', title: '' },
-    applied_coupons: null,
+    loaded: false,
     prices: {
       discount: '',
-      discountLabel: '',
       discountAmount: 0,
-      subTotal: '',
-      subTotalAmount: 0,
+      discountLabel: '',
       grandTotal: '',
       grandTotalAmount: 0,
+      subTotal: '',
+      subTotalAmount: 0,
     },
-    is_virtual: false,
-    checkout_agreements: [],
+    selected_payment_method: { code: '', title: '' },
+    selected_shipping_address: selectedShippingAddress || '',
+    selected_shipping_method: {},
+    shipping_addresses: {},
+    shipping_methods: {},
   },
+  errors: false,
+  order: {},
 };
 
 export default initialState;

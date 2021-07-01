@@ -56,7 +56,6 @@ function CheckoutForm() {
                   <ShippingMethodsForm />
                   <BillingAddress />
                   <PaymentMethod />
-                  <CheckoutAgreements />
                 </AddressWrapper>
               </div>
             </div>
@@ -64,6 +63,7 @@ function CheckoutForm() {
             <StickyRightSidebar>
               <CartItemsForm />
               <Totals />
+              <CheckoutAgreements />
               <PlaceOrder />
             </StickyRightSidebar>
           </div>
