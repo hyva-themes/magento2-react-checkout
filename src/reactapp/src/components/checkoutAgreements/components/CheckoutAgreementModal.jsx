@@ -2,9 +2,10 @@
 import React from 'react';
 import _get from 'lodash.get';
 import { ClipboardCheckIcon } from '@heroicons/react/outline';
+import { bool, func, oneOfType, shape, string } from 'prop-types';
 
-import useAgreementAppContext from '../hooks/useAgreementAppContext';
 import { __ } from '../../../i18n';
+import useAgreementAppContext from '../hooks/useAgreementAppContext';
 
 function CheckoutAgreementModal({ agreementId, actions }) {
   const { checkoutAgreements } = useAgreementAppContext();
@@ -16,19 +17,19 @@ function CheckoutAgreementModal({ agreementId, actions }) {
   return (
     <div
       className="fixed inset-0 z-10 overflow-y-auto"
-      ariaLabelledby="modal-title"
+      aria-labelledby="modal-title"
       role="dialog"
-      ariaModal="true"
+      aria-modal="true"
     >
       <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         <div
           className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
-          ariaHidden="true"
+          aria-hidden="true"
         ></div>
 
         <span
           className="hidden sm:inline-block sm:align-middle sm:h-screen"
-          ariaHidden="true"
+          aria-hidden="true"
         >
           &#8203;
         </span>
@@ -72,5 +73,10 @@ function CheckoutAgreementModal({ agreementId, actions }) {
     </div>
   );
 }
+
+CheckoutAgreementModal.propTypes = {
+  agreementId: oneOfType([bool, string]).isRequired,
+  actions: shape({ setActiveModalId: func }).isRequired,
+};
 
 export default CheckoutAgreementModal;

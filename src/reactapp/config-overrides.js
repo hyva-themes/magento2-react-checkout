@@ -32,8 +32,8 @@ module.exports = function override(config, env) {
         // this improves performance, but you loose compatibility
         // with the React browser extension for debugging
         //
-        react: 'preact/compat',
-        'react-dom': 'preact/compat',
+        // react: 'preact/compat',
+        // 'react-dom': 'preact/compat',
       },
     },
   };

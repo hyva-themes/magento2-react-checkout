@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 
 import Card from '../common/Card';
 import Header from '../common/Header';
-import { __ } from '../../i18n';
 import CheckoutAgreementsForm from './components/CheckoutAgreementsForm';
-import CheckoutAgreementFormikProvider from './components/CheckoutAgreementsFormikProvider';
-import useAgreementAppContext from './hooks/useAgreementAppContext';
-import { _isObjEmpty } from '../../utils';
 import CheckoutAgreementModal from './components/CheckoutAgreementModal';
+import CheckoutAgreementFormikProvider from './components/CheckoutAgreementsFormikProvider';
+import { __ } from '../../i18n';
+import { _isObjEmpty } from '../../utils';
+import { formikDataShape } from '../../utils/propTypes';
+import useAgreementAppContext from './hooks/useAgreementAppContext';
 
 const CheckoutAgreementsMemorized = React.memo(({ formikData }) => {
   const [activeModalId, setActiveModalId] = useState(false);
@@ -32,5 +33,9 @@ const CheckoutAgreementsMemorized = React.memo(({ formikData }) => {
     </CheckoutAgreementFormikProvider>
   );
 });
+
+CheckoutAgreementsMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+};
 
 export default CheckoutAgreementsMemorized;

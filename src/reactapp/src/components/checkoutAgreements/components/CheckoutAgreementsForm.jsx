@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import _get from 'lodash.get';
+import { func, shape } from 'prop-types';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 
 import Checkbox from '../../common/Form/Checkbox';
@@ -50,6 +51,10 @@ function CheckoutAgreementsForm({ actions }) {
       </div>
     );
   });
+}
+
+CheckoutAgreementsForm.propTypes = {
+  actions: shape({ setActiveModalId: func }).isRequired,
 }
 
 export default CheckoutAgreementsForm;

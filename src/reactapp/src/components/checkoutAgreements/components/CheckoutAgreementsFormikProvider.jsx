@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'formik';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 
 import {
   prepareAgreementsFormData,
@@ -9,6 +9,7 @@ import {
 import { _emptyFunc, _isObjEmpty } from '../../../utils';
 import useFormSection from '../../../hook/useFormSection';
 import { CHECKOUT_AGREEMENTS_FORM } from '../../../config';
+import { formikDataShape } from '../../../utils/propTypes';
 import useAgreementAppContext from '../hooks/useAgreementAppContext';
 import CheckoutAgreementsFormikContext from '../context/CheckoutAgreementsFormikContext';
 
@@ -23,10 +24,13 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
   } = useAgreementAppContext();
   const { setFieldValue } = formikData;
 
+  // fetching checkout agreements. this needs to be happened only once
   useEffect(() => {
     getCheckoutAgreements();
   }, [getCheckoutAgreements]);
 
+  // updating formik values and validation after fetching checkout agreements.
+  // this needs to be happened only once.
   useEffect(() => {
     if (!isFormPopulated && !_isObjEmpty(checkoutAgreements)) {
       const agreementsFormData = prepareAgreementsFormData(checkoutAgreements);
@@ -39,6 +43,7 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
     }
   }, [checkoutAgreements, setFieldValue, isFormPopulated, validationSchema]);
 
+  // registering checkout agreements into the global formik state
   const formContext = useFormSection({
     formikData,
     initialValues,
@@ -58,7 +63,7 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
 
 CheckoutAgreementFormikProvider.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default CheckoutAgreementFormikProvider;
