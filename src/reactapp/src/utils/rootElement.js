@@ -27,6 +27,10 @@ const RootElement = {
     return _get(RootElement.getCheckoutConfig(), 'defaultCountryId');
   },
 
+  getStoreCode() {
+    return _get(RootElement.getCheckoutConfig(), 'storeCode');
+  },
+
   getCheckoutConfig() {
     if (!RootElement.checkoutConfig) {
       RootElement.checkoutConfig = JSON.parse(

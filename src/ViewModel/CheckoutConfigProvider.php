@@ -62,6 +62,7 @@ class CheckoutConfigProvider implements ArgumentInterface
         $checkoutConfig['payment']['restUrlPrefix'] = "/rest/$storeCode/V1/";
 
         return $this->serializer->serialize([
+            'storeCode' => $storeCode,
             'payment' => $checkoutConfig['payment'],
             'language' => $this->localeResolver->getLocale(),
             'defaultCountryId' => $checkoutConfig['defaultCountryId'],
