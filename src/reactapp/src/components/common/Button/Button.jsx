@@ -1,34 +1,33 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
-import { bool, func, node, oneOf } from 'prop-types';
+import { bool, func, node, oneOf, string } from 'prop-types';
 
 function Button({ children, click, variant, disable, size }) {
   return (
-      <button
-        className={`btn btn-${variant || 'primary'}  btn-size-${size || 'md'} ${
-          disable && 'opacity-50 pointer-events-none'
-        }`}
-        type="button"
-        onClick={click}
-        disabled={disable}
-      >
-        {children}
-      </button>
+    <button
+      className={`btn btn-${variant || 'primary'}  btn-size-${size ||
+        'md'} ${disable && 'opacity-50 pointer-events-none'}`}
+      type="button"
+      onClick={click}
+      disabled={disable}
+    >
+      {children}
+    </button>
   );
 }
 
 Button.propTypes = {
-  children: node.isRequired,
   click: func,
+  size: string,
   disable: bool,
-  big: bool,
-  variant: oneOf(['success', 'warning']),
+  children: node.isRequired,
+  variant: oneOf(['success', 'warning', 'primary', 'secondary']),
 };
 
 Button.defaultProps = {
-  disable: false,
+  size: 'md',
   variant: '',
-  big: false,
+  disable: false,
   click: () => {},
 };
 

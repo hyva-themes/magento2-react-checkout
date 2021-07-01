@@ -9,6 +9,7 @@ import {
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
   PAYMENT_METHOD_FORM,
+  CHECKOUT_AGREEMENTS_FORM,
 } from '../../../config';
 import {
   hasLoginErrors,
@@ -16,6 +17,7 @@ import {
   hasBillingAddressErrors,
   hasShippingMethodErrors,
   hasShippingAddressErrors,
+  hasTermsAndConditionsAgreed,
 } from '../utility';
 import { __ } from '../../../i18n';
 import usePlaceOrder from '../hooks/usePlaceOrder';
@@ -68,6 +70,12 @@ function PlaceOrder() {
     if (hasPaymentMethodErrors(errors)) {
       setErrorMessage(__('Please select your payment method.'));
       scrollToElement(PAYMENT_METHOD_FORM);
+      return;
+    }
+
+    if (hasTermsAndConditionsAgreed(errors)) {
+      setErrorMessage(__('Please agree with the terms & conditions'));
+      scrollToElement(CHECKOUT_AGREEMENTS_FORM);
       return;
     }
 
