@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import { _toString } from '../../../utils';
 import { AddressCard } from '../../address';
@@ -12,11 +11,11 @@ import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAct
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 function ShippingAddressCardList() {
-  const { values } = useFormikContext();
   const { customerAddressList, isLoggedIn } = useShippingAddressAppContext();
   const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const {
     regionData,
+    shippingValues,
     selectedAddress,
     setBackupAddress,
     setFormToEditMode,
@@ -24,17 +23,20 @@ function ShippingAddressCardList() {
     customerAddressSelected,
   } = useShippingAddressFormikContext();
   const addressList = prepareShippingAddressCardList(
-    values,
+    shippingValues,
     regionData,
     customerAddressList,
     customerAddressSelected
   );
 
   const performAddressEdit = addressId => {
-    const addressToBackup = _get(customerAddressList, addressId);
-    if (isLoggedIn && !addressToBackup) {
+    const customerAddress = _get(customerAddressList, addressId);
+    const addressToBackup = isLoggedIn ? customerAddress : shippingValues;
+
+    if (isLoggedIn && !customerAddress) {
       return;
     }
+
     setBackupAddress({ ...addressToBackup });
     setFormToEditMode();
   };

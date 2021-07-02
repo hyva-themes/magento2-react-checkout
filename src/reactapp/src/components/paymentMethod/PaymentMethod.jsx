@@ -1,38 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import Card from '../common/Card';
-import Header from '../common/Header';
-import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
-import PaymentMethodFormManager from './components/PaymentMethodFormManager';
-import PaymentMethodList from './components/PaymentMethodList';
-import usePaymentMethodCartContext from './hooks/usePaymentMethodCartContext';
-import { __ } from '../../i18n';
-import getCustomRenderers from '../../paymentMethods/customRenderers';
+import PaymentMethodMemorized from './PaymentMethodMemorized';
+import { PAYMENT_METHOD_FORM } from '../../config';
+import useFormikMemorizer from '../../hook/useFormikMemorizer';
 
+/**
+ * Entry point of payment method Form Section
+ *
+ * We are preparing any data related to formik state here and memorizing it.
+ * After that, these info will be fed to all other child components.
+ *
+ * So child components DO NOT access formik states using `useFormikContext` hook
+ * inside them unless it is totally unavoidable.
+ *
+ * Using useFormikContext hook render the component almost always. So use the
+ * memorized data here inside the child components.
+ */
 function PaymentMethod() {
-  const [renderers, setRenderers] = useState({});
-  const { isPaymentAvailable } = usePaymentMethodCartContext();
+  const formikSectionData = useFormikMemorizer(PAYMENT_METHOD_FORM);
 
-  // collect custom renderers from the custom payment methods installed.
-  useEffect(() => {
-    (async () => {
-      const availableRenderers = await getCustomRenderers();
-      setRenderers(availableRenderers);
-    })();
-  }, []);
-
-  return (
-    <PaymentMethodFormManager>
-      <Card classes={isPaymentAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Payment Methods')}</Header>
-        {isPaymentAvailable ? (
-          <PaymentMethodList methodRenderers={renderers} />
-        ) : (
-          <NoPaymentMethodInfoBox />
-        )}
-      </Card>
-    </PaymentMethodFormManager>
+  const paymentFormikData = useMemo(
+    () => ({
+      ...formikSectionData,
+      paymentValues: formikSectionData.formSectionValues,
+    }),
+    [formikSectionData]
   );
+
+  return <PaymentMethodMemorized formikData={paymentFormikData} />;
 }
 
 export default PaymentMethod;

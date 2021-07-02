@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import Card from '../common/Card';
-import Header from '../common/Header';
-import CartItemList from './components/CartItemList';
-import NoItemsInfoBox from './components/NoItemsInfoBox';
-import CartItemsFormManager from './components/CartItemsFormManager';
-import useItemsCartContext from './hooks/useItemsCartContext';
-import { __ } from '../../i18n';
+import CartItemsMemorized from './CartItemsMemorized';
+import { CART_ITEMS_FORM } from '../../config';
+import useFormikMemorizer from '../../hook/useFormikMemorizer';
 
+/**
+ * Entry point Cart Items Form Section
+ *
+ * We are preparing any data related to formik state here and memorizing it.
+ * After that, these info will be fed to all other child components.
+ *
+ * So child components DO NOT access formik states using `useFormikContext` hook
+ * inside them unless it is totally unavoidable.
+ *
+ * Using useFormikContext hook render the component almost always. So use the
+ * memorized data here inside the child components.
+ */
 function CartItemsForm() {
-  const { cartItemsAvailable } = useItemsCartContext();
+  const formikSectionData = useFormikMemorizer(CART_ITEMS_FORM);
 
-  return (
-    <CartItemsFormManager>
-      <Card classes={cartItemsAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Product Details')}</Header>
-        {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
-      </Card>
-    </CartItemsFormManager>
+  const cartItemsFormikData = useMemo(
+    () => ({
+      ...formikSectionData,
+      cartItemsValue: formikSectionData.formSectionValues,
+      cartItemsTouched: formikSectionData.formSectionTouched,
+    }),
+    [formikSectionData]
   );
+
+  return <CartItemsMemorized formikData={cartItemsFormikData} />;
 }
 
 export default CartItemsForm;

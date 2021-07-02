@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import useAppContext from '../../../hook/useAppContext';
 
-export default function useRegionData(addressType) {
-  const [regionData, setRegionData] = useState({});
-  const { values } = useFormikContext();
+export default function useRegionData(countryValue, regionValue) {
   const [{ stateList }] = useAppContext();
-  const regionValue = _get(values, `${addressType}.region`);
-  const countryValue = _get(values, `${addressType}.country`);
-
+  const [regionData, setRegionData] = useState({});
   // Whenever region value changed, we will find the selected region from the stateList.
   // State info needed in multiple occasions. it is useful to store this data separately
   // and then re-use it.

@@ -1,30 +1,29 @@
 import React from 'react';
 import { bool } from 'prop-types';
-import { useFormikContext } from 'formik';
 
 import { ORBox } from '../../address';
 import Checkbox from '../../common/Form/Checkbox';
+import { __ } from '../../../i18n';
+import LocalStorage from '../../../utils/localStorage';
+import { isCartAddressValid } from '../../../utils/address';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import LocalStorage from '../../../utils/localStorage';
-import { __ } from '../../../i18n';
-import { isCartAddressValid } from '../../../utils/address';
 
 function BillingSameAsShippingCheckbox({ addOR }) {
-  const { setFieldValue } = useFormikContext();
-  const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
   const {
     cartBillingAddress,
     cartShippingAddress,
   } = useBillingAddressCartContext();
   const {
     fields,
-    isBillingAddressSameAsShipping,
+    setFieldValue,
+    setBackupAddress,
     setFormToEditMode,
     setFormToViewMode,
-    setBackupAddress,
+    isBillingAddressSameAsShipping,
   } = useBillingAddressFormikContext();
+  const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
 
   const toggleBillingEqualsShippingState = async () => {
     const newSameAsShipping = !isBillingAddressSameAsShipping;

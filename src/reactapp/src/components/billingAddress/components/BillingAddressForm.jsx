@@ -1,39 +1,37 @@
 import React from 'react';
-import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import { ORBox, SaveButton } from '../../address';
-import SelectInput from '../../common/Form/SelectInput';
 import TextInput from '../../common/Form/TextInput';
+import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './billingAddressForm/CancelButton';
 import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
+import { __ } from '../../../i18n';
 import useCountryState from '../../address/hooks/useCountryState';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import { __ } from '../../../i18n';
-import { BILLING_ADDR_FORM } from '../../../config';
 
 function BillingAddressForm() {
-  const { values, touched } = useFormikContext();
   const {
     fields,
     formId,
     viewMode,
-    validationSchema,
+    formikData,
     submitHandler,
     handleKeyDown,
+    validationSchema,
     isBillingAddressSameAsShipping,
   } = useBillingAddressFormikContext();
   const saveAddress = useFormValidateThenSubmit({
     formId,
+    formikData,
     submitHandler,
     validationSchema,
   });
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
+    formikData,
   });
-  const selectedCountry = _get(values, fields.country);
-  const isFormTouched = !!_get(touched, BILLING_ADDR_FORM);
+  const { selectedCountry, isBillingAddressTouched } = formikData;
 
   if (viewMode) {
     return <></>;
@@ -50,74 +48,86 @@ function BillingAddressForm() {
 
       <div className="py-2">
         <TextInput
+          required
           label={__('Company')}
           name={fields.company}
+          onKeyDown={handleKeyDown}
           placeholder={__('Company')}
-          required
-          onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <TextInput
-          label={__('First name')}
+          required
           name={fields.firstname}
+          label={__('First name')}
+          onKeyDown={handleKeyDown}
           placeholder={__('First name')}
-          required
-          onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <TextInput
-          label={__('Last name')}
+          required
           name={fields.lastname}
+          label={__('Last name')}
+          onKeyDown={handleKeyDown}
           placeholder={__('Last name')}
-          required
-          onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <TextInput
+          required
           label={__('Street')}
-          name={`${fields.street}[0]`}
+          onKeyDown={handleKeyDown}
           placeholder={__('Street')}
-          required
-          onKeyDown={handleKeyDown}
+          name={`${fields.street}[0]`}
+          formikData={formikData}
         />
         <TextInput
-          label={__('Postal Code')}
-          name={fields.zipcode}
+          required
           placeholder="12345"
-          required
+          name={fields.zipcode}
+          label={__('Postal Code')}
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <TextInput
+          required
           label={__('City')}
           name={fields.city}
           placeholder={__('City')}
-          required
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <SelectInput
+          required
           label={__('Country')}
           name={fields.country}
-          required
           options={countryOptions}
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <SelectInput
+          required
           label={__('State')}
           name={fields.region}
-          required
           options={stateOptions}
           onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
+          formikData={formikData}
         />
         <TextInput
+          required
           label={__('Phone')}
           name={fields.phone}
-          placeholder="+32 000 000 000"
-          required
           onKeyDown={handleKeyDown}
+          placeholder="+32 000 000 000"
+          formikData={formikData}
         />
       </div>
 
       <div className="flex items-center justify-around mt-2">
         <CancelButton />
-        <SaveButton isFormValid={isFormTouched} actions={{ saveAddress }} />
+        <SaveButton
+          actions={{ saveAddress }}
+          isFormValid={isBillingAddressTouched}
+        />
       </div>
     </>
   );

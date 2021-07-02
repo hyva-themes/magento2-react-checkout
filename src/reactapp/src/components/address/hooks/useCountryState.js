@@ -1,39 +1,36 @@
 import { useEffect, useMemo } from 'react';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import useAppContext from '../../../hook/useAppContext';
 import { prepareCountryOptions, prepareCountryStateOptions } from '../utility';
 
-export default function useCountryState({ fields }) {
-  const { values, setFieldValue } = useFormikContext();
+export default function useCountryState({ fields, formikData }) {
   const [{ countryList, stateList }] = useAppContext();
-  const countrySelected = _get(values, fields.country);
   const regionField = fields.region;
-  const stateSelected = _get(values, regionField);
+  const { selectedCountry, selectedRegion, setFieldValue } = formikData || {};
 
   // whenever the country is switched, we need to clear the state input
   useEffect(() => {
-    if (countrySelected) {
-      const stateListContainsStateSelected =
+    if (selectedCountry) {
+      const stateListContainsselectedRegion =
         !stateList.length ||
-        _get(stateList, countrySelected, []).find(
-          state => state.code === stateSelected
+        _get(stateList, selectedCountry, []).find(
+          state => state.code === selectedRegion
         );
 
-      if (!stateListContainsStateSelected) {
+      if (!stateListContainsselectedRegion) {
         setFieldValue(regionField, '');
       }
     }
-  }, [countrySelected, regionField, stateSelected, stateList, setFieldValue]);
+  }, [selectedCountry, regionField, selectedRegion, stateList, setFieldValue]);
 
   const countryOptions = useMemo(() => prepareCountryOptions(countryList), [
     countryList,
   ]);
 
   const stateOptions = useMemo(
-    () => prepareCountryStateOptions(stateList, countrySelected),
-    [stateList, countrySelected]
+    () => prepareCountryStateOptions(stateList, selectedCountry),
+    [stateList, selectedCountry]
   );
 
   return {

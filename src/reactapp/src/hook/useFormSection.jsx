@@ -1,4 +1,3 @@
-import { useFormikContext } from 'formik';
 import { useContext, useEffect } from 'react';
 
 import CheckoutFormContext from '../context/Form/CheckoutFormContext';
@@ -9,13 +8,13 @@ import { prepareFields } from '../context/utility';
  */
 function useFormSection({
   id,
+  formikData,
   initialValues,
-  validationSchema,
   submitHandler,
+  validationSchema,
 }) {
   const { registerFormSection } = useContext(CheckoutFormContext);
-  const { dirty, touched, errors } = useFormikContext();
-  const isFormValid = dirty && touched[id] && !errors[id];
+  const { isFormSectionValid } = formikData || {};
 
   /**
    * It register the form to checkout-form-formik so that the form will be
@@ -37,7 +36,7 @@ function useFormSection({
    */
   const context = {
     formId: id,
-    isFormValid,
+    isFormValid: isFormSectionValid,
     fields: prepareFields(initialValues, id),
     submitHandler,
     validationSchema,
