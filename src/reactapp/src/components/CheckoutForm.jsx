@@ -12,6 +12,7 @@ import BillingAddress from './billingAddress';
 import ShippingAddress from './shippingAddress';
 import ShippingMethodsForm from './shippingMethod';
 import StickyRightSidebar from './StickyRightSidebar';
+import CheckoutAgreements from './checkoutAgreements';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import useAppContext from '../hook/useAppContext';
 import useCartContext from '../hook/useCartContext';
@@ -61,6 +62,7 @@ function CheckoutForm() {
             <StickyRightSidebar>
               <CartItemsForm />
               <Totals />
+              <CheckoutAgreements />
               <PlaceOrder />
             </StickyRightSidebar>
           </div>

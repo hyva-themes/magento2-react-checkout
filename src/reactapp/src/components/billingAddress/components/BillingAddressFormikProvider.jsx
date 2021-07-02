@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _get from 'lodash.get';
 import { node } from 'prop-types';
-import { Form, useFormikContext } from 'formik';
+import { Form } from 'formik';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import {
@@ -17,6 +17,7 @@ import { BILLING_ADDR_FORM } from '../../../config';
 import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import { isCartAddressValid } from '../../../utils/address';
 import useRegionData from '../../address/hooks/useRegionData';
@@ -66,7 +67,7 @@ const initialAddressIdInCache = !!_toString(
 
 const isSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
-function BillingAddressFormManager({ children }) {
+function BillingAddressFormikProvider({ children, formikData }) {
   const addressIdInCache = _toString(
     LocalStorage.getCustomerBillingAddressId()
   );
@@ -89,15 +90,20 @@ function BillingAddressFormManager({ children }) {
     cartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
+  const editModeContext = useFormEditMode();
+  const {
+    billingValues,
+    setFieldValue,
+    selectedRegion,
+    selectedCountry,
+  } = formikData;
   const validationSchema = useRegionValidation(
-    BILLING_ADDR_FORM,
+    selectedCountry,
     initValidationSchema
   );
-  const editModeContext = useFormEditMode();
-  const regionData = useRegionData(BILLING_ADDR_FORM);
-  const { values, setFieldValue } = useFormikContext();
+  const regionData = useRegionData(selectedCountry, selectedRegion);
   const { setFormEditMode } = editModeContext;
-  const isSame = _get(values, isSameAsShippingField);
+  const isSame = _get(billingValues, 'isSameAsShipping');
   const selectedCustomerAddress = prepareFormAddressFromAddressListById(
     customerAddressList,
     selectedAddressId
@@ -273,8 +279,10 @@ function BillingAddressFormManager({ children }) {
 
   let context = {
     ...regionData,
+    ...formikData,
     ...addressContext,
     ...editModeContext,
+    formikData,
     backupAddress,
     selectedAddress,
     setBackupAddress,
@@ -292,12 +300,13 @@ function BillingAddressFormManager({ children }) {
 
   const formSubmit = useSaveAddressAction(context);
   const handleKeyDown = useEnterActionInForm({
+    formikData,
     validationSchema,
     submitHandler: formSubmit,
-    formId: BILLING_ADDR_FORM,
   });
 
   const formContext = useFormSection({
+    formikData,
     initialValues,
     validationSchema,
     id: BILLING_ADDR_FORM,
@@ -313,8 +322,9 @@ function BillingAddressFormManager({ children }) {
   );
 }
 
-BillingAddressFormManager.propTypes = {
+BillingAddressFormikProvider.propTypes = {
   children: node.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
-export default BillingAddressFormManager;
+export default BillingAddressFormikProvider;

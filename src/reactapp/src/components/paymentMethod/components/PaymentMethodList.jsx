@@ -1,19 +1,16 @@
 import React from 'react';
 import { object } from 'prop-types';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import RadioInput from '../../common/Form/RadioInput';
+import { _objToArray } from '../../../utils';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 import usePaymentMethodFormContext from '../hooks/usePaymentMethodFormContext';
-import { _objToArray } from '../../../utils';
-import { PAYMENT_METHOD_FORM } from '../../../config';
 
 function PaymentMethodList({ methodRenderers }) {
-  const { values, setFieldValue, setFieldTouched } = useFormikContext();
-  const { fields, submitHandler } = usePaymentMethodFormContext();
+  const { fields, submitHandler, formikData } = usePaymentMethodFormContext();
   const { methodList } = usePaymentMethodCartContext();
-  const selectedPaymentMethod = _get(values, PAYMENT_METHOD_FORM);
+  const { paymentValues, setFieldValue, setFieldTouched } = formikData;
 
   const handlePaymentMethodSelection = async event => {
     const methodSelected = _get(methodList, `${event.target.value}.code`);
@@ -44,7 +41,7 @@ function PaymentMethodList({ methodRenderers }) {
               {MethodRenderer ? (
                 <MethodRenderer
                   method={method}
-                  selected={selectedPaymentMethod}
+                  selected={paymentValues}
                   actions={{ change: handlePaymentMethodSelection }}
                 />
               ) : (
@@ -53,7 +50,7 @@ function PaymentMethodList({ methodRenderers }) {
                   name="paymentMethod"
                   value={method.code}
                   onChange={handlePaymentMethodSelection}
-                  checked={method.code === selectedPaymentMethod.code}
+                  checked={method.code === paymentValues.code}
                 />
               )}
             </li>

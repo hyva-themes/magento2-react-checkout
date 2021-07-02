@@ -1,34 +1,32 @@
-import _get from 'lodash.get';
 import { object as YupObject } from 'yup';
-import { useFormikContext } from 'formik';
 
-import useAppContext from './useAppContext';
-import { _isObjEmpty } from '../utils';
 import {
   focusOnFormErrorElement,
   prepareFormSectionErrorMessage,
 } from '../utils/form';
+import { _isObjEmpty } from '../utils';
+import useAppContext from './useAppContext';
 
 export default function useFormValidateThenSubmit({
-  validationSchema,
-  submitHandler,
   formId,
+  formikData,
+  submitHandler,
+  validationSchema,
 }) {
-  const { values, errors, touched } = useFormikContext();
   const [, { setErrorMessage }] = useAppContext();
+  const { formSectionErrors, isFormSectionTouched, formSectionValues } =
+    formikData || {};
 
   return () => {
-    const isFormSectionTouched = !!_get(touched, formId);
-    const formSectionErrors = _get(errors, formId);
-
     if (isFormSectionTouched && !_isObjEmpty(formSectionErrors)) {
-      setErrorMessage(prepareFormSectionErrorMessage(formId, errors));
-      focusOnFormErrorElement(formId, errors);
+      setErrorMessage(
+        prepareFormSectionErrorMessage(formId, formSectionErrors)
+      );
+      focusOnFormErrorElement(formId, formSectionErrors);
 
       return;
     }
 
-    const formSectionValues = _get(values, formId);
     const validationRules = YupObject().shape(validationSchema);
     validationRules.validate(formSectionValues).then(valid => {
       if (valid) {

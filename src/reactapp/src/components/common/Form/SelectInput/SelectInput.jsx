@@ -2,25 +2,35 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import _get from 'lodash.get';
-import { ErrorMessage, Field, useField } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 import { arrayOf, bool, shape, string } from 'prop-types';
 import { __ } from '../../../../i18n';
+import { formikDataShape } from '../../../../utils/propTypes';
+import { _replace } from '../../../../utils';
 
 export function SelectInput({
   id,
   name,
   label,
+  options,
   helpText,
   required,
-  placeholder,
-  options,
   isHidden,
+  formikData,
+  placeholder,
   ...rest
 }) {
+  const {
+    setFieldValue,
+    formSectionId,
+    setFieldTouched,
+    formSectionErrors,
+    formSectionTouched,
+  } = formikData;
   const inputId = id || name;
-  const [, meta, helper] = useField(name) || [];
-  const hasFieldError = !!_get(meta, 'error', false);
-  const hasFieldTouched = !!_get(meta, 'touched', false);
+  const relativeFieldName = _replace(name, formSectionId).replace('.', '');
+  const hasFieldError = !!_get(formSectionErrors, relativeFieldName);
+  const hasFieldTouched = !!_get(formSectionTouched, relativeFieldName);
   const hasError = hasFieldError && hasFieldTouched;
 
   return (
@@ -37,7 +47,7 @@ export function SelectInput({
           }`}
         >
           <ErrorMessage name={name}>
-            {(msg) => msg.replace('%1', label)}
+            {msg => msg.replace('%1', label)}
           </ErrorMessage>
         </div>
       </div>
@@ -48,15 +58,16 @@ export function SelectInput({
         id={inputId}
         placeholder={placeholder}
         className={`w-full p-2 border form-select xs:block max-w-md ${
-            hasError ? 'border-dashed border-red-500' : ''
+          hasError ? 'border-dashed border-red-500' : ''
         }`}
-        onChange={(event) => {
-            helper.setTouched(true);
-            helper.setValue(event.target.value);
+        onChange={event => {
+          const newValue = event.target.value;
+          setFieldTouched(name, newValue);
+          setFieldValue(name, newValue);
         }}
       >
         <option value="">{__('-- Please Select --')}</option>
-        {options.map((option) => (
+        {options.map(option => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
@@ -71,26 +82,27 @@ export function SelectInput({
 
 SelectInput.propTypes = {
   id: string,
-  name: string.isRequired,
-  label: string.isRequired,
+  required: bool,
+  isHidden: bool,
   helpText: string,
   placeholder: string,
-  required: bool,
+  name: string.isRequired,
+  label: string.isRequired,
+  formikData: formikDataShape.isRequired,
   options: arrayOf(
     shape({
-      options: string,
       value: string,
+      options: string,
     })
   ),
-  isHidden: bool,
 };
 
 SelectInput.defaultProps = {
   id: '',
+  options: [],
   helpText: '',
   required: false,
   placeholder: '',
-  options: [],
   isHidden: false,
 };
 
