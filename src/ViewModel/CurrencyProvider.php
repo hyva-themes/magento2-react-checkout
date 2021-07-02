@@ -5,7 +5,6 @@ namespace Hyva\Checkout\ViewModel;
 
 use Magento\Directory\Model\Currency;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -26,7 +25,7 @@ class CurrencyProvider implements ArgumentInterface
      *
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(StoreManagerInterface $storeManager, SerializerInterface $serializer)
+    public function __construct(StoreManagerInterface $storeManager)
     {
         $this->storeManager = $storeManager;
     }
