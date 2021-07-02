@@ -11,35 +11,42 @@ use Magento\Framework\Locale\ResolverInterface as LocaleResolverInterface;
 class CheckoutConfigProvider implements ArgumentInterface
 {
     /**
-     * @var \Magento\Checkout\Model\CompositeConfigProvider
+     * @var CompositeConfigProvider
      */
     private $compositeConfigProvider;
 
     /**
-     * @var \Magento\Framework\Serialize\SerializerInterface
+     * @var SerializerInterface
      */
     private $serializer;
 
     /**
-     * @var \Magento\Framework\Locale\ResolverInterface
+     * @var LocaleResolverInterface
      */
     private $localeResolver;
 
     /**
+     * @var CurrencyProvider
+     */
+    private $currencyProvider;
+
+    /**
      * CheckoutConfigProvider constructor.
      *
-     * @param  \Magento\Framework\Serialize\SerializerInterface  $serializer
-     * @param  \Magento\Framework\Locale\ResolverInterface  $localeResolver
-     * @param  \Magento\Checkout\Model\CompositeConfigProvider  $compositeConfigProvider
+     * @param SerializerInterface $serializer
+     * @param LocaleResolverInterface $localeResolver
+     * @param CompositeConfigProvider $compositeConfigProvider
      */
     public function __construct(
         SerializerInterface $serializer,
         LocaleResolverInterface $localeResolver,
-        CompositeConfigProvider $compositeConfigProvider
+        CompositeConfigProvider $compositeConfigProvider,
+        CurrencyProvider $currencyProvider
     ) {
         $this->serializer = $serializer;
         $this->localeResolver = $localeResolver;
         $this->compositeConfigProvider = $compositeConfigProvider;
+        $this->currencyProvider = $currencyProvider;
     }
 
     /**
@@ -64,6 +71,7 @@ class CheckoutConfigProvider implements ArgumentInterface
         return $this->serializer->serialize([
             'payment' => $checkoutConfig['payment'],
             'language' => $this->localeResolver->getLocale(),
+            'currency' => $this->currencyProvider->getConfig(),
             'defaultCountryId' => $checkoutConfig['defaultCountryId'],
         ]);
     }

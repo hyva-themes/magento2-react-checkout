@@ -15,6 +15,10 @@ const RootElement = {
     return _get(RootElement.getCheckoutConfig(), 'language');
   },
 
+  getCurrency() {
+    return _get(RootElement.getCheckoutConfig(), 'currency', {});
+  },
+
   getFilePath() {
     return _get(RootElement.getElement(), 'dataset.static_file_path', '');
   },

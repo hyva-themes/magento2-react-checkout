@@ -2,6 +2,7 @@
 import _get from 'lodash.get';
 import { config } from '../../../config';
 import { _isArrayEmpty } from '../../../utils';
+import { formatPrice } from '../../../utils/price';
 import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 import {
   modifySelectedShippingMethod,
@@ -12,12 +13,10 @@ import {
 function modifyCartItemsData(cartItems) {
   return cartItems.reduce((cartItemsInfo, item) => {
     const { id, quantity, prices, product } = item;
-    const currencySymbol =
-      config.currencySymbols[_get(prices, 'price.currency')];
     const priceAmount = _get(prices, 'price.value');
-    const price = `${currencySymbol}${priceAmount}`;
+    const price = formatPrice(priceAmount)
     const rowTotalAmount = _get(prices, 'row_total.value');
-    const rowTotal = `${currencySymbol}${rowTotalAmount}`;
+    const rowTotal = formatPrice(rowTotalAmount);
     const productId = _get(product, 'id');
     const productSku = _get(product, 'sku');
     const productName = _get(product, 'name');
@@ -46,10 +45,9 @@ function modifyCartPricesData(cartPrices) {
   const grandTotal = _get(cartPrices, 'grand_total', {});
   const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
   const discountPrices = _get(cartPrices, 'discounts', []) || [];
-  const currencySymbol = config.currencySymbols[_get(grandTotal, 'currency')];
   const discounts = discountPrices.map(discount => ({
     label: discount.label,
-    price: `-${currencySymbol}${discount.amount.value}`,
+    price: formatPrice(-discount.amount.value, true),
     amount: discount.amount.value,
   }));
   const grandTotalAmount = _get(grandTotal, 'value');
@@ -58,9 +56,9 @@ function modifyCartPricesData(cartPrices) {
   return {
     discounts,
     hasDiscounts: !_isArrayEmpty(discountPrices),
-    subTotal: `${currencySymbol}${subTotalAmount}`,
+    subTotal: formatPrice(subTotalAmount),
     subTotalAmount,
-    grandTotal: `${currencySymbol}${grandTotalAmount}`,
+    grandTotal: formatPrice(grandTotalAmount),
     grandTotalAmount,
   };
 }
