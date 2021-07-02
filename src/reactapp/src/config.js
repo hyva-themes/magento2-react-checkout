@@ -70,8 +70,6 @@ export const config = {
   },
 };
 
-console.log({ url: config.baseUrl })
-
 config.successPageRedirectUrl = `${config.baseUrl}/checkout/onepage/success`;
 
 export const LOGIN_FORM = 'login';
