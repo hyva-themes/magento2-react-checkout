@@ -10,6 +10,7 @@ $configProvider = $block->getCheckoutConfigProvider();
 ?>
 <div
     id="react-checkout"
+    data-base_url="<?= $block->getBaseUrl() ?>"
     data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
     data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >

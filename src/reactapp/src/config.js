@@ -1,4 +1,5 @@
 import { getConfigFromLocalStorage } from './utils/localStorageConfig';
+import RootElement from './utils/rootElement';
 
 const hyvaCheckoutStorageKey = 'hyva-checkout-storage';
 
@@ -58,7 +59,7 @@ export const config = {
   hyvaStorageSource: magentoDataSources.hyvaCheckoutCacheStorage,
   cartId: getConfigFromLocalStorage(activeSource.cartId),
   signInToken: getConfigFromLocalStorage(activeSource.token),
-  baseUrl: process.env.REACT_APP_BASE_URL || '',
+  baseUrl: RootElement.getBaseUrl() || '',
   defaultPaymentMethod: 'checkmo',
   defaultCountry: 'US',
   currencySymbols: {
@@ -68,6 +69,8 @@ export const config = {
     INR: '₹',
   },
 };
+
+console.log({ url: config.baseUrl })
 
 config.successPageRedirectUrl = `${config.baseUrl}/checkout/onepage/success`;
 
