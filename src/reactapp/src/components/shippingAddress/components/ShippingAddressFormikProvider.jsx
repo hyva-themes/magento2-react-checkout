@@ -6,7 +6,7 @@ import {
 } from 'yup';
 import _get from 'lodash.get';
 import { Form } from 'formik';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 
 import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
@@ -15,6 +15,7 @@ import { SHIPPING_ADDR_FORM } from '../../../config';
 import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import { isCartAddressValid } from '../../../utils/address';
 import { customerHasAddress } from '../../../utils/customer';
@@ -186,7 +187,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
 ShippingAddressFormikProvider.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default ShippingAddressFormikProvider;

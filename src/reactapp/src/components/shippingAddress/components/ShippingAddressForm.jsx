@@ -45,6 +45,7 @@ function ShippingAddressForm() {
           name={fields.company}
           onKeyDown={handleKeyDown}
           placeholder={__('Company')}
+          formikData={formikData}
         />
         <TextInput
           required
@@ -52,6 +53,7 @@ function ShippingAddressForm() {
           label={__('First name')}
           onKeyDown={handleKeyDown}
           placeholder={__('First name')}
+          formikData={formikData}
         />
         <TextInput
           required
@@ -59,6 +61,7 @@ function ShippingAddressForm() {
           label={__('Last name')}
           onKeyDown={handleKeyDown}
           placeholder={__('Last name')}
+          formikData={formikData}
         />
         <TextInput
           required
@@ -66,6 +69,7 @@ function ShippingAddressForm() {
           onKeyDown={handleKeyDown}
           placeholder={__('Street')}
           name={`${fields.street}[0]`}
+          formikData={formikData}
         />
         <TextInput
           required
@@ -73,6 +77,7 @@ function ShippingAddressForm() {
           name={fields.zipcode}
           label={__('Postal Code')}
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
         <TextInput
           required
@@ -80,6 +85,7 @@ function ShippingAddressForm() {
           name={fields.city}
           placeholder={__('City')}
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
 
         <SelectInput
@@ -88,6 +94,7 @@ function ShippingAddressForm() {
           name={fields.country}
           options={countryOptions}
           onKeyDown={handleKeyDown}
+          formikData={formikData}
         />
 
         <SelectInput
@@ -97,6 +104,7 @@ function ShippingAddressForm() {
           options={stateOptions}
           onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
+          formikData={formikData}
         />
 
         <TextInput
@@ -105,6 +113,7 @@ function ShippingAddressForm() {
           name={fields.phone}
           onKeyDown={handleKeyDown}
           placeholder="+32 000 000 000"
+          formikData={formikData}
         />
       </div>
 

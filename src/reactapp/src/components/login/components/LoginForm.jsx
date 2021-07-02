@@ -44,6 +44,7 @@ function LoginForm() {
           label={__('E-mail')}
           onKeyDown={handleKeyDown}
           placeholder="john.doe@gmail.com"
+          formikData={formikData}
         />
 
         {!customerWantsToSignIn && (
@@ -67,6 +68,7 @@ function LoginForm() {
               name={fields.password}
               onKeyDown={handleKeyDown}
               placeholder={__('Password')}
+              formikData={formikData}
             />
           </div>
         )}

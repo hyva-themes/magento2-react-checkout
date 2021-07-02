@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form } from 'formik';
 import { string as YupString, bool as YupBool } from 'yup';
@@ -9,6 +9,7 @@ import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import LoginFormContext from '../context/LoginFormContext';
+import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginCartContext from '../hooks/useLoginCartContext';
@@ -180,7 +181,7 @@ function LoginFormManager({ children, formikData }) {
 
 LoginFormManager.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default LoginFormManager;
