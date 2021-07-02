@@ -6,6 +6,7 @@ import ShippingMethodList from './components/ShippingMethodList';
 import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
 import { __ } from '../../i18n';
+import { formikDataShape } from '../../utils/propTypes';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
 
 const ShippingMethodMemorized = React.memo(({ formikData }) => {
@@ -21,5 +22,9 @@ const ShippingMethodMemorized = React.memo(({ formikData }) => {
     </ShippingMethodFormManager>
   );
 });
+
+ShippingMethodMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+};
 
 export default ShippingMethodMemorized;

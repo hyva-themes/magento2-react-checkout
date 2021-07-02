@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString } from 'yup';
 
 import { __ } from '../../../i18n';
 import { SHIPPING_METHOD } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import ShippingMethodFormContext from '../context/ShippingMethodFormContext';
 import useShippingMethodAppContext from '../hooks/useShippingMethodAppContext';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
@@ -76,7 +77,7 @@ function ShippingMethodFormManager({ children, formikData }) {
 
 ShippingMethodFormManager.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default ShippingMethodFormManager;

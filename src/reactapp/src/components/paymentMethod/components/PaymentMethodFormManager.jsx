@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 import { string as YupString } from 'yup';
 import { Form } from 'formik';
 
 import PaymentMethodFormContext from '../context/PaymentMethodFormContext';
+import { __ } from '../../../i18n';
+import { PAYMENT_METHOD_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import usePaymentMethodAppContext from '../hooks/usePaymentMethodAppContext';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
-import { PAYMENT_METHOD_FORM } from '../../../config';
-import { __ } from '../../../i18n';
 
 const initialValues = {
   code: '',
@@ -71,7 +72,7 @@ function PaymentMethodFormManager({ children, formikData }) {
 
 PaymentMethodFormManager.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default PaymentMethodFormManager;

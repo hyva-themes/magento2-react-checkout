@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _get from 'lodash.get';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
@@ -17,6 +17,7 @@ import { BILLING_ADDR_FORM } from '../../../config';
 import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import { isCartAddressValid } from '../../../utils/address';
 import useRegionData from '../../address/hooks/useRegionData';
@@ -323,7 +324,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
 
 BillingAddressFormikProvider.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default BillingAddressFormikProvider;

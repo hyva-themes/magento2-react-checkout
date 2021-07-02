@@ -24,6 +24,7 @@ export default function useFormikMemorizer(formSectionId) {
   const sectionFormikData = useMemo(
     () => ({
       setFieldValue,
+      formSectionId,
       setFieldTouched,
       formSectionErrors,
       formSectionValues,
@@ -33,6 +34,7 @@ export default function useFormikMemorizer(formSectionId) {
     }),
     [
       setFieldValue,
+      formSectionId,
       setFieldTouched,
       formSectionErrors,
       formSectionValues,

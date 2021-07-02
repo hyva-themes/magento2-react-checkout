@@ -11,6 +11,7 @@ import useItemsFormContext from '../hooks/useItemsFormContext';
 
 function CartItem({ item, isLastItem }) {
   const {
+    formikData,
     handleKeyDown,
     cartItemsTouched,
     itemUpdateHandler,
@@ -42,6 +43,7 @@ function CartItem({ item, isLastItem }) {
           name={itemQtyField}
           onKeyDown={handleKeyDown}
           id={`${itemQtyField}-desktop`}
+          formikData={formikData}
         />
       </td>
       <td className="hidden md:table-cell">{item.price}</td>
@@ -97,6 +99,7 @@ function CartItem({ item, isLastItem }) {
                             name={itemQtyField}
                             id={`${itemQtyField}-mobile`}
                             onKeyDown={handleKeyDown}
+                            formikData={formikData}
                           />
                           <div className="mt-2 ml-2">
                             <Button

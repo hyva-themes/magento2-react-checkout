@@ -6,6 +6,7 @@ import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
 import PaymentMethodList from './components/PaymentMethodList';
 import { __ } from '../../i18n';
+import { formikDataShape } from '../../utils/propTypes';
 import getCustomRenderers from '../../paymentMethods/customRenderers';
 import usePaymentMethodCartContext from './hooks/usePaymentMethodCartContext';
 
@@ -34,5 +35,9 @@ const PaymentMethodMemorized = React.memo(({ formikData }) => {
     </PaymentMethodFormManager>
   );
 });
+
+PaymentMethodMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+}
 
 export default PaymentMethodMemorized;

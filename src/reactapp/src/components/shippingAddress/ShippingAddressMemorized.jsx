@@ -6,6 +6,7 @@ import ShippingAddressForm from './components/ShippingAddressForm';
 import ShippingAddressView from './components/ShippingAddressView';
 import ShippingAddressFormikProvider from './components/ShippingAddressFormikProvider';
 import { __ } from '../../i18n';
+import { formikDataShape } from '../../utils/propTypes';
 
 const ShippingAddressMemorized = React.memo(({ formikData }) => (
   <ShippingAddressFormikProvider formikData={formikData}>
@@ -17,5 +18,9 @@ const ShippingAddressMemorized = React.memo(({ formikData }) => (
     </Card>
   </ShippingAddressFormikProvider>
 ));
+
+ShippingAddressMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+};
 
 export default ShippingAddressMemorized;

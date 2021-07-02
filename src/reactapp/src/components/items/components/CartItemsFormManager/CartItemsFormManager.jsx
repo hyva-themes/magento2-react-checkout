@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { node, object } from 'prop-types';
+import { node } from 'prop-types';
 import { Form } from 'formik';
 
 import { __ } from '../../../../i18n';
@@ -7,6 +7,7 @@ import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
 import { prepareCartItemsUniqueId } from './utility';
 import useFormSection from '../../../../hook/useFormSection';
+import { formikDataShape } from '../../../../utils/propTypes';
 import useItemsAppContext from '../../hooks/useItemsAppContext';
 import useItemsCartContext from '../../hooks/useItemsCartContext';
 import CartItemsFormContext from '../../context/CartItemsFormContext';
@@ -107,7 +108,7 @@ function CartItemsFormManager({ children, formikData }) {
 
 CartItemsFormManager.propTypes = {
   children: node.isRequired,
-  formikData: object.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default CartItemsFormManager;

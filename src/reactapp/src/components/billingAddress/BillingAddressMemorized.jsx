@@ -6,6 +6,7 @@ import BillingAddressForm from './components/BillingAddressForm';
 import BillingAddressView from './components/BillingAddressView';
 import BillingAddressFormikProvider from './components/BillingAddressFormikProvider';
 import { __ } from '../../i18n';
+import { formikDataShape } from '../../utils/propTypes';
 
 const BillingAddressMemorized = React.memo(({ formikData }) => (
   <BillingAddressFormikProvider formikData={formikData}>
@@ -17,5 +18,9 @@ const BillingAddressMemorized = React.memo(({ formikData }) => (
     </Card>
   </BillingAddressFormikProvider>
 ));
+
+BillingAddressMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+};
 
 export default BillingAddressMemorized;

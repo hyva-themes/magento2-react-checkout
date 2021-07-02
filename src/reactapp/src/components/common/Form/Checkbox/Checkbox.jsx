@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
-import { useField } from 'formik';
+import { Field } from 'formik';
 import { bool, string } from 'prop-types';
 
 function Checkbox({
@@ -10,23 +10,21 @@ function Checkbox({
   label,
   helpText,
   required,
-  placeholder,
   isChecked,
+  placeholder,
   ...rest
 }) {
   const inputId = id || name;
-  const [field] = useField(name) || [];
 
   return (
     <div className="mt-2 form-control">
-      <input
-        className="form-checkbox"
-        type="checkbox"
-        id={inputId}
-        name={name}
-        checked={isChecked}
-        {...field}
+      <Field
         {...rest}
+        name={name}
+        id={inputId}
+        type="checkbox"
+        checked={isChecked}
+        className="form-checkbox"
       />
       <label htmlFor={inputId} className="inline pl-2">
         {label}
@@ -41,12 +39,12 @@ function Checkbox({
 
 Checkbox.propTypes = {
   id: string,
-  name: string.isRequired,
-  label: string.isRequired,
-  helpText: string,
-  placeholder: string,
   required: bool,
   isChecked: bool,
+  helpText: string,
+  placeholder: string,
+  name: string.isRequired,
+  label: string.isRequired,
 };
 
 Checkbox.defaultProps = {

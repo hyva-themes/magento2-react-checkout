@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import UserInfoBox from './components/UserInfoBox';
 import LoginFormManager from './components/LoginFormManager';
 import { __ } from '../../i18n';
+import { formikDataShape } from '../../utils/propTypes';
 
 const LoginMemorized = React.memo(({ formikData }) => (
   <LoginFormManager formikData={formikData}>
@@ -17,5 +18,9 @@ const LoginMemorized = React.memo(({ formikData }) => (
     </Card>
   </LoginFormManager>
 ));
+
+LoginMemorized.propTypes = {
+  formikData: formikDataShape.isRequired,
+};
 
 export default LoginMemorized;
