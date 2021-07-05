@@ -1,3 +1,4 @@
+import env from '../utils/env';
 import RootElement from '../utils/rootElement';
 
 /**
@@ -5,7 +6,7 @@ import RootElement from '../utils/rootElement';
  * and then convert it into JSON data.
  */
 export default function fetchTranslation() {
-  const languageCode = RootElement.getLanguage();
+  const languageCode = env.language || RootElement.getLanguage();
   const staticFilePath = RootElement.getFilePath();
   const languageJsonFile = `${staticFilePath}/i18n/${languageCode}.json`;
 
