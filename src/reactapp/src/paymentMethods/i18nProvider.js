@@ -1,3 +1,4 @@
+import env from '../utils/env';
 import RootElement from '../utils/rootElement';
 import { paymentFetcher } from './utility';
 
@@ -8,7 +9,7 @@ import { paymentFetcher } from './utility';
  * through each available payment methods and collecting them.
  */
 export default async function i18nProvider() {
-  const locale = RootElement.getLanguage();
+  const locale = env.language || RootElement.getLanguage();
 
   if (!locale) {
     return {};

@@ -1,8 +1,12 @@
+import env from '../utils/env';
 import { config } from '../config';
+import RootElement from '../utils/rootElement';
 import LocalStorage from '../utils/localStorage';
 
 export const RESPONSE_TEXT = 'text';
 export const RESPONSE_JSON = 'json';
+
+const storeCode = env.storeCode || RootElement.getStoreCode();
 
 export default function sendRequest(
   queryParams = {},
@@ -10,8 +14,12 @@ export default function sendRequest(
   responseType = 'json',
   additionalHeaders = {}
 ) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Store: storeCode,
+    ...additionalHeaders,
+  };
   const token = LocalStorage.getCustomerToken();
-  const headers = { 'Content-Type': 'application/json', ...additionalHeaders };
   const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
 
   if (token) {
@@ -19,8 +27,8 @@ export default function sendRequest(
   }
 
   return fetch(url, {
-    method: 'POST',
     headers,
+    method: 'POST',
     body: JSON.stringify({ ...queryParams }),
   })
     .then(response => {

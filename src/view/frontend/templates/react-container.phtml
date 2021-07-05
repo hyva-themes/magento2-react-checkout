@@ -13,9 +13,8 @@ $configProvider = $block->getData('checkout_config_provider');
 ?>
 <div
     id="react-checkout"
-    data-static_file_path="<?= $escaper->escapeHtmlAttr(
-        $escaper->escapeUrl($block->getViewFileUrl('Hyva_Checkout/js'))
-    ) ?>"
+    data-base_url="<?= $block->getBaseUrl() ?>"
+    data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
     data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >
     <div class="container">
@@ -202,4 +201,3 @@ $configProvider = $block->getData('checkout_config_provider');
         </div>
     </div>
 </div>
-
