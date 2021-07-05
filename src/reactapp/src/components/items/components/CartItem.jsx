@@ -47,7 +47,7 @@ function CartItem({ item, isLastItem }) {
         />
       </td>
       <td className="hidden md:table-cell">{item.price}</td>
-      <td className="hidden md:table-cell">{item.rowTotal}</td>
+      <td className="hidden xl:table-cell">{item.rowTotal}</td>
       <td className="hidden md:table-cell">
         <Button
           size="sm"

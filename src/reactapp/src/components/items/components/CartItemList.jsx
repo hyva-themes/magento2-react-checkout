@@ -16,7 +16,7 @@ function CartItemList() {
               <th>{__('Item')}</th>
               <th>{__('Qty')}</th>
               <th>{__('Price')}</th>
-              <th>{__('Total')}</th>
+              <th className="hidden xl:table-cell">{__('Total')}</th>
               <th>
                 <span className="sr-only">{__('Actions')}</span>
                 &nbsp;
