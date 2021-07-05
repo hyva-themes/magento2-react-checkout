@@ -32,7 +32,7 @@ export const formatPrice = (value, showSign) => {
   });
 
   if (typeof Intl.NumberFormat.prototype.formatToParts === 'function') {
-    formatter
+    return formatter
       .formatToParts(value)
       .map(formatMapper(currencySymbol))
       .reduce((string, part) => string + part);
