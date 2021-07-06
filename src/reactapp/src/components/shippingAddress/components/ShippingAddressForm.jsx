@@ -43,58 +43,58 @@ function ShippingAddressForm() {
           required
           label={__('Company')}
           name={fields.company}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           placeholder={__('Company')}
-          formikData={formikData}
         />
         <TextInput
           required
           name={fields.firstname}
+          formikData={formikData}
           label={__('First name')}
           onKeyDown={handleKeyDown}
           placeholder={__('First name')}
-          formikData={formikData}
         />
         <TextInput
           required
           name={fields.lastname}
           label={__('Last name')}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           placeholder={__('Last name')}
-          formikData={formikData}
         />
         <TextInput
           required
           label={__('Street')}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           placeholder={__('Street')}
           name={`${fields.street}[0]`}
-          formikData={formikData}
         />
         <TextInput
           required
           placeholder="12345"
           name={fields.zipcode}
+          formikData={formikData}
           label={__('Postal Code')}
           onKeyDown={handleKeyDown}
-          formikData={formikData}
         />
         <TextInput
           required
           label={__('City')}
           name={fields.city}
+          formikData={formikData}
           placeholder={__('City')}
           onKeyDown={handleKeyDown}
-          formikData={formikData}
         />
 
         <SelectInput
           required
           label={__('Country')}
           name={fields.country}
+          formikData={formikData}
           options={countryOptions}
           onKeyDown={handleKeyDown}
-          formikData={formikData}
         />
 
         <SelectInput
@@ -102,18 +102,18 @@ function ShippingAddressForm() {
           label={__('State')}
           name={fields.region}
           options={stateOptions}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
-          formikData={formikData}
         />
 
         <TextInput
           required
           label={__('Phone')}
           name={fields.phone}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           placeholder="+32 000 000 000"
-          formikData={formikData}
         />
       </div>
 

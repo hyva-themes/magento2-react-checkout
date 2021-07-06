@@ -33,10 +33,6 @@ function ShippingAddressCardList() {
     const customerAddress = _get(customerAddressList, addressId);
     const addressToBackup = isLoggedIn ? customerAddress : shippingValues;
 
-    if (isLoggedIn && !customerAddress) {
-      return;
-    }
-
     setBackupAddress({ ...addressToBackup });
     setFormToEditMode();
   };

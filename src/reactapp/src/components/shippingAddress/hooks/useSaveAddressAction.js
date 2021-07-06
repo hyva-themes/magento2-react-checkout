@@ -93,14 +93,15 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     }
   };
 
-  return async addressId => {
+  return async () => {
     try {
       let customerAddressNeeded = false;
-      const hasCustomerAddr = addressId && addressId !== CART_SHIPPING_ADDRESS;
+      const hasCustomerAddr =
+        selectedAddress && selectedAddress !== CART_SHIPPING_ADDRESS;
       let updateCustomerAddrPromise = _emptyFunc();
       const updateCartAddressPromise = _makePromise(
         submitHandler,
-        hasCustomerAddr && addressId
+        hasCustomerAddr && selectedAddress
       );
 
       if (isLoggedIn && customerAddressSelected && editMode) {
@@ -114,7 +115,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       }
 
       if (hasCustomerAddr) {
-        LocalStorage.saveCustomerAddressInfo(addressId, isBillingSame);
+        LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
         setCustomerAddressSelected(true);
       } else if (customerAddressNeeded) {
         LocalStorage.saveCustomerAddressInfo(selectedAddress, isBillingSame);
@@ -130,7 +131,9 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         updateCartAddressPromise(),
       ]);
       setFormToViewMode(false);
-      setSelectedAddress(hasCustomerAddr ? addressId : CART_SHIPPING_ADDRESS);
+      setSelectedAddress(
+        hasCustomerAddr ? selectedAddress : CART_SHIPPING_ADDRESS
+      );
       setSuccessMessage(__('Shipping address updated successfully'));
       setPageLoader(false);
     } catch (error) {
