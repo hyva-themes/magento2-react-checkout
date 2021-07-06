@@ -2,23 +2,23 @@ import _get from 'lodash.get';
 
 import {
   ajaxLoginRequest,
-  fetchCustomerAddressListRequest,
-  fetchCustomerInfoRequest,
   generateCustomerToken,
+  fetchCustomerInfoRequest,
   updateCustomerAddressRequest,
+  fetchCustomerAddressListRequest,
 } from '../../../api';
-import { _cleanObjByKeys } from '../../../utils';
-import LocalStorage from '../../../utils/localStorage';
 import {
   setErrorMessageAction,
   setSuccessMessageAction,
 } from '../page/actions';
 import {
-  SET_CUSTOMER_ADDRESS_INFO,
   SET_CUSTOMER_INFO,
   UPDATE_CUSTOMER_ADDRESS,
+  SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './types';
+import { _cleanObjByKeys } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
 
 export function setLoggedInStatusAction(dispatch, status) {
   dispatch({
@@ -36,7 +36,7 @@ export async function sigInCustomerAction(dispatch, userCredentials) {
 
     return true;
   } catch (error) {
-    console.log('sigInCustomerAction', { error });
+    console.error(error);
     setErrorMessageAction(
       dispatch,
       _get(error, 'message') ||
@@ -76,7 +76,7 @@ export async function getCustomerInfoAction(dispatch) {
       payload: customerInfo,
     });
   } catch (error) {
-    console.log('getCustomerInfoAction', { error });
+    console.error(error);
   }
 }
 
@@ -91,7 +91,7 @@ export async function getCustomerAddressListAction(dispatch) {
 
     return customerAddressInfo;
   } catch (error) {
-    console.log('getCustomerAddressListAction', { error });
+    console.error(error);
   }
 
   return {};
@@ -116,21 +116,21 @@ export async function updateCustomerAddressAction(
     if (region) {
       address.region = {
         region_code: region,
-        region_id: _get(stateInfo, 'id'),
         region: _get(stateInfo, 'code'),
+        region_id: _get(stateInfo, 'id'),
       };
     }
     if (zipcode) {
       address.postcode = zipcode;
     }
     const keysToRemove = [
-      'country',
       'id',
-      'isSameAsShipping',
       'phone',
-      'selectedAddress',
+      'country',
       'zipcode',
       'fullName',
+      'selectedAddress',
+      'isSameAsShipping',
     ];
 
     const customerAddressInfo = await updateCustomerAddressRequest(
@@ -143,6 +143,6 @@ export async function updateCustomerAddressAction(
       payload: customerAddressInfo,
     });
   } catch (error) {
-    console.log('updateCustomerAddressAction', { error });
+    console.error(error);
   }
 }
