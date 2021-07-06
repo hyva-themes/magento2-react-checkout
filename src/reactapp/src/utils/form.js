@@ -9,8 +9,7 @@ export function scrollToElement(elementId) {
   }
 }
 
-export function focusOnFormErrorElement(formId, errors) {
-  const formSectionErrors = _get(errors, formId);
+export function focusOnFormErrorElement(formId, formSectionErrors) {
   const firstErrorKey = _get(_keys(formSectionErrors), '0');
   const firstErrorElementId = `${formId}.${firstErrorKey}`;
   const element = document.getElementById(firstErrorElementId);
@@ -21,9 +20,7 @@ export function focusOnFormErrorElement(formId, errors) {
   }
 }
 
-export function prepareFormSectionErrorMessage(formId, errors) {
-  const formSectionErrors = _get(errors, formId);
-
+export function prepareFormSectionErrorMessage(formId, formSectionErrors) {
   return _keys(formSectionErrors)
     .map(field => formSectionErrors[field].replace('%1', field))
     .join('; ');

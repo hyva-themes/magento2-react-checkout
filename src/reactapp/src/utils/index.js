@@ -40,3 +40,7 @@ export function _uniqueArray(arr) {
 export function _findById(arr, itemId) {
   return arr.find(item => item.id === itemId);
 }
+
+export function _replace(str, searchTerm, replaceWith = '') {
+  return (str || '').replace(searchTerm, replaceWith);
+}

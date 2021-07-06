@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
-import { Form, useFormikContext } from 'formik';
+import { Form } from 'formik';
 
 import PaymentMethodFormContext from '../context/PaymentMethodFormContext';
+import { __ } from '../../../i18n';
+import { PAYMENT_METHOD_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
+import { formikDataShape } from '../../../utils/propTypes';
 import usePaymentMethodAppContext from '../hooks/usePaymentMethodAppContext';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
-import { PAYMENT_METHOD_FORM } from '../../../config';
-import { __ } from '../../../i18n';
 
 const initialValues = {
   code: '',
@@ -20,17 +21,17 @@ const validationSchema = {
   code: YupString().required(requiredMessage),
 };
 
-function PaymentMethodFormManager({ children }) {
-  const { setFieldValue } = useFormikContext();
+function PaymentMethodFormManager({ children, formikData }) {
   const {
-    selectedPaymentMethod,
     setPaymentMethod,
+    selectedPaymentMethod,
   } = usePaymentMethodCartContext();
   const {
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
   } = usePaymentMethodAppContext();
+  const { setFieldValue } = formikData;
 
   const formSubmit = async paymentMethod => {
     try {
@@ -55,14 +56,15 @@ function PaymentMethodFormManager({ children }) {
   }, [selectedPaymentMethod, setFieldValue]);
 
   const context = useFormSection({
-    id: PAYMENT_METHOD_FORM,
-    validationSchema,
+    formikData,
     initialValues,
+    validationSchema,
+    id: PAYMENT_METHOD_FORM,
     submitHandler: formSubmit,
   });
 
   return (
-    <PaymentMethodFormContext.Provider value={context}>
+    <PaymentMethodFormContext.Provider value={{ ...context, formikData }}>
       <Form id={PAYMENT_METHOD_FORM}>{children}</Form>
     </PaymentMethodFormContext.Provider>
   );
@@ -70,6 +72,7 @@ function PaymentMethodFormManager({ children }) {
 
 PaymentMethodFormManager.propTypes = {
   children: node.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default PaymentMethodFormManager;

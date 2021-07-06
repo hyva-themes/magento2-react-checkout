@@ -3,6 +3,7 @@ node_modules/
 .vscode/
 .storybook/
 build
+.env
 .DS_Store
 public/tailwind.output.css
 public/styles.css

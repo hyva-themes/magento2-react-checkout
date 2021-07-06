@@ -1,23 +1,20 @@
-import { useFormikContext } from 'formik';
-
-import useBillingAddressAppContext from './useBillingAddressAppContext';
-import useBillingAddressCartContext from './useBillingAddressCartContext';
-import useBillingAddressFormikContext from './useBillingAddressFormikContext';
-import { __ } from '../../../i18n';
 import {
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../utils/address';
-import LocalStorage from '../../../utils/localStorage';
+import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
+import LocalStorage from '../../../utils/localStorage';
 import { prepareFormAddressFromCartAddress } from '../utility';
+import useBillingAddressAppContext from './useBillingAddressAppContext';
+import useBillingAddressCartContext from './useBillingAddressCartContext';
+import useBillingAddressFormikContext from './useBillingAddressFormikContext';
 
 /**
  * When user click on "billing same as shipping" checkbox, then if there is valid
  * shipping address, then make both billing and shipping same.
  */
 export default function useSaveBillingSameAsShipping() {
-  const { setFieldValue } = useFormikContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -29,7 +26,10 @@ export default function useSaveBillingSameAsShipping() {
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
-  const { setCustomerAddressSelected } = useBillingAddressFormikContext();
+  const {
+    setCustomerAddressSelected,
+    setFieldValue,
+  } = useBillingAddressFormikContext();
   const shippingAddressSelected = LocalStorage.getCustomerShippingAddressId();
 
   const makeBillingSameAsShippingRequest = async () => {

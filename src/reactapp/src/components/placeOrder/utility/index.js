@@ -6,6 +6,7 @@ import {
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
   PAYMENT_METHOD_FORM,
+  CHECKOUT_AGREEMENTS_FORM,
 } from '../../../config';
 import { _isObjEmpty } from '../../../utils';
 
@@ -41,6 +42,12 @@ export function hasPaymentMethodErrors(errors) {
   const paymentMethodErrors = _get(errors, PAYMENT_METHOD_FORM);
 
   return !_isObjEmpty(paymentMethodErrors);
+}
+
+export function hasTermsAndConditionsAgreed(errors) {
+  const agreementErrors = _get(errors, CHECKOUT_AGREEMENTS_FORM);
+
+  return !_isObjEmpty(agreementErrors);
 }
 
 export function isAddressSame(address1, address2) {

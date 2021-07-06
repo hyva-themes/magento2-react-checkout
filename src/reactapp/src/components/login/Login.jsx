@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import Card from '../common/Card';
-import ToggleBox from '../common/ToggleBox';
-import LoginForm from './components/LoginForm';
-import LoginFormManager from './components/LoginFormManager';
-import UserInfoBox from './components/UserInfoBox';
-import { __ } from '../../i18n';
+import LoginMemorized from './LoginMemorized';
+import { LOGIN_FORM } from '../../config';
+import useFormikMemorizer from '../../hook/useFormikMemorizer';
 
+/**
+ * Entry point of login form Section
+ *
+ * We are preparing any data related to formik state here and memorizing it.
+ * After that, these info will be fed to all other child components.
+ *
+ * So child components DO NOT access formik states using `useFormikContext` hook
+ * inside them unless it is totally unavoidable.
+ *
+ * Using useFormikContext hook render the component almost always. So use the
+ * memorized data here inside the child components.
+ */
 function Login() {
-  return (
-    <LoginFormManager>
-      <Card>
-        <ToggleBox title={__('Email')} show>
-          <LoginForm />
-          <UserInfoBox />
-        </ToggleBox>
-      </Card>
-    </LoginFormManager>
+  const formikSectionData = useFormikMemorizer(LOGIN_FORM);
+
+  const loginFormikData = useMemo(
+    () => ({
+      ...formikSectionData,
+      loginFormValues: formikSectionData.formSectionValues,
+      isLoginFormTouched: formikSectionData.isFormSectionTouched,
+    }),
+    [formikSectionData]
   );
+
+  return <LoginMemorized formikData={loginFormikData} />;
 }
 
 export default Login;

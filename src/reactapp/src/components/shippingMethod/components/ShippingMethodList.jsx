@@ -1,6 +1,4 @@
 import React from 'react';
-import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import RadioInput from '../../common/Form/RadioInput';
 import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
@@ -10,11 +8,17 @@ import { SHIPPING_METHOD } from '../../../config';
 import { __ } from '../../../i18n';
 
 function ShippingMethodList() {
-  const { values, setFieldValue, setFieldTouched } = useFormikContext();
+  const {
+    fields,
+    submitHandler,
+    setFieldValue,
+    selectedMethod,
+    setFieldTouched,
+  } = useShippingMethodFormContext();
   const { methodsAvailable, methodList } = useShippingMethodCartContext();
-  const { fields, submitHandler } = useShippingMethodFormContext();
-  const selectedMethod = _get(values, SHIPPING_METHOD, {});
-  const selectedMethodId = `${selectedMethod.carrierCode}__${selectedMethod.methodCode}`;
+  const { carrierCode: methodCarrierCode, methodCode: methodMethodCode } =
+    selectedMethod || {};
+  const selectedMethodId = `${methodCarrierCode}__${methodMethodCode}`;
 
   const handleShippingMethodSelection = async event => {
     const methodSelected = methodList[event.target.value];
@@ -44,9 +48,9 @@ function ShippingMethodList() {
           return (
             <li key={methodId} className="flex">
               <RadioInput
+                value={methodId}
                 label={methodName}
                 name="shippingMethod"
-                value={methodId}
                 checked={selectedMethodId === methodId}
                 onChange={handleShippingMethodSelection}
               />

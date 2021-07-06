@@ -1,29 +1,28 @@
 import _get from 'lodash.get';
+
 import {
   formatAddressListToCardData,
   isCartAddressValid,
 } from '../../../utils/address';
-import { prepareFullName } from '../../../utils/customer';
-import { SHIPPING_ADDR_FORM } from '../../../config';
 import { _objToArray } from '../../../utils';
+import { prepareFullName } from '../../../utils/customer';
 
 export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
 
 export function prepareShippingAddressCardList(
-  values,
+  shippingValues,
   regionData,
   customerAddressList,
   customerAddressSelected
 ) {
-  const cartShippingAddress = _get(values, SHIPPING_ADDR_FORM, {});
-  const { country } = cartShippingAddress;
+  const { country } = shippingValues;
   let cartShippingAddrCardInfo = [];
 
-  if (!customerAddressSelected && isCartAddressValid(cartShippingAddress)) {
+  if (!customerAddressSelected && isCartAddressValid(shippingValues)) {
     cartShippingAddrCardInfo = formatAddressListToCardData([
       {
-        ...cartShippingAddress,
-        fullName: prepareFullName(cartShippingAddress),
+        ...shippingValues,
+        fullName: prepareFullName(shippingValues),
         id: CART_SHIPPING_ADDRESS,
         countryCode: country,
         regionLabel: _get(regionData, 'name'),

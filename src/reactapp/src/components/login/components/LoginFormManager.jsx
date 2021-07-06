@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { node } from 'prop-types';
 import _get from 'lodash.get';
-import { Form, useFormikContext } from 'formik';
+import { Form } from 'formik';
 import { string as YupString, bool as YupBool } from 'yup';
 
 import { __ } from '../../../i18n';
@@ -9,6 +9,7 @@ import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import LoginFormContext from '../context/LoginFormContext';
+import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginCartContext from '../hooks/useLoginCartContext';
@@ -42,23 +43,22 @@ const validationSchema = {
 
 const EMAIL_FIELD = `${LOGIN_FORM}.email`;
 
-function LoginFormManager({ children }) {
-  const { values, setFieldValue, setFieldTouched } = useFormikContext();
+function LoginFormManager({ children, formikData }) {
+  const { loginFormValues, setFieldValue, setFieldTouched } = formikData;
   const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const {
     cartEmail,
-    setEmailOnGuestCart,
-    createEmptyCart,
     mergeCarts,
+    createEmptyCart,
+    setEmailOnGuestCart,
     getCustomerCartInfo,
   } = useLoginCartContext();
   const {
     ajaxLogin,
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
   } = useLoginAppContext();
-  const loginFormValues = _get(values, LOGIN_FORM);
 
   const saveEmailOnCartRequest = async email => {
     setPageLoader(true);
@@ -140,9 +140,9 @@ function LoginFormManager({ children }) {
   };
 
   const handleKeyDown = useEnterActionInForm({
+    formikData,
     validationSchema,
     submitHandler: formSubmit,
-    formId: LOGIN_FORM,
   });
 
   // Whenever cart-data email info get updated, the email field will be filled with that value
@@ -156,17 +156,20 @@ function LoginFormManager({ children }) {
   }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);
 
   const formSectionContext = useFormSection({
+    formikData,
+    initialValues,
     id: LOGIN_FORM,
     validationSchema,
-    initialValues,
     submitHandler: formSubmit,
   });
 
   const context = {
+    ...formikData,
     ...formSectionContext,
     editMode,
-    setFormToEditMode,
+    formikData,
     handleKeyDown,
+    setFormToEditMode,
   };
 
   return (
@@ -178,6 +181,7 @@ function LoginFormManager({ children }) {
 
 LoginFormManager.propTypes = {
   children: node.isRequired,
+  formikData: formikDataShape.isRequired,
 };
 
 export default LoginFormManager;

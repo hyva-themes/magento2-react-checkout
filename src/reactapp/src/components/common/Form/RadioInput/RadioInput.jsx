@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
-import { useField } from 'formik';
+import { Field } from 'formik';
 import { bool, string } from 'prop-types';
 
 function RadioInput({
@@ -15,18 +15,16 @@ function RadioInput({
   ...rest
 }) {
   const inputId = `${id || name}_${rest.value}`;
-  const [field] = useField(name) || [];
 
   return (
     <div className="mt-2 form-control">
-      <input
-        className="form-radio"
+      <Field
+        {...rest}
+        name={name}
         type="radio"
         id={inputId}
-        name={name}
         checked={checked}
-        {...field}
-        {...rest}
+        className="form-radio"
       />
       <label htmlFor={inputId} className="inline-block pl-2">
         {label}
@@ -41,21 +39,21 @@ function RadioInput({
 
 RadioInput.propTypes = {
   id: string,
-  name: string.isRequired,
   label: string,
+  checked: bool,
+  required: bool,
   helpText: string,
   placeholder: string,
-  required: bool,
-  checked: bool,
+  name: string.isRequired,
 };
 
 RadioInput.defaultProps = {
   id: '',
+  label: '',
   helpText: '',
+  checked: false,
   required: false,
   placeholder: '',
-  checked: false,
-  label: '',
 };
 
 export default RadioInput;

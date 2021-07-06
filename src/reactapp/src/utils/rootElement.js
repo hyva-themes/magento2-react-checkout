@@ -8,11 +8,12 @@ const RootElement = {
     return RootElement.elem;
   },
 
-  /**
-   * Need to specify `data-language` attribute on the root element;
-   */
   getLanguage() {
     return _get(RootElement.getCheckoutConfig(), 'language');
+  },
+
+  getCurrency() {
+    return _get(RootElement.getCheckoutConfig(), 'currency', {});
   },
 
   getFilePath() {
@@ -25,6 +26,20 @@ const RootElement = {
 
   getDefaultCountryId() {
     return _get(RootElement.getCheckoutConfig(), 'defaultCountryId');
+  },
+
+  getStoreCode() {
+    return _get(RootElement.getCheckoutConfig(), 'storeCode');
+  },
+
+  getBaseUrl() {
+    let baseUrl = _get(RootElement.getElement(), 'dataset.base_url', '');
+
+    if (baseUrl.substr(-1) === '/') {
+      baseUrl = baseUrl.substr(0, baseUrl.length - 1);
+    }
+
+    return baseUrl;
   },
 
   getCheckoutConfig() {

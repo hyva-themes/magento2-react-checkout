@@ -1,16 +1,17 @@
 import LocalStorage from '../../utils/localStorage';
 
 const initialState = {
-  pageLoader: false,
-  countryList: [],
+  checkoutAgreements: {},
   countriesLoaded: [],
-  stateList: {},
-  message: false,
-  isLoggedIn: !!LocalStorage.getCustomerToken(),
+  countryList: [],
   customer: {},
   customerAddressList: {},
   defaultBillingAddress: '',
   defaultShippingAddress: '',
+  isLoggedIn: !!LocalStorage.getCustomerToken(),
+  message: false,
+  pageLoader: false,
+  stateList: {},
 };
 
 export default initialState;

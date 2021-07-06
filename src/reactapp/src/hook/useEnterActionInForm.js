@@ -1,13 +1,12 @@
 import _get from 'lodash.get';
 import { object as YupObject } from 'yup';
-import { useFormikContext } from 'formik';
 
 export default function useEnterActionInForm({
-  validationSchema,
+  formikData,
   submitHandler,
-  formId,
+  validationSchema,
 }) {
-  const { values } = useFormikContext();
+  const { formSectionValues } = formikData || {};
 
   return event => {
     if (event.keyCode !== 13) {
@@ -31,7 +30,6 @@ export default function useEnterActionInForm({
     }
 
     const validationRules = YupObject().shape(validationSchema);
-    const formSectionValues = _get(values, formId);
     validationRules.isValid(formSectionValues).then(valid => {
       if (valid) {
         submitHandler();

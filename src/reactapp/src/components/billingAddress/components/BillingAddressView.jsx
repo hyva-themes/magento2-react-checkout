@@ -2,9 +2,9 @@ import React from 'react';
 
 import BillingAddressCardList from './BillingAddressCardList';
 import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
-import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
-import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import { CreateNewAddressLink } from '../../address';
+import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 
 function BillingAddressView() {
   const {

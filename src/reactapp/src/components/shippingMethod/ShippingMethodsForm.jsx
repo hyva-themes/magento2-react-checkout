@@ -1,25 +1,32 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import Card from '../common/Card';
-import Header from '../common/Header';
-import ShippingMethodList from './components/ShippingMethodList';
-import ShippingMethodFormManager from './components/ShippingMethodFormManager';
-import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
-import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
-import { __ } from '../../i18n';
+import ShippingMethodMemorized from './ShippingMethodMemorized';
+import useFormikMemorizer from '../../hook/useFormikMemorizer';
+import { SHIPPING_METHOD } from '../../config';
 
+/**
+ * Entry point shipping method Form Section
+ *
+ * We are preparing any data related to formik state here and memorizing it.
+ * After that, these info will be fed to all other child components.
+ *
+ * So child components DO NOT access formik states using `useFormikContext` hook
+ * inside them unless it is totally unavoidable.
+ *
+ * Using useFormikContext hook render the component almost always. So use the
+ * memorized data here inside the child components.
+ */
 function ShippingMethodsForm() {
-  const { methodsAvailable } = useShippingMethodCartContext();
+  const formikSectionData = useFormikMemorizer(SHIPPING_METHOD);
 
-  return (
-    <ShippingMethodFormManager>
-      <Card classes={methodsAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Shipping Methods')}</Header>
-        <NoShippingMethodInfoBox />
-        <ShippingMethodList />
-      </Card>
-    </ShippingMethodFormManager>
+  const shippingFormikData = useMemo(
+    () => ({
+      ...formikSectionData,
+      selectedMethod: formikSectionData.formSectionValues || {},
+    }),
+    [formikSectionData]
   );
+  return <ShippingMethodMemorized formikData={shippingFormikData} />;
 }
 
 export default ShippingMethodsForm;
