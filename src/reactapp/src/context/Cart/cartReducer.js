@@ -8,17 +8,17 @@ import { setOrderInfo } from './order/reudcers';
 import { SET_ORDER_INFO } from './order/types';
 import {
   setCartSelectedShippingAddress,
-  setCartShippingAddresses,
+  setCartShippingAddress,
 } from './shippingAddress/reducers';
 import {
   SET_CART_SELECTED_SHIPPING_ADDRESS,
-  SET_CART_SHIPPING_ADDRESSES,
+  SET_CART_SHIPPING_ADDRESS,
 } from './shippingAddress/types';
 
 const actions = {
   [SET_CART_EMAIL]: setCartEmail,
   [SET_CART_INFO]: setCartInfo,
-  [SET_CART_SHIPPING_ADDRESSES]: setCartShippingAddresses,
+  [SET_CART_SHIPPING_ADDRESS]: setCartShippingAddress,
   [SET_CART_BILLING_ADDRESS]: setCartBillingAddress,
   [SET_CART_SELECTED_SHIPPING_ADDRESS]: setCartSelectedShippingAddress,
   [SET_ORDER_INFO]: setOrderInfo,

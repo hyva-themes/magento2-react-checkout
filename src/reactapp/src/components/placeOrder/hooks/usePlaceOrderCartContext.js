@@ -8,7 +8,7 @@ export default function usePlaceOrderCartContext() {
   const [cartData, cartActions] = useContext(CartContext);
   const email = _get(cartData, 'cart.email');
   const billingAddress = _get(cartData, 'cart.billing_address');
-  const shippingAddress = _get(cartData, 'cart.shipping_addresses');
+  const shippingAddress = _get(cartData, 'cart.shipping_address');
   const {
     setShippingMethod,
     setEmailOnGuestCart,

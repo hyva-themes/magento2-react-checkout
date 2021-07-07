@@ -1,8 +1,8 @@
 import _get from 'lodash.get';
 
+import { SET_ORDER_INFO } from './types';
 import { placeOrderRequest } from '../../../api';
 import { PAYMENT_METHOD_FORM } from '../../../config';
-import { SET_ORDER_INFO } from './types';
 
 export function setOrderInfoAction(dispatch, order) {
   dispatch({
@@ -20,7 +20,7 @@ export async function placeOrderAction(dispatch, values, paymentActionList) {
     if (paymentSubmitAction) {
       order = await paymentSubmitAction(values);
     } else {
-      order = await placeOrderRequest();
+      order = await placeOrderRequest(dispatch);
     }
 
     if (order) {

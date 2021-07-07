@@ -19,22 +19,15 @@ export async function addCartShippingAddressAction(
   shippingAddress,
   isBillingAddressSame
 ) {
-  try {
-    const cartInfo = await setShippingAddressRequest(shippingAddress);
-    _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
+  const cartInfo = await setShippingAddressRequest(dispatch, shippingAddress);
+  _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
 
-    dispatch({
-      type: SET_CART_INFO,
-      payload: cartInfo,
-    });
+  dispatch({
+    type: SET_CART_INFO,
+    payload: cartInfo,
+  });
 
-    return cartInfo;
-  } catch (error) {
-    // @todo error message
-    console.error(error);
-  }
-
-  return {};
+  return cartInfo;
 }
 
 export async function setCustomerAddrAsShippingAddrAction(
@@ -42,20 +35,16 @@ export async function setCustomerAddrAsShippingAddrAction(
   addressId,
   isBillingAddressSame
 ) {
-  try {
-    const cartInfo = await setCustomerAddrAsCartShippingAddrRequest(addressId);
-    _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
+  const cartInfo = await setCustomerAddrAsCartShippingAddrRequest(
+    dispatch,
+    addressId
+  );
+  _set(cartInfo, 'billing_address.isSameAsShipping', !!isBillingAddressSame);
 
-    dispatch({
-      type: SET_CART_INFO,
-      payload: cartInfo,
-    });
+  dispatch({
+    type: SET_CART_INFO,
+    payload: cartInfo,
+  });
 
-    return cartInfo;
-  } catch (error) {
-    // @todo error message
-    console.error(error);
-  }
-
-  return {};
+  return cartInfo;
 }

@@ -1,13 +1,13 @@
 import {
-  restSetGuestPaymentMethodRequest,
-  restSetMyPaymentMethodRequest,
   setPaymentMethodRequest,
+  restSetMyPaymentMethodRequest,
+  restSetGuestPaymentMethodRequest,
 } from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 
 export async function setPaymentMethodAction(dispatch, paymentMethod) {
   try {
-    const cartData = await setPaymentMethodRequest(paymentMethod);
+    const cartData = await setPaymentMethodRequest(dispatch, paymentMethod);
 
     dispatch({
       type: SET_CART_INFO,
@@ -28,9 +28,9 @@ export async function setRestPaymentMethodAction(
   try {
     let result;
     if (isLoggedIn) {
-      result = await restSetMyPaymentMethodRequest(paymentMethod);
+      result = await restSetMyPaymentMethodRequest(dispatch, paymentMethod);
     } else {
-      result = await restSetGuestPaymentMethodRequest(paymentMethod);
+      result = await restSetGuestPaymentMethodRequest(dispatch, paymentMethod);
     }
 
     return result;

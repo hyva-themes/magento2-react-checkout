@@ -67,28 +67,28 @@ export function modifyShippingAddressList(addressList) {
   }
 
   const {
-    company,
-    firstname,
-    lastname,
+    city,
     street,
+    company,
+    lastname,
+    firstname,
     telephone: phone,
     postcode: zipcode,
-    city,
-    country: { code: countryCode },
     region: { code: regionCode },
+    country: { code: countryCode },
   } = shippingAddress;
 
   return {
-    company,
-    firstname,
-    lastname,
-    fullName: prepareFullName(shippingAddress),
-    street,
-    phone,
-    zipcode,
     city,
+    phone,
+    street,
+    company,
+    zipcode,
+    lastname,
+    firstname,
     region: regionCode,
     country: countryCode,
+    fullName: prepareFullName(shippingAddress),
   };
 }
 

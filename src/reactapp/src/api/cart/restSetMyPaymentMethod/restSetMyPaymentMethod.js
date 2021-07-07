@@ -1,12 +1,12 @@
 import modifier from './modifier';
-import sendRequest, { RESPONSE_TEXT } from '../../sendRequest';
 import RootElement from '../../../utils/rootElement';
+import sendRequest, { RESPONSE_TEXT } from '../../sendRequest';
 
-export default async function restSetMyPaymentMethod(paymentData) {
+export default async function restSetMyPaymentMethod(dispatch, paymentData) {
   const { restUrlPrefix } = RootElement.getPaymentConfig();
   const setPaymentMethodUrl = `${restUrlPrefix}carts/mine/payment-information`;
 
   return modifier(
-    await sendRequest(paymentData, setPaymentMethodUrl, RESPONSE_TEXT)
+    await sendRequest(dispatch, paymentData, setPaymentMethodUrl, RESPONSE_TEXT)
   );
 }

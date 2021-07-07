@@ -11,8 +11,6 @@ import useCustomerAddressSwitchAction from '../hooks/useCustomerAddressSwitchAct
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 function ShippingAddressCardList() {
-  const { customerAddressList, isLoggedIn } = useShippingAddressAppContext();
-  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const {
     regionData,
     shippingValues,
@@ -22,6 +20,8 @@ function ShippingAddressCardList() {
     setSelectedAddress,
     customerAddressSelected,
   } = useShippingAddressFormikContext();
+  const { customerAddressList, isLoggedIn } = useShippingAddressAppContext();
+  const performCustomerAddressSwitching = useCustomerAddressSwitchAction();
   const addressList = prepareShippingAddressCardList(
     shippingValues,
     regionData,

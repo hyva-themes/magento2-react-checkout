@@ -84,7 +84,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
     email: cartData.email,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),
-    shipping_addresses: modifyShippingAddressList(shippingAddresses),
+    shipping_address: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
     selected_shipping_method: modifySelectedShippingMethod(shippingAddresses),
     prices: modifyCartPricesData(cartPrices),

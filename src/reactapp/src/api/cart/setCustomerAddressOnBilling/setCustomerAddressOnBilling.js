@@ -1,9 +1,10 @@
-import { SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION } from './mutation';
 import modifier from './modifier';
 import sendRequest from '../../sendRequest';
 import LocalStorage from '../../../utils/localStorage';
+import { SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION } from './mutation';
 
 export default async function setCustomerAddressOnBilling(
+  dispatch,
   customerAddressId,
   sameAsShipping
 ) {
@@ -14,7 +15,7 @@ export default async function setCustomerAddressOnBilling(
   };
 
   return modifier(
-    await sendRequest({
+    await sendRequest(dispatch, {
       query: SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION,
       variables,
     })

@@ -5,6 +5,7 @@ import {
   boolean as YupBoolean,
 } from 'yup';
 import _get from 'lodash.get';
+import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
@@ -68,12 +69,12 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   const addressIdInCache = _toString(
     LocalStorage.getCustomerShippingAddressId()
   );
+  const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
   const [backupAddress, setBackupAddress] = useState(null);
   const [forceViewMode, setForceViewMode] = useState(false);
   const [forceFilledAddress, setForceFilledAddress] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState(
-    addressIdInCache || CART_SHIPPING_ADDRESS
-  );
+  const [selectedAddress, setSelectedAddress] = useState(initAddressId);
+  const [backupSelectedAddress, setBackupSelectedAddress] = useState(false);
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     !!addressIdInCache
   );
@@ -87,6 +88,8 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   const { cartShippingAddress } = useShippingAddressCartContext();
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
+
+  console.log({ values: formikData.formSectionValues })
 
   const resetShippingAddressFormFields = useCallback(() => {
     setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
@@ -105,9 +108,15 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress || !cartHasShippingAddress) {
+    if (
+      forceFilledAddress === selectedAddress ||
+      !cartHasShippingAddress ||
+      backupSelectedAddress
+    ) {
       return;
     }
+
+    _set(cartShippingAddress, 'id', selectedAddress);
 
     setShippingAddressFormFields({ ...cartShippingAddress });
     setForceFilledAddress(selectedAddress);
@@ -115,6 +124,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedAddress,
     forceFilledAddress,
     cartShippingAddress,
+    backupSelectedAddress,
     cartHasShippingAddress,
     setShippingAddressFormFields,
   ]);
@@ -147,7 +157,9 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedAddress,
     setBackupAddress,
     setSelectedAddress,
+    backupSelectedAddress,
     customerAddressSelected,
+    setBackupSelectedAddress,
     setCustomerAddressSelected,
     setShippingAddressFormFields,
     resetShippingAddressFormFields,
