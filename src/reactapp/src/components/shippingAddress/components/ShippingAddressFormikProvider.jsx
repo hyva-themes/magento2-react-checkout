@@ -89,8 +89,6 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
-  console.log({ values: formikData.formSectionValues })
-
   const resetShippingAddressFormFields = useCallback(() => {
     setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
     setFieldTouched(SHIPPING_ADDR_FORM, {});

@@ -2,24 +2,37 @@
 import React from 'react';
 import _get from 'lodash.get';
 import { ClipboardCheckIcon } from '@heroicons/react/outline';
-import { bool, func, oneOfType, shape, string } from 'prop-types';
+
 
 import { __ } from '../../../i18n';
+import { getFormikFieldNameById } from '../utility';
+import { CHECKOUT_AGREEMENTS_FORM } from '../../../config';
 import useAgreementAppContext from '../hooks/useAgreementAppContext';
-
-function CheckoutAgreementModal({ agreementId, actions }) {
+import useAgreementModalContext from '../hooks/useAgreementModalContext';
+import useAgreementFormikContext from '../hooks/useAgreementFormikContext';
+function CheckoutAgreementModal() {
   const { checkoutAgreements } = useAgreementAppContext();
-  const modalAgreement = _get(checkoutAgreements, agreementId);
+  const { activeModalId, setActiveModalId } = useAgreementModalContext();
+  const { setFieldValue } = useAgreementFormikContext();
+  const modalAgreement = _get(checkoutAgreements, activeModalId);
   const agreementTitle = _get(modalAgreement, 'name');
   const isContentHtml = _get(modalAgreement, 'isHtml');
   const agreementContent = _get(modalAgreement, 'content');
 
+  const handleAgreeButtonClick = () => {
+    const fieldName = `${CHECKOUT_AGREEMENTS_FORM}.${getFormikFieldNameById(
+      activeModalId
+    )}`;
+    setFieldValue(fieldName, true);
+    setActiveModalId(false);
+  };
+
   return (
     <div
-      className="fixed inset-0 z-10 overflow-y-auto"
-      aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="modal-title"
+      className="fixed inset-0 z-10 overflow-y-auto"
     >
       <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         <div
@@ -34,7 +47,10 @@ function CheckoutAgreementModal({ agreementId, actions }) {
           &#8203;
         </span>
 
-        <div className="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div
+          style={{ maxWidth: '80%' }}
+          className="agreement-box inline-block text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:w-full"
+        >
           <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto bg-green-100 rounded-full sm:mx-0 sm:h-10 sm:w-10">
@@ -47,7 +63,7 @@ function CheckoutAgreementModal({ agreementId, actions }) {
                 >
                   {agreementTitle}
                 </h3>
-                <div className="mt-2">
+                <div className="mt-2 overflow-y-auto lg:h-96">
                   {isContentHtml ? (
                     <div
                       dangerouslySetInnerHTML={{ __html: agreementContent }}
@@ -62,8 +78,15 @@ function CheckoutAgreementModal({ agreementId, actions }) {
           <div className="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
+              className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+              onClick={() => setActiveModalId(false)}
+            >
+              {__('Close')}
+            </button>
+            <button
+              type="button"
               className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
-              onClick={() => actions.setActiveModalId(false)}
+              onClick={handleAgreeButtonClick}
             >
               {__('I agree')}
             </button>
@@ -73,10 +96,5 @@ function CheckoutAgreementModal({ agreementId, actions }) {
     </div>
   );
 }
-
-CheckoutAgreementModal.propTypes = {
-  agreementId: oneOfType([bool, string]).isRequired,
-  actions: shape({ setActiveModalId: func }).isRequired,
-};
 
 export default CheckoutAgreementModal;

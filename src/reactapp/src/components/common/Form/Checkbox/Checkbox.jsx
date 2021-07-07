@@ -26,7 +26,7 @@ function Checkbox({
         checked={isChecked}
         className="form-checkbox"
       />
-      <label htmlFor={inputId} className="inline pl-2">
+      <label htmlFor={inputId} className="inline pl-2 cursor-pointer">
         {label}
       </label>
 
