@@ -52,7 +52,6 @@ export function SelectInput({
         </div>
       </div>
       <Field
-        {...rest}
         as="select"
         name={name}
         id={inputId}
@@ -65,6 +64,7 @@ export function SelectInput({
           setFieldTouched(name, newValue);
           setFieldValue(name, newValue);
         }}
+        {...rest}
       >
         <option value="">{__('-- Please Select --')}</option>
         {options.map(option => (

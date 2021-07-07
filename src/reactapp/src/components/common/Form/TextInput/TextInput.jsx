@@ -55,7 +55,6 @@ function TextInput({
         </div>
       </div>
       <Field
-        {...rest}
         name={name}
         id={inputId}
         type={type || 'text'}
@@ -68,6 +67,7 @@ function TextInput({
         className={`form-input max-w-md ${
           hasError ? 'border-dashed border-red-500' : ''
         } ${className} ${width || 'w-full'}`}
+        {...rest}
       />
       <div className="text-xs">{helpText}</div>
     </div>

@@ -1,15 +1,16 @@
 import React from 'react';
 import _get from 'lodash.get';
-import { bool, shape, string } from 'prop-types';
+import { bool, func, shape, string } from 'prop-types';
 import { RefreshIcon } from '@heroicons/react/solid';
 
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import { __ } from '../../../i18n';
+import { _emptyFunc } from '../../../utils';
 import { CART_ITEMS_FORM } from '../../../config';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 
-function CartItem({ item, isLastItem }) {
+function CartItem({ item, isLastItem, actions }) {
   const {
     formikData,
     handleKeyDown,
@@ -38,12 +39,14 @@ function CartItem({ item, isLastItem }) {
       </td>
       <td className="hidden md:table-cell">
         <TextInput
+          min="0"
           width="w-20"
           type="number"
           name={itemQtyField}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           id={`${itemQtyField}-desktop`}
-          formikData={formikData}
+          onChange={actions.handleQtyUpdate}
         />
       </td>
       <td className="hidden md:table-cell">{item.price}</td>
@@ -94,12 +97,14 @@ function CartItem({ item, isLastItem }) {
                       <td className="px-1 pb-2">
                         <div className="flex items-center justify-between">
                           <TextInput
+                            min="0"
                             type="number"
                             className="w-20"
                             name={itemQtyField}
-                            id={`${itemQtyField}-mobile`}
-                            onKeyDown={handleKeyDown}
                             formikData={formikData}
+                            onKeyDown={handleKeyDown}
+                            id={`${itemQtyField}-mobile`}
+                            onChange={actions.handleQtyUpdate}
                           />
                           <div className="mt-2 ml-2">
                             <Button
@@ -137,10 +142,12 @@ CartItem.propTypes = {
     id: string,
   }).isRequired,
   isLastItem: bool,
+  actions: shape({ handleQtyUpdate: func }),
 };
 
 CartItem.defaultProps = {
   isLastItem: false,
+  actions: { handleQtyUpdate: _emptyFunc() },
 };
 
 export default CartItem;

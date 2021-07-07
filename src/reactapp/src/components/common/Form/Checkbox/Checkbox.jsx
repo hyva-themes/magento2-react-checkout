@@ -19,12 +19,12 @@ function Checkbox({
   return (
     <div className="mt-2 form-control">
       <Field
-        {...rest}
         name={name}
         id={inputId}
         type="checkbox"
         checked={isChecked}
         className="form-checkbox"
+        {...rest}
       />
       <label htmlFor={inputId} className="inline pl-2 cursor-pointer">
         {label}

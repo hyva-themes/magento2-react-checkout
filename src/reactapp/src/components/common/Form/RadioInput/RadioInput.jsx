@@ -19,12 +19,12 @@ function RadioInput({
   return (
     <div className="mt-2 form-control">
       <Field
-        {...rest}
         name={name}
         type="radio"
         id={inputId}
         checked={checked}
         className="form-radio"
+        {...rest}
       />
       <label htmlFor={inputId} className="inline-block pl-2">
         {label}

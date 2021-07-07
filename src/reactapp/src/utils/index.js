@@ -44,3 +44,7 @@ export function _findById(arr, itemId) {
 export function _replace(str, searchTerm, replaceWith = '') {
   return (str || '').replace(searchTerm, replaceWith);
 }
+
+export function _abs(num) {
+  return Math.abs(num);
+}
