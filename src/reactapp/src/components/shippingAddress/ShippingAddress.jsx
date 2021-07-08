@@ -5,6 +5,7 @@ import { useFormikContext } from 'formik';
 import ShippingAddressMemorized from './ShippingAddressMemorized';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../config';
+import { shippingAddrOtherOptionField } from './utility';
 
 const regionField = `${SHIPPING_ADDR_FORM}.region`;
 const countryField = `${SHIPPING_ADDR_FORM}.country`;
@@ -29,23 +30,29 @@ function ShippingAddress() {
   const selectedRegion = _get(values, regionField);
   const isBillingAddressSameAsShipping = !!_get(values, isBillingSameField);
   const { formSectionValues, isFormSectionTouched } = sectionFormikData;
+  const shippingOtherOptionSelected = _get(
+    values,
+    shippingAddrOtherOptionField
+  );
 
   const shippingFormikData = useMemo(
     () => ({
       ...sectionFormikData,
-      selectedCountry,
       selectedRegion,
-      shippingValues: formSectionValues,
+      selectedCountry,
+      shippingOtherOptionSelected,
       isBillingAddressSameAsShipping,
+      shippingValues: formSectionValues,
       isBillingFormTouched: isFormSectionTouched,
     }),
     [
-      sectionFormikData,
-      selectedCountry,
       selectedRegion,
+      selectedCountry,
+      sectionFormikData,
       formSectionValues,
-      isBillingAddressSameAsShipping,
       isFormSectionTouched,
+      shippingOtherOptionSelected,
+      isBillingAddressSameAsShipping,
     ]
   );
 

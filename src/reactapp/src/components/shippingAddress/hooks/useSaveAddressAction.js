@@ -69,10 +69,8 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       }
     }
 
-    const [shippingAddrResponse] = await Promise.all([
-      updateShippingAddress(),
-      updateBillingAddress(),
-    ]);
+    const shippingAddrResponse = await updateShippingAddress();
+    await updateBillingAddress();
 
     if (isBillingSame) {
       const addressToSet = _cleanObjByKeys(
@@ -83,6 +81,14 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         ...billingAddressFormInitValues,
         ...addressToSet,
       });
+    }
+
+    if (!customerAddressId) {
+      LocalStorage.saveNewShippingAddress(shippingAddressToSave);
+
+      if (isBillingSame) {
+        LocalStorage.saveNewBillingAddress(shippingAddressToSave);
+      }
     }
 
     setPageLoader(false);

@@ -72,6 +72,18 @@ const LocalStorage = {
     return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
   },
 
+  getNewBillingAddress() {
+    const source = _get(config, 'hyvaStorageSource.data.newBillingAddress', {});
+
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
+  },
+
+  getNewShippingAddress() {
+    const source = _get(config, 'hyvaStorageSource.data.newShippingAddress');
+
+    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
+  },
+
   saveCustomerToken(token) {
     if (!LocalStorage.isBrowser()) {
       return;
@@ -186,6 +198,30 @@ const LocalStorage = {
         LocalStorage.saveBillingSameAsShipping(true);
       }
     }
+  },
+
+  saveNewBillingAddress(newBillingAddress) {
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+    const source = _get(config, 'hyvaStorageSource.data.newBillingAddress', {});
+    const storageData = _set(
+      LocalStorage.getHyvaCheckoutStorage(),
+      source.value,
+      newBillingAddress
+    );
+
+    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+  },
+
+  saveNewShippingAddress(newShippingAddress) {
+    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
+    const source = _get(config, 'hyvaStorageSource.data.newShippingAddress');
+    const storageData = _set(
+      LocalStorage.getHyvaCheckoutStorage(),
+      source.value,
+      newShippingAddress
+    );
+
+    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
   },
 
   clearCheckoutStorage() {

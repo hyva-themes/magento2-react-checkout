@@ -50,7 +50,7 @@ function ShippingAddressCardList() {
   };
 
   return (
-    <div className="mx-2 space-y-3">
+    <div className="lg:flex lg:space-x-4 my-2 space-y-2 lg:space-y-0">
       {addressList.map(address => (
         <AddressCard
           key={address.id}

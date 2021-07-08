@@ -20,6 +20,14 @@ const magentoDataSources = {
         value: 'cart.is_billing_same_as_shipping',
         timestamp: 'cart.data_id',
       },
+      newBillingAddress: {
+        timestamp: 'cart.data_id',
+        value: 'cart.new_billing_address',
+      },
+      newShippingAddress: {
+        timestamp: 'cart.data_id',
+        value: 'cart.new_shipping_address',
+      },
     },
   },
   mageCacheStorage: {
