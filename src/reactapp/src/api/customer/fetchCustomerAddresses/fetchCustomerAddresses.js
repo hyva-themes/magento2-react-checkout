@@ -1,9 +1,9 @@
-import sendRequest from '../../sendRequest';
 import modifier from './modifier';
+import sendRequest from '../../sendRequest';
 import { GET_CUSTOMER_ADDRESS_LIST_QUERY } from './query';
 
-export default async function fetchCustomerAddresses() {
+export default async function fetchCustomerAddresses(dispatch) {
   return modifier(
-    await sendRequest({ query: GET_CUSTOMER_ADDRESS_LIST_QUERY })
+    await sendRequest(dispatch, { query: GET_CUSTOMER_ADDRESS_LIST_QUERY })
   );
 }

@@ -4,7 +4,7 @@ export function _keys(obj = {}) {
 }
 
 export function _isArrayEmpty(arr = []) {
-  return arr.length === 0;
+  return (arr || []).length === 0;
 }
 
 export function _isObjEmpty(obj = {}) {
@@ -16,7 +16,7 @@ export function _objToArray(obj) {
 }
 
 export function _makePromise(asyncFunc, ...params) {
-  return async () => asyncFunc(...params);
+  return () => asyncFunc(...params);
 }
 
 export function _toString(value) {
@@ -43,4 +43,8 @@ export function _findById(arr, itemId) {
 
 export function _replace(str, searchTerm, replaceWith = '') {
   return (str || '').replace(searchTerm, replaceWith);
+}
+
+export function _abs(num) {
+  return Math.abs(num);
 }

@@ -1,7 +1,9 @@
-import sendRequest from '../../sendRequest';
 import modifier from './modifier';
+import sendRequest from '../../sendRequest';
 import { GET_CUSTOMER_CART_QUERY } from './query';
 
-export default async function fetchCustomerCart() {
-  return modifier(await sendRequest({ query: GET_CUSTOMER_CART_QUERY }));
+export default async function fetchCustomerCart(dispatch) {
+  return modifier(
+    await sendRequest(dispatch, { query: GET_CUSTOMER_CART_QUERY })
+  );
 }

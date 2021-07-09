@@ -9,7 +9,7 @@ export default function useBillingAddressCartContext() {
   return useMemo(() => {
     const cart = _get(cartData, 'cart');
     const cartBillingAddress = _get(cart, `billing_address`);
-    const cartShippingAddress = _get(cart, 'shipping_addresses');
+    const cartShippingAddress = _get(cart, 'shipping_address');
     const selectedAddressId = _get(cartBillingAddress, 'id');
 
     const {

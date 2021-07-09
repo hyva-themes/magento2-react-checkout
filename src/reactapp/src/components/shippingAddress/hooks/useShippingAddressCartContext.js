@@ -9,7 +9,7 @@ export default function useShippingAddressCartContext() {
   return useMemo(() => {
     const cart = _get(cartData, 'cart');
     const selectedAddressId = _get(cart, 'selected_shipping_address');
-    const cartShippingAddress = _get(cart, `shipping_addresses`);
+    const cartShippingAddress = _get(cart, `shipping_address`);
 
     const {
       addCartShippingAddress,

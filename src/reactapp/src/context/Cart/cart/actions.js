@@ -1,11 +1,11 @@
-import LocalStorage from '../../../utils/localStorage';
-import { SET_CART_INFO } from './types';
 import {
+  mergeCartsRequest,
+  fetchGuestCartRequest,
   createEmptyCartRequest,
   fetchCustomerCartRequest,
-  fetchGuestCartRequest,
-  mergeCartsRequest,
 } from '../../../api';
+import { SET_CART_INFO } from './types';
+import LocalStorage from '../../../utils/localStorage';
 
 export async function setCartInfoAction(dispatch, cartInfo) {
   dispatch({
@@ -16,7 +16,7 @@ export async function setCartInfoAction(dispatch, cartInfo) {
 
 export async function getGuestCartInfoAction(dispatch) {
   try {
-    const cartInfo = await fetchGuestCartRequest();
+    const cartInfo = await fetchGuestCartRequest(dispatch);
     setCartInfoAction(dispatch, cartInfo);
     return cartInfo;
   } catch (error) {
@@ -27,9 +27,9 @@ export async function getGuestCartInfoAction(dispatch) {
   return {};
 }
 
-export async function getCustomerCartIdAction() {
+export async function getCustomerCartIdAction(dispatch) {
   try {
-    const customerCartId = await fetchCustomerCartRequest();
+    const customerCartId = await fetchCustomerCartRequest(dispatch);
     return customerCartId;
   } catch (error) {
     // @todo show error message
@@ -39,9 +39,9 @@ export async function getCustomerCartIdAction() {
   return null;
 }
 
-export async function createEmptyCartAction() {
+export async function createEmptyCartAction(dispatch) {
   try {
-    const cartId = await createEmptyCartRequest();
+    const cartId = await createEmptyCartRequest(dispatch);
     return cartId;
   } catch (error) {
     // @todo show error message
@@ -52,7 +52,7 @@ export async function createEmptyCartAction() {
 
 export async function mergeCartsAction(dispatch, cartIds) {
   try {
-    const cartInfo = await mergeCartsRequest(cartIds);
+    const cartInfo = await mergeCartsRequest(dispatch, cartIds);
 
     if (cartInfo.error) {
       return cartInfo;
@@ -74,10 +74,10 @@ export async function getCartInfoAfterMergeAction(dispatch, guestCartId) {
   let cartInfo = {};
 
   try {
-    let customerCartId = await getCustomerCartIdAction();
+    let customerCartId = await getCustomerCartIdAction(dispatch);
 
     if (!customerCartId) {
-      customerCartId = await createEmptyCartAction();
+      customerCartId = await createEmptyCartAction(dispatch);
     }
 
     if (guestCartId && customerCartId && guestCartId !== customerCartId) {

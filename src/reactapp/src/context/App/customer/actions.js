@@ -29,7 +29,7 @@ export function setLoggedInStatusAction(dispatch, status) {
 
 export async function sigInCustomerAction(dispatch, userCredentials) {
   try {
-    const { token } = await generateCustomerToken(userCredentials);
+    const { token } = await generateCustomerToken(dispatch, userCredentials);
     LocalStorage.saveCustomerToken(token);
     setLoggedInStatusAction(dispatch, true);
     setSuccessMessageAction(dispatch, 'You are successfully logged-in');
@@ -49,7 +49,7 @@ export async function sigInCustomerAction(dispatch, userCredentials) {
 
 export async function ajaxLoginAction(dispatch, userCredentials) {
   try {
-    const response = await ajaxLoginRequest(userCredentials);
+    const response = await ajaxLoginRequest(dispatch, userCredentials);
     const { errors, data } = response;
 
     if (!errors) {
@@ -69,7 +69,7 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
 
 export async function getCustomerInfoAction(dispatch) {
   try {
-    const customerInfo = await fetchCustomerInfoRequest();
+    const customerInfo = await fetchCustomerInfoRequest(dispatch);
 
     dispatch({
       type: SET_CUSTOMER_INFO,
@@ -82,7 +82,7 @@ export async function getCustomerInfoAction(dispatch) {
 
 export async function getCustomerAddressListAction(dispatch) {
   try {
-    const customerAddressInfo = await fetchCustomerAddressListRequest();
+    const customerAddressInfo = await fetchCustomerAddressListRequest(dispatch);
 
     dispatch({
       type: SET_CUSTOMER_ADDRESS_INFO,
@@ -129,11 +129,17 @@ export async function updateCustomerAddressAction(
       'country',
       'zipcode',
       'fullName',
+      'regionCode',
+      'countryCode',
+      'regionLabel',
       'selectedAddress',
       'isSameAsShipping',
+      'isDefaultBilling',
+      'isDefaultShipping',
     ];
 
     const customerAddressInfo = await updateCustomerAddressRequest(
+      dispatch,
       addressId,
       _cleanObjByKeys(address, keysToRemove)
     );

@@ -1,9 +1,12 @@
-import sendRequest from '../../sendRequest';
 import modifier from './modifier';
+import sendRequest from '../../sendRequest';
 import { MERGE_CARTS_MUTATION } from './mutation';
 
-export default async function mergeCarts(cartIds) {
+export default async function mergeCarts(dispatch, cartIds) {
   return modifier(
-    await sendRequest({ query: MERGE_CARTS_MUTATION, variables: cartIds })
+    await sendRequest(dispatch, {
+      query: MERGE_CARTS_MUTATION,
+      variables: cartIds,
+    })
   );
 }

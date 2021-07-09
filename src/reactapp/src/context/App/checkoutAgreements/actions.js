@@ -3,7 +3,7 @@ import { SET_CHECKOUT_AGREEMENTS } from './types';
 
 export async function getCheckoutAgreementsAction(dispatch) {
   try {
-    const checkoutAgreements = await getCheckoutAgreementsRequest();
+    const checkoutAgreements = await getCheckoutAgreementsRequest(dispatch);
 
     dispatch({
       type: SET_CHECKOUT_AGREEMENTS,
