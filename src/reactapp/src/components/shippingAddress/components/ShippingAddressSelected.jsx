@@ -13,6 +13,7 @@ import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikCo
 
 function ShippingAddressSelected() {
   const {
+    isBillingSame,
     shippingValues,
     selectedAddress,
     setBackupAddress,
@@ -29,6 +30,8 @@ function ShippingAddressSelected() {
     stateList
   );
 
+  console.log({ isBillingSame })
+
   const performAddressEdit = () => {
     const customerAddress = _get(customerAddressList, selectedAddress);
     const addressToBackup = customerAddress || shippingValues;
@@ -43,6 +46,8 @@ function ShippingAddressSelected() {
 
   return (
     <AddressCard
+      isBillingSame={isBillingSame}
+      showBillingSameCheckbox
       address={addressInfo[0]}
       actions={{ performAddressEdit }}
       title={selectedAddressTitle(isLoggedIn, customerAddressList)}

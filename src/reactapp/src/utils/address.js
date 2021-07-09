@@ -3,6 +3,9 @@ import _get from 'lodash.get';
 import { __ } from '../i18n';
 import LocalStorage from './localStorage';
 import { _cleanObjByKeys, _toString } from './index';
+import { BILLING_ADDR_FORM } from '../config';
+
+export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
 export function isCartAddressValid(address) {
   return !!(address && address.firstname && address.country);

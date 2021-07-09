@@ -22,13 +22,13 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     editMode,
     regionData,
     setFieldValue,
+    isBillingSame,
     selectedAddress,
     setFormToViewMode,
     setSelectedAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
     shippingValues: shippingAddressToSave,
-    isBillingAddressSameAsShipping: isBillingSame,
   } = shippingAddressFormContext;
   const {
     setCartBillingAddress,

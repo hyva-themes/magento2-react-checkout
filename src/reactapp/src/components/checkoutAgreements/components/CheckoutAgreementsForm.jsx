@@ -50,7 +50,7 @@ function CheckoutAgreementsForm() {
           <div
             key={agreementId}
             onClick={() => setActiveModalId(agreementId)}
-            className="mt-3 ml-6 cursor-pointer"
+            className="mt-3 ml-6 text-sm cursor-pointer"
           >
             {label}
           </div>

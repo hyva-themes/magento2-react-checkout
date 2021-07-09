@@ -22,6 +22,7 @@ function ShippingAddressForm() {
     isNewAddress,
     handleKeyDown,
     submitHandler,
+    isBillingSame,
     shippingValues,
     selectedCountry,
     selectedAddress,
@@ -29,7 +30,6 @@ function ShippingAddressForm() {
     validationSchema,
     setSelectedAddress,
     isBillingFormTouched,
-    isBillingAddressSameAsShipping,
   } = useShippingAddressFormikContext();
   const { isLoggedIn } = useShippingAddressAppContext();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
@@ -56,10 +56,7 @@ function ShippingAddressForm() {
       LocalStorage.addAddressToMostRecentlyUsedList(shippingValues);
       setIsNewAddress(false);
       setSelectedAddress(newAddressId);
-      LocalStorage.saveCustomerAddressInfo(
-        newAddressId,
-        isBillingAddressSameAsShipping
-      );
+      LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame);
     }
 
     if (isMostRecentAddress(selectedAddress)) {
