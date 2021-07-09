@@ -1,20 +1,17 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
+import { arrayOf, func, node, shape, string } from 'prop-types';
 import { ShieldCheckIcon, PencilIcon } from '@heroicons/react/solid';
 
 import Card from '../../common/Card';
-import Checkbox from '../../common/Form/Checkbox';
 import { __ } from '../../../i18n';
 import useAppContext from '../../../hook/useAppContext';
-import { billingSameAsShippingField } from '../../../utils/address';
 
 function AddressCard({
   title,
   actions,
-  isBillingSame,
-  showBillingSameCheckbox,
   address: { id, address },
+  billingSameCheckbox,
 }) {
   const [{ isLoggedIn, customerAddressList }] = useAppContext();
 
@@ -35,15 +32,7 @@ function AddressCard({
           </li>
         ))}
       </ul>
-      {showBillingSameCheckbox && (
-        <div className="flex items-center h-10 px-3 pb-4 mt-3 -mx-4 -mb-4 bg-gray-200">
-          <Checkbox
-            isChecked={isBillingSame}
-            name={billingSameAsShippingField}
-            label={__('Use this address as my billing address')}
-          />
-        </div>
-      )}
+      {billingSameCheckbox}
       {isLoggedIn && (
         <div className="flex items-center justify-between h-12 px-3 mt-3 -mx-4 -mb-4 rounded-b-sm bg-container-darker">
           <span className="text-xs italic font-semibold capitalize text-secondary-lighter">
@@ -67,16 +56,14 @@ function AddressCard({
 
 AddressCard.propTypes = {
   title: string,
-  isBillingSame: bool,
-  showBillingSameCheckbox: bool,
+  billingSameCheckbox: node,
   actions: shape({ performAddressEdit: func }).isRequired,
   address: shape({ id: string, address: arrayOf(string) }).isRequired,
 };
 
 AddressCard.defaultProps = {
   title: '',
-  isBillingSame: false,
-  showBillingSameCheckbox: false,
+  billingSameCheckbox: <></>,
 };
 
 export default AddressCard;

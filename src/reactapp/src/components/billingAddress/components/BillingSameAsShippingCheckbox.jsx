@@ -1,16 +1,17 @@
 import React from 'react';
-import { bool } from 'prop-types';
 
-import { ORBox } from '../../address';
 import Checkbox from '../../common/Form/Checkbox';
+import {
+  billingSameAsShippingField,
+  isCartAddressValid,
+} from '../../../utils/address';
 import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
-import { isCartAddressValid } from '../../../utils/address';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useSaveBillingSameAsShipping from '../hooks/useSaveBillingSameAsShipping';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
 
-function BillingSameAsShippingCheckbox({ addOR }) {
+function BillingSameAsShippingCheckbox() {
   const {
     cartBillingAddress,
     cartShippingAddress,
@@ -21,12 +22,12 @@ function BillingSameAsShippingCheckbox({ addOR }) {
     setBackupAddress,
     setFormToEditMode,
     setFormToViewMode,
-    isBillingAddressSameAsShipping,
+    isBillingAddressSameAsShipping: isBillingSame,
   } = useBillingAddressFormikContext();
   const { makeBillingSameAsShippingRequest } = useSaveBillingSameAsShipping();
 
   const toggleBillingEqualsShippingState = async () => {
-    const newSameAsShipping = !isBillingAddressSameAsShipping;
+    const newSameAsShipping = !isBillingSame;
     setBackupAddress({ ...cartBillingAddress });
     setFieldValue(fields.isSameAsShipping, newSameAsShipping);
     LocalStorage.saveBillingSameAsShipping(newSameAsShipping);
@@ -47,24 +48,15 @@ function BillingSameAsShippingCheckbox({ addOR }) {
   }
 
   return (
-    <>
+    <div className="flex items-center h-10 px-3 pb-4 mt-3 -mx-4 -mb-4 bg-gray-200">
       <Checkbox
-        name={fields.isSameAsShipping}
-        label={__('My billing & shipping address are same')}
-        isChecked={isBillingAddressSameAsShipping}
+        isChecked={isBillingSame}
+        name={billingSameAsShippingField}
         onChange={toggleBillingEqualsShippingState}
+        label={__('Use this address as my billing address')}
       />
-      {addOR && <ORBox />}
-    </>
+    </div>
   );
 }
-
-BillingSameAsShippingCheckbox.propTypes = {
-  addOR: bool,
-};
-
-BillingSameAsShippingCheckbox.defaultProps = {
-  addOR: false,
-};
 
 export default BillingSameAsShippingCheckbox;

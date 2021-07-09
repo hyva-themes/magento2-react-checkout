@@ -10,6 +10,8 @@ import { _cleanObjByKeys, _isObjEmpty, _objToArray } from '../../../utils';
 export const CART_BILLING_ADDRESS = 'cart_billing_address';
 export const GUEST_CART_NEW_ADDRESS = CART_BILLING_ADDRESS;
 export const MY_CART_NEW_ADDRESS = `my_${CART_BILLING_ADDRESS}`;
+export const billingAddrOtherOptionField =
+  'additional.billing_address_selected_other_option';
 
 export const billingAddressFormInitValues = {
   company: '',

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _get from 'lodash.get';
+import _set from 'lodash.set';
 import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
@@ -28,6 +29,7 @@ import useRegionValidation from '../../address/hooks/useRegionValidation';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
+import { customerHasAddress } from '../../../utils/customer';
 
 const initialValues = {
   company: '',
@@ -74,6 +76,10 @@ function BillingAddressFormikProvider({ children, formikData }) {
   const [backupAddress, setBackupAddress] = useState(null);
   const [addressInUsage, setAddressInUsage] = useState(null);
   const [addressPopulated, setAddressPopulated] = useState(null);
+  const [forceViewMode, setForceViewMode] = useState(false);
+  const [forceFilledAddress, setForceFilledAddress] = useState(false);
+
+  const [isNewAddress, setIsNewAddress] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState(
     addressIdInCache || CART_BILLING_ADDRESS
   );
@@ -90,6 +96,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     cartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useBillingAddressCartContext();
+
   const editModeContext = useFormEditMode();
   const {
     billingValues,
@@ -102,8 +109,9 @@ function BillingAddressFormikProvider({ children, formikData }) {
     initValidationSchema
   );
   const regionData = useRegionData(selectedCountry, selectedRegion);
-  const { setFormEditMode } = editModeContext;
+  const { setFormEditMode, setFormToViewMode } = editModeContext;
   const isSame = _get(billingValues, 'isSameAsShipping');
+  const cartHasBillingAddress = isCartAddressValid(cartBillingAddress);
   const selectedCustomerAddress = prepareFormAddressFromAddressListById(
     customerAddressList,
     selectedAddressId
@@ -163,81 +171,123 @@ function BillingAddressFormikProvider({ children, formikData }) {
     }
   }, [cartBillingAddress, setFieldValue]);
 
-  // determines billing address needs to be populated into form
+  // filling shipping address field when the cart possess a shipping address
+  useEffect(() => {
+    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
+      return;
+    }
+
+    _set(cartBillingAddress, 'id', selectedAddress);
+
+    setBillingAddressFormFields({ ...cartBillingAddress });
+    setForceFilledAddress(selectedAddress);
+  }, [
+    selectedAddress,
+    forceFilledAddress,
+    cartBillingAddress,
+    cartHasBillingAddress,
+    setForceFilledAddress,
+  ]);
+
+  // when user sign-in, if the cart has shipping address, then we need to
+  // turn off edit mode of the address section
   useEffect(() => {
     if (
-      !isLoggedIn &&
-      isCartAddressValid(cartBillingAddress) &&
-      addressInUsage !== GUEST_CART_NEW_ADDRESS
+      !forceViewMode &&
+      (cartHasBillingAddress || customerHasAddress(customerAddressList))
     ) {
-      setAddressInUsage(GUEST_CART_NEW_ADDRESS);
-    } else if (
-      isLoggedIn &&
-      !selectedAddressId &&
-      isCartAddressValid(cartBillingAddress) &&
-      addressInUsage !== MY_CART_NEW_ADDRESS
-    ) {
-      setAddressInUsage(MY_CART_NEW_ADDRESS);
-    } else if (
-      isLoggedIn &&
-      selectedAddressId &&
-      addressInUsage !== selectedAddressId
-    ) {
-      setAddressInUsage(selectedAddressId);
-    }
-  }, [isLoggedIn, addressInUsage, selectedAddressId, cartBillingAddress]);
+      // this needs to be executed once. to make sure that we are using
+      // forceViewMode state
+      setFormToViewMode();
+      setForceViewMode(true);
 
-  // populating the form based on the billing address determined to be used.
-  useEffect(() => {
-    if (addressPopulated !== addressInUsage) {
-      let canPopulate = false;
-      const isSameAsShipping = LocalStorage.getBillingSameAsShippingInfo();
-      if (
-        [GUEST_CART_NEW_ADDRESS, MY_CART_NEW_ADDRESS].includes(addressInUsage)
-      ) {
-        canPopulate = true;
-        setFieldValue(BILLING_ADDR_FORM, {
-          ...prepareFormAddressFromCartAddress(cartBillingAddress),
-          isSameAsShipping,
-        });
-      } else if (
-        addressInUsage === selectedAddressId &&
-        isCartAddressValid(selectedCustomerAddress)
-      ) {
-        canPopulate = true;
-        setFieldValue(BILLING_ADDR_FORM, {
-          ...selectedCustomerAddress,
-          isSameAsShipping,
-        });
-        setCustomerAddressSelected(true);
-        setSelectedAddress(addressInUsage);
-      }
-
-      if (canPopulate) {
-        setAddressPopulated(addressInUsage);
-
-        if (isSameAsShipping) {
-          setFormEditMode(true);
-        } else {
-          setFormEditMode(false);
-        }
+      if (customerAddressList[selectedAddress]) {
+        setIsNewAddress(false);
       }
     }
   }, [
-    isSame,
-    setFieldValue,
-    addressInUsage,
-    setFormEditMode,
-    addressPopulated,
-    selectedAddressId,
-    cartBillingAddress,
-    setAddressPopulated,
-    selectedCustomerAddress,
+    forceViewMode,
+    selectedAddress,
+    setFormToViewMode,
+    customerAddressList,
+    cartHasBillingAddress,
   ]);
 
-  useEffect(() => {
-    setSelectedAddress(addressIdInCache);
-  }, [addressIdInCache]);
+  // // determines billing address needs to be populated into form
+  // useEffect(() => {
+  //   if (
+  //     !isLoggedIn &&
+  //     isCartAddressValid(cartBillingAddress) &&
+  //     addressInUsage !== GUEST_CART_NEW_ADDRESS
+  //   ) {
+  //     setAddressInUsage(GUEST_CART_NEW_ADDRESS);
+  //   } else if (
+  //     isLoggedIn &&
+  //     !selectedAddressId &&
+  //     isCartAddressValid(cartBillingAddress) &&
+  //     addressInUsage !== MY_CART_NEW_ADDRESS
+  //   ) {
+  //     setAddressInUsage(MY_CART_NEW_ADDRESS);
+  //   } else if (
+  //     isLoggedIn &&
+  //     selectedAddressId &&
+  //     addressInUsage !== selectedAddressId
+  //   ) {
+  //     setAddressInUsage(selectedAddressId);
+  //   }
+  // }, [isLoggedIn, addressInUsage, selectedAddressId, cartBillingAddress]);
+
+  // // populating the form based on the billing address determined to be used.
+  // useEffect(() => {
+  //   if (addressPopulated !== addressInUsage) {
+  //     let canPopulate = false;
+  //     const isSameAsShipping = LocalStorage.getBillingSameAsShippingInfo();
+  //     if (
+  //       [GUEST_CART_NEW_ADDRESS, MY_CART_NEW_ADDRESS].includes(addressInUsage)
+  //     ) {
+  //       canPopulate = true;
+  //       setFieldValue(BILLING_ADDR_FORM, {
+  //         ...prepareFormAddressFromCartAddress(cartBillingAddress),
+  //         isSameAsShipping,
+  //       });
+  //     } else if (
+  //       addressInUsage === selectedAddressId &&
+  //       isCartAddressValid(selectedCustomerAddress)
+  //     ) {
+  //       canPopulate = true;
+  //       setFieldValue(BILLING_ADDR_FORM, {
+  //         ...selectedCustomerAddress,
+  //         isSameAsShipping,
+  //       });
+  //       setCustomerAddressSelected(true);
+  //       setSelectedAddress(addressInUsage);
+  //     }
+
+  //     if (canPopulate) {
+  //       setAddressPopulated(addressInUsage);
+
+  //       if (isSameAsShipping) {
+  //         setFormEditMode(true);
+  //       } else {
+  //         setFormEditMode(false);
+  //       }
+  //     }
+  //   }
+  // }, [
+  //   isSame,
+  //   setFieldValue,
+  //   addressInUsage,
+  //   setFormEditMode,
+  //   addressPopulated,
+  //   selectedAddressId,
+  //   cartBillingAddress,
+  //   setAddressPopulated,
+  //   selectedCustomerAddress,
+  // ]);
+
+  // useEffect(() => {
+  //   setSelectedAddress(addressIdInCache);
+  // }, [addressIdInCache]);
 
   const addressContext = useMemo(() => {
     if (!isLoggedIn && !cartBillingAddress) {
@@ -283,7 +333,9 @@ function BillingAddressFormikProvider({ children, formikData }) {
     ...addressContext,
     ...editModeContext,
     formikData,
+    isNewAddress,
     backupAddress,
+    setIsNewAddress,
     selectedAddress,
     setBackupAddress,
     setSelectedAddress,

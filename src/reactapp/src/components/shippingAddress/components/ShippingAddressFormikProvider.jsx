@@ -9,6 +9,10 @@ import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
+import {
+  isCartAddressValid,
+  isValidCustomerAddressId,
+} from '../../../utils/address';
 import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
@@ -18,7 +22,6 @@ import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import { isCartAddressValid, isValidCustomerAddressId } from '../../../utils/address';
 import { customerHasAddress } from '../../../utils/customer';
 import useRegionData from '../../address/hooks/useRegionData';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';

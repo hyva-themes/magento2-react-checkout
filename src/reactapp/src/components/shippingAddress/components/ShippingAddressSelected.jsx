@@ -10,6 +10,7 @@ import { selectedAddressTitle } from '../utility';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 
 function ShippingAddressSelected() {
   const {
@@ -30,8 +31,6 @@ function ShippingAddressSelected() {
     stateList
   );
 
-  console.log({ isBillingSame })
-
   const performAddressEdit = () => {
     const customerAddress = _get(customerAddressList, selectedAddress);
     const addressToBackup = customerAddress || shippingValues;
@@ -46,10 +45,9 @@ function ShippingAddressSelected() {
 
   return (
     <AddressCard
-      isBillingSame={isBillingSame}
-      showBillingSameCheckbox
       address={addressInfo[0]}
       actions={{ performAddressEdit }}
+      billingSameCheckbox={<BillingSameAsShippingCheckbox />}
       title={selectedAddressTitle(isLoggedIn, customerAddressList)}
     />
   );
