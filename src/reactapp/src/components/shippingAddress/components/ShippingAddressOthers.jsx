@@ -1,68 +1,66 @@
 import React from 'react';
-import { __ } from '../../../i18n';
-import { _cleanObjByKeys, _objToArray } from '../../../utils';
+import { bool } from 'prop-types';
+
+import AddressOptions from '../../address/components/AddressOptions';
 import {
-  formatAddressListToCardData,
+  prepareAddressOtherOptions,
+  shippingAddrOtherOptionField,
+} from '../utility';
+import {
   isCartAddressValid,
   isValidCustomerAddressId,
   prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
+import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
-import AddressOptions from '../../address/components/AddressOptions';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import {
-  CART_SHIPPING_ADDRESS,
-  shippingAddrOtherOptionField,
-} from '../utility';
 
 function ShippingAddressOthers({ forceHide }) {
-  const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const {
-    selectedAddress,
+    stateList,
+    isLoggedIn,
+    customerAddressList,
+  } = useShippingAddressAppContext();
+  const {
     setFieldValue,
+    submitHandler,
+    selectedAddress,
     setSelectedAddress,
     setCustomerAddressSelected,
     shippingOtherOptionSelected,
     setShippingAddressFormFields,
-    submitHandler,
   } = useShippingAddressFormikContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
-  const newAddrFromLocalStorage = LocalStorage.getNewShippingAddress();
-  const customerAddrToConsider = isCartShippingAddressValid
-    ? _cleanObjByKeys(customerAddressList, [selectedAddress])
-    : customerAddressList;
+  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
 
-  let addressOptions = formatAddressListToCardData(
-    _objToArray(customerAddrToConsider)
-  );
+  const addressOptions = prepareAddressOtherOptions({
+    stateList,
+    selectedAddress,
+    cartShippingAddress,
+    customerAddressList,
+  });
 
-  if (
-    newAddrFromLocalStorage &&
-    (selectedAddress !== CART_SHIPPING_ADDRESS || !isCartShippingAddressValid)
-  ) {
-    const newAddressCardData = formatAddressListToCardData([
-      { id: CART_SHIPPING_ADDRESS, ...newAddrFromLocalStorage },
-    ]);
-    addressOptions = [newAddressCardData[0], ...addressOptions];
-  }
-
+  /**
+   * Perform when an other address option is changed.
+   */
   const handleOptionChange = event => {
     const addressId = event.target.value;
-    setFieldValue(shippingAddrOtherOptionField, addressId);
     const customerAddress = customerAddressList[addressId];
+
+    setFieldValue(shippingAddrOtherOptionField, addressId);
 
     if (isCartShippingAddressValid) {
       return;
     }
 
     setSelectedAddress(addressId);
-    setCustomerAddressSelected(!!customerAddress);
+    setCustomerAddressSelected(isValidCustomerAddressId(addressId));
 
-    if (addressId === CART_SHIPPING_ADDRESS) {
-      setShippingAddressFormFields(newAddrFromLocalStorage);
+    if (mostRecentAddressList[addressId]) {
+      setShippingAddressFormFields(mostRecentAddressList[addressId]);
     } else if (customerAddress) {
       setShippingAddressFormFields(
         prepareFormAddressFromCartAddress({ ...customerAddress })
@@ -70,6 +68,9 @@ function ShippingAddressOthers({ forceHide }) {
     }
   };
 
+  /**
+   * Executes when "Ship Here" button is pressed.
+   */
   const handleShipToOtherOption = async () => {
     await submitHandler(shippingOtherOptionSelected);
     setFieldValue(shippingAddrOtherOptionField, '');
@@ -93,5 +94,13 @@ function ShippingAddressOthers({ forceHide }) {
     />
   );
 }
+
+ShippingAddressOthers.propTypes = {
+  forceHide: bool,
+};
+
+ShippingAddressOthers.defaultProps = {
+  forceHide: false,
+};
 
 export default ShippingAddressOthers;

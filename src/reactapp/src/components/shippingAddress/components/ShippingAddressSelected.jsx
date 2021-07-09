@@ -1,27 +1,33 @@
 import React from 'react';
 import _get from 'lodash.get';
+
+import { AddressCard } from '../../address';
 import {
-  formatAddressListToCardData,
   isCartAddressValid,
+  formatAddressListToCardData,
 } from '../../../utils/address';
+import { selectedAddressTitle } from '../utility';
+import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
-import { AddressCard } from '../../address';
-import { selectedAddressTitle } from '../utility';
 
 function ShippingAddressSelected() {
   const {
     shippingValues,
-    setBackupAddress,
     selectedAddress,
+    setBackupAddress,
     setFormToEditMode,
   } = useShippingAddressFormikContext();
-  const { customerAddressList, isLoggedIn } = useShippingAddressAppContext();
+  const {
+    stateList,
+    isLoggedIn,
+    customerAddressList,
+  } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
-  const addressInfo = formatAddressListToCardData([
-    { id: selectedAddress, ...cartShippingAddress },
-  ]);
+  const addressInfo = formatAddressListToCardData(
+    [{ id: selectedAddress, ...cartShippingAddress }],
+    stateList
+  );
 
   const performAddressEdit = () => {
     const customerAddress = _get(customerAddressList, selectedAddress);

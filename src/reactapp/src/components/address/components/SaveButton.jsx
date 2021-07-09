@@ -7,9 +7,9 @@ import { __ } from '../../../i18n';
 function SaveButton({ actions, isFormValid }) {
   return (
     <Button
-      click={actions.saveAddress}
       variant="primary"
       disable={!isFormValid}
+      click={actions.saveAddress}
     >
       {__('Save')}
     </Button>

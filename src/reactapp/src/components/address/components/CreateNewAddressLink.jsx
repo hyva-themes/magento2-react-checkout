@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { bool, func, shape } from 'prop-types';
 import { PlusIcon } from '@heroicons/react/solid';
 
-import ORBox from './ORBox';
-import { __ } from '../../../i18n';
-import { _emptyFunc, _isObjEmpty } from '../../../utils';
-import AppContext from '../../../context/App/AppContext';
 import Button from '../../common/Button';
+import { __ } from '../../../i18n';
+import { _emptyFunc } from '../../../utils';
 import useAppContext from '../../../hook/useAppContext';
-import useCartContext from '../../../hook/useCartContext';
-import { isCartAddressValid } from '../../../utils/address';
 
 function CreateNewAddressLink({ actions, forceHide }) {
   const [{ isLoggedIn }] = useAppContext();
@@ -29,14 +25,14 @@ function CreateNewAddressLink({ actions, forceHide }) {
 }
 
 CreateNewAddressLink.propTypes = {
-  addOR: bool,
+  forceHide: bool,
   actions: shape({
     click: func,
   }),
 };
 
 CreateNewAddressLink.defaultProps = {
-  addOR: false,
+  forceHide: false,
   actions: { click: _emptyFunc() },
 };
 

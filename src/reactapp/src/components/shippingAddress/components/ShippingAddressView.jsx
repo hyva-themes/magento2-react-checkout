@@ -1,22 +1,20 @@
 import React from 'react';
 
-import ShippingAddressCardList from './ShippingAddressCardList';
-import { AddressCard, CreateNewAddressLink, ORBox } from '../../address';
+import { CreateNewAddressLink } from '../../address';
+import ShippingAddressOthers from './ShippingAddressOthers';
+import ShippingAddressSelected from './ShippingAddressSelected';
+import { _isObjEmpty } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
+import { isCartAddressValid } from '../../../utils/address';
+import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import Card from '../../common/Card';
-import RadioInput from '../../common/Form/RadioInput';
-import ShippingAddressSelected from './ShippingAddressSelected';
-import ShippingAddressOthers from './ShippingAddressOthers';
-import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
-import { _isObjEmpty } from '../../../utils';
-import { isCartAddressValid } from '../../../utils/address';
 
 function ShippingAddressView() {
   const {
     editMode,
     selectedAddress,
+    setIsNewAddress,
     setBackupAddress,
     setFormToEditMode,
     setSelectedAddress,
@@ -31,11 +29,12 @@ function ShippingAddressView() {
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
 
   const newAddressClickHandler = () => {
+    setIsNewAddress(true);
     setBackupSelectedAddress(selectedAddress);
     setBackupAddress({ ...cartShippingAddress });
     setSelectedAddress(CART_SHIPPING_ADDRESS);
-    resetShippingAddressFormFields();
     setCustomerAddressSelected(false);
+    resetShippingAddressFormFields();
     setFormToEditMode();
   };
 
@@ -60,7 +59,16 @@ function ShippingAddressView() {
               />
             </div>
           )}
-          <ShippingAddressOthers forceHide={hideOtherAddrSection} />
+          {!isCartShippingAddressValid ? (
+            <div className="w-4/5">
+              <ShippingAddressOthers forceHide={hideOtherAddrSection} />
+              <CreateNewAddressLink
+                actions={{ click: newAddressClickHandler }}
+              />
+            </div>
+          ) : (
+            <ShippingAddressOthers forceHide={hideOtherAddrSection} />
+          )}
         </div>
       </div>
     </div>

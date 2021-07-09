@@ -3,9 +3,9 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import ShippingAddressMemorized from './ShippingAddressMemorized';
+import { shippingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../config';
-import { shippingAddrOtherOptionField } from './utility';
 
 const regionField = `${SHIPPING_ADDR_FORM}.region`;
 const countryField = `${SHIPPING_ADDR_FORM}.country`;

@@ -4,6 +4,7 @@ import { __ } from '../../../i18n';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
+import { isValidCustomerAddressId } from '../../../utils/address';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import useShippingAddressCartContext from './useShippingAddressCartContext';
@@ -37,16 +38,21 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
   } = useShippingAddressCartContext();
 
   const submitHandler = async customerAddressId => {
+    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const recentAddressInUse = mostRecentAddresses[customerAddressId];
+    const addressToSave = recentAddressInUse || shippingAddressToSave;
+    const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
+
     setPageLoader(true);
 
     let updateBillingAddress = _emptyFunc();
     let updateShippingAddress = _makePromise(
       addCartShippingAddress,
-      shippingAddressToSave,
+      addressToSave,
       isBillingSame
     );
 
-    if (customerAddressId) {
+    if (useCustomerAddressInSave) {
       updateShippingAddress = _makePromise(
         setCustomerAddressAsShippingAddress,
         Number(customerAddressId),
@@ -55,7 +61,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     }
 
     if (isBillingSame) {
-      if (customerAddressId) {
+      if (useCustomerAddressInSave) {
         updateBillingAddress = _makePromise(
           setCustomerAddressAsBillingAddress,
           Number(customerAddressId),
@@ -63,7 +69,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         );
       } else {
         updateBillingAddress = _makePromise(setCartBillingAddress, {
-          ...shippingAddressToSave,
+          ...addressToSave,
           isSameAsShipping: true,
         });
       }
@@ -81,14 +87,6 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         ...billingAddressFormInitValues,
         ...addressToSet,
       });
-    }
-
-    if (!customerAddressId) {
-      LocalStorage.saveNewShippingAddress(shippingAddressToSave);
-
-      if (isBillingSame) {
-        LocalStorage.saveNewBillingAddress(shippingAddressToSave);
-      }
     }
 
     setPageLoader(false);
@@ -116,17 +114,6 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         );
       }
 
-      if (hasCustomerAddr) {
-        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
-        setCustomerAddressSelected(true);
-      } else if (customerAddressNeeded) {
-        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
-        setCustomerAddressSelected(true);
-      } else {
-        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
-        setCustomerAddressSelected(false);
-      }
-
       setPageLoader(true);
       await Promise.all([
         updateCustomerAddrPromise(),
@@ -137,6 +124,18 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
         hasCustomerAddr ? addressIdContext : CART_SHIPPING_ADDRESS
       );
       setSuccessMessage(__('Shipping address updated successfully'));
+
+      if (hasCustomerAddr) {
+        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
+        setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
+      } else if (customerAddressNeeded) {
+        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
+        setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
+      } else {
+        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
+        setCustomerAddressSelected(false);
+      }
+
       setPageLoader(false);
     } catch (error) {
       console.error(error);

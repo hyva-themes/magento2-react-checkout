@@ -18,7 +18,7 @@ import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import { isCartAddressValid } from '../../../utils/address';
+import { isCartAddressValid, isValidCustomerAddressId } from '../../../utils/address';
 import { customerHasAddress } from '../../../utils/customer';
 import useRegionData from '../../address/hooks/useRegionData';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
@@ -70,13 +70,14 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     LocalStorage.getCustomerShippingAddressId()
   );
   const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
+  const [isNewAddress, setIsNewAddress] = useState(true);
   const [backupAddress, setBackupAddress] = useState(null);
   const [forceViewMode, setForceViewMode] = useState(false);
   const [forceFilledAddress, setForceFilledAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(initAddressId);
   const [backupSelectedAddress, setBackupSelectedAddress] = useState(false);
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
-    !!addressIdInCache
+    isValidCustomerAddressId(addressIdInCache)
   );
   const validationSchema = useRegionValidation(
     selectedCountry,
@@ -138,9 +139,14 @@ function ShippingAddressFormikProvider({ children, formikData }) {
       // forceViewMode state
       setFormToViewMode();
       setForceViewMode(true);
+
+      if (customerAddressList[selectedAddress]) {
+        setIsNewAddress(false);
+      }
     }
   }, [
     forceViewMode,
+    selectedAddress,
     setFormToViewMode,
     customerAddressList,
     cartHasShippingAddress,
@@ -151,7 +157,9 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     ...formikData,
     ...editModeContext,
     formikData,
+    isNewAddress,
     backupAddress,
+    setIsNewAddress,
     selectedAddress,
     setBackupAddress,
     setSelectedAddress,

@@ -18,7 +18,7 @@ function Card({ children, bg, classes }) {
 Card.propTypes = {
   children: node,
   classes: string,
-  bg: oneOf(['dark', 'darker', 'white']),
+  bg: oneOf(['dark', 'darker', 'white', '']),
 };
 
 Card.defaultProps = {

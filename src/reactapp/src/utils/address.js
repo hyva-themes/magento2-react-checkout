@@ -1,4 +1,7 @@
+import _get from 'lodash.get';
+
 import { __ } from '../i18n';
+import LocalStorage from './localStorage';
 import { _cleanObjByKeys, _toString } from './index';
 
 export function isCartAddressValid(address) {
@@ -8,22 +11,26 @@ export function isCartAddressValid(address) {
 export function isValidCustomerAddressId(addressId) {
   // Number.isNaN should not use here. both functions works differently.
   // eslint-disable-next-line no-restricted-globals
-  return !isNaN(addressId);
+  return addressId && !isNaN(addressId);
 }
 
-export function formatAddressListToCardData(addressList) {
+export function formatAddressListToCardData(addressList, stateList) {
   return addressList.map(addr => {
     const {
       id,
-      fullName = '',
-      street = [],
       city = '',
+      phone = '',
+      street = [],
+      region = '',
+      zipcode = '',
+      company = '',
+      country = '',
+      fullName = '',
       regionLabel = '',
       countryCode = '',
-      zipcode = '',
-      phone = '',
-      company = '',
     } = addr;
+    const countryRegions = _get(stateList, `${country}`, []);
+    const countryRegion = countryRegions.find(state => state.code === region);
     return {
       id: _toString(id),
       address: [
@@ -31,8 +38,8 @@ export function formatAddressListToCardData(addressList) {
         company,
         ...street,
         city,
-        regionLabel,
-        __('{} zipcode: {}', countryCode, zipcode),
+        regionLabel || _get(countryRegion, 'name'),
+        __('{} zipcode: {}', countryCode || country, zipcode),
         __('phone: {}', phone),
       ].filter(i => !!i),
     };
@@ -79,4 +86,10 @@ export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
     ...addressInitValues,
     ..._cleanObjByKeys(newAddress, keysToRemove),
   };
+}
+
+export function isMostRecentAddress(addressId) {
+  const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+
+  return !!recentAddressList[addressId];
 }

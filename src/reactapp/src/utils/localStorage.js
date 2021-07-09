@@ -2,6 +2,14 @@ import _get from 'lodash.get';
 import _set from 'lodash.set';
 
 import { config } from '../config';
+import { _cleanObjByKeys, _keys } from './index';
+
+const hyvaStorageKey = _get(config, 'hyvaStorageSource.storageKey');
+const mostRecentlyUsedAddressListSource = _get(
+  config,
+  'hyvaStorageSource.data.mostRecentlyUsedAddressList',
+  {}
+);
 
 const LocalStorage = {
   isBrowser() {
@@ -21,13 +29,11 @@ const LocalStorage = {
   },
 
   getHyvaCheckoutStorage() {
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
-
     if (!LocalStorage.isBrowser()) {
       return {};
     }
 
-    return JSON.parse(window.localStorage.getItem(storageKey) || '{}');
+    return JSON.parse(window.localStorage.getItem(hyvaStorageKey) || '{}');
   },
 
   getCartId() {
@@ -72,16 +78,14 @@ const LocalStorage = {
     return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
   },
 
-  getNewBillingAddress() {
-    const source = _get(config, 'hyvaStorageSource.data.newBillingAddress', {});
-
-    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
-  },
-
-  getNewShippingAddress() {
-    const source = _get(config, 'hyvaStorageSource.data.newShippingAddress');
-
-    return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
+  getMostlyRecentlyUsedAddressList() {
+    return (
+      _get(
+        LocalStorage.getHyvaCheckoutStorage(),
+        mostRecentlyUsedAddressListSource.value,
+        {}
+      ) || {}
+    );
   },
 
   saveCustomerToken(token) {
@@ -125,7 +129,6 @@ const LocalStorage = {
       return;
     }
 
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,
       'hyvaStorageSource.data.customerShippingAddress',
@@ -137,7 +140,7 @@ const LocalStorage = {
       addressId
     );
 
-    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
   },
 
   saveCustomerBillingAddressId(addressId) {
@@ -145,7 +148,6 @@ const LocalStorage = {
       return;
     }
 
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,
       'hyvaStorageSource.data.customerBillingAddress',
@@ -157,7 +159,7 @@ const LocalStorage = {
       addressId
     );
 
-    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
   },
 
   saveBillingSameAsShipping(isSame) {
@@ -165,7 +167,6 @@ const LocalStorage = {
       return;
     }
 
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
     const source = _get(
       config,
       'hyvaStorageSource.data.billingSameAsShipping',
@@ -177,7 +178,7 @@ const LocalStorage = {
       !!isSame
     );
 
-    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
   },
 
   saveCustomerAddressInfo(addressId, isBillingSame, isShipping = true) {
@@ -200,28 +201,47 @@ const LocalStorage = {
     }
   },
 
-  saveNewBillingAddress(newBillingAddress) {
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
-    const source = _get(config, 'hyvaStorageSource.data.newBillingAddress', {});
+  addAddressToMostRecentlyUsedList(newAddress) {
+    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const newAddressId = `new_address_${_keys(existingAddrList).length + 1}`;
+
+    _set(newAddress, 'id', newAddressId);
     const storageData = _set(
       LocalStorage.getHyvaCheckoutStorage(),
-      source.value,
-      newBillingAddress
+      mostRecentlyUsedAddressListSource.value,
+      {
+        ...existingAddrList,
+        [newAddressId]: newAddress,
+      }
     );
 
-    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
   },
 
-  saveNewShippingAddress(newShippingAddress) {
-    const storageKey = _get(config, 'hyvaStorageSource.storageKey');
-    const source = _get(config, 'hyvaStorageSource.data.newShippingAddress');
+  updateMostRecentlyAddedAddress(addressId, addressToUpdate) {
+    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+
+    _set(existingAddrList, addressId, addressToUpdate);
+
     const storageData = _set(
       LocalStorage.getHyvaCheckoutStorage(),
-      source.value,
-      newShippingAddress
+      mostRecentlyUsedAddressListSource.value,
+      existingAddrList
     );
 
-    window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
+  },
+
+  removeMostRecentlyUsedAddress(addressId) {
+    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+
+    const storageData = _set(
+      LocalStorage.getHyvaCheckoutStorage(),
+      mostRecentlyUsedAddressListSource.value,
+      _cleanObjByKeys(existingAddrList, [addressId])
+    );
+
+    window.localStorage.setItem(hyvaStorageKey, JSON.stringify(storageData));
   },
 
   clearCheckoutStorage() {
@@ -229,7 +249,6 @@ const LocalStorage = {
       return;
     }
 
-    const hyvaStorageKey = _get(config, 'hyvaStorageSource.storageKey');
     window.localStorage.setItem(hyvaStorageKey, '{}');
     LocalStorage.saveCartId('');
   },

@@ -1,10 +1,13 @@
 import React from 'react';
 
 import Button from '../../../common/Button';
+import {
+  isCartAddressValid,
+  isValidCustomerAddressId,
+} from '../../../../utils/address';
 import { __ } from '../../../../i18n';
 import { _toString } from '../../../../utils';
 import LocalStorage from '../../../../utils/localStorage';
-import { isCartAddressValid } from '../../../../utils/address';
 import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../../hooks/useShippingAddressFormikContext';
 
@@ -24,7 +27,9 @@ function CancelButton() {
     setShippingAddressFormFields({ ...backupAddress });
 
     setFormToViewMode();
-    setCustomerAddressSelected(!!LocalStorage.getCustomerShippingAddressId());
+    setCustomerAddressSelected(
+      isValidCustomerAddressId(LocalStorage.getCustomerShippingAddressId())
+    );
 
     if (backupAddress.id) {
       setSelectedAddress(_toString(backupAddress.id));

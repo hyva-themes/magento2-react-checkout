@@ -5,8 +5,12 @@ import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './shippingAddressForm/CancelButton';
 import { __ } from '../../../i18n';
+import { _keys } from '../../../utils';
+import LocalStorage from '../../../utils/localStorage';
+import { isMostRecentAddress } from '../../../utils/address';
 import useCountryState from '../../address/hooks/useCountryState';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
+import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 function ShippingAddressForm() {
@@ -15,22 +19,56 @@ function ShippingAddressForm() {
     formId,
     viewMode,
     formikData,
+    isNewAddress,
     handleKeyDown,
     submitHandler,
+    shippingValues,
     selectedCountry,
+    selectedAddress,
+    setIsNewAddress,
     validationSchema,
+    setSelectedAddress,
     isBillingFormTouched,
+    isBillingAddressSameAsShipping,
   } = useShippingAddressFormikContext();
+  const { isLoggedIn } = useShippingAddressAppContext();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
     formikData,
   });
-  const handleButtonSubmit = useFormValidateThenSubmit({
+  const formSubmitHandler = useFormValidateThenSubmit({
     formId,
     formikData,
     submitHandler,
     validationSchema,
   });
+
+  const saveAddressAction = async () => {
+    await formSubmitHandler();
+
+    if (!isLoggedIn) {
+      return;
+    }
+
+    if (isNewAddress) {
+      const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+      const newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
+      LocalStorage.addAddressToMostRecentlyUsedList(shippingValues);
+      setIsNewAddress(false);
+      setSelectedAddress(newAddressId);
+      LocalStorage.saveCustomerAddressInfo(
+        newAddressId,
+        isBillingAddressSameAsShipping
+      );
+    }
+
+    if (isMostRecentAddress(selectedAddress)) {
+      LocalStorage.updateMostRecentlyAddedAddress(
+        selectedAddress,
+        shippingValues
+      );
+    }
+  };
 
   if (viewMode) {
     return <></>;
@@ -121,7 +159,7 @@ function ShippingAddressForm() {
         <CancelButton />
         <SaveButton
           isFormValid={isBillingFormTouched}
-          actions={{ saveAddress: handleButtonSubmit }}
+          actions={{ saveAddress: saveAddressAction }}
         />
       </div>
     </>
