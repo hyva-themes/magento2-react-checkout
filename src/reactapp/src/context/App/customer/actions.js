@@ -17,6 +17,7 @@ import {
   SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './types';
+import { config } from '../../../config';
 import { _cleanObjByKeys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 
@@ -51,6 +52,11 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
   try {
     const response = await ajaxLoginRequest(dispatch, userCredentials);
     const { errors, data } = response;
+
+    if (config.isProductionMode && typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('reload-customer-section-data'));
+      window.location.reload();
+    }
 
     if (!errors) {
       const signInToken = _get(data, 'customer.signin_token');

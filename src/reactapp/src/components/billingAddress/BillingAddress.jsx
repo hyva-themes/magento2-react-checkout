@@ -4,9 +4,9 @@ import { useFormikContext } from 'formik';
 
 import BillingAddressMemorized from './BillingAddressMemorized';
 import { BILLING_ADDR_FORM } from '../../config';
+import { billingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
 import { billingSameAsShippingField } from '../../utils/address';
-import { billingAddrOtherOptionField } from './utility';
 
 const regionField = `${BILLING_ADDR_FORM}.region`;
 const countryField = `${BILLING_ADDR_FORM}.country`;

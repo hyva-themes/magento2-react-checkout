@@ -4,9 +4,10 @@ import _get from 'lodash.get';
 import { AddressCard } from '../../address';
 import {
   isCartAddressValid,
-  selectedAddressTitle,
   formatAddressListToCardData,
 } from '../../../utils/address';
+
+import { selectedAddressTitle } from '../utility';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';

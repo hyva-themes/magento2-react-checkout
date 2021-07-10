@@ -19,7 +19,6 @@ function ShippingAddressView() {
     setFormToEditMode,
     setSelectedAddress,
     customerAddressSelected,
-    setBackupSelectedAddress,
     setCustomerAddressSelected,
     resetShippingAddressFormFields,
   } = useShippingAddressFormikContext();
@@ -30,8 +29,7 @@ function ShippingAddressView() {
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
-    setBackupSelectedAddress(selectedAddress);
-    setBackupAddress({ ...cartShippingAddress });
+    setBackupAddress({ ...cartShippingAddress, id: selectedAddress });
     setSelectedAddress(CART_SHIPPING_ADDRESS);
     setCustomerAddressSelected(false);
     resetShippingAddressFormFields();

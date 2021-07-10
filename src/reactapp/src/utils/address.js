@@ -2,8 +2,8 @@ import _get from 'lodash.get';
 
 import { __ } from '../i18n';
 import LocalStorage from './localStorage';
-import { _cleanObjByKeys, _isObjEmpty, _objToArray, _toString } from './index';
 import { BILLING_ADDR_FORM } from '../config';
+import { _cleanObjByKeys, _toString } from './index';
 
 export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -95,12 +95,4 @@ export function isMostRecentAddress(addressId) {
   const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
 
   return !!recentAddressList[addressId];
-}
-
-export function selectedAddressTitle(isLoggedIn, customerAddressList) {
-  if (!isLoggedIn || (isLoggedIn && _isObjEmpty(customerAddressList))) {
-    return __('SHIPPING ADDRESS');
-  }
-
-  return __('SELECTED ADDRESS');
 }

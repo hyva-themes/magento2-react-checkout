@@ -1,17 +1,19 @@
 import React from 'react';
 
 import Button from '../../../common/Button';
+import { __ } from '../../../../i18n';
+import { _toString } from '../../../../utils';
+import LocalStorage from '../../../../utils/localStorage';
+import { isCartAddressValid } from '../../../../utils/address';
 import useBillingAddressCartContext from '../../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../../hooks/useBillingAddressFormikContext';
-import { isCartAddressValid } from '../../../../utils/address';
-import LocalStorage from '../../../../utils/localStorage';
-import { __ } from '../../../../i18n';
 
 function CancelButton() {
   const { cartBillingAddress } = useBillingAddressCartContext();
   const {
-    setFormToViewMode,
     backupAddress,
+    setFormToViewMode,
+    setSelectedAddress,
     setCustomerAddressSelected,
     setBillingAddressFormFields,
   } = useBillingAddressFormikContext();
@@ -23,6 +25,10 @@ function CancelButton() {
     });
     setFormToViewMode();
     setCustomerAddressSelected(!!LocalStorage.getCustomerBillingAddressId());
+
+    if (backupAddress.id) {
+      setSelectedAddress(_toString(backupAddress.id));
+    }
   };
 
   if (!isCartAddressValid(cartBillingAddress)) {

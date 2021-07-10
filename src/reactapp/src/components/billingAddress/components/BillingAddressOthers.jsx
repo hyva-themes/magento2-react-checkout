@@ -1,5 +1,6 @@
 import React from 'react';
 import { bool } from 'prop-types';
+import { DocumentIcon } from '@heroicons/react/solid';
 
 import AddressOptions from '../../address/components/AddressOptions';
 import {
@@ -72,17 +73,25 @@ function BillingAddressOthers({ forceHide }) {
     return <></>;
   }
 
+  const submitButtonLabel = (
+    <>
+      <DocumentIcon className="w-6 h-6 pr-1" />
+      <span className="text-xs">{__('Bill Here')}</span>
+    </>
+  );
+
   return (
     <AddressOptions
-      options={addressOptions}
-      inputName={billingAddrOtherOptionField}
-      selectedOption={billingOtherOptionSelected}
-      actions={{ handleOptionChange, handleShipToOtherOption }}
       title={
         isCartBillingAddressValid
           ? __('OTHER ADDRESSES')
           : __('CHOOSE FROM THE ADDRESS LIST')
       }
+      options={addressOptions}
+      submitButtonLabel={submitButtonLabel}
+      inputName={billingAddrOtherOptionField}
+      selectedOption={billingOtherOptionSelected}
+      actions={{ handleOptionChange, handleShipToOtherOption }}
     />
   );
 }

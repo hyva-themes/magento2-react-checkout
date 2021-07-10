@@ -2,6 +2,7 @@ import React from 'react';
 import _get from 'lodash.get';
 
 import { AddressCard } from '../../address';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import {
   isCartAddressValid,
   formatAddressListToCardData,
@@ -10,11 +11,9 @@ import { selectedAddressTitle } from '../utility';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
-import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 
 function ShippingAddressSelected() {
   const {
-    isBillingSame,
     shippingValues,
     selectedAddress,
     setBackupAddress,

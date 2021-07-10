@@ -1,6 +1,5 @@
 import modifier from './modifier';
 import sendRequest, { RESPONSE_JSON } from '../../sendRequest';
-import { config } from '../../../config';
 
 export default async function ajaxLogin(dispatch, userCredentials) {
   const relativeUrl = '/customer/ajax/login';
@@ -13,11 +12,6 @@ export default async function ajaxLogin(dispatch, userCredentials) {
     RESPONSE_JSON,
     additionalHeaders
   );
-
-  if (config.isProductionMode && typeof window !== 'undefined') {
-    // window.dispatchEvent(new Event('reload-customer-section-data'));
-    window.location.reload();
-  }
 
   return modifier(result);
 }

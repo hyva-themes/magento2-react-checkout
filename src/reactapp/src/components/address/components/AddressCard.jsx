@@ -5,13 +5,14 @@ import { ShieldCheckIcon, PencilIcon } from '@heroicons/react/solid';
 
 import Card from '../../common/Card';
 import { __ } from '../../../i18n';
+import { _isObjEmpty } from '../../../utils';
 import useAppContext from '../../../hook/useAppContext';
 
 function AddressCard({
   title,
   actions,
-  address: { id, address },
   billingSameCheckbox,
+  address: { id, address },
 }) {
   const [{ isLoggedIn, customerAddressList }] = useAppContext();
 
@@ -33,23 +34,25 @@ function AddressCard({
         ))}
       </ul>
       {billingSameCheckbox}
-      {isLoggedIn && (
-        <div className="flex items-center justify-between h-12 px-3 mt-3 -mx-4 -mb-4 rounded-b-sm bg-container-darker">
+      <div className="flex items-center justify-between h-12 px-3 mt-3 -mx-4 -mb-4 rounded-b-sm bg-container-darker">
+        {isLoggedIn && !_isObjEmpty(customerAddressList) && (
           <span className="text-xs italic font-semibold capitalize text-secondary-lighter">
             {customerAddressList[id]
               ? __('FROM ADDRESS BOOK')
               : __('NEW ADDRESS')}
           </span>
+        )}
+        <div className="flex items-center justify-end flex-1">
           <button
             type="button"
             onClick={actions.performAddressEdit}
-            className="flex items-center px-2 py-1 btn-secondary btn"
+            className="px-2 py-1 btn-secondary btn"
           >
             <PencilIcon className="w-6 h-6 pr-1" />
             <span className="text-xs">{__('Edit')}</span>
           </button>
         </div>
-      )}
+      </div>
     </Card>
   );
 }

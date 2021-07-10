@@ -16,16 +16,13 @@ function CancelButton() {
     backupAddress,
     setFormToViewMode,
     setSelectedAddress,
-    setBackupSelectedAddress,
     setCustomerAddressSelected,
     setShippingAddressFormFields,
   } = useShippingAddressFormikContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
 
   const clickHandler = () => {
-    setBackupSelectedAddress(false);
     setShippingAddressFormFields({ ...backupAddress });
-
     setFormToViewMode();
     setCustomerAddressSelected(
       isValidCustomerAddressId(LocalStorage.getCustomerShippingAddressId())

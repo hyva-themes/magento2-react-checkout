@@ -9,6 +9,7 @@ import {
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
+import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
@@ -32,16 +33,18 @@ function BillingSameAsShippingCheckbox() {
     setErrorMessage,
     setSuccessMessage,
   } = useShippingAddressAppContext();
+  const {
+    setBillingSelected,
+    setIsBillingCustomerAddress,
+  } = useAddressWrapper();
 
   const makeBillingSameAsShippingRequest = async () => {
     const billingIsSame = true;
+    const isCustomerAddress = isValidCustomerAddressId(selectedAddress);
     const successMessage = __('Billing address made same as shipping address');
 
     try {
-      if (
-        !isLoggedIn ||
-        (isLoggedIn && !isValidCustomerAddressId(selectedAddress))
-      ) {
+      if (!isLoggedIn || (isLoggedIn && !isCustomerAddress)) {
         setPageLoader(true);
         await setCartBillingAddress({ ...shippingValues });
         setFieldValue(BILLING_ADDR_FORM, {
@@ -50,15 +53,7 @@ function BillingSameAsShippingCheckbox() {
         });
         setSuccessMessage(successMessage);
         setPageLoader(false);
-        return;
-      }
-
-      if (isLoggedIn && isValidCustomerAddressId(selectedAddress)) {
-        LocalStorage.saveCustomerAddressInfo(
-          selectedAddress,
-          billingIsSame,
-          false
-        );
+      } else if (isLoggedIn && isCustomerAddress) {
         setPageLoader(true);
         await setCustomerAddressAsBillingAddress(
           selectedAddress,
@@ -66,8 +61,16 @@ function BillingSameAsShippingCheckbox() {
         );
         setSuccessMessage(successMessage);
         setPageLoader(false);
-        return;
       }
+
+      setBillingSelected(selectedAddress);
+      setIsBillingCustomerAddress(isCustomerAddress);
+
+      LocalStorage.saveCustomerAddressInfo(
+        selectedAddress,
+        billingIsSame,
+        false
+      );
     } catch (error) {
       console.error(error);
       setErrorMessage(__('Billing address update failed. Please try later'));

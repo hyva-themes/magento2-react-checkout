@@ -62,6 +62,9 @@ const initValidationSchema = {
   isSameAsShipping: YupBoolean(),
 };
 
+const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());
+const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
+
 function ShippingAddressFormikProvider({ children, formikData }) {
   const {
     setFieldValue,
@@ -69,16 +72,10 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedCountry,
     setFieldTouched,
   } = formikData;
-  const addressIdInCache = _toString(
-    LocalStorage.getCustomerShippingAddressId()
-  );
-  const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
   const [isNewAddress, setIsNewAddress] = useState(true);
   const [backupAddress, setBackupAddress] = useState(null);
-  const [forceViewMode, setForceViewMode] = useState(false);
   const [forceFilledAddress, setForceFilledAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(initAddressId);
-  const [backupSelectedAddress, setBackupSelectedAddress] = useState(false);
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     isValidCustomerAddressId(addressIdInCache)
   );
@@ -110,49 +107,47 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (
-      forceFilledAddress === selectedAddress ||
-      !cartHasShippingAddress ||
-      backupSelectedAddress
-    ) {
+    if (!cartHasShippingAddress && forceFilledAddress === selectedAddress) {
+      if (customerHasAddress(customerAddressList)) {
+        setFormToViewMode();
+      }
+
       return;
     }
 
-    _set(cartShippingAddress, 'id', selectedAddress);
-
-    setShippingAddressFormFields({ ...cartShippingAddress });
-    setForceFilledAddress(selectedAddress);
-  }, [
-    selectedAddress,
-    forceFilledAddress,
-    cartShippingAddress,
-    backupSelectedAddress,
-    cartHasShippingAddress,
-    setShippingAddressFormFields,
-  ]);
-
-  // when user sign-in, if the cart has shipping address, then we need to
-  // turn off edit mode of the address section
-  useEffect(() => {
+    // Toggle to view mode if there are customer address or cart address
+    // This action should happen only once when the page loads.
     if (
-      !forceViewMode &&
+      !forceFilledAddress &&
       (cartHasShippingAddress || customerHasAddress(customerAddressList))
     ) {
-      // this needs to be executed once. to make sure that we are using
-      // forceViewMode state
       setFormToViewMode();
-      setForceViewMode(true);
+    }
 
-      if (customerAddressList[selectedAddress]) {
-        setIsNewAddress(false);
-      }
+    // This should be happened only once when page loads
+    if (!forceFilledAddress && isValidCustomerAddressId(selectedAddress)) {
+      setIsNewAddress(false);
+    }
+
+    // Set shipping address from the cart address
+    // This should happen always except if the "New Address" is going to be created
+    if (!forceFilledAddress || !isNewAddress) {
+      _set(cartShippingAddress, 'id', selectedAddress);
+      setShippingAddressFormFields({ ...cartShippingAddress });
+    }
+
+    if (cartHasShippingAddress) {
+      setForceFilledAddress(selectedAddress);
     }
   }, [
-    forceViewMode,
+    isNewAddress,
     selectedAddress,
     setFormToViewMode,
+    forceFilledAddress,
+    cartShippingAddress,
     customerAddressList,
     cartHasShippingAddress,
+    setShippingAddressFormFields,
   ]);
 
   let context = {
@@ -166,22 +161,18 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedAddress,
     setBackupAddress,
     setSelectedAddress,
-    backupSelectedAddress,
     customerAddressSelected,
-    setBackupSelectedAddress,
     setCustomerAddressSelected,
     setShippingAddressFormFields,
     resetShippingAddressFormFields,
   };
 
   const formSubmit = useSaveAddressAction(context);
-
   const handleKeyDown = useEnterActionInForm({
     formikData,
     validationSchema,
     submitHandler: formSubmit,
   });
-
   const formSectionContext = useFormSection({
     formikData,
     initialValues,

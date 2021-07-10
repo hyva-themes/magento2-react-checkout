@@ -9,6 +9,7 @@ import { _keys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import { isMostRecentAddress } from '../../../utils/address';
 import useCountryState from '../../address/hooks/useCountryState';
+import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
@@ -32,6 +33,7 @@ function ShippingAddressForm() {
     isBillingFormTouched,
   } = useShippingAddressFormikContext();
   const { isLoggedIn } = useShippingAddressAppContext();
+  const { reCalculateMostRecentAddressOptions } = useAddressWrapper();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
     fields,
     formikData,
@@ -57,6 +59,7 @@ function ShippingAddressForm() {
       setIsNewAddress(false);
       setSelectedAddress(newAddressId);
       LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame);
+      reCalculateMostRecentAddressOptions();
     }
 
     if (isMostRecentAddress(selectedAddress)) {
@@ -64,6 +67,7 @@ function ShippingAddressForm() {
         selectedAddress,
         shippingValues
       );
+      reCalculateMostRecentAddressOptions();
     }
   };
 

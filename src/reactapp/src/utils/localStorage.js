@@ -182,6 +182,8 @@ const LocalStorage = {
   },
 
   saveCustomerAddressInfo(addressId, isBillingSame, isShipping = true) {
+    const selectedShippingAddrId = LocalStorage.getCustomerShippingAddressId();
+
     LocalStorage.saveBillingSameAsShipping(isBillingSame);
 
     if (isShipping) {
@@ -192,12 +194,8 @@ const LocalStorage = {
 
     if (isBillingSame) {
       LocalStorage.saveCustomerBillingAddressId(addressId);
-    } else {
-      const selectedShippingAddrId = LocalStorage.getCustomerShippingAddressId();
-
-      if (selectedShippingAddrId === addressId) {
-        LocalStorage.saveBillingSameAsShipping(true);
-      }
+    } else if (selectedShippingAddrId === addressId) {
+      LocalStorage.saveBillingSameAsShipping(true);
     }
   },
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { CreateNewAddressLink } from '../../address';
-import BillingAddressSelected from './BillingAddressSelected';
 import BillingAddressOthers from './BillingAddressOthers';
+import BillingAddressSelected from './BillingAddressSelected';
 import { _isObjEmpty } from '../../../utils';
 import { CART_BILLING_ADDRESS } from '../utility';
 import { isCartAddressValid } from '../../../utils/address';
@@ -13,6 +13,7 @@ import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikCont
 function BillingAddressView() {
   const {
     editMode,
+    selectedAddress,
     setIsNewAddress,
     setBackupAddress,
     setFormToEditMode,
@@ -28,7 +29,7 @@ function BillingAddressView() {
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
-    setBackupAddress({ ...cartBillingAddress });
+    setBackupAddress({ ...cartBillingAddress, id: selectedAddress });
     setSelectedAddress(CART_BILLING_ADDRESS);
     setCustomerAddressSelected(false);
     resetBillingAddressFormFields();

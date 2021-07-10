@@ -1,11 +1,8 @@
 import React from 'react';
 import { bool } from 'prop-types';
+import { TruckIcon } from '@heroicons/react/outline';
 
 import AddressOptions from '../../address/components/AddressOptions';
-import {
-  prepareAddressOtherOptions,
-  shippingAddrOtherOptionField,
-} from '../utility';
 import {
   isCartAddressValid,
   isValidCustomerAddressId,
@@ -13,16 +10,13 @@ import {
 } from '../../../utils/address';
 import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
+import { shippingAddrOtherOptionField } from '../utility';
+import useAddressOtherOptions from '../../address/hooks/useAddressOtherOptions';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
 
 function ShippingAddressOthers({ forceHide }) {
-  const {
-    stateList,
-    isLoggedIn,
-    customerAddressList,
-  } = useShippingAddressAppContext();
   const {
     setFieldValue,
     submitHandler,
@@ -32,15 +26,13 @@ function ShippingAddressOthers({ forceHide }) {
     shippingOtherOptionSelected,
     setShippingAddressFormFields,
   } = useShippingAddressFormikContext();
+  const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
   const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
-
-  const addressOptions = prepareAddressOtherOptions({
-    stateList,
+  const addressOptions = useAddressOtherOptions({
     selectedAddress,
-    cartShippingAddress,
-    customerAddressList,
+    cartAddress: cartShippingAddress,
   });
 
   /**
@@ -80,17 +72,25 @@ function ShippingAddressOthers({ forceHide }) {
     return <></>;
   }
 
+  const submitButtonLabel = (
+    <>
+      <TruckIcon className="w-6 h-6 pr-1" />
+      <span className="text-xs">{__('Ship Here')}</span>
+    </>
+  );
+
   return (
     <AddressOptions
-      options={addressOptions}
-      inputName={shippingAddrOtherOptionField}
-      selectedOption={shippingOtherOptionSelected}
-      actions={{ handleOptionChange, handleShipToOtherOption }}
       title={
         isCartShippingAddressValid
           ? __('OTHER ADDRESSES')
           : __('CHOOSE FROM THE ADDRESS LIST')
       }
+      options={addressOptions}
+      submitButtonLabel={submitButtonLabel}
+      inputName={shippingAddrOtherOptionField}
+      selectedOption={shippingOtherOptionSelected}
+      actions={{ handleOptionChange, handleShipToOtherOption }}
     />
   );
 }

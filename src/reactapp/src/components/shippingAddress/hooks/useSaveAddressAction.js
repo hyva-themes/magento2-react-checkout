@@ -1,23 +1,16 @@
 import _get from 'lodash.get';
 
 import { __ } from '../../../i18n';
-import { CART_SHIPPING_ADDRESS } from '../utility';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { isValidCustomerAddressId } from '../../../utils/address';
+import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import useShippingAddressCartContext from './useShippingAddressCartContext';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 export default function useSaveAddressAction(shippingAddressFormContext) {
-  const {
-    isLoggedIn,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-    updateCustomerAddress,
-  } = useShippingAddressAppContext();
   const {
     editMode,
     regionData,
@@ -30,6 +23,17 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setCustomerAddressSelected,
     shippingValues: shippingAddressToSave,
   } = shippingAddressFormContext;
+  const {
+    setBillingSelected,
+    setIsBillingCustomerAddress,
+  } = useAddressWrapper();
+  const {
+    isLoggedIn,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+    updateCustomerAddress,
+  } = useShippingAddressAppContext();
   const {
     setCartBillingAddress,
     addCartShippingAddress,
@@ -86,6 +90,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
+        isSameAsShipping: true,
       });
     }
 
@@ -94,18 +99,15 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
 
   return async addressId => {
     try {
-      let customerAddressNeeded = false;
       const addressIdContext = addressId || selectedAddress;
-      const hasCustomerAddr =
-        addressIdContext && addressIdContext !== CART_SHIPPING_ADDRESS;
+      const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
       let updateCustomerAddrPromise = _emptyFunc();
       const updateCartAddressPromise = _makePromise(
         submitHandler,
-        hasCustomerAddr && addressId
+        isCustomerAddress && addressId
       );
 
       if (isLoggedIn && customerAddressSelected && editMode) {
-        customerAddressNeeded = true;
         updateCustomerAddrPromise = _makePromise(
           updateCustomerAddress,
           addressIdContext,
@@ -115,27 +117,23 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       }
 
       setPageLoader(true);
-      await Promise.all([
-        updateCustomerAddrPromise(),
-        updateCartAddressPromise(),
-      ]);
-      setFormToViewMode(false);
-      setSelectedAddress(
-        hasCustomerAddr ? addressIdContext : CART_SHIPPING_ADDRESS
-      );
-      setSuccessMessage(__('Shipping address updated successfully'));
+      await updateCartAddressPromise();
 
-      if (hasCustomerAddr) {
-        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
-        setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
-      } else if (customerAddressNeeded) {
-        LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
-        setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
-      } else {
-        LocalStorage.saveCustomerAddressInfo('', isBillingSame);
-        setCustomerAddressSelected(false);
+      // we don't need to await customer address update operation;
+      // it can happen in background
+      updateCustomerAddrPromise();
+
+      setFormToViewMode(false);
+      setSelectedAddress(addressIdContext);
+      setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
+
+      if (isBillingSame) {
+        setBillingSelected(addressIdContext);
+        setIsBillingCustomerAddress(isValidCustomerAddressId(addressIdContext));
       }
 
+      LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
+      setSuccessMessage(__('Shipping address updated successfully'));
       setPageLoader(false);
     } catch (error) {
       console.error(error);
