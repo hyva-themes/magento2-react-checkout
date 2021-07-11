@@ -93,7 +93,7 @@ export default function useSaveAddressAction(billingFormikContext) {
       setPageLoader(false);
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Billing address update failed. Please try again'));
+      setErrorMessage(__('Billing address update failed. Please try again.'));
       setPageLoader(false);
     }
   };

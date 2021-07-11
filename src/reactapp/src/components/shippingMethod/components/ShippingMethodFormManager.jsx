@@ -37,7 +37,7 @@ function ShippingMethodFormManager({ children, formikData }) {
       if (shippingMethod.carrierCode && shippingMethod.methodCode) {
         setPageLoader(true);
         await setShippingMethod(shippingMethod);
-        setSuccessMessage(__('Shipping method updated successfully'));
+        setSuccessMessage(__('Shipping method updated successfully.'));
         setPageLoader(false);
       }
     } catch (error) {

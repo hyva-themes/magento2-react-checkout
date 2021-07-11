@@ -20,11 +20,7 @@ export default function useEmailInfoSave() {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(
-        __(
-          'Appending your email address to the order failed. Please try again.'
-        )
-      );
+      setErrorMessage(__('Email address update failed. Please try again.'));
     }
   };
 }

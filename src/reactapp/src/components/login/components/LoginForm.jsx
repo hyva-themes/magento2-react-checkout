@@ -41,7 +41,7 @@ function LoginForm() {
           required
           type="email"
           name={fields.email}
-          label={__('E-mail')}
+          label={__('Email')}
           onKeyDown={handleKeyDown}
           placeholder="john.doe@gmail.com"
           formikData={formikData}

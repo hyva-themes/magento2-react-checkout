@@ -73,7 +73,7 @@ function BillingSameAsShippingCheckbox() {
       );
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Billing address update failed. Please try later'));
+      setErrorMessage(__('Billing address update failed. Please try again.'));
     }
   };
 

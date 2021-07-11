@@ -92,7 +92,6 @@ function BillingAddressFormikProvider({ children, formikData }) {
     [setFieldValue]
   );
 
-  // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
     if (forceFilledAddress === selectedAddress && !cartHasBillingAddress) {
       if (customerHasAddress(customerAddressList)) {
@@ -111,7 +110,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
       setFormToViewMode();
     }
 
-    // Set shipping address from the cart address
+    // Set billing address formik fields from the cart address
     // This should happen always except if the "New Address" is going to be created
     if (!forceFilledAddress || !isNewAddress) {
       _set(cartBillingAddress, 'id', selectedAddress);
