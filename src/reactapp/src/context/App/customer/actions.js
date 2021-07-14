@@ -54,7 +54,6 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
     const { errors, data } = response;
 
     if (config.isProductionMode && typeof window !== 'undefined') {
-      window.dispatchEvent(new Event('reload-customer-section-data'));
       window.location.reload();
     }
 
