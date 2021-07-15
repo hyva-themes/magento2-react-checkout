@@ -5,13 +5,13 @@ export default async function ajaxLogin(dispatch, userCredentials) {
   const relativeUrl = '/customer/ajax/login';
   const additionalHeaders = { 'X-Requested-With': 'XMLHttpRequest' };
 
-  return modifier(
-    await sendRequest(
-      dispatch,
-      userCredentials,
-      relativeUrl,
-      RESPONSE_JSON,
-      additionalHeaders
-    )
+  const result = await sendRequest(
+    dispatch,
+    userCredentials,
+    relativeUrl,
+    RESPONSE_JSON,
+    additionalHeaders
   );
+
+  return modifier(result);
 }

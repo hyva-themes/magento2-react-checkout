@@ -3,13 +3,13 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import ShippingAddressMemorized from './ShippingAddressMemorized';
+import { SHIPPING_ADDR_FORM } from '../../config';
+import { shippingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../config';
+import { billingSameAsShippingField } from '../../utils/address';
 
 const regionField = `${SHIPPING_ADDR_FORM}.region`;
 const countryField = `${SHIPPING_ADDR_FORM}.country`;
-const isBillingSameField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
-
 /**
  * Entry point of shipping address Form Section
  *
@@ -25,27 +25,33 @@ const isBillingSameField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 function ShippingAddress() {
   const { values } = useFormikContext();
   const sectionFormikData = useFormikMemorizer(SHIPPING_ADDR_FORM);
-  const selectedCountry = _get(values, countryField);
   const selectedRegion = _get(values, regionField);
-  const isBillingAddressSameAsShipping = !!_get(values, isBillingSameField);
+  const selectedCountry = _get(values, countryField);
+  const isBillingSame = !!_get(values, billingSameAsShippingField);
   const { formSectionValues, isFormSectionTouched } = sectionFormikData;
+  const shippingOtherOptionSelected = _get(
+    values,
+    shippingAddrOtherOptionField
+  );
 
   const shippingFormikData = useMemo(
     () => ({
       ...sectionFormikData,
-      selectedCountry,
+      isBillingSame,
       selectedRegion,
+      selectedCountry,
+      shippingOtherOptionSelected,
       shippingValues: formSectionValues,
-      isBillingAddressSameAsShipping,
       isBillingFormTouched: isFormSectionTouched,
     }),
     [
-      sectionFormikData,
-      selectedCountry,
+      isBillingSame,
       selectedRegion,
+      selectedCountry,
+      sectionFormikData,
       formSectionValues,
-      isBillingAddressSameAsShipping,
       isFormSectionTouched,
+      shippingOtherOptionSelected,
     ]
   );
 

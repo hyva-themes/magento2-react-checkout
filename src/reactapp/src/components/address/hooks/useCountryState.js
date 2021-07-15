@@ -12,13 +12,13 @@ export default function useCountryState({ fields, formikData }) {
   // whenever the country is switched, we need to clear the state input
   useEffect(() => {
     if (selectedCountry) {
-      const stateListContainsselectedRegion =
+      const stateListContainsSelectedRegion =
         !stateList.length ||
         _get(stateList, selectedCountry, []).find(
           state => state.code === selectedRegion
         );
 
-      if (!stateListContainsselectedRegion) {
+      if (!stateListContainsSelectedRegion) {
         setFieldValue(regionField, '');
       }
     }

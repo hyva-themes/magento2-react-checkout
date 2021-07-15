@@ -6,6 +6,7 @@ import useAppContext from '../../../hook/useAppContext';
 export default function useRegionData(countryValue, regionValue) {
   const [{ stateList }] = useAppContext();
   const [regionData, setRegionData] = useState({});
+
   // Whenever region value changed, we will find the selected region from the stateList.
   // State info needed in multiple occasions. it is useful to store this data separately
   // and then re-use it.

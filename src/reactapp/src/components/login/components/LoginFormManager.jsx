@@ -63,7 +63,7 @@ function LoginFormManager({ children, formikData }) {
   const saveEmailOnCartRequest = async email => {
     setPageLoader(true);
     await setEmailOnGuestCart(email);
-    setSuccessMessage(__('Email is successfully attached to your cart.'));
+    setSuccessMessage(__('Email address is saved.'));
     setPageLoader(false);
   };
 

@@ -17,7 +17,7 @@ export default function useFormValidateThenSubmit({
   const { formSectionErrors, isFormSectionTouched, formSectionValues } =
     formikData || {};
 
-  return () => {
+  return async () => {
     if (isFormSectionTouched && !_isObjEmpty(formSectionErrors)) {
       setErrorMessage(
         prepareFormSectionErrorMessage(formId, formSectionErrors)
@@ -28,10 +28,10 @@ export default function useFormValidateThenSubmit({
     }
 
     const validationRules = YupObject().shape(validationSchema);
-    validationRules.validate(formSectionValues).then(valid => {
-      if (valid) {
-        submitHandler();
-      }
-    });
+    const isValid = await validationRules.validate(formSectionValues);
+
+    if (isValid) {
+      await submitHandler();
+    }
   };
 }

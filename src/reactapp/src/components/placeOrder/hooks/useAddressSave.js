@@ -99,9 +99,7 @@ export default function useAddressSave() {
       if (error instanceof ShippingMethodRequiredException) {
         setErrorMessage(__(error.message));
       } else {
-        setErrorMessage(
-          __('Appending addresses to the order failed. Please try again.')
-        );
+        setErrorMessage(__('Address update failed. Please try again.'));
       }
     }
   };
