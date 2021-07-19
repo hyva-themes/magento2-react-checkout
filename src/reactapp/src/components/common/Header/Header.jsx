@@ -1,27 +1,32 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { node } from 'prop-types';
 import React from 'react';
+import { bool, node } from 'prop-types';
 
-function Header({ children, extra, ...props }) {
+function Header({ children, extra, small, ...props }) {
   return (
     <header
       {...props}
-      className="flex items-center justify-between cursor-pointer select-none"
       role="button"
-      tabIndex={0}
+      className="flex items-center justify-between cursor-pointer select-none"
     >
-      <span className="text-base font-bold text-indigo">{children}</span>
+      <span
+        className={`font-bold text-indigo ${small ? 'text-sm' : 'text-base'}`}
+      >
+        {children}
+      </span>
       {extra}
     </header>
   );
 }
 
 Header.propTypes = {
-  children: node.isRequired,
   extra: node,
+  small: bool,
+  children: node.isRequired,
 };
 
 Header.defaultProps = {
+  small: false,
   extra: <></>,
 };
 

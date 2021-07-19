@@ -1,40 +1,38 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useContext } from 'react';
+import React from 'react';
 import { bool, func, shape } from 'prop-types';
+import { PlusIcon } from '@heroicons/react/solid';
 
-import ORBox from './ORBox';
+import Button from '../../common/Button';
 import { __ } from '../../../i18n';
 import { _emptyFunc } from '../../../utils';
-import AppContext from '../../../context/App/AppContext';
+import useAppContext from '../../../hook/useAppContext';
 
-function CreateNewAddressLink({ actions, addOR }) {
-  const [{ isLoggedIn }] = useContext(AppContext);
+function CreateNewAddressLink({ actions, forceHide }) {
+  const [{ isLoggedIn }] = useAppContext();
+
+  if (!isLoggedIn || forceHide) {
+    return <></>;
+  }
 
   return (
-    <>
-      <div className="flex items-center justify-center mt-2">
-        <span
-          className="text-sm underline cursor-pointer"
-          onClick={actions.click}
-        >
-          {__(isLoggedIn ? 'Create a new address' : 'Use different address')}
-        </span>
-      </div>
-      {addOR && <ORBox />}
-    </>
+    <div className="mt-6">
+      <Button variant="warning" click={actions.click}>
+        <PlusIcon className="w-6 h-6" />
+        <span className="text-xs">{__('New Address')}</span>
+      </Button>
+    </div>
   );
 }
 
 CreateNewAddressLink.propTypes = {
-  addOR: bool,
+  forceHide: bool,
   actions: shape({
     click: func,
   }),
 };
 
 CreateNewAddressLink.defaultProps = {
-  addOR: false,
+  forceHide: false,
   actions: { click: _emptyFunc() },
 };
 

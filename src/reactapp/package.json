@@ -76,7 +76,7 @@
     "@storybook/node-logger": "^6.1.11",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.11",
-    "@tailwindcss/custom-forms": "^0.2.1",
+    "@tailwindcss/forms": "^0.2.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -91,6 +91,6 @@
     "prettier": "^1.19.1",
     "react-app-rewired": "^2.1.5",
     "react-dev-utils": "^10.2.0",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^2.0.2"
   }
 }

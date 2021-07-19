@@ -1,12 +1,14 @@
 import React from 'react';
-import { node, string } from 'prop-types';
+import { node, oneOf, string } from 'prop-types';
 
 function Card({ children, bg, classes }) {
   return (
     <div
-      className={`card w-full px-4 py-4 ${
-        bg === 'dark' ? 'bg-container-darker' : ''
-      } ${bg === 'white' ? 'bg-white' : ''} ${classes}`}
+      className={`card w-full px-4 py-4 relative ${
+        bg === 'dark' ? 'bg-container' : ''
+      } ${bg === 'darker' ? 'bg-container-darker' : ''} ${
+        bg === 'white' ? 'bg-white' : ''
+      } ${classes}`}
     >
       {children}
     </div>
@@ -15,8 +17,8 @@ function Card({ children, bg, classes }) {
 
 Card.propTypes = {
   children: node,
-  bg: string,
   classes: string,
+  bg: oneOf(['dark', 'darker', 'white', '']),
 };
 
 Card.defaultProps = {

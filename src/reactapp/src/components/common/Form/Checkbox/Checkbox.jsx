@@ -1,19 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { Field } from 'formik';
 import { bool, string } from 'prop-types';
 
-function Checkbox({
-  id,
-  name,
-  label,
-  helpText,
-  required,
-  isChecked,
-  placeholder,
-  ...rest
-}) {
+function Checkbox({ id, name, label, helpText, isChecked, ...rest }) {
   const inputId = id || name;
 
   return (
@@ -26,11 +16,11 @@ function Checkbox({
         className="form-checkbox"
         {...rest}
       />
-      <label htmlFor={inputId} className="inline pl-2 cursor-pointer">
+      <label htmlFor={inputId} className="inline pl-2 text-sm cursor-pointer">
         {label}
       </label>
 
-      <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">
+      <div className="text-xs" id={`${inputId}-help`}>
         {helpText}
       </div>
     </div>
@@ -39,10 +29,8 @@ function Checkbox({
 
 Checkbox.propTypes = {
   id: string,
-  required: bool,
   isChecked: bool,
   helpText: string,
-  placeholder: string,
   name: string.isRequired,
   label: string.isRequired,
 };
@@ -50,8 +38,6 @@ Checkbox.propTypes = {
 Checkbox.defaultProps = {
   id: '',
   helpText: '',
-  required: false,
-  placeholder: '',
   isChecked: false,
 };
 

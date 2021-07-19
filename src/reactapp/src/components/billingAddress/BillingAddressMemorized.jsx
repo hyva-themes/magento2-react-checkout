@@ -8,16 +8,22 @@ import BillingAddressFormikProvider from './components/BillingAddressFormikProvi
 import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 
-const BillingAddressMemorized = React.memo(({ formikData }) => (
-  <BillingAddressFormikProvider formikData={formikData}>
-    <Card>
-      <ToggleBox title={__('Billing Information')} show>
-        <BillingAddressForm />
-        <BillingAddressView />
-      </ToggleBox>
-    </Card>
-  </BillingAddressFormikProvider>
-));
+const BillingAddressMemorized = React.memo(({ formikData }) => {
+  const { isBillingSame } = formikData;
+
+  return (
+    <BillingAddressFormikProvider formikData={formikData}>
+      {!isBillingSame && (
+        <Card>
+          <ToggleBox title={__('Billing Information')} show>
+            <BillingAddressForm />
+            <BillingAddressView />
+          </ToggleBox>
+        </Card>
+      )}
+    </BillingAddressFormikProvider>
+  );
+});
 
 BillingAddressMemorized.propTypes = {
   formikData: formikDataShape.isRequired,

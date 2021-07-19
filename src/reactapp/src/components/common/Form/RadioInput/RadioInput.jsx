@@ -26,9 +26,11 @@ function RadioInput({
         className="form-radio"
         {...rest}
       />
-      <label htmlFor={inputId} className="inline-block pl-2">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={inputId} className="inline-block pl-2">
+          {label}
+        </label>
+      )}
 
       <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">
         {helpText}
