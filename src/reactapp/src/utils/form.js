@@ -1,5 +1,6 @@
 import _get from 'lodash.get';
-import { _keys } from '.';
+
+import { _isArray, _keys } from './index';
 
 export function scrollToElement(elementId) {
   const element = document.getElementById(elementId);
@@ -20,8 +21,27 @@ export function focusOnFormErrorElement(formId, formSectionErrors) {
   }
 }
 
-export function prepareFormSectionErrorMessage(formId, formSectionErrors) {
+export function prepareFormSectionErrorMessage(
+  formId,
+  formSectionErrors,
+  setFieldTouched
+) {
+  // errors list can contain inner arrays; for example streets field
   return _keys(formSectionErrors)
-    .map(field => formSectionErrors[field].replace('%1', field))
+    .reduce((errorMessages, field) => {
+      if (_isArray(formSectionErrors[field])) {
+        _keys(formSectionErrors[field]).forEach(innerField => {
+          errorMessages.push(
+            formSectionErrors[field][innerField].replace('%1', field)
+          );
+          setFieldTouched(`${formId}.${field}.${innerField}`, true);
+        });
+      } else {
+        errorMessages.push(formSectionErrors[field].replace('%1', field));
+        setFieldTouched(`${formId}.${field}`, true);
+      }
+
+      return errorMessages;
+    }, [])
     .join('; ');
 }

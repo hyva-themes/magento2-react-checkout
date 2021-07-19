@@ -1,13 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  array as YupArray,
-  string as YupString,
-  boolean as YupBoolean,
-} from 'yup';
-import _get from 'lodash.get';
 import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
+import { string as YupString, boolean as YupBoolean } from 'yup';
 
 import {
   isCartAddressValid,
@@ -49,11 +44,7 @@ const initValidationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
-  street: YupArray().test(
-    'street1Required',
-    requiredMessage,
-    value => !!_get(value, 0)
-  ),
+  'street[0]': YupString().required(__('Street 1 is required')),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
@@ -107,7 +98,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (!cartHasShippingAddress && forceFilledAddress === selectedAddress) {
+    if (!cartHasShippingAddress || forceFilledAddress === selectedAddress) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }

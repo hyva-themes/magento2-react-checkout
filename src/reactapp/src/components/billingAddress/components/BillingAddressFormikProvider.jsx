@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
-import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
+import { string as YupString, bool as YupBool } from 'yup';
 
 import {
   isCartAddressValid,
@@ -32,11 +32,7 @@ const initValidationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
-  street: YupArray().test(
-    'street1Required',
-    requiredMessage,
-    value => !!_get(value, 0)
-  ),
+  'street[0]': YupString().required(__('Street 1 is required')),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
   city: YupString().required(requiredMessage),
@@ -93,7 +89,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
   );
 
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress && !cartHasBillingAddress) {
+    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
