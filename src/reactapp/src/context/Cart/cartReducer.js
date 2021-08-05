@@ -4,7 +4,7 @@ import { setCartInfo } from './cart/reducers';
 import { SET_CART_INFO } from './cart/types';
 import { setCartEmail } from './email/reducers';
 import { SET_CART_EMAIL } from './email/types';
-import { setOrderInfo } from './order/reudcers';
+import { setOrderInfo } from './order/reducers';
 import { SET_ORDER_INFO } from './order/types';
 import {
   setCartSelectedShippingAddress,
