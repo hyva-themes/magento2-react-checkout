@@ -11,6 +11,7 @@ import {
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import {
+  setCartInfoAction,
   mergeCartsAction,
   createEmptyCartAction,
   getGuestCartInfoAction,
@@ -27,6 +28,7 @@ const dispatchMapper = {
   placeOrder: placeOrderAction,
   mergeCarts: mergeCartsAction,
   setOrderInfo: setOrderInfoAction,
+  setCartInfo: setCartInfoAction,
   updateCartItem: updateCartItemAction,
   createEmptyCart: createEmptyCartAction,
   getGuestCartInfo: getGuestCartInfoAction,
