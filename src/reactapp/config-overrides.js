@@ -34,7 +34,6 @@ module.exports = function override(config, env) {
         //
         // react: 'preact/compat',
         // 'react-dom': 'preact/compat',
-	'@hyva/payments' : '../../../../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src'
       },
     },
   };
