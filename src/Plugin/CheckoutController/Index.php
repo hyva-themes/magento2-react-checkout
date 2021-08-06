@@ -8,7 +8,6 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\Result\Forward;
 use Magento\Checkout\Controller\Index\Index as CheckoutIndex;
-use Magento\Framework\Module\Manager;
 
 class Index
 {
@@ -18,27 +17,20 @@ class Index
     private $resultFactory;
 
     /**
-     * @var Manager
-     */
-    private $moduleManager;
-    /**
      * @var Checkout
      */
     private $checkoutConfig;
 
     /**
      * @param ResultFactory $resultFactory
-     * @param Manager $moduleManager
      * @param Checkout $checkoutConfig
      */
     public function __construct(
         ResultFactory $resultFactory,
-        Manager $moduleManager,
         Checkout $checkoutConfig
     )
     {
         $this->resultFactory = $resultFactory;
-        $this->moduleManager = $moduleManager;
         $this->checkoutConfig = $checkoutConfig;
     }
 
@@ -74,7 +66,6 @@ class Index
      */
     private function isNeedToRedirectCheckout(): bool
     {
-        return $this->moduleManager->isOutputEnabled('Hyva_Checkout')
-            && $this->checkoutConfig->isEnabled();
+        return $this->checkoutConfig->isEnabled();
     }
 }
