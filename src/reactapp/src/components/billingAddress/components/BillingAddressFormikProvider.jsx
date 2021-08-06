@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
-import { string as YupString, bool as YupBool, array as YupArray, } from 'yup';
+import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import {
   isCartAddressValid,
