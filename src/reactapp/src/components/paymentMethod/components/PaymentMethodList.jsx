@@ -19,7 +19,7 @@ function PaymentMethodList({ methodRenderers }) {
       return;
     }
 
-    setFieldValue(fields.code, methodSelected);
+    await setFieldValue(fields.code, methodSelected);
     setFieldTouched(fields.code, true);
 
     // don't need to save payment method in case the method opted has a custom
