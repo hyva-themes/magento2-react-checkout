@@ -95,9 +95,10 @@ class SetStateRequired
     }
 
     /**
-     * @throws NoSuchEntityException
+     * @return \Magento\Store\Api\Data\StoreInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    private function getStore()
+    private function getStore(): StoreInterface
     {
         if (!$this->store) {
             $this->store = $this->storeManager->getStore();
