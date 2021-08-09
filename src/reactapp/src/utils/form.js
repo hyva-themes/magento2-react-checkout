@@ -22,6 +22,6 @@ export function focusOnFormErrorElement(formId, formSectionErrors) {
 
 export function prepareFormSectionErrorMessage(formId, formSectionErrors) {
   return _keys(formSectionErrors)
-    .map(field => formSectionErrors[field].replace('%1', field))
+    .map((field) => formSectionErrors[field].replace('%1', field))
     .join('; ');
 }

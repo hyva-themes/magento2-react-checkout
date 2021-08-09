@@ -50,7 +50,7 @@ function TextInput({
           }`}
         >
           <ErrorMessage name={name}>
-            {msg => msg.replace('%1', label)}
+            {(msg) => msg.replace('%1', label)}
           </ErrorMessage>
         </div>
       </div>
@@ -59,7 +59,7 @@ function TextInput({
         id={inputId}
         type={type || 'text'}
         placeholder={placeholder}
-        onChange={event => {
+        onChange={(event) => {
           const newValue = event.target.value;
           setFieldTouched(name, newValue);
           setFieldValue(name, newValue);

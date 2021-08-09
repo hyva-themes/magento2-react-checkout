@@ -11,7 +11,7 @@ export default function useEmailInfoSave() {
   const { setErrorMessage } = usePlaceOrderAppContext();
   const { email: cartEmail, setEmailOnGuestCart } = usePlaceOrderCartContext();
 
-  return async values => {
+  return async (values) => {
     try {
       const email = _get(values, emailField);
 

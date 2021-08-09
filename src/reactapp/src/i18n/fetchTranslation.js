@@ -16,8 +16,8 @@ export default function fetchTranslation() {
       Accept: 'application/json',
     },
   })
-    .then(response => response.json())
-    .catch(error => {
+    .then((response) => response.json())
+    .catch((error) => {
       console.error(error);
       return {};
     });

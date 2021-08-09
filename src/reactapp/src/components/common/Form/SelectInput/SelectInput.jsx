@@ -47,7 +47,7 @@ export function SelectInput({
           }`}
         >
           <ErrorMessage name={name}>
-            {msg => msg.replace('%1', label)}
+            {(msg) => msg.replace('%1', label)}
           </ErrorMessage>
         </div>
       </div>
@@ -59,7 +59,7 @@ export function SelectInput({
         className={`w-full p-2 border form-select xs:block max-w-md ${
           hasError ? 'border-dashed border-red-500' : ''
         }`}
-        onChange={event => {
+        onChange={(event) => {
           const newValue = event.target.value;
           setFieldTouched(name, newValue);
           setFieldValue(name, newValue);
@@ -67,7 +67,7 @@ export function SelectInput({
         {...rest}
       >
         <option value="">{__('-- Please Select --')}</option>
-        {options.map(option => (
+        {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>

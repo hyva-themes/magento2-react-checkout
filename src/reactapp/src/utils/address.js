@@ -18,7 +18,7 @@ export function isValidCustomerAddressId(addressId) {
 }
 
 export function formatAddressListToCardData(addressList, stateList) {
-  return addressList.map(addr => {
+  return addressList.map((addr) => {
     const {
       id,
       city = '',
@@ -33,7 +33,7 @@ export function formatAddressListToCardData(addressList, stateList) {
       countryCode = '',
     } = addr;
     const countryRegions = _get(stateList, `${country}`, []);
-    const countryRegion = countryRegions.find(state => state.code === region);
+    const countryRegion = countryRegions.find((state) => state.code === region);
     return {
       id: _toString(id),
       address: [
@@ -44,7 +44,7 @@ export function formatAddressListToCardData(addressList, stateList) {
         regionLabel || _get(countryRegion, 'name'),
         __('{} zipcode: {}', countryCode || country, zipcode),
         __('phone: {}', phone),
-      ].filter(i => !!i),
+      ].filter((i) => !!i),
     };
   });
 }

@@ -4,12 +4,10 @@ import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
 export default function usePlaceOrder() {
   const { setErrorMessage } = usePlaceOrderAppContext();
-  const {
-    submitHandler,
-    checkoutFormValidationSchema,
-  } = useCheckoutFormContext();
+  const { submitHandler, checkoutFormValidationSchema } =
+    useCheckoutFormContext();
 
-  return async values => {
+  return async (values) => {
     try {
       const isValid = await checkoutFormValidationSchema.validate(values);
 

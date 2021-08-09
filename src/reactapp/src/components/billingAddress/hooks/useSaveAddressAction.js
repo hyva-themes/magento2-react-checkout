@@ -9,10 +9,8 @@ import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressCartContext from './useBillingAddressCartContext';
 
 export default function useSaveAddressAction(billingFormikContext) {
-  const {
-    setCartBillingAddress,
-    setCustomerAddressAsBillingAddress,
-  } = useBillingAddressCartContext();
+  const { setCartBillingAddress, setCustomerAddressAsBillingAddress } =
+    useBillingAddressCartContext();
   const {
     isLoggedIn,
     setPageLoader,
@@ -33,11 +31,12 @@ export default function useSaveAddressAction(billingFormikContext) {
     setCustomerAddressSelected,
   } = billingFormikContext;
 
-  return async addressId => {
+  return async (addressId) => {
     try {
       const addressIdContext = addressId || selectedAddress;
       const isCustomerAddress = isValidCustomerAddressId(addressId);
-      const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+      const mostRecentAddresses =
+        LocalStorage.getMostlyRecentlyUsedAddressList();
       const recentAddressInUse = mostRecentAddresses[addressId];
       const billingToSave = recentAddressInUse || billingValues;
       let updateCustomerAddrPromise = _emptyFunc();
