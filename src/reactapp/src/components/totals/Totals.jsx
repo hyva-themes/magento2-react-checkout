@@ -36,7 +36,7 @@ function Totals() {
               </div>
             )}
             {hasDiscounts &&
-              discounts.map(discount => (
+              discounts.map((discount) => (
                 <div key={discount.label} className="flex justify-between">
                   <div>{__(discount.label)}</div>
                   <div>{discount.price}</div>

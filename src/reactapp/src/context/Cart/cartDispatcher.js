@@ -49,7 +49,7 @@ const dispatchMapper = {
 function cartDispatchers(dispatch) {
   const dispatchers = {};
 
-  Object.keys(dispatchMapper).forEach(dispatchName => {
+  Object.keys(dispatchMapper).forEach((dispatchName) => {
     dispatchers[dispatchName] = dispatchMapper[dispatchName].bind(
       null,
       dispatch

@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import { Field } from 'formik';
 import { bool, string } from 'prop-types';

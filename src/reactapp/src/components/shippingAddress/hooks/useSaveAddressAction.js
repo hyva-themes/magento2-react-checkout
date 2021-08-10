@@ -23,10 +23,8 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setCustomerAddressSelected,
     shippingValues: shippingAddressToSave,
   } = shippingAddressFormContext;
-  const {
-    setBillingSelected,
-    setIsBillingCustomerAddress,
-  } = useAddressWrapper();
+  const { setBillingSelected, setIsBillingCustomerAddress } =
+    useAddressWrapper();
   const {
     isLoggedIn,
     setPageLoader,
@@ -41,7 +39,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
 
-  const submitHandler = async customerAddressId => {
+  const submitHandler = async (customerAddressId) => {
     const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
     const addressToSave = recentAddressInUse || shippingAddressToSave;
@@ -97,7 +95,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setPageLoader(false);
   };
 
-  return async addressId => {
+  return async (addressId) => {
     try {
       const addressIdContext = addressId || selectedAddress;
       const isCustomerAddress = isValidCustomerAddressId(addressIdContext);

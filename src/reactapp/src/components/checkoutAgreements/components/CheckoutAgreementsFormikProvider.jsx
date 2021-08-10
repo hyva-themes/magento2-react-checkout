@@ -18,10 +18,8 @@ let initialValues = {};
 function CheckoutAgreementFormikProvider({ children, formikData }) {
   const [validationSchema, setValidationSchema] = useState({});
   const [isFormPopulated, setIsFormPopulated] = useState(false);
-  const {
-    checkoutAgreements,
-    getCheckoutAgreements,
-  } = useAgreementAppContext();
+  const { checkoutAgreements, getCheckoutAgreements } =
+    useAgreementAppContext();
   const { setFieldValue } = formikData;
 
   // fetching checkout agreements. this needs to be happened only once

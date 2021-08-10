@@ -8,11 +8,8 @@ import useLoginFormContext from '../hooks/useLoginFormContext';
 
 function UserInfoBox() {
   const { isLoggedIn, customer } = useLoginAppContext();
-  const {
-    editMode,
-    loginFormValues,
-    setFormToEditMode,
-  } = useLoginFormContext();
+  const { editMode, loginFormValues, setFormToEditMode } =
+    useLoginFormContext();
 
   if (editMode) {
     return <></>;

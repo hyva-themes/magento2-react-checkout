@@ -1,8 +1,6 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import _get from 'lodash.get';
 import { ClipboardCheckIcon } from '@heroicons/react/outline';
-
 
 import { __ } from '../../../i18n';
 import { getFormikFieldNameById } from '../utility';
@@ -10,6 +8,7 @@ import { CHECKOUT_AGREEMENTS_FORM } from '../../../config';
 import useAgreementAppContext from '../hooks/useAgreementAppContext';
 import useAgreementModalContext from '../hooks/useAgreementModalContext';
 import useAgreementFormikContext from '../hooks/useAgreementFormikContext';
+
 function CheckoutAgreementModal() {
   const { checkoutAgreements } = useAgreementAppContext();
   const { activeModalId, setActiveModalId } = useAgreementModalContext();
@@ -38,7 +37,7 @@ function CheckoutAgreementModal() {
         <div
           className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
           aria-hidden="true"
-        ></div>
+        />
 
         <span
           className="hidden sm:inline-block sm:align-middle sm:h-screen"
@@ -49,7 +48,7 @@ function CheckoutAgreementModal() {
 
         <div
           style={{ maxWidth: '80%' }}
-          className="agreement-box inline-block text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:w-full"
+          className="inline-block text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl agreement-box sm:my-8 sm:align-middle sm:w-full"
         >
           <div className="px-4 pt-5 pb-4 bg-white sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">

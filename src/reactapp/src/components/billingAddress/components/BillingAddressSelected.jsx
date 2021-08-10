@@ -19,11 +19,8 @@ function BillingAddressSelected() {
     setBackupAddress,
     setFormToEditMode,
   } = useBillingAddressFormikContext();
-  const {
-    stateList,
-    isLoggedIn,
-    customerAddressList,
-  } = useBillingAddressAppContext();
+  const { stateList, isLoggedIn, customerAddressList } =
+    useBillingAddressAppContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
   const addressInfo = formatAddressListToCardData(
     [{ id: selectedAddress, ...cartBillingAddress }],

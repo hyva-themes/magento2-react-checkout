@@ -41,9 +41,11 @@ export const setShippingAddressRequest = setShippingAddress;
 
 export const setBillingAddressRequest = setBillingAddress;
 
-export const setCustomerAddrAsCartBillingAddrRequest = setCustomerAddressOnCartBilling;
+export const setCustomerAddrAsCartBillingAddrRequest =
+  setCustomerAddressOnCartBilling;
 
-export const setCustomerAddrAsCartShippingAddrRequest = setCustomerAddrOnShippingAddr;
+export const setCustomerAddrAsCartShippingAddrRequest =
+  setCustomerAddrOnShippingAddr;
 
 export const fetchCountryStateListRequest = fetchCountryStateList;
 

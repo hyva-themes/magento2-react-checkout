@@ -38,6 +38,6 @@ const PaymentMethodMemorized = React.memo(({ formikData }) => {
 
 PaymentMethodMemorized.propTypes = {
   formikData: formikDataShape.isRequired,
-}
+};
 
 export default PaymentMethodMemorized;

@@ -14,12 +14,11 @@ function sortByItemLabel(item1, item2) {
 export function prepareCountryOptions(countryList) {
   // this will make sure there will be always a unique country id; avoid duplicates if any
   // also it will make sure it will avoid empty country entries
-  const countryListObj = countryList.reduce((countries, country) => {
+  const countryListObj = countryList.reduce((accumulator, country) => {
     if (country.id && country.name) {
-      // eslint-disable-next-line no-param-reassign
-      countries[country.id] = { value: country.id, label: country.name };
+      accumulator[country.id] = { value: country.id, label: country.name };
     }
-    return countries;
+    return accumulator;
   }, {});
 
   // sorting by label
@@ -29,12 +28,11 @@ export function prepareCountryOptions(countryList) {
 export function prepareCountryStateOptions(stateList, countrySelected) {
   // remove empty entries; avoid duplicate entries if any
   const stateListObj = _get(stateList, countrySelected, []).reduce(
-    (states, state) => {
+    (accumulator, state) => {
       if (state.code && state.name) {
-        // eslint-disable-next-line no-param-reassign
-        states[state.code] = { value: state.code, label: state.name };
+        accumulator[state.code] = { value: state.code, label: state.name };
       }
-      return states;
+      return accumulator;
     },
     {}
   );

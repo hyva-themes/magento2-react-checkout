@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import fetchAppTranslation from './fetchTranslation';
 import fetchPaymentMethodsTranslations from '../paymentMethods/i18nProvider';
 
@@ -37,7 +36,7 @@ export default function __(stringToTranslate, ...dataReplacers) {
     return stringLiteral;
   }
 
-  dataReplacers.forEach(dataToReplace => {
+  dataReplacers.forEach((dataToReplace) => {
     stringLiteral = stringLiteral.replace('{}', dataToReplace);
   });
 

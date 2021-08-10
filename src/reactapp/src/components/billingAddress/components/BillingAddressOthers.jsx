@@ -39,7 +39,7 @@ function BillingAddressOthers({ forceHide }) {
   /**
    * Perform when an other address option is changed.
    */
-  const handleOptionChange = event => {
+  const handleOptionChange = (event) => {
     const addressId = event.target.value;
     const customerAddress = customerAddressList[addressId];
 

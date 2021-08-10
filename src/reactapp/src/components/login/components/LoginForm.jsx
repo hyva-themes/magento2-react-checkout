@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import _get from 'lodash.get';
 
@@ -40,22 +38,29 @@ function LoginForm() {
         <TextInput
           required
           type="email"
-          name={fields.email}
           label={__('Email')}
+          name={fields.email}
+          formikData={formikData}
           onKeyDown={handleKeyDown}
           placeholder="john.doe@gmail.com"
-          formikData={formikData}
         />
 
         {!customerWantsToSignIn && (
-          <h6
+          <div
+            role="button"
+            tabIndex="0"
             className="py-3 text-sm text-center text-black underline cursor-pointer"
             onClick={() => {
               setFieldValue(fields.customerWantsToSignIn, true);
             }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setFieldValue(fields.customerWantsToSignIn, true);
+              }
+            }}
           >
             {__('I will sign-in and checkout')}
-          </h6>
+          </div>
         )}
 
         {customerWantsToSignIn && (
@@ -66,9 +71,9 @@ function LoginForm() {
               autoComplete="on"
               label={__('Password')}
               name={fields.password}
+              formikData={formikData}
               onKeyDown={handleKeyDown}
               placeholder={__('Password')}
-              formikData={formikData}
             />
           </div>
         )}

@@ -35,7 +35,7 @@ const initValidationSchema = {
   street: YupArray().test(
     'street1Required',
     requiredMessage,
-    value => !!_get(value, 0)
+    (value) => !!_get(value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
@@ -53,12 +53,8 @@ function BillingAddressFormikProvider({ children, formikData }) {
   const { cartBillingAddress } = useBillingAddressCartContext();
 
   const editModeContext = useFormEditMode();
-  const {
-    billingValues,
-    setFieldValue,
-    selectedRegion,
-    selectedCountry,
-  } = formikData;
+  const { billingValues, setFieldValue, selectedRegion, selectedCountry } =
+    formikData;
   const validationSchema = useRegionValidation(
     selectedCountry,
     initValidationSchema
@@ -82,7 +78,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
   }, [setFieldValue]);
 
   const setBillingAddressFormFields = useCallback(
-    addressToSet => {
+    (addressToSet) => {
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
