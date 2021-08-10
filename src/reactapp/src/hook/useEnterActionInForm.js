@@ -9,7 +9,7 @@ export default function useEnterActionInForm({
   const { formSectionValues } = formikData || {};
 
   return event => {
-    if (event.keyCode !== 13) {
+    if (event.key !== 'Enter') {
       return;
     }
 
