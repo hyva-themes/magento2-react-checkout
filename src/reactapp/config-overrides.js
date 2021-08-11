@@ -8,7 +8,7 @@ module.exports = function override(config, env) {
     ? '../../view/frontend/web/js/[name].chunk.js'
     : isEnvDevelopment && 'static/js/[name].chunk.js';
 
-  return {
+  const baseConfig = {
     ...config,
     output: {
       ...config.output,
@@ -24,17 +24,14 @@ module.exports = function override(config, env) {
         name: false,
       },
     },
-    resolve: {
-      ...config.resolve,
-      alias: {
-        ...config.resolve.alias,
-        // Uncomment these to reduce the size of the compiled app
-        // this improves performance, but you loose compatibility
-        // with the React browser extension for debugging
-        //
-        // react: 'preact/compat',
-        // 'react-dom': 'preact/compat',
-      },
-    },
   };
+
+  if (isEnvProduction) {
+    baseConfig.resolve.alias = {
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
+    };
+  }
+
+  return baseConfig;
 };
