@@ -113,11 +113,13 @@ class SetStateRequired
     {
         $store = $this->getStore();
         if (!$this->stateRequiredCountries) {
-            $this->stateRequiredCountries = explode(',', $this->scopeConfig->getValue(
+            $configStateRequired = $this->scopeConfig->getValue(
                 'general/region/state_required',
                 ScopeInterface::SCOPE_STORES,
                 $store->getCode()
-            ));
+            );
+            if (!$configStateRequired) return [];
+            $this->stateRequiredCountries = explode(',', $configStateRequired);
         }
         return $this->stateRequiredCountries;
     }
