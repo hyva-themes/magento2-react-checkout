@@ -28,9 +28,9 @@ module.exports = function override(config, env) {
 
   if (isEnvProduction) {
     baseConfig.resolve.alias = {
+      ...baseConfig.resolve.alias,
       react: 'preact/compat',
       'react-dom': 'preact/compat',
-      ...baseConfig.resolve.alias
     };
   }
 
