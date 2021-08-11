@@ -30,7 +30,7 @@ module.exports = function override(config, env) {
     baseConfig.resolve.alias = {
       react: 'preact/compat',
       'react-dom': 'preact/compat',
-      ...config.resolve.alias
+      ...baseConfig.resolve.alias
     };
   }
 
