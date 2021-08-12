@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import _get from 'lodash.get';
+import _set from 'lodash.set';
 import { useFormikContext } from 'formik';
 
 import ShippingAddressMemorized from './ShippingAddressMemorized';
+import { __ } from '../../i18n';
 import { SHIPPING_ADDR_FORM } from '../../config';
 import { shippingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
@@ -28,11 +30,25 @@ function ShippingAddress() {
   const selectedRegion = _get(values, regionField);
   const selectedCountry = _get(values, countryField);
   const isBillingSame = !!_get(values, billingSameAsShippingField);
-  const { formSectionValues, isFormSectionTouched } = sectionFormikData;
   const shippingOtherOptionSelected = _get(
     values,
     shippingAddrOtherOptionField
   );
+  const {
+    formSectionValues,
+    formSectionErrors,
+    isFormSectionTouched,
+  } = sectionFormikData;
+  const streetError = _get(formSectionErrors, 'street');
+
+  if (streetError) {
+    _set(
+      formSectionErrors,
+      'street[0]',
+      __('%1 is required', 'Street Address')
+    );
+  }
+
 
   const shippingFormikData = useMemo(
     () => ({
@@ -40,6 +56,7 @@ function ShippingAddress() {
       isBillingSame,
       selectedRegion,
       selectedCountry,
+      formSectionErrors,
       shippingOtherOptionSelected,
       shippingValues: formSectionValues,
       isBillingFormTouched: isFormSectionTouched,
@@ -50,6 +67,7 @@ function ShippingAddress() {
       selectedCountry,
       sectionFormikData,
       formSectionValues,
+      formSectionErrors,
       isFormSectionTouched,
       shippingOtherOptionSelected,
     ]

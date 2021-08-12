@@ -14,17 +14,23 @@ export default function useFormValidateThenSubmit({
   validationSchema,
 }) {
   const [, { setErrorMessage }] = useAppContext();
-  const { formSectionErrors, isFormSectionTouched, formSectionValues } =
-    formikData || {};
+  const {
+    setFieldTouched,
+    formSectionErrors,
+    formSectionValues,
+    isFormSectionTouched,
+  } = formikData || {};
 
   return async () => {
     if (isFormSectionTouched && !_isObjEmpty(formSectionErrors)) {
       setErrorMessage(
-        prepareFormSectionErrorMessage(formId, formSectionErrors)
+        prepareFormSectionErrorMessage(
+          formId,
+          formSectionErrors,
+          setFieldTouched
+        )
       );
       focusOnFormErrorElement(formId, formSectionErrors);
-
-      return;
     }
 
     const validationRules = YupObject().shape(validationSchema);
