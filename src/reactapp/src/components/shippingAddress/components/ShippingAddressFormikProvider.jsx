@@ -52,7 +52,7 @@ const initValidationSchema = {
   street: YupArray().test(
     'street1Required',
     requiredMessage,
-    value => !!_get(value, 0)
+    (value) => !!_get(value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
@@ -66,12 +66,8 @@ const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());
 const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
 
 function ShippingAddressFormikProvider({ children, formikData }) {
-  const {
-    setFieldValue,
-    selectedRegion,
-    selectedCountry,
-    setFieldTouched,
-  } = formikData;
+  const { setFieldValue, selectedRegion, selectedCountry, setFieldTouched } =
+    formikData;
   const [isNewAddress, setIsNewAddress] = useState(true);
   const [backupAddress, setBackupAddress] = useState(null);
   const [forceFilledAddress, setForceFilledAddress] = useState(false);
@@ -96,7 +92,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
-    addressToSet => {
+    (addressToSet) => {
       setFieldValue(SHIPPING_ADDR_FORM, {
         ...initialValues,
         ...addressToSet,
@@ -107,7 +103,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (!cartHasShippingAddress && forceFilledAddress === selectedAddress) {
+    if (!cartHasShippingAddress || forceFilledAddress === selectedAddress) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }

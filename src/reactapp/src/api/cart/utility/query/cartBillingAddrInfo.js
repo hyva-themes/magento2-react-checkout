@@ -1,4 +1,4 @@
-export const cartBillingAddrInfo = `
+const cartBillingAddrInfo = `
 billing_address {
   city
   country {

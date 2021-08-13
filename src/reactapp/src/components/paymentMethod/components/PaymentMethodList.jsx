@@ -12,7 +12,7 @@ function PaymentMethodList({ methodRenderers }) {
   const { methodList } = usePaymentMethodCartContext();
   const { paymentValues, setFieldValue, setFieldTouched } = formikData;
 
-  const handlePaymentMethodSelection = async event => {
+  const handlePaymentMethodSelection = async (event) => {
     const methodSelected = _get(methodList, `${event.target.value}.code`);
 
     if (!methodSelected) {
@@ -34,7 +34,7 @@ function PaymentMethodList({ methodRenderers }) {
   return (
     <div className="py-4">
       <ul>
-        {_objToArray(methodList).map(method => {
+        {_objToArray(methodList).map((method) => {
           const MethodRenderer = methodRenderers[method.code];
           return (
             <li key={method.code}>

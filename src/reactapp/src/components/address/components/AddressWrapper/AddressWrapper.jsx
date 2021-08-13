@@ -14,10 +14,10 @@ function AddressWrapper({ children }) {
   const billingCountry = _get(values, billingCountryField);
   const shippingCountry = _get(values, shippingCountryField);
 
-  const formikData = useMemo(() => ({ billingCountry, shippingCountry }), [
-    billingCountry,
-    shippingCountry,
-  ]);
+  const formikData = useMemo(
+    () => ({ billingCountry, shippingCountry }),
+    [billingCountry, shippingCountry]
+  );
 
   return (
     <AddressWrapperMemorized formikData={formikData}>

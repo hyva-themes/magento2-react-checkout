@@ -35,9 +35,9 @@ const dispatchMapper = {
 };
 
 export default function appDispatcher(dispatch) {
-  const dispatchers = {};
+  const dispatchers = { dispatch };
 
-  Object.keys(dispatchMapper).forEach(dispatchName => {
+  Object.keys(dispatchMapper).forEach((dispatchName) => {
     dispatchers[dispatchName] = dispatchMapper[dispatchName].bind(
       null,
       dispatch
