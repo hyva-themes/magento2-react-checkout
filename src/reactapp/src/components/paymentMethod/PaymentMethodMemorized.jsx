@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import Card from '../common/Card';
 import Header from '../common/Header';
+import PaymentMethodList from './components/PaymentMethodList';
 import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
-import PaymentMethodList from './components/PaymentMethodList';
 import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import getCustomRenderers from '../../paymentMethods/customRenderers';

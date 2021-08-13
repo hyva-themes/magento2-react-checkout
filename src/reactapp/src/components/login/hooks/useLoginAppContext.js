@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import AppContext from '../../../context/App/AppContext';
 
 export default function useLoginAppContext() {
@@ -9,10 +10,10 @@ export default function useLoginAppContext() {
 
   return {
     customer,
+    ajaxLogin,
     isLoggedIn,
     setPageLoader,
-    ajaxLogin,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
   };
 }

@@ -5,9 +5,13 @@ import {
 } from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 
-export async function setPaymentMethodAction(dispatch, paymentMethod) {
+export async function setPaymentMethodAction(
+  dispatch,
+  appDispatch,
+  paymentMethod
+) {
   try {
-    const cartData = await setPaymentMethodRequest(dispatch, paymentMethod);
+    const cartData = await setPaymentMethodRequest(appDispatch, paymentMethod);
 
     dispatch({
       type: SET_CART_INFO,
@@ -22,15 +26,19 @@ export async function setPaymentMethodAction(dispatch, paymentMethod) {
 
 export async function setRestPaymentMethodAction(
   dispatch,
+  appDispatch,
   paymentMethod,
   isLoggedIn
 ) {
   try {
     let result;
     if (isLoggedIn) {
-      result = await restSetMyPaymentMethodRequest(dispatch, paymentMethod);
+      result = await restSetMyPaymentMethodRequest(appDispatch, paymentMethod);
     } else {
-      result = await restSetGuestPaymentMethodRequest(dispatch, paymentMethod);
+      result = await restSetGuestPaymentMethodRequest(
+        appDispatch,
+        paymentMethod
+      );
     }
 
     return result;

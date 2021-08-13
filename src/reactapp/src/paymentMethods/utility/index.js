@@ -27,8 +27,9 @@ class PaymentFetcherUtility {
     const paymentMethodsData = await Promise.all(
       paymentMethods.map(async (paymentMethod) => {
         try {
+          const paymentMethodFile = `../${paymentMethod}/${file}`;
           const data = await import(
-            /* webpackMode: "eager" */ `../${paymentMethod}/${file}`
+            /* webpackMode: "eager" */ paymentMethodFile
           );
 
           return _get(data, 'default');

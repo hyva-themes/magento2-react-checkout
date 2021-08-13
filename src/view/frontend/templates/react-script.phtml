@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-/** @var Template $block */
-
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
 
 ?>
 <script>
@@ -14,7 +16,7 @@ use Magento\Framework\View\Element\Template;
 
         newScript.async = true;
         newScript.defer = true;
-        newScript.src = '<?= $block->escapeUrl($block->getViewFileUrl('Hyva_Checkout::js/react-checkout.js')); ?>';
+        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_Checkout::js/react-checkout.js')); ?>';
 
         firstScript.parentNode.insertBefore(newScript, firstScript);
     }

@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
+import _get from 'lodash.get';
+import { useFormikContext } from 'formik';
 
 import PaymentMethodMemorized from './PaymentMethodMemorized';
-import { PAYMENT_METHOD_FORM } from '../../config';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
+import { CHECKOUT_AGREEMENTS_FORM, PAYMENT_METHOD_FORM } from '../../config';
 
 /**
  * Entry point of payment method Form Section
@@ -17,14 +19,17 @@ import useFormikMemorizer from '../../hook/useFormikMemorizer';
  * memorized data here inside the child components.
  */
 function PaymentMethod() {
+  const { values } = useFormikContext();
   const formikSectionData = useFormikMemorizer(PAYMENT_METHOD_FORM);
+  const agreementsValues = _get(values, CHECKOUT_AGREEMENTS_FORM);
 
   const paymentFormikData = useMemo(
     () => ({
       ...formikSectionData,
+      agreementsValues,
       paymentValues: formikSectionData.formSectionValues,
     }),
-    [formikSectionData]
+    [formikSectionData, agreementsValues]
   );
 
   return <PaymentMethodMemorized formikData={paymentFormikData} />;

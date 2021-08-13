@@ -54,7 +54,7 @@ function CartItem({ item, isLastItem, actions }) {
           click={itemUpdateHandler}
           disable={!isQtyFieldTouched}
         >
-          <RefreshIcon className="h-5 w-5 text-black" />
+          <RefreshIcon className="w-5 h-5 text-black" />
           <span className="sr-only">{__('Update')}</span>
         </Button>
       </td>
@@ -109,7 +109,7 @@ function CartItem({ item, isLastItem, actions }) {
                               click={itemUpdateHandler}
                               disable={!isQtyFieldTouched}
                             >
-                              <RefreshIcon className="h-5 w-5 text-black" />
+                              <RefreshIcon className="w-5 h-5 text-black" />
                               <span className="sr-only">{__('Update')}</span>
                             </Button>
                           </div>
