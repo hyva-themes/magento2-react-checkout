@@ -1,4 +1,6 @@
+/* eslint-disable-line */
 const colors = require('tailwindcss/colors');
+const forms = require('@tailwindcss/forms');
 
 module.exports = {
   important: true,
@@ -88,7 +90,7 @@ module.exports = {
       backgroundColor: ['even', 'odd'],
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [forms],
   purge: {
     content: [
       '../../../../../reactapp/src/**/*.jsx',

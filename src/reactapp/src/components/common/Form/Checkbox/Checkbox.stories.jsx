@@ -8,7 +8,7 @@ export default {
   title: 'Form/Checkbox',
   component: Checkbox,
   decorators: [
-    Story => (
+    (Story) => (
       <Formik initialValues={{ check: false }}>
         <Story />
       </Formik>
@@ -16,7 +16,7 @@ export default {
   ],
 };
 
-const Template = args => <Checkbox {...args} />;
+const Template = (args) => <Checkbox {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

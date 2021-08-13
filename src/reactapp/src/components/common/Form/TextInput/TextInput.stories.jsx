@@ -15,7 +15,7 @@ export default {
   title: 'Form/TextInput',
   component: TextInput,
   decorators: [
-    Story => (
+    (Story) => (
       <Formik initialValues={{ text_input: '' }} validationSchema={InputSchema}>
         <Story />
       </Formik>
@@ -23,7 +23,7 @@ export default {
   ],
 };
 
-const Template = args => <TextInput {...args} />;
+const Template = (args) => <TextInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

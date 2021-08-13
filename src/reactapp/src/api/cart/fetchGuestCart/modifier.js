@@ -45,7 +45,7 @@ function modifyCartPricesData(cartPrices) {
   const grandTotal = _get(cartPrices, 'grand_total', {});
   const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
   const discountPrices = _get(cartPrices, 'discounts', []) || [];
-  const discounts = discountPrices.map(discount => ({
+  const discounts = discountPrices.map((discount) => ({
     label: discount.label,
     price: formatPrice(-discount.amount.value, true),
     amount: discount.amount.value,

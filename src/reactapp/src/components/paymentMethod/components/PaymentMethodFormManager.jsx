@@ -22,18 +22,13 @@ const validationSchema = {
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
-  const {
-    setPaymentMethod,
-    selectedPaymentMethod,
-  } = usePaymentMethodCartContext();
-  const {
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = usePaymentMethodAppContext();
+  const { setPaymentMethod, selectedPaymentMethod } =
+    usePaymentMethodCartContext();
+  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+    usePaymentMethodAppContext();
   const { setFieldValue } = formikData;
 
-  const formSubmit = async paymentMethod => {
+  const formSubmit = async (paymentMethod) => {
     try {
       if (paymentMethod) {
         setPageLoader(true);

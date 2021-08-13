@@ -9,10 +9,10 @@ import useAppContext from '../../hook/useAppContext';
 function CartDataProvider({ children }) {
   const [cartData, dispatch] = useReducer(cartReducer, initialState);
   const [, { dispatch: appDispatch }] = useAppContext();
-  const cartActions = useMemo(() => cartDispatchers(dispatch, appDispatch), [
-    dispatch,
-    appDispatch,
-  ]);
+  const cartActions = useMemo(
+    () => cartDispatchers(dispatch, appDispatch),
+    [dispatch, appDispatch]
+  );
 
   return (
     <CartContext.Provider value={[cartData, cartActions]}>

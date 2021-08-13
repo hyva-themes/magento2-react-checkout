@@ -3,14 +3,8 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 export default function useFormikMemorizer(formSectionId) {
-  const {
-    dirty,
-    values,
-    errors,
-    touched,
-    setFieldValue,
-    setFieldTouched,
-  } = useFormikContext();
+  const { dirty, values, errors, touched, setFieldValue, setFieldTouched } =
+    useFormikContext();
 
   // console.log({ errors, values })
 

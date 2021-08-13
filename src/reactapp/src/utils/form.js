@@ -30,7 +30,7 @@ export function prepareFormSectionErrorMessage(
   return _keys(formSectionErrors)
     .reduce((errorMessages, field) => {
       if (_isArray(formSectionErrors[field])) {
-        _keys(formSectionErrors[field]).forEach(innerField => {
+        _keys(formSectionErrors[field]).forEach((innerField) => {
           errorMessages.push(
             formSectionErrors[field][innerField].replace('%1', field)
           );

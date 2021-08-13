@@ -32,11 +32,8 @@ function BillingAddress() {
   const selectedCountry = _get(values, countryField);
   const isBillingSame = _get(values, billingSameAsShippingField);
   const billingOtherOptionSelected = _get(values, billingAddrOtherOptionField);
-  const {
-    formSectionValues,
-    formSectionErrors,
-    isFormSectionTouched,
-  } = formSectionData;
+  const { formSectionValues, formSectionErrors, isFormSectionTouched } =
+    formSectionData;
   const streetError = _get(formSectionErrors, 'street');
 
   if (streetError) {

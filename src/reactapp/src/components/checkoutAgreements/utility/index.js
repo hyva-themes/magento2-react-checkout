@@ -24,7 +24,7 @@ export function updateAgreementValidationSchema(
 ) {
   const requiredMessage = __('Please agree with the terms & conditions');
 
-  _keys(agreementsFormData).forEach(agreementFormikId => {
+  _keys(agreementsFormData).forEach((agreementFormikId) => {
     _set(
       validationSchema,
       agreementFormikId,

@@ -34,11 +34,8 @@ function ShippingAddress() {
     values,
     shippingAddrOtherOptionField
   );
-  const {
-    formSectionValues,
-    formSectionErrors,
-    isFormSectionTouched,
-  } = sectionFormikData;
+  const { formSectionValues, formSectionErrors, isFormSectionTouched } =
+    sectionFormikData;
   const streetError = _get(formSectionErrors, 'street');
 
   if (streetError) {
@@ -48,7 +45,6 @@ function ShippingAddress() {
       __('%1 is required', 'Street Address')
     );
   }
-
 
   const shippingFormikData = useMemo(
     () => ({

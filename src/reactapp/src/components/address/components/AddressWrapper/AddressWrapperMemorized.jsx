@@ -30,10 +30,8 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
    * components. For that purpose, this needs to be kept in state.
    */
   const [mostRecentAddressOptions, setMostRecentAddressOptions] = useState([]);
-  const [
-    { countryList, stateList },
-    { fetchCountries, fetchCountryStates },
-  ] = useAppContext();
+  const [{ countryList, stateList }, { fetchCountries, fetchCountryStates }] =
+    useAppContext();
   const { billingCountry, shippingCountry } = formikData;
 
   /**

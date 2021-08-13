@@ -25,7 +25,7 @@ function AddressOptions({
   /**
    * Removes a local storage address
    */
-  const handleRecentlyUsedAddressRemoval = addressId => {
+  const handleRecentlyUsedAddressRemoval = (addressId) => {
     LocalStorage.removeMostRecentlyUsedAddress(addressId);
     reCalculateMostRecentAddressOptions();
   };
@@ -78,8 +78,9 @@ function AddressOptions({
             type="button"
             disabled={!selectedOption}
             onClick={actions.handleShipToOtherOption}
-            className={`flex items-center px-2 py-1 btn-secondary btn ${!selectedOption &&
-              'opacity-50 pointer-events-none'}`}
+            className={`flex items-center px-2 py-1 btn-secondary btn ${
+              !selectedOption && 'opacity-50 pointer-events-none'
+            }`}
           >
             {submitButtonLabel}
           </button>

@@ -16,7 +16,7 @@ export function _isObjEmpty(obj = {}) {
 }
 
 export function _objToArray(obj) {
-  return _keys(obj || {}).map(key => obj[key]);
+  return _keys(obj || {}).map((key) => obj[key]);
 }
 
 export function _makePromise(asyncFunc, ...params) {
@@ -29,7 +29,7 @@ export function _toString(value) {
 
 export function _cleanObjByKeys(obj, keys = []) {
   const newObj = { ...obj };
-  keys.forEach(key => delete newObj[key]);
+  keys.forEach((key) => delete newObj[key]);
   return newObj;
 }
 
@@ -42,7 +42,7 @@ export function _uniqueArray(arr) {
 }
 
 export function _findById(arr, itemId) {
-  return arr.find(item => item.id === itemId);
+  return arr.find((item) => item.id === itemId);
 }
 
 export function _replace(str, searchTerm, replaceWith = '') {

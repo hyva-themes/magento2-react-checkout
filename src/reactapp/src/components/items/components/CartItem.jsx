@@ -11,12 +11,8 @@ import { CART_ITEMS_FORM } from '../../../config';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 
 function CartItem({ item, isLastItem, actions }) {
-  const {
-    formikData,
-    handleKeyDown,
-    cartItemsTouched,
-    itemUpdateHandler,
-  } = useItemsFormContext();
+  const { formikData, handleKeyDown, cartItemsTouched, itemUpdateHandler } =
+    useItemsFormContext();
   const qtyField = `${item.id}.quantity`;
   const itemQtyField = `${CART_ITEMS_FORM}.${qtyField}`;
   const isQtyFieldTouched = _get(cartItemsTouched, qtyField);
@@ -58,7 +54,7 @@ function CartItem({ item, isLastItem, actions }) {
           click={itemUpdateHandler}
           disable={!isQtyFieldTouched}
         >
-          <RefreshIcon className="h-5 w-5 text-black" />
+          <RefreshIcon className="w-5 h-5 text-black" />
           <span className="sr-only">{__('Update')}</span>
         </Button>
       </td>
@@ -113,7 +109,7 @@ function CartItem({ item, isLastItem, actions }) {
                               click={itemUpdateHandler}
                               disable={!isQtyFieldTouched}
                             >
-                              <RefreshIcon className="h-5 w-5 text-black" />
+                              <RefreshIcon className="w-5 h-5 text-black" />
                               <span className="sr-only">{__('Update')}</span>
                             </Button>
                           </div>

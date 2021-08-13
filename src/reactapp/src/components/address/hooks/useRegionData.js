@@ -18,7 +18,7 @@ export default function useRegionData(countryValue, regionValue) {
       stateList
     ) {
       const newRegion = _get(stateList, countryValue, []).find(
-        state => state.code === regionValue
+        (state) => state.code === regionValue
       );
       setRegionData(newRegion);
     }
