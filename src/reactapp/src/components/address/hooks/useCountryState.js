@@ -15,7 +15,7 @@ export default function useCountryState({ fields, formikData }) {
       const stateListContainsSelectedRegion =
         !stateList.length ||
         _get(stateList, selectedCountry, []).find(
-          state => state.code === selectedRegion
+          (state) => state.code === selectedRegion
         );
 
       if (!stateListContainsSelectedRegion) {
@@ -24,9 +24,10 @@ export default function useCountryState({ fields, formikData }) {
     }
   }, [selectedCountry, regionField, selectedRegion, stateList, setFieldValue]);
 
-  const countryOptions = useMemo(() => prepareCountryOptions(countryList), [
-    countryList,
-  ]);
+  const countryOptions = useMemo(
+    () => prepareCountryOptions(countryList),
+    [countryList]
+  );
 
   const stateOptions = useMemo(
     () => prepareCountryStateOptions(stateList, selectedCountry),

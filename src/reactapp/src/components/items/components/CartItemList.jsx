@@ -13,7 +13,7 @@ function CartItemList() {
    *
    * 🚫 We don't want the qty set to a negative value
    */
-  const handleQtyUpdate = event => {
+  const handleQtyUpdate = (event) => {
     const newValue = _abs(event.target.value);
     const fieldName = event.target.name;
     setFieldTouched(fieldName, newValue);

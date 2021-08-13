@@ -8,7 +8,7 @@ export default {
   title: 'Form/SelectInput',
   component: SelectInput,
   decorators: [
-    Story => (
+    (Story) => (
       <Formik initialValues={{ select: '' }}>
         <Story />
       </Formik>
@@ -16,7 +16,7 @@ export default {
   ],
 };
 
-const Template = args => <SelectInput {...args} />;
+const Template = (args) => <SelectInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

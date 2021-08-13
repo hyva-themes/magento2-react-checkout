@@ -20,16 +20,10 @@ const validationSchema = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
-  const {
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useItemsAppContext();
-  const {
-    cartItems,
-    updateCartItem,
-    cartItemsAvailable,
-  } = useItemsCartContext();
+  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+    useItemsAppContext();
+  const { cartItems, updateCartItem, cartItemsAvailable } =
+    useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
   const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const cartItemsArr = _objToArray(cartItems);

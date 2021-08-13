@@ -11,8 +11,8 @@ import {
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { setEmailOnGuestCartAction } from './email/actions';
 import {
-  setCartInfoAction,
   mergeCartsAction,
+  setCartInfoAction,
   createEmptyCartAction,
   getGuestCartInfoAction,
   getCustomerCartIdAction,
@@ -27,8 +27,8 @@ import {
 const dispatchMapper = {
   placeOrder: placeOrderAction,
   mergeCarts: mergeCartsAction,
-  setOrderInfo: setOrderInfoAction,
   setCartInfo: setCartInfoAction,
+  setOrderInfo: setOrderInfoAction,
   updateCartItem: updateCartItemAction,
   createEmptyCart: createEmptyCartAction,
   getGuestCartInfo: getGuestCartInfoAction,
@@ -46,13 +46,14 @@ const dispatchMapper = {
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
 };
 
-function cartDispatchers(dispatch) {
-  const dispatchers = {};
+function cartDispatchers(dispatch, appDispatch) {
+  const dispatchers = { dispatch };
 
-  Object.keys(dispatchMapper).forEach(dispatchName => {
+  Object.keys(dispatchMapper).forEach((dispatchName) => {
     dispatchers[dispatchName] = dispatchMapper[dispatchName].bind(
       null,
-      dispatch
+      dispatch,
+      appDispatch
     );
   });
 

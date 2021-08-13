@@ -15,10 +15,8 @@ export default async function i18nProvider() {
     return {};
   }
 
-  const paymentMethodsTranslations = await paymentFetcher.fetchDataFromPaymentMethods(
-    `i18n/${locale}.json`,
-    {}
-  );
+  const paymentMethodsTranslations =
+    await paymentFetcher.fetchDataFromPaymentMethods(`i18n/${locale}.json`, {});
 
   return paymentMethodsTranslations.reduce(
     (translations, item) => ({ ...translations, ...item }),

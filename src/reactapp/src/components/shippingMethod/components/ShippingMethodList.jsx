@@ -20,7 +20,7 @@ function ShippingMethodList() {
     selectedMethod || {};
   const selectedMethodId = `${methodCarrierCode}__${methodMethodCode}`;
 
-  const handleShippingMethodSelection = async event => {
+  const handleShippingMethodSelection = async (event) => {
     const methodSelected = methodList[event.target.value];
     const { carrierCode, methodCode, id: methodId } = methodSelected;
 
@@ -41,7 +41,7 @@ function ShippingMethodList() {
   return (
     <div className="py-4">
       <ul>
-        {_objToArray(methodList).map(method => {
+        {_objToArray(methodList).map((method) => {
           const { id: methodId, carrierTitle, methodTitle, price } = method;
           const methodName = `${carrierTitle} (${methodTitle}): `;
 

@@ -24,15 +24,12 @@ const validationSchema = {
 };
 
 function ShippingMethodFormManager({ children, formikData }) {
-  const {
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useShippingMethodAppContext();
+  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+    useShippingMethodAppContext();
   const { setFieldValue } = formikData;
   const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
 
-  const formSubmit = async shippingMethod => {
+  const formSubmit = async (shippingMethod) => {
     try {
       if (shippingMethod.carrierCode && shippingMethod.methodCode) {
         setPageLoader(true);

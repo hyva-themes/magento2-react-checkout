@@ -12,7 +12,7 @@ import LocalStorage from '../../utils/localStorage';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
-  sections.forEach(section => {
+  sections.forEach((section) => {
     initValues[section.id] = section.initialValues;
   });
   return initValues;
@@ -22,13 +22,13 @@ function prepareFormValidationSchema(sections, sectionId) {
   const schemaRules = {};
 
   if (sectionId) {
-    const section = sections.find(sec => sec.id === sectionId);
+    const section = sections.find((sec) => sec.id === sectionId);
     schemaRules[sectionId] = YupObject().shape(section.validationSchema);
 
     return YupObject().shape(schemaRules);
   }
 
-  sections.forEach(section => {
+  sections.forEach((section) => {
     schemaRules[section.id] = YupObject().shape(section.validationSchema);
   });
   return YupObject().shape(schemaRules);
@@ -64,7 +64,7 @@ function CheckoutFormProvider({ children }) {
    */
   const registerPaymentAction = useCallback(
     (paymentMethodCode, paymentMethodAction) => {
-      setPaymentActions(actions => ({
+      setPaymentActions((actions) => ({
         ...actions,
         [paymentMethodCode]: paymentMethodAction,
       }));
@@ -75,11 +75,11 @@ function CheckoutFormProvider({ children }) {
   /**
    * This will register individual form sections to the checkout-form-formik
    */
-  const registerFormSection = useCallback(section => {
-    updateSections(prevSections => [...prevSections, section]);
+  const registerFormSection = useCallback((section) => {
+    updateSections((prevSections) => [...prevSections, section]);
   }, []);
 
-  const formSubmit = async values => {
+  const formSubmit = async (values) => {
     try {
       setPageLoader(true);
       const order = await placeOrder(values, paymentActionList);

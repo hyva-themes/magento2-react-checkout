@@ -37,7 +37,7 @@ export default function __(stringToTranslate, ...dataReplacers) {
     return stringLiteral;
   }
 
-  dataReplacers.forEach(dataToReplace => {
+  dataReplacers.forEach((dataToReplace) => {
     stringLiteral = stringLiteral.replace('{}', dataToReplace);
   });
 

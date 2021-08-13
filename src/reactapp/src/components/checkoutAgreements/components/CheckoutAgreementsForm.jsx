@@ -16,7 +16,7 @@ function CheckoutAgreementsForm() {
   const { setActiveModalId } = useAgreementModalContext();
   const { fields, agreementsValues } = useAgreementFormikContext();
 
-  return _objToArray(checkoutAgreements).map(agreement => {
+  return _objToArray(checkoutAgreements).map((agreement) => {
     const { id: agreementId, isAutomatic, label } = agreement;
     const fieldName = getFormikFieldNameById(agreement.id);
     const isAgreed = !!_get(agreementsValues, fieldName);

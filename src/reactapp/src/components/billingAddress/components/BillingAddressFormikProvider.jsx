@@ -32,10 +32,8 @@ const initValidationSchema = {
   company: YupString().required(requiredMessage),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
-  street: YupArray().test(
-    'street1Required',
-    requiredMessage,
-    value => !!_get(value, 0)
+  street: YupArray().test('street1Required', requiredMessage, async (value) =>
+    _get(await value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
@@ -53,12 +51,8 @@ function BillingAddressFormikProvider({ children, formikData }) {
   const { cartBillingAddress } = useBillingAddressCartContext();
 
   const editModeContext = useFormEditMode();
-  const {
-    billingValues,
-    setFieldValue,
-    selectedRegion,
-    selectedCountry,
-  } = formikData;
+  const { billingValues, setFieldValue, selectedRegion, selectedCountry } =
+    formikData;
   const validationSchema = useRegionValidation(
     selectedCountry,
     initValidationSchema
@@ -82,7 +76,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
   }, [setFieldValue]);
 
   const setBillingAddressFormFields = useCallback(
-    addressToSet => {
+    (addressToSet) => {
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
@@ -93,7 +87,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
   );
 
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress && !cartHasBillingAddress) {
+    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
