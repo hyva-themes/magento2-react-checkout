@@ -4,8 +4,12 @@ import {
 } from '../../../api';
 import { SET_CART_INFO } from '../cart/types';
 
-export async function setBillingAddressAction(dispatch, billingAddress) {
-  const cartInfo = await setBillingAddressRequest(dispatch, billingAddress);
+export async function setBillingAddressAction(
+  dispatch,
+  appDispatch,
+  billingAddress
+) {
+  const cartInfo = await setBillingAddressRequest(appDispatch, billingAddress);
 
   dispatch({
     type: SET_CART_INFO,
@@ -15,12 +19,13 @@ export async function setBillingAddressAction(dispatch, billingAddress) {
 
 export async function setCustomerAddrAsBillingAddrAction(
   dispatch,
+  appDispatch,
   addressId,
   sameAsShipping
 ) {
   try {
     const cartInfo = await setCustomerAddrAsCartBillingAddrRequest(
-      dispatch,
+      appDispatch,
       addressId,
       sameAsShipping
     );
