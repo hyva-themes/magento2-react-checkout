@@ -35,7 +35,7 @@ const initValidationSchema = {
   street: YupArray().test(
     'street1Required',
     requiredMessage,
-    value => !!_get(value, 0)
+    async value => _get(await value, 0)
   ),
   phone: YupString().required(requiredMessage),
   zipcode: YupString().required(requiredMessage),
@@ -93,7 +93,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
   );
 
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress && !cartHasBillingAddress) {
+    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }

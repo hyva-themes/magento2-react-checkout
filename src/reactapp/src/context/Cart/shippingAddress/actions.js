@@ -10,11 +10,11 @@ import { SET_CART_SELECTED_SHIPPING_ADDRESS } from './types';
 export function setSelectedShippingAddressAction(
   dispatch,
   appDispatch,
-  shippingAddrId
+  shippingAddressId
 ) {
   dispatch({
     type: SET_CART_SELECTED_SHIPPING_ADDRESS,
-    payload: shippingAddrId,
+    payload: shippingAddressId,
   });
 }
 
