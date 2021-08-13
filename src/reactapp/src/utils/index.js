@@ -7,6 +7,10 @@ export function _isArrayEmpty(arr = []) {
   return (arr || []).length === 0;
 }
 
+export function _isArray(arr) {
+  return Array.isArray(arr);
+}
+
 export function _isObjEmpty(obj = {}) {
   return _keys(obj).length === 0;
 }
