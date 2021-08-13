@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React from 'react';
 import _get from 'lodash.get';
 import { ClipboardCheckIcon } from '@heroicons/react/outline';
@@ -38,7 +37,7 @@ function CheckoutAgreementModal() {
         <div
           className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
           aria-hidden="true"
-        ></div>
+        />
 
         <span
           className="hidden sm:inline-block sm:align-middle sm:h-screen"

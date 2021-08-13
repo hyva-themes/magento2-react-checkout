@@ -9,12 +9,11 @@ export function getFormikFieldNameById(agreementId) {
 }
 
 export function prepareAgreementsFormData(checkoutAgreements) {
-  return _objToArray(checkoutAgreements).reduce((agreementList, agreement) => {
+  return _objToArray(checkoutAgreements).reduce((accumulator, agreement) => {
     const { isAutomatic, id } = agreement;
-    // eslint-disable-next-line no-param-reassign
-    agreementList[getFormikFieldNameById(id)] = isAutomatic;
+    accumulator[getFormikFieldNameById(id)] = isAutomatic;
 
-    return agreementList;
+    return accumulator;
   }, {});
 }
 

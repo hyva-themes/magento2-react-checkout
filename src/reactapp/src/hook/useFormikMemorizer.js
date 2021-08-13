@@ -6,8 +6,6 @@ export default function useFormikMemorizer(formSectionId) {
   const { dirty, values, errors, touched, setFieldValue, setFieldTouched } =
     useFormikContext();
 
-  // console.log({ errors, values })
-
   const formSectionErrors = _get(errors, formSectionId);
   const formSectionValues = _get(values, formSectionId);
   const formSectionTouched = _get(touched, formSectionId);

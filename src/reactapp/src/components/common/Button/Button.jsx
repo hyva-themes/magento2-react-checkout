@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React from 'react';
 import { bool, func, node, oneOf, string } from 'prop-types';
 

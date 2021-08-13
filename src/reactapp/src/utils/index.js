@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 export function _keys(obj = {}) {
   return Object.keys(obj);
 }

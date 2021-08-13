@@ -1,12 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import _get from 'lodash.get';
 import { bool, string } from 'prop-types';
 import { ErrorMessage, Field } from 'formik';
 
-import { _replace } from '../../../../utils';
-import { formikDataShape } from '../../../../utils/propTypes';
+import { _replace } from '../../../utils';
+import { formikDataShape } from '../../../utils/propTypes';
 
 function TextInput({
   id,

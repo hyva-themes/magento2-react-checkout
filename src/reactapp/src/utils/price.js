@@ -1,19 +1,20 @@
 import env from './env';
 import RootElement from './rootElement';
 
-// prettier-ignore
-const formatMapper = (currencySymbol) =>  ({ type, value }) => {
-  switch (type) {
-    case 'currency':
-      return currencySymbol || value;
-    case 'minusSign':
-      return '- ';
-    case 'plusSign':
-      return '+ ';
-    default:
-      return value;
-  }
-};
+const formatMapper =
+  (currencySymbol) =>
+  ({ type, value }) => {
+    switch (type) {
+      case 'currency':
+        return currencySymbol || value;
+      case 'minusSign':
+        return '- ';
+      case 'plusSign':
+        return '+ ';
+      default:
+        return value;
+    }
+  };
 
 export const formatPrice = (value, showSign) => {
   const { code: rootCurrencyCode, symbol: rootCurrencySymbol } =

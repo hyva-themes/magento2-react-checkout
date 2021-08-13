@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import fetchAppTranslation from './fetchTranslation';
 import fetchPaymentMethodsTranslations from '../paymentMethods/i18nProvider';
 

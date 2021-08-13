@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 export default function restSetGuestPaymentMethodModifier(result) {
   const agreements = _get(result, 'data.checkoutAgreements', []) || [];
 
-  return agreements.reduce((agreementList, agreement) => {
+  return agreements.reduce((accumulator, agreement) => {
     const {
       mode,
       name,
@@ -14,8 +14,7 @@ export default function restSetGuestPaymentMethodModifier(result) {
       content_height: height,
     } = agreement;
 
-    // eslint-disable-next-line no-param-reassign
-    agreementList[id] = {
+    accumulator[id] = {
       id,
       name,
       label,
@@ -25,6 +24,6 @@ export default function restSetGuestPaymentMethodModifier(result) {
       isAutomatic: mode === 'AUTO',
     };
 
-    return agreementList;
+    return accumulator;
   }, {});
 }

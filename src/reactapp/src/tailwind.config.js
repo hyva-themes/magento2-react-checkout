@@ -1,4 +1,4 @@
-/* eslint-disable-line */
+/* eslint-disable */
 const colors = require('tailwindcss/colors');
 const forms = require('@tailwindcss/forms');
 
