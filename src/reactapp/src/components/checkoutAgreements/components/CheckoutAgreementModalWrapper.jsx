@@ -12,7 +12,7 @@ function CheckoutAgreementModalWrapper({ children }) {
   useEffect(() => {
     // Event handler that closes the modal on pressing `ESC` in keyboard.
     const keyDownHandler = (event) => {
-      if (event.keyCode === 27) {
+      if (event.key === 'Esc' || event.key === 'Escape') {
         setActiveModalId(false);
       }
     };
