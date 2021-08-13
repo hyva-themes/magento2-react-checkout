@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Field } from 'formik';
 import { bool, string } from 'prop-types';

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
+import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
-import { Form } from 'formik';
 
-import PaymentMethodFormContext from '../context/PaymentMethodFormContext';
 import { __ } from '../../../i18n';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
+import PaymentMethodFormContext from '../context/PaymentMethodFormContext';
 import usePaymentMethodAppContext from '../hooks/usePaymentMethodAppContext';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 
@@ -22,18 +22,13 @@ const validationSchema = {
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
-  const {
-    setPaymentMethod,
-    selectedPaymentMethod,
-  } = usePaymentMethodCartContext();
-  const {
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = usePaymentMethodAppContext();
+  const { setPaymentMethod, selectedPaymentMethod } =
+    usePaymentMethodCartContext();
+  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+    usePaymentMethodAppContext();
   const { setFieldValue } = formikData;
 
-  const formSubmit = async paymentMethod => {
+  const formSubmit = async (paymentMethod) => {
     try {
       if (paymentMethod) {
         setPageLoader(true);
@@ -64,7 +59,9 @@ function PaymentMethodFormManager({ children, formikData }) {
   });
 
   return (
-    <PaymentMethodFormContext.Provider value={{ ...context, formikData }}>
+    <PaymentMethodFormContext.Provider
+      value={{ ...context, ...formikData, formikData }}
+    >
       <Form id={PAYMENT_METHOD_FORM}>{children}</Form>
     </PaymentMethodFormContext.Provider>
   );

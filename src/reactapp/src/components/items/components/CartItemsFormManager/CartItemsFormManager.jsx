@@ -20,16 +20,10 @@ const validationSchema = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
-  const {
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useItemsAppContext();
-  const {
-    cartItems,
-    updateCartItem,
-    cartItemsAvailable,
-  } = useItemsCartContext();
+  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+    useItemsAppContext();
+  const { cartItems, updateCartItem, cartItemsAvailable } =
+    useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
   const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const cartItemsArr = _objToArray(cartItems);
@@ -55,14 +49,13 @@ function CartItemsFormManager({ children, formikData }) {
 
   useEffect(() => {
     if (needToPopulateForm && cartItemsAvailable) {
-      const cartItemFormData = cartItemsArr.reduce((formData, item) => {
+      const cartItemFormData = cartItemsArr.reduce((accumulator, item) => {
         const cartItemId = parseInt(item.id, 10);
-        // eslint-disable-next-line no-param-reassign
-        formData[cartItemId] = {
+        accumulator[cartItemId] = {
           cart_item_id: cartItemId,
           quantity: parseFloat(item.quantity),
         };
-        return formData;
+        return accumulator;
       }, {});
       setItemsUniqueId(cartItemIds);
       setFieldValue(CART_ITEMS_FORM, cartItemFormData);

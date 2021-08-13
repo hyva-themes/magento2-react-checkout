@@ -19,11 +19,8 @@ function ShippingAddressSelected() {
     setBackupAddress,
     setFormToEditMode,
   } = useShippingAddressFormikContext();
-  const {
-    stateList,
-    isLoggedIn,
-    customerAddressList,
-  } = useShippingAddressAppContext();
+  const { stateList, isLoggedIn, customerAddressList } =
+    useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const addressInfo = formatAddressListToCardData(
     [{ id: selectedAddress, ...cartShippingAddress }],

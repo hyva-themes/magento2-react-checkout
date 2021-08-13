@@ -8,7 +8,7 @@ export default function useEnterActionInForm({
 }) {
   const { formSectionValues } = formikData || {};
 
-  return event => {
+  return (event) => {
     if (event.key !== 'Enter') {
       return;
     }
@@ -30,7 +30,7 @@ export default function useEnterActionInForm({
     }
 
     const validationRules = YupObject().shape(validationSchema);
-    validationRules.isValid(formSectionValues).then(valid => {
+    validationRules.isValid(formSectionValues).then((valid) => {
       if (valid) {
         submitHandler();
       }

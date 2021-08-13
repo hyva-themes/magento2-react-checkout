@@ -25,7 +25,7 @@ export default function useAddressSave() {
     hasShippingAddress: hasCartShippingAddress,
   } = usePlaceOrderCartContext();
 
-  return async values => {
+  return async (values) => {
     try {
       let needToUpdateShippingMethod = false;
       let setCartBillingAddressPromise = _emptyFunc();

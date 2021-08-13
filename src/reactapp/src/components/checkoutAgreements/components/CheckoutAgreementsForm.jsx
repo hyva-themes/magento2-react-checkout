@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import _get from 'lodash.get';
 import { InformationCircleIcon } from '@heroicons/react/outline';
@@ -16,7 +14,7 @@ function CheckoutAgreementsForm() {
   const { setActiveModalId } = useAgreementModalContext();
   const { fields, agreementsValues } = useAgreementFormikContext();
 
-  return _objToArray(checkoutAgreements).map(agreement => {
+  return _objToArray(checkoutAgreements).map((agreement, index) => {
     const { id: agreementId, isAutomatic, label } = agreement;
     const fieldName = getFormikFieldNameById(agreement.id);
     const isAgreed = !!_get(agreementsValues, fieldName);
@@ -48,9 +46,15 @@ function CheckoutAgreementsForm() {
       <div key={agreementId} className="flex flex-wrap mt-2">
         <div>
           <div
-            key={agreementId}
+            role="button"
+            tabIndex={index}
             onClick={() => setActiveModalId(agreementId)}
             className="mt-3 ml-6 text-sm cursor-pointer"
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setActiveModalId(agreementId);
+              }
+            }}
           >
             {label}
           </div>

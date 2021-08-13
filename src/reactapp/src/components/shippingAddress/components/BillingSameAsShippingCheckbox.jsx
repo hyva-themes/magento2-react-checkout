@@ -21,22 +21,12 @@ function BillingSameAsShippingCheckbox() {
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useShippingAddressCartContext();
-  const {
-    setFieldValue,
-    isBillingSame,
-    shippingValues,
-    selectedAddress,
-  } = useShippingAddressFormikContext();
-  const {
-    isLoggedIn,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useShippingAddressAppContext();
-  const {
-    setBillingSelected,
-    setIsBillingCustomerAddress,
-  } = useAddressWrapper();
+  const { setFieldValue, isBillingSame, shippingValues, selectedAddress } =
+    useShippingAddressFormikContext();
+  const { isLoggedIn, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useShippingAddressAppContext();
+  const { setBillingSelected, setIsBillingCustomerAddress } =
+    useAddressWrapper();
 
   const makeBillingSameAsShippingRequest = async () => {
     const billingIsSame = true;

@@ -2,7 +2,7 @@ import _get from 'lodash.get';
 import { _isArrayEmpty, _keys } from '../../utils';
 
 export function GraphQLResponseException(errors) {
-  this.message = errors.map(error => error.message).join('; ');
+  this.message = errors.map((error) => error.message).join('; ');
 }
 
 export function responseContainErrors(response) {

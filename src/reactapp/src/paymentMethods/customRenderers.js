@@ -11,10 +11,8 @@ import { paymentFetcher } from './utility';
  * it into the PaymentMethods component.
  */
 export default async function getCustomRenderers() {
-  const paymentMethodRenderers = await paymentFetcher.fetchDataFromPaymentMethods(
-    'renderers.js',
-    []
-  );
+  const paymentMethodRenderers =
+    await paymentFetcher.fetchDataFromPaymentMethods('renderers.js', []);
 
   return paymentMethodRenderers.reduce(
     (renderers, item) => ({ ...renderers, ...item }),

@@ -11,13 +11,13 @@ function CheckoutAgreementModalWrapper({ children }) {
   // Side effect that deals with event registration on modal open/close action
   useEffect(() => {
     // Event handler that closes the modal on pressing `ESC` in keyboard.
-    const keyDownHandler = event => {
+    const keyDownHandler = (event) => {
       if (event.key === 'Esc' || event.key === 'Escape') {
         setActiveModalId(false);
       }
     };
     // Event handler that closes the modal when click outside of the modal
-    const mouseDownHandler = event => {
+    const mouseDownHandler = (event) => {
       const agreementBoxDom = modalRef.current.querySelector('.agreement-box');
 
       if (!agreementBoxDom.contains(event.target)) {

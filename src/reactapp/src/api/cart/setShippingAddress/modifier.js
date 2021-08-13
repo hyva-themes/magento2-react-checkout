@@ -1,5 +1,5 @@
-/* eslint-disable no-param-reassign */
 import _get from 'lodash.get';
+
 import { config } from '../../../config';
 import { prepareFullName } from '../../../utils/customer';
 
@@ -11,8 +11,8 @@ export function modifySelectedShippingMethod(addressList) {
   }
 
   const {
-    carrier_code: carrierCode,
     method_code: methodCode,
+    carrier_code: carrierCode,
     amount: { currency, value },
   } = selectedMethod;
   const currencySymbol = _get(config.currencySymbols, currency, '');
@@ -34,18 +34,18 @@ export function modifyShippingMethods(addressList) {
     return {};
   }
 
-  return shippingMethods.reduce((methodList, method) => {
+  return shippingMethods.reduce((accumulator, method) => {
     const {
-      carrier_code: carrierCode,
-      carrier_title: carrierTitle,
       method_code: methodCode,
+      carrier_code: carrierCode,
       method_title: methodTitle,
+      carrier_title: carrierTitle,
       price_incl_tax: { currency: priceCurrency, value: amount },
     } = method;
 
     const methodId = `${carrierCode}__${methodCode}`;
 
-    methodList[methodId] = {
+    accumulator[methodId] = {
       id: methodId,
       carrierCode,
       carrierTitle,
@@ -55,7 +55,7 @@ export function modifyShippingMethods(addressList) {
       amount,
     };
 
-    return methodList;
+    return accumulator;
   }, {});
 }
 

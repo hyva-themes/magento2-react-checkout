@@ -53,14 +53,10 @@ function LoginFormManager({ children, formikData }) {
     setEmailOnGuestCart,
     getCustomerCartInfo,
   } = useLoginCartContext();
-  const {
-    ajaxLogin,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-  } = useLoginAppContext();
+  const { ajaxLogin, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useLoginAppContext();
 
-  const saveEmailOnCartRequest = async email => {
+  const saveEmailOnCartRequest = async (email) => {
     setPageLoader(true);
     await setEmailOnGuestCart(email);
     setSuccessMessage(__('Email address is saved.'));
