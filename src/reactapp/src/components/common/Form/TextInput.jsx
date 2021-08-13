@@ -25,11 +25,13 @@ function TextInput({
     formSectionId,
     setFieldTouched,
     formSectionErrors,
+    formSectionValues,
     formSectionTouched,
   } = formikData;
   const inputId = id || name;
   const relativeFieldName = _replace(name, formSectionId).replace('.', '');
   const hasFieldError = !!_get(formSectionErrors, relativeFieldName);
+  const value = _get(formSectionValues, relativeFieldName, '') || '';
   const hasFieldTouched = !!_get(formSectionTouched, relativeFieldName);
   const hasError = hasFieldError && hasFieldTouched;
 
@@ -55,6 +57,7 @@ function TextInput({
       <Field
         name={name}
         id={inputId}
+        value={value}
         type={type || 'text'}
         placeholder={placeholder}
         onChange={(event) => {
