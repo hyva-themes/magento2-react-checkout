@@ -251,21 +251,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../at_a_glance/" class="md-nav__link">
-        Checkout - at a glance
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../i18n/" class="md-nav__link">
         Internationalization
       </a>
@@ -283,6 +268,21 @@
     <li class="md-nav__item">
       <a href="../payment-integration/" class="md-nav__link">
         Payment Integration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        React app configurations
       </a>
     </li>
   
@@ -319,16 +319,30 @@
                 
                 <h1 id="installation">Installation</h1>
 <ol>
-<li>Install via composer
-    <code>composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
-    composer require hyva-themes/magento2-hyva-checkout</code></li>
-<li>Enable module
-    <code>bin/magento setup:upgrade</code></li>
+<li>
+<p>Install via composer</p>
+<pre><code>composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
+
+composer require hyva-themes/magento2-hyva-checkout
+</code></pre>
+<div class="admonition attention">
+<p class="admonition-title">Attention please</p>
+<p>We have a new version of hyvä checkout available in the branch <code>develop</code>. It is almost stable and we are testing it internally. It will be published as the first stable release soon. The new version supports all type of products and much more extendable. We highly recommend to use the <code>develop</code> branch in your project too. For that, use the below command:</p>
+<pre><code>composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
+
+composer require hyva-themes/magento2-hyva-checkout dev-develop
+</code></pre>
+</div>
+</li>
+<li>
+<p>Enable module
+    <code>bin/magento setup:upgrade</code></p>
+</li>
 </ol>
 <h1 id="configuration">Configuration</h1>
 <p>In the Magento Backend Configuration:</p>
 <p><code>HYVA THEMES-&gt;Checkout-&gt;General Settings-&gt;Enable</code></p>
-<p>The configutation path is <code>hyva_checkout/general/enable</code></p>
+<p>The configuration path is <code>hyva_checkout/general/enable</code></p>
                 
               
               

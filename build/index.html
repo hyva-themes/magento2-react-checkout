@@ -258,22 +258,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#how-can-you-build-the-app" class="md-nav__link">
     How can you build the app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-happens-when-we-build-the-react-application" class="md-nav__link">
-    What happens when we build the react application?
   </a>
   
 </li>
@@ -282,21 +268,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../at_a_glance/" class="md-nav__link">
-        Checkout - at a glance
-      </a>
     </li>
   
 
@@ -331,6 +302,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        React app configurations
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -356,22 +342,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#how-can-you-build-the-app" class="md-nav__link">
     How can you build the app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-happens-when-we-build-the-react-application" class="md-nav__link">
-    What happens when we build the react application?
   </a>
   
 </li>
@@ -394,54 +366,9 @@
 <p>In a normal circumstance, you don't need to do this process. However, if you want to customize
 the react app in a way you needed, then you need to alter the react components by your own. In this
 case, knowing the build process is necessary in order to get your changes reflected in the site.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>It is required that you have the tool <a href="https://www.npmjs.com/package/csso-cli">csso-cli</a> installed globally. It is using to optimize the CSS file that would be generated in the build process.</p>
-<pre><code>npm i -g csso-cli
-</code></pre>
 <h2 id="how-can-you-build-the-app">How can you build the app</h2>
 <p>You can build the react app with the below command</p>
 <pre><code>NODE_ENV=production npm run build
-</code></pre>
-<h2 id="what-happens-when-we-build-the-react-application">What happens when we build the react application?</h2>
-<p>Primarily 2 goals here.</p>
-<ol>
-<li>Create a fully optimized style file that can be included in the Magento site (if needed)</li>
-<li>Create a fully optimized production build of the react app into a js file that can be included in the Magento site.</li>
-</ol>
-<p>The console output of the build process is given below:</p>
-<pre><code>$ NODE_ENV=production npm run build
-
-&gt; tailwindcss build src/asset/css/tailwind.css -o public/tailwind.output.css
-
-   tailwindcss 1.9.6
-
-   🚀 Building: src/asset/css/tailwind.css
-
-   ✅ Finished in 2.61 s
-   📦 Size: 18.43KB
-   💾 Saved to public/tailwind.output.css
-
-&gt; npx csso public/tailwind.output.css --output public/styles.css
-
-&gt; react-app-rewired build
-
-Creating an optimized production build...
-Compiled successfully.
-
-File sizes after gzip:
-
-  70.76 KB  ../view/frontend/web/js/react-checkout.js
-
-&gt; cp public/styles.css ../view/frontend/web/css/styles.css &amp;&amp;  npm run output-success
-
-Done!
-</code></pre>
-<p>As you can see above, the very first step is tailwindcss build process. It using the tailwindcss base file located at <code>src/reactapp/src/asset/css/tailwind.css</code>. In this build process, it will be basically doing the purge operation. The resulting file is located at <code>src/reactapp/public/tailwind.output.css</code>. This file is what we are using in the react app if you open it in the development mode.</p>
-<p>Next step is optimizing the <code>src/reactapp/public/tailwind.output.css</code> file. We are using the tool <a href="https://www.npmjs.com/package/csso-cli">csso-cli</a> for that. The Optimized css file can be found at <code>src/reactapp/public/styles.css</code>.</p>
-<p>Next, it will be creating the production build of the react app and the resulting file will be store in the location <code>src/view/frontend/web/js/react-checkout.js</code>. This js file will be included in the DOM by the module and thus it will do the react magic on the page.</p>
-<p>Finally, the optimized <code>src/reactapp/public/styles.css</code> file will be copied over to the location <code>src/view/frontend/web/css/styles.css</code>. This style file can be included in the page if in case you are using this module out of hyva.</p>
-<p>To do this, file: <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code>, uncomment the following line you would find there.</p>
-<pre><code>&lt;css src=&quot;Hyva_Checkout::css/styles.css&quot; defer=&quot;defer&quot;/&gt;
 </code></pre>
                 
               
@@ -475,13 +402,13 @@ Done!
         </a>
       
       
-        <a href="../at_a_glance/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../i18n/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Checkout - at a glance
+              Internationalization
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -14,7 +14,7 @@
     
     
       
-        <title>How to customize - Hyvä Themes - Hyvä Checkout</title>
+        <title>React app configurations - Hyvä Themes - Hyvä Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-customize-hyva-checkout" class="md-skip">
+        <a href="#environment-variables" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +87,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              How to customize
+              React app configurations
             
           </span>
         </div>
@@ -210,63 +210,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          How to customize
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../customize/" class="md-nav__link">
         How to customize
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#where-is-the-react-app" class="md-nav__link">
-    Where is the react app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-up-react-app" class="md-nav__link">
-    Setting up react app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start-app" class="md-nav__link">
-    Start App
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -322,11 +270,56 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../env_variables/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          React app configurations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         React app configurations
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#env-configurations-available" class="md-nav__link">
+    Env Configurations Available
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#order-of-configurations-considered" class="md-nav__link">
+    Order of configurations considered
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -356,22 +349,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#where-is-the-react-app" class="md-nav__link">
-    Where is the react app
+  <a href="#env-configurations-available" class="md-nav__link">
+    Env Configurations Available
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-up-react-app" class="md-nav__link">
-    Setting up react app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#start-app" class="md-nav__link">
-    Start App
+  <a href="#order-of-configurations-considered" class="md-nav__link">
+    Order of configurations considered
   </a>
   
 </li>
@@ -389,52 +375,33 @@
               
                 
                 
-                <h1 id="how-to-customize-hyva-checkout">How To Customize Hyva Checkout</h1>
-<p>Hyva checkout is a Magento 2 module which holds a react app inside it. So when you want
-to customize the checkout, you need to work with the react app embedded inside the module.</p>
-<h2 id="where-is-the-react-app">Where is the react app</h2>
-<p>You can find the react app at <code>src/reactapp</code>.</p>
-<h2 id="setting-up-react-app">Setting up react app</h2>
+                <h1 id="environment-variables">Environment Variables</h1>
+<p>The react app comes along with the hyvä checkout provides some environment variables to configure the app. This becomes handy if you want to see your app in a particular currency or in a language for example.</p>
+<p>All the env configurations can be see in your code in the file <code>env.example</code>. The variable names are straight forward. Every env variable stars with <code>REACT_APP_</code> which is a create-react-app trivia (<em>Oh... did I mention the react app inside the hyvä checkout is basically a <a href="https://github.com/facebook/create-react-app">create-react-app</a>?</em> 🤔 ).</p>
+<h2 id="env-configurations-available">Env Configurations Available</h2>
 <ol>
 <li>
-<p>cd into the react application</p>
-<pre><code>cd src/reactapp
-</code></pre>
+<p><code>REACT_APP_BASE_URL</code>: Defines the base URL for the Magento backend from which the react app needs to fetch the data. There is also a setting  called <code>proxy</code> available in <code>package.json</code> file which also serves the same purpose where it won't throw any CORS errors in the browser. Comes in handy in that situation.</p>
 </li>
 <li>
-<p>install the packages</p>
-<pre><code>npm install
-</code></pre>
+<p><code>REACT_APP_STORE_CODE</code>: Specifies the store code from which data needs to be collected. This data is passed in the header in all graphql queries so that store specific data will be obtained in the checkout.</p>
 </li>
 <li>
-<p>Configure your Magento 2 backend site.</p>
-<p>There are basically two ways you can achieve this:</p>
-<p><strong>3.a</strong> - The cleanest approach is here. create <code>.env</code> file in <code>src/reactapp</code> directory and specify your site as shown below</p>
-<pre><code>REACT_APP_BASE_URL=http://your-m2-site.com
-</code></pre>
-<div class="admonition warning">
-<p class="admonition-title">CORS complaint from the browser</p>
-<p>One disadvantage you may face here is the complaint of CORS issue from browser.</p>
-</div>
-<p><strong>3.b</strong> - A hacky trick would be specify your site as your <code>proxy</code> in the <code>package.json</code>. There is
-      already an entry there. Replace it with yours</p>
-<pre><code>"proxy": "http://your-m2-site.com",
-</code></pre>
-<p>Use only one option above. Don't do both.</p>
+<p><code>REACT_APP_LANGUAGE</code>: Specifies the locale of the react app. Based on these values translation will be applied in the react app. eg: <code>en_US</code> for English store; <code>de_DE</code> for German store etc.</p>
 </li>
 <li>
-<p>There are some more configurations you can do using environment variables. You can find an example in <code>env.example</code> file. If you need any of the configurations specified there, then create <code>.env</code> file at the root path of the react app and add your custom configurations there. You can find more details of these environment variables <a href="../env_variables/">here</a>.</p>
+<p><code>REACT_APP_CURRENCY_CODE</code>: The currency code should be used in the react app. This will be used in the <code>Intl.NumberFormat</code> to correctly format the price according to the language. eg: <code>EUR</code> for Euro, <code>INR</code> for Indian Rupee, etc.</p>
+</li>
+<li>
+<p><code>REACT_APP_CURRENCY_SYMBOL</code>: The currency symbol should be used in the react app. This will be used in the <code>Intl.NumberFormat</code> to correctly format the price according to the language. eg: <code>$</code> for Dollar, <code>€</code> for Euro, etc.</p>
+</li>
+<li>
+<p><code>REACT_APP_DEFAULT_COUNTRY</code>: Default country the react app needs to be used. This will be used in the country field in the address sections. If none specified, then default to <code>US</code>.</p>
 </li>
 </ol>
-<h2 id="start-app">Start App</h2>
-<p>In order to start the application</p>
-<pre><code>npm start
-</code></pre>
-<p>The app is now available at <code>http://localhost:3000</code></p>
-<p>As soon as the react app kick start, it will show a prompt box to input the cart id. Well,
-without the a valid cart, the checkout page is useless.</p>
-<p><img alt="Cart Id Prompt Box" src="../assets/img/cart_id_prompt_box.png" title="Prompt box showing to input the cart id" /></p>
-<p>So provide a valid cart id and then you are good to go.</p>
+<p>You should place your <code>.env</code> file at the root of the react application.</p>
+<h2 id="order-of-configurations-considered">Order of configurations considered</h2>
+<p>The highest priority is always for the environment variable configurations. The next preference will be to go for the data attribute <code>data-checkout_Config</code> where you can specify all these settings if you want. When the production build finally works in the site, this is how we are passing store specific configurations into the react app. If you need this during development, then you need to specify this in the <code>public/index.html</code> file. At last, it will use the default values in the app. Most of them you can find in the src/config.js file.</p>
                 
               
               
@@ -452,7 +419,7 @@ without the a valid cart, the checkout page is useless.</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../how_to_use/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../payment-integration/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -461,25 +428,11 @@ without the a valid cart, the checkout page is useless.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              How to use
+              Payment Integration
             </div>
           </div>
         </a>
       
-      
-        <a href="../build/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              How can build
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   

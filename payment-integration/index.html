@@ -242,21 +242,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../at_a_glance/" class="md-nav__link">
-        Checkout - at a glance
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../i18n/" class="md-nav__link">
         Internationalization
       </a>
@@ -378,6 +363,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env_variables/" class="md-nav__link">
+        React app configurations
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -490,8 +490,8 @@
 <p>Payment methods integration is in progress. We don't have any plans to keep payment components as part of Hyvä Checkout. But we will be maintaining separate payment repositories which will hold the custom payment method components which you can use with Hyvä Checkout seamlessly.</p>
 <p>Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.</p>
 <ul>
-<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-payone">hyva-themes/magento2-hyva-checkout-payone</a></li>
-<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express">hyva-themes/magento2-hyva-checkout-paypal-express</a></li>
+<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-payone">hyva-themes/magento2-hyva-checkout-payone</a> (Not published yet)</li>
+<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express">hyva-themes/magento2-hyva-checkout-paypal-express</a> (Not published yet)</li>
 </ul>
 <p>We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.</p>
 <hr />
@@ -516,7 +516,7 @@
     &lt;/body&gt;
 &lt;/page&gt;
 </code></pre>
-<p>See the data attribute <code>data-payment</code> through which we are passing this configuration.</p>
+<p>See the data attribute <code>data-checkout_configuration</code> through which we are passing this configuration.</p>
 <pre><code>File: `src/view/frontend/templates/react-container.phtml`
 
 
@@ -530,7 +530,7 @@
     &lt;div
         id="react-checkout"
         ...
-        data-payment="&lt;?= $escaper-&gt;escapeHtmlAttr($configProvider-&gt;getConfig())  ?&gt;"
+        data-checkout_config="&lt;?= $escaper-&gt;escapeHtmlAttr($configProvider-&gt;getConfig())  ?&gt;"
     &gt;
     ...
     &lt;/div&gt;
@@ -732,6 +732,20 @@ export default function usePayOneAppContext() {
           </div>
         </a>
       
+      
+        <a href="../env_variables/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              React app configurations
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
