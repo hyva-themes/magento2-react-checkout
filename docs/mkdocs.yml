@@ -5,10 +5,12 @@ nav:
   - How to use: how_to_use.md
   - How to customize: customize.md
   - How can build: build.md
-  - Checkout - at a glance: at_a_glance.md
   - Internationalization: i18n.md
   - Payment Integration: payment-integration.md
+  - React app configurations: env_variables.md
 theme:
   name: material
   logo: assets/img/hyva-logo-360.png
   favicon: assets/img/hyva-logo-360.png
+markdown_extensions:
+  - admonition

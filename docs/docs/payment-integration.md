@@ -8,8 +8,8 @@ Payment methods integration is in progress. We don't have any plans to keep paym
 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
-- [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
-- [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express)
+- [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone) (Not published yet)
+- [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express) (Not published yet)
 
 We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.
 _____________
@@ -41,7 +41,7 @@ File: `src/view/frontend/layout/hyvacheckout_checkout_index.xml`
 ```
 
 
-See the data attribute `data-payment` through which we are passing this configuration.
+See the data attribute `data-checkout_configuration` through which we are passing this configuration.
 
     File: `src/view/frontend/templates/react-container.phtml`
 
@@ -56,7 +56,7 @@ See the data attribute `data-payment` through which we are passing this configur
         <div
             id="react-checkout"
             ...
-            data-payment="<?= $escaper->escapeHtmlAttr($configProvider->getConfig())  ?>"
+            data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig())  ?>"
         >
         ...
         </div>

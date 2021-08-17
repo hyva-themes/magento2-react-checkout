@@ -8,7 +8,8 @@ This module contains a ReactApp that can be used to build a Headless Magento che
 
 Compatible with Magento 2.3.4 and higher.
 
-> **Note:**This module is heavily under construction. We recommend using the `develop` branch where a new version of the checkout is shaping into. Later, `master` would be replaced with `develop`.
+!!! attention "Please note"
+    This module is heavily under construction. We recommend using the `develop` branch where a new version of the checkout is shaping into. Later, `master` would be replaced with `develop`.
 
 ## What does it do?
 It loads a React Checkout at `[store-url]/hyva/checkout`. When enabled in `hyva_checkout/general/enable` it replaces the default checkout.

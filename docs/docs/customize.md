@@ -17,18 +17,23 @@ You can find the react app at `src/reactapp`.
 
 3. Configure your Magento 2 backend site.
 
-    There is two ways you can do this:
+    There are basically two ways you can achieve this:
 
     **3.a** - The cleanest approach is here. create `.env` file in `src/reactapp` directory and specify your site as shown below
 
         REACT_APP_BASE_URL=http://your-m2-site.com
+
+    !!! warning "CORS complaint from the browser"
+        One disadvantage you may face here is the complaint of CORS issue from browser.
 
     **3.b** - A hacky trick would be specify your site as your `proxy` in the `package.json`. There is
           already an entry there. Replace it with yours
 
         "proxy": "http://your-m2-site.com",
 
-    Use only one option above. Don't do both
+    Use only one option above. Don't do both.
+
+4. There are some more configurations you can do using environment variables. You can find an example in `env.example` file. If you need any of the configurations specified there, then create `.env` file at the root path of the react app and add your custom configurations there. You can find more details of these environment variables [here](env_variables.md).
 
 ## Start App
 
