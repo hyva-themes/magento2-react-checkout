@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Crayons\Checkout\ViewModel;
+namespace Hyva\Checkout\ViewModel;
 
 use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\Serialize\SerializerInterface;
