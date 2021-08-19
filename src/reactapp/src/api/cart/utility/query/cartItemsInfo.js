@@ -6,8 +6,16 @@ items {
     price {
       value
       currency
-    },
+    }
     row_total {
+      value
+      currency
+    }
+    row_total_including_tax {
+      value
+      currency
+    }
+    total_item_discount {
       value
       currency
     }

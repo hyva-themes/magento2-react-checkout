@@ -40,7 +40,8 @@ export function modifyShippingMethods(addressList) {
       carrier_title: carrierTitle,
       method_code: methodCode,
       method_title: methodTitle,
-      price_incl_tax: { currency: priceCurrency, value: amount },
+      price_incl_tax: { currency: priceCurrencyIncTax, value: amountIncTax },
+      price_excl_tax: { currency: priceCurrencyExTax, value: amountExTax },
     } = method;
 
     const methodId = `${carrierCode}__${methodCode}`;
@@ -51,8 +52,10 @@ export function modifyShippingMethods(addressList) {
       carrierTitle,
       methodCode,
       methodTitle,
-      price: `${_get(config.currencySymbols, priceCurrency, '')}${amount}`,
-      amount,
+      priceExTax: `${_get(config.currencySymbols, priceCurrencyExTax, '')}${amountExTax}`,
+      priceIncTax: `${_get(config.currencySymbols, priceCurrencyIncTax, '')}${amountIncTax}`,
+      amountExTax,
+      amountIncTax
     };
 
     return methodList;

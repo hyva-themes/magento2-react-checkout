@@ -7,7 +7,7 @@ import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
 import { __ } from '../../../i18n';
 import { _emptyFunc } from '../../../utils';
-import { CART_ITEMS_FORM } from '../../../config';
+import { CART_ITEMS_FORM, config } from '../../../config';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 
 function CartItem({ item, isLastItem, actions }) {
@@ -20,6 +20,7 @@ function CartItem({ item, isLastItem, actions }) {
   const qtyField = `${item.id}.quantity`;
   const itemQtyField = `${CART_ITEMS_FORM}.${qtyField}`;
   const isQtyFieldTouched = _get(cartItemsTouched, qtyField);
+  const displayCartItemPrices = config.displayCartItemPrices;
 
   return (
     <tr className={`border-2 md:border-0 ${isLastItem ? '' : 'md:border-b-2'}`}>
@@ -49,8 +50,14 @@ function CartItem({ item, isLastItem, actions }) {
           onChange={actions.handleQtyUpdate}
         />
       </td>
-      <td className="hidden md:table-cell">{item.price}</td>
-      <td className="hidden xl:table-cell">{item.rowTotal}</td>
+      {(displayCartItemPrices === 'including')
+        ? <td className="hidden md:table-cell">{item.priceIncTax}</td>
+        : <td className="hidden md:table-cell">{item.price}</td>
+      }
+      {(displayCartItemPrices === 'including')
+        ? <td className="hidden xl:table-cell">{item.rowTotalIncTax}</td>
+        : <td className="hidden xl:table-cell">{item.rowTotal}</td>
+      }
       <td className="hidden md:table-cell">
         <Button
           size="sm"
@@ -90,7 +97,10 @@ function CartItem({ item, isLastItem, actions }) {
                     </tr>
                     <tr className="border-b">
                       <th className="px-2 py-2">{__('Price')}</th>
-                      <td className="pl-2 text-sm">{item.price}</td>
+                      {(displayCartItemPrices === 'including')
+                        ? <td className="pl-2 text-sm">{item.priceIncTax}</td>
+                        : <td className="pl-2 text-sm">{item.price}</td>
+                      }
                     </tr>
                     <tr className="border-b">
                       <th className="px-2 py-2">{__('Qty')}</th>
@@ -122,9 +132,10 @@ function CartItem({ item, isLastItem, actions }) {
                     </tr>
                     <tr>
                       <th className="px-2 py-2 text-base">{__('Total')}</th>
-                      <td className="pl-2 text-base text-right">
-                        {item.rowTotal}
-                      </td>
+                      {(displayCartItemPrices === 'including')
+                        ? <td className="pl-2 text-base text-right">{item.rowTotalIncTax}</td>
+                        : <td className="pl-2 text-base text-right">{item.rowTotal}</td>
+                      }
                     </tr>
                   </tbody>
                 </table>

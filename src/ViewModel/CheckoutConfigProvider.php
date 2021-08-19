@@ -1,12 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\ViewModel;
+namespace Crayons\Checkout\ViewModel;
 
 use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\Locale\ResolverInterface as LocaleResolverInterface;
+use Hyva\Checkout\ViewModel\CurrencyProvider;
 
 class CheckoutConfigProvider implements ArgumentInterface
 {
@@ -74,6 +75,30 @@ class CheckoutConfigProvider implements ArgumentInterface
             'language' => $this->localeResolver->getLocale(),
             'currency' => $this->currencyProvider->getConfig(),
             'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+            // is shipping price ex tax
+            'isDisplayShippingPriceExclTax' => 
+                        $checkoutConfig['isDisplayShippingPriceExclTax'],
+            // Display Shipping prices inc and ex tax
+            'isDisplayShippingBothPrices' =>
+                        $checkoutConfig['isDisplayShippingBothPrices'],
+            // Shipping Cart Prices display mode inc ex tax or both
+            'reviewShippingDisplayMode' =>
+                        $checkoutConfig['reviewShippingDisplayMode'],
+            // Cart Prices display mode inc ex tax or both
+            'reviewItemPriceDisplayMode' =>
+                        $checkoutConfig['reviewItemPriceDisplayMode'],
+            // Cart Subtotal Prices display mode inc ex tax or both
+            'reviewTotalsDisplayMode' =>
+                        $checkoutConfig['reviewTotalsDisplayMode'],
+            // Grand Total Prices display display tax or not
+            'includeTaxInGrandTotal' =>
+                        $checkoutConfig['includeTaxInGrandTotal'],
+            // Show tax details in checkout totals section 
+            'isFullTaxSummaryDisplayed' =>
+                        $checkoutConfig['isFullTaxSummaryDisplayed'],
+            // Show tax details when its zero 
+            'isZeroTaxDisplayed' =>
+                        $checkoutConfig['isZeroTaxDisplayed'],
         ]);
     }
 }

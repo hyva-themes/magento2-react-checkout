@@ -4,14 +4,18 @@ import { __ } from '../../i18n';
 import Card from '../common/Card';
 import Header from '../common/Header';
 import useTotalsCartContext from './hooks/useTotalsCartContext';
+import { config } from '../../config';
 
 function Totals() {
   const {
     shippingMethodRate,
-    subTotal,
+    subTotalIncTax,
+    subTotalExTax,
     grandTotal,
     discounts,
     hasDiscounts,
+    taxes,
+    hasTaxes,
     hasShippingRate,
     hasSubTotal,
   } = useTotalsCartContext();
@@ -25,7 +29,10 @@ function Totals() {
             {hasSubTotal && (
               <div className="flex justify-between">
                 <div>{__('Cart Subtotal')}</div>
-                <div>{subTotal}</div>
+                {(config.displaySubTotalPrices === 'including')
+                  ? <div>{subTotalIncTax}</div>
+                  : <div>{subTotalExTax}</div>
+                }
               </div>
             )}
 
@@ -40,6 +47,13 @@ function Totals() {
                 <div key={discount.label} className="flex justify-between">
                   <div>{__(discount.label)}</div>
                   <div>{discount.price}</div>
+                </div>
+              ))}
+            {hasTaxes &&
+              taxes.map(tax => (
+                <div key={tax.label} className="flex justify-between">
+                  <div>{__(tax.label)}</div>
+                  <div>{tax.price}</div>
                 </div>
               ))}
           </div>

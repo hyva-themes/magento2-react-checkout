@@ -8,7 +8,18 @@ prices {
     value
     currency
   }
+  subtotal_excluding_tax {
+    value
+    currency
+  }
   discounts {
+    label
+    amount {
+      currency
+      value
+    }
+  }
+  applied_taxes {
     label
     amount {
       currency

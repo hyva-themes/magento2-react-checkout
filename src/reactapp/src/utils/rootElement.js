@@ -32,6 +32,46 @@ const RootElement = {
     return _get(RootElement.getCheckoutConfig(), 'storeCode');
   },
 
+  // true or false
+  getDisplayShippingPriceExTax() {
+    return _get(RootElement.getCheckoutConfig(), 'isDisplayShippingPriceExclTax');
+  },
+
+  // true or false
+  getDisplayShippingBothPrices() {
+    return _get(RootElement.getCheckoutConfig(), 'isDisplayShippingBothPrices');
+  },  
+  
+  // including, excluding, or both
+  getDisplayCartShippingPrices() {
+    return _get(RootElement.getCheckoutConfig(), 'reviewShippingDisplayMode');
+  },
+
+  // including, excluding, or both
+  getDisplayCartItemPrices() {
+    return _get(RootElement.getCheckoutConfig(), 'reviewItemPriceDisplayMode');
+  },
+
+  // including, excluding, or both
+  getDisplaySubTotalPrices() {
+    return _get(RootElement.getCheckoutConfig(), 'reviewTotalsDisplayMode');
+  },
+
+  // true or false
+  getDisplayGrandTotalPrices() {
+    return _get(RootElement.getCheckoutConfig(), 'includeTaxInGrandTotal');
+  },
+
+  // true or false
+  getDisplayFullTaxSummary() {
+    return _get(RootElement.getCheckoutConfig(), 'isFullTaxSummaryDisplayed');
+  },
+
+  // true or false
+  getDisplayZeroTax() {
+    return _get(RootElement.getCheckoutConfig(), 'isZeroTaxDisplayed');
+  },
+  
   getBaseUrl() {
     let baseUrl = _get(RootElement.getElement(), 'dataset.base_url', '');
 

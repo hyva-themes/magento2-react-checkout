@@ -6,6 +6,7 @@ import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext'
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
 import { __ } from '../../../i18n';
+import config from '../../../config';
 
 function ShippingMethodList() {
   const {
@@ -42,8 +43,9 @@ function ShippingMethodList() {
     <div className="py-4">
       <ul>
         {_objToArray(methodList).map(method => {
-          const { id: methodId, carrierTitle, methodTitle, price } = method;
+          const { id: methodId, carrierTitle, methodTitle, priceExTax, priceIncTax } = method;
           const methodName = `${carrierTitle} (${methodTitle}): `;
+          const price = config.displayShippingPricesExTax ? priceExTax : priceIncTax;
 
           return (
             <li key={methodId} className="flex">
