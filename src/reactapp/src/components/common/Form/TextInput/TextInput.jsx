@@ -64,7 +64,7 @@ function TextInput({
           setFieldTouched(name, newValue);
           setFieldValue(name, newValue);
         }}
-        className={`form-input max-w-md ${
+        className={`form-input max-w-3xl ${
           hasError ? 'border-dashed border-red-500' : ''
         } ${className} ${width || 'w-full'}`}
         {...rest}
