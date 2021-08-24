@@ -17,18 +17,35 @@ import CheckoutFormWrapper from './CheckoutFormWrapper';
 import { config } from '../config';
 import useAppContext from '../hook/useAppContext';
 import useCartContext from '../hook/useCartContext';
+import { aggregatedQueryRequest } from '../api';
 
 function CheckoutForm() {
-  const { orderId, getGuestCartInfo } = useCartContext();
-  const [{ pageLoader }, { setPageLoader }] = useAppContext();
+  const { orderId, storeAggregatedCartStates } = useCartContext();
+  const [{ pageLoader }, appActions] = useAppContext();
+  const {
+    setPageLoader,
+    dispatch: appDispatch,
+    storeAggregatedAppStates,
+  } = appActions;
 
   useEffect(() => {
     (async () => {
-      setPageLoader(true);
-      await getGuestCartInfo();
-      setPageLoader(false);
+      try {
+        setPageLoader(true);
+        const data = await aggregatedQueryRequest(appDispatch);
+        storeAggregatedCartStates(data);
+        storeAggregatedAppStates(data);
+        setPageLoader(false);
+      } catch (error) {
+        setPageLoader(false);
+      }
     })();
-  }, [getGuestCartInfo, setPageLoader]);
+  }, [
+    appDispatch,
+    setPageLoader,
+    storeAggregatedAppStates,
+    storeAggregatedCartStates,
+  ]);
 
   if (orderId && config.isDevelopmentMode) {
     return (

@@ -13,7 +13,7 @@ import useItemsCartContext from '../../hooks/useItemsCartContext';
 import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
 
-const initialValues = {};
+let initialValues = {};
 
 const validationSchema = {};
 
@@ -51,14 +51,15 @@ function CartItemsFormManager({ children, formikData }) {
     if (needToPopulateForm && cartItemsAvailable) {
       const cartItemFormData = cartItemsArr.reduce((accumulator, item) => {
         const cartItemId = parseInt(item.id, 10);
-        accumulator[cartItemId] = {
+        accumulator[`item__${cartItemId}`] = {
           cart_item_id: cartItemId,
           quantity: parseFloat(item.quantity),
         };
         return accumulator;
       }, {});
-      setItemsUniqueId(cartItemIds);
+      initialValues = cartItemFormData;
       setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+      setItemsUniqueId(cartItemIds);
     }
   }, [
     cartItemIds,

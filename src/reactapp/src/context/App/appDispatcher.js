@@ -16,6 +16,7 @@ import {
   updateCustomerAddressAction,
   getCustomerAddressListAction,
 } from './customer/actions';
+import { storeAggregatedAppStatesAction } from './aggregated/actions';
 import { getCheckoutAgreementsAction } from './checkoutAgreements/actions';
 
 const dispatchMapper = {
@@ -32,6 +33,7 @@ const dispatchMapper = {
   updateCustomerAddress: updateCustomerAddressAction,
   getCheckoutAgreements: getCheckoutAgreementsAction,
   getCustomerAddressList: getCustomerAddressListAction,
+  storeAggregatedAppStates: storeAggregatedAppStatesAction,
 };
 
 export default function appDispatcher(dispatch) {

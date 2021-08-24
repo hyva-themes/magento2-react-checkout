@@ -30,8 +30,7 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
    * components. For that purpose, this needs to be kept in state.
    */
   const [mostRecentAddressOptions, setMostRecentAddressOptions] = useState([]);
-  const [{ countryList, stateList }, { fetchCountries, fetchCountryStates }] =
-    useAppContext();
+  const [{ stateList }, { fetchCountryStates }] = useAppContext();
   const { billingCountry, shippingCountry } = formikData;
 
   /**
@@ -90,13 +89,6 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
     fetchCountryStates,
     countriesOfWhichStatesFetched,
   ]);
-
-  // Fetching country list to show them in both billing/shipping address form
-  useEffect(() => {
-    if (!countryList.length) {
-      fetchCountries();
-    }
-  }, [countryList, fetchCountries]);
 
   // collect states belonging to billing address and shipping address countries
   useEffect(() => {
