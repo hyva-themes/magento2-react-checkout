@@ -81,7 +81,7 @@ export default function useAddressSave() {
         const { carrierCode, methodCode } = selectedShippingMethod;
         const newShippingMethods = _get(cartInfo, 'shipping_methods');
 
-        if (!_get(newShippingMethods, `${carrierCode}__mt${methodCode}`)) {
+        if (!_get(newShippingMethods, `${carrierCode}__${methodCode}`)) {
           // this means selected shipping method is not available
           throw new ShippingMethodRequiredException(
             'Selected shipping method is not available due to the shipping address change. Please select from the available methods.'
