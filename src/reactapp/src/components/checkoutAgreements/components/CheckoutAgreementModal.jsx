@@ -65,7 +65,7 @@ function CheckoutAgreementModal() {
                 <div className="mt-2 overflow-y-auto lg:h-96">
                   {isContentHtml ? (
                     <div
-                      dangerouslySetInnerHTML={{ __mthtml: agreementContent }}
+                      dangerouslySetInnerHTML={{ __html: agreementContent }}
                     />
                   ) : (
                     <p className="text-sm text-gray-500">{agreementContent}</p>

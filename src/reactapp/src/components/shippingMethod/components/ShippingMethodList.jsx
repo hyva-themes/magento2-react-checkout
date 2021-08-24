@@ -1,11 +1,11 @@
 import React from 'react';
 
 import RadioInput from '../../common/Form/RadioInput';
-import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
-import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
+import { __mt } from '../../../i18n';
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
-import { __mt } from '../../../i18n';
+import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
+import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 
 function ShippingMethodList() {
   const {
@@ -18,7 +18,7 @@ function ShippingMethodList() {
   const { methodsAvailable, methodList } = useShippingMethodCartContext();
   const { carrierCode: methodCarrierCode, methodCode: methodMethodCode } =
     selectedMethod || {};
-  const selectedMethodId = `${methodCarrierCode}__mt${methodMethodCode}`;
+  const selectedMethodId = `${methodCarrierCode}__${methodMethodCode}`;
 
   const handleShippingMethodSelection = async (event) => {
     const methodSelected = methodList[event.target.value];
