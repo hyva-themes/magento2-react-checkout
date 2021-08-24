@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import useLoginFormContext from '../hooks/useLoginFormContext';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 
@@ -38,7 +38,7 @@ function LoginForm() {
         <TextInput
           required
           type="email"
-          label={__('Email')}
+          label={__mt('Email')}
           name={fields.email}
           formikData={formikData}
           onKeyDown={handleKeyDown}
@@ -59,7 +59,7 @@ function LoginForm() {
               }
             }}
           >
-            {__('I will sign-in and checkout')}
+            {__mt('I will sign-in and checkout')}
           </div>
         )}
 
@@ -69,11 +69,11 @@ function LoginForm() {
               required
               type="password"
               autoComplete="on"
-              label={__('Password')}
+              label={__mt('Password')}
               name={fields.password}
               formikData={formikData}
               onKeyDown={handleKeyDown}
-              placeholder={__('Password')}
+              placeholder={__mt('Password')}
             />
           </div>
         )}
@@ -84,7 +84,7 @@ function LoginForm() {
           click={handleButtonClick}
           disable={!isLoginFormTouched}
         >
-          {customerWantsToSignIn ? __('Sign In') : __('Update')}
+          {customerWantsToSignIn ? __mt('Sign In') : __mt('Update')}
         </Button>
       </div>
     </>

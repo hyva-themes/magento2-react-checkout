@@ -4,7 +4,7 @@ import _get from 'lodash.get';
 import { Form } from 'formik';
 import { string as YupString, bool as YupBool } from 'yup';
 
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { config, LOGIN_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
@@ -24,11 +24,11 @@ const initialValues = {
 const validationSchema = {
   customerWantsToSignIn: YupBool(),
   email: YupString()
-    .required(__('Email is required'))
-    .email(__('Email is invalid')),
+    .required(__mt('Email is required'))
+    .email(__mt('Email is invalid')),
   password: YupString().test(
     'requiredIfSignIn',
-    __('Password is required'),
+    __mt('Password is required'),
     (value, context) => {
       const sigInStatus = _get(context, 'parent.customerWantsToSignIn');
 
@@ -59,7 +59,7 @@ function LoginFormManager({ children, formikData }) {
   const saveEmailOnCartRequest = async (email) => {
     setPageLoader(true);
     await setEmailOnGuestCart(email);
-    setSuccessMessage(__('Email address is saved.'));
+    setSuccessMessage(__mt('Email address is saved.'));
     setPageLoader(false);
   };
 
@@ -113,7 +113,7 @@ function LoginFormManager({ children, formikData }) {
       const loginData = await ajaxLogin({ username: email, password });
 
       if (loginData.errors) {
-        setErrorMessage(__(loginData.message || 'Login failed.'));
+        setErrorMessage(__mt(loginData.message || 'Login failed.'));
         setPageLoader(false);
         return;
       }

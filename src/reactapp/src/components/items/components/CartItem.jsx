@@ -5,7 +5,7 @@ import { RefreshIcon } from '@heroicons/react/solid';
 
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { _emptyFunc } from '../../../utils';
 import { CART_ITEMS_FORM } from '../../../config';
 import useItemsFormContext from '../hooks/useItemsFormContext';
@@ -55,7 +55,7 @@ function CartItem({ item, isLastItem, actions }) {
           disable={!isQtyFieldTouched}
         >
           <RefreshIcon className="w-5 h-5 text-black" />
-          <span className="sr-only">{__('Update')}</span>
+          <span className="sr-only">{__mt('Update')}</span>
         </Button>
       </td>
 
@@ -68,7 +68,7 @@ function CartItem({ item, isLastItem, actions }) {
                 <table className="text-xs">
                   <tbody>
                     <tr className="border-b">
-                      <th className="px-2 py-2">{__('Name')}</th>
+                      <th className="px-2 py-2">{__mt('Name')}</th>
                       <td className="pl-1 text-sm">
                         <div className="flex items-center py-1">
                           <img
@@ -81,15 +81,15 @@ function CartItem({ item, isLastItem, actions }) {
                       </td>
                     </tr>
                     <tr className="border-b">
-                      <th className="px-2 py-2">{__('SKU')}</th>
+                      <th className="px-2 py-2">{__mt('SKU')}</th>
                       <td className="pl-2 text-sm">{item.productSku}</td>
                     </tr>
                     <tr className="border-b">
-                      <th className="px-2 py-2">{__('Price')}</th>
+                      <th className="px-2 py-2">{__mt('Price')}</th>
                       <td className="pl-2 text-sm">{item.price}</td>
                     </tr>
                     <tr className="border-b">
-                      <th className="px-2 py-2">{__('Qty')}</th>
+                      <th className="px-2 py-2">{__mt('Qty')}</th>
                       <td className="px-1 pb-2">
                         <div className="flex items-center justify-between">
                           <TextInput
@@ -110,14 +110,14 @@ function CartItem({ item, isLastItem, actions }) {
                               disable={!isQtyFieldTouched}
                             >
                               <RefreshIcon className="w-5 h-5 text-black" />
-                              <span className="sr-only">{__('Update')}</span>
+                              <span className="sr-only">{__mt('Update')}</span>
                             </Button>
                           </div>
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <th className="px-2 py-2 text-base">{__('Total')}</th>
+                      <th className="px-2 py-2 text-base">{__mt('Total')}</th>
                       <td className="pl-2 text-base text-right">
                         {item.rowTotal}
                       </td>

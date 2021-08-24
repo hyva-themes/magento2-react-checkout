@@ -8,7 +8,7 @@ import {
   isValidCustomerAddressId,
   prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
 import { billingAddrOtherOptionField } from '../utility';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
@@ -76,7 +76,7 @@ function BillingAddressOthers({ forceHide }) {
   const submitButtonLabel = (
     <>
       <DocumentIcon className="w-6 h-6 pr-1" />
-      <span className="text-xs">{__('Bill Here')}</span>
+      <span className="text-xs">{__mt('Bill Here')}</span>
     </>
   );
 
@@ -84,8 +84,8 @@ function BillingAddressOthers({ forceHide }) {
     <AddressOptions
       title={
         isCartBillingAddressValid
-          ? __('OTHER ADDRESSES')
-          : __('CHOOSE FROM THE ADDRESS LIST')
+          ? __mt('OTHER ADDRESSES')
+          : __mt('CHOOSE FROM THE ADDRESS LIST')
       }
       options={addressOptions}
       submitButtonLabel={submitButtonLabel}

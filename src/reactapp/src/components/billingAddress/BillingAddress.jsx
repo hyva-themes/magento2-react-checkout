@@ -4,7 +4,7 @@ import _set from 'lodash.set';
 import { useFormikContext } from 'formik';
 
 import BillingAddressMemorized from './BillingAddressMemorized';
-import { __ } from '../../i18n';
+import { __mt } from '../../i18n';
 import { BILLING_ADDR_FORM } from '../../config';
 import { billingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
@@ -40,7 +40,7 @@ function BillingAddress() {
     _set(
       formSectionErrors,
       'street[0]',
-      __('%1 is required', 'Street Address')
+      __mt('%1 is required', 'Street Address')
     );
   }
 

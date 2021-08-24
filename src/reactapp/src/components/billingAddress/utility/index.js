@@ -1,4 +1,4 @@
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { _isObjEmpty } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import RootElement from '../../../utils/rootElement';
@@ -22,8 +22,8 @@ export const billingAddressFormInitValues = {
 
 export function selectedAddressTitle(isLoggedIn, customerAddressList) {
   if (!isLoggedIn || (isLoggedIn && _isObjEmpty(customerAddressList))) {
-    return __('BILLING ADDRESS');
+    return __mt('BILLING ADDRESS');
   }
 
-  return __('SELECTED ADDRESS');
+  return __mt('SELECTED ADDRESS');
 }

@@ -6,7 +6,7 @@ import {
   isValidCustomerAddressId,
   billingSameAsShippingField,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
@@ -31,7 +31,9 @@ function BillingSameAsShippingCheckbox() {
   const makeBillingSameAsShippingRequest = async () => {
     const billingIsSame = true;
     const isCustomerAddress = isValidCustomerAddressId(selectedAddress);
-    const successMessage = __('Billing address made same as shipping address');
+    const successMessage = __mt(
+      'Billing address made same as shipping address'
+    );
 
     try {
       if (!isLoggedIn || (isLoggedIn && !isCustomerAddress)) {
@@ -63,7 +65,7 @@ function BillingSameAsShippingCheckbox() {
       );
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Billing address update failed. Please try again.'));
+      setErrorMessage(__mt('Billing address update failed. Please try again.'));
     }
   };
 
@@ -90,7 +92,7 @@ function BillingSameAsShippingCheckbox() {
         isChecked={isBillingSame}
         name={billingSameAsShippingField}
         onChange={toggleBillingEqualsShippingState}
-        label={__('Use this address as my billing address')}
+        label={__mt('Use this address as my billing address')}
       />
     </div>
   );

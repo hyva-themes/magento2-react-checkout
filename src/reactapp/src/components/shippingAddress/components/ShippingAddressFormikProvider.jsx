@@ -13,7 +13,7 @@ import {
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../config';
@@ -43,7 +43,7 @@ const initialValues = {
   country: RootElement.getDefaultCountryId(),
 };
 
-const requiredMessage = __('%1 is required');
+const requiredMessage = __mt('%1 is required');
 
 const initValidationSchema = {
   company: YupString().required(requiredMessage),

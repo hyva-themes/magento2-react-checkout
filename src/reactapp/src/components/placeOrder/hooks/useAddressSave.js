@@ -5,7 +5,7 @@ import {
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
 } from '../../../config';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import usePlaceOrderAppContext from './usePlaceOrderAppContext';
@@ -81,7 +81,7 @@ export default function useAddressSave() {
         const { carrierCode, methodCode } = selectedShippingMethod;
         const newShippingMethods = _get(cartInfo, 'shipping_methods');
 
-        if (!_get(newShippingMethods, `${carrierCode}__${methodCode}`)) {
+        if (!_get(newShippingMethods, `${carrierCode}__mt${methodCode}`)) {
           // this means selected shipping method is not available
           throw new ShippingMethodRequiredException(
             'Selected shipping method is not available due to the shipping address change. Please select from the available methods.'
@@ -97,9 +97,9 @@ export default function useAddressSave() {
     } catch (error) {
       console.error(error);
       if (error instanceof ShippingMethodRequiredException) {
-        setErrorMessage(__(error.message));
+        setErrorMessage(__mt(error.message));
       } else {
-        setErrorMessage(__('Address update failed. Please try again.'));
+        setErrorMessage(__mt('Address update failed. Please try again.'));
       }
     }
   };

@@ -5,7 +5,7 @@ import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext'
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 
 function ShippingMethodList() {
   const {
@@ -18,7 +18,7 @@ function ShippingMethodList() {
   const { methodsAvailable, methodList } = useShippingMethodCartContext();
   const { carrierCode: methodCarrierCode, methodCode: methodMethodCode } =
     selectedMethod || {};
-  const selectedMethodId = `${methodCarrierCode}__${methodMethodCode}`;
+  const selectedMethodId = `${methodCarrierCode}__mt${methodMethodCode}`;
 
   const handleShippingMethodSelection = async (event) => {
     const methodSelected = methodList[event.target.value];
@@ -55,7 +55,7 @@ function ShippingMethodList() {
                 onChange={handleShippingMethodSelection}
               />
               <span className="pt-2 pl-3 font-semibold">
-                {__('Price: {}', price)}
+                {__mt('Price: %1', price)}
               </span>
             </li>
           );

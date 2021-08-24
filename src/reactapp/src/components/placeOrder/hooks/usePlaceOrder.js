@@ -1,4 +1,4 @@
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import usePlaceOrderAppContext from './usePlaceOrderAppContext';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
@@ -19,7 +19,7 @@ export default function usePlaceOrder() {
     } catch (error) {
       console.error(error);
       setErrorMessage(
-        __('Your checkout details are not valid. Please verify your details.')
+        __mt('Your checkout details are not valid. Please verify your details.')
       );
       throw error;
     }

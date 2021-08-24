@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { node } from 'prop-types';
 import { Form } from 'formik';
 
-import { __ } from '../../../../i18n';
+import { __mt } from '../../../../i18n';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
 import { prepareCartItemsUniqueId } from './utility';
@@ -37,12 +37,14 @@ function CartItemsFormManager({ children, formikData }) {
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
         await updateCartItem({ cartItems: cartItemsToUpdate });
-        setSuccessMessage(__('Cart updated successfully.'));
+        setSuccessMessage(__mt('Cart updated successfully.'));
         setPageLoader(false);
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Something went wrong while updating the cart item.'));
+      setErrorMessage(
+        __mt('Something went wrong while updating the cart item.')
+      );
       setPageLoader(false);
     }
   };

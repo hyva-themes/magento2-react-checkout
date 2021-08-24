@@ -4,7 +4,7 @@ import { arrayOf, func, node, shape, string } from 'prop-types';
 import { ShieldCheckIcon, PencilIcon } from '@heroicons/react/solid';
 
 import Card from '../../common/Card';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { _isObjEmpty } from '../../../utils';
 import useAppContext from '../../../hook/useAppContext';
 
@@ -38,8 +38,8 @@ function AddressCard({
         {isLoggedIn && !_isObjEmpty(customerAddressList) && (
           <span className="text-xs italic font-semibold capitalize text-secondary-lighter">
             {customerAddressList[id]
-              ? __('FROM ADDRESS BOOK')
-              : __('NEW ADDRESS')}
+              ? __mt('FROM ADDRESS BOOK')
+              : __mt('NEW ADDRESS')}
           </span>
         )}
         <div className="flex items-center justify-end flex-1">
@@ -49,7 +49,7 @@ function AddressCard({
             className="px-2 py-1 btn-secondary btn"
           >
             <PencilIcon className="w-6 h-6 pr-1" />
-            <span className="text-xs">{__('Edit')}</span>
+            <span className="text-xs">{__mt('Edit')}</span>
           </button>
         </div>
       </div>

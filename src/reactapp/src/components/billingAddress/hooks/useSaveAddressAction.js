@@ -2,7 +2,7 @@ import {
   isValidCustomerAddressId,
   billingSameAsShippingField,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
@@ -88,11 +88,11 @@ export default function useSaveAddressAction(billingFormikContext) {
         setFieldValue(billingSameAsShippingField, true);
       }
 
-      setSuccessMessage(__('Billing address updated successfully.'));
+      setSuccessMessage(__mt('Billing address updated successfully.'));
       setPageLoader(false);
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Billing address update failed. Please try again.'));
+      setErrorMessage(__mt('Billing address update failed. Please try again.'));
       setPageLoader(false);
     }
   };

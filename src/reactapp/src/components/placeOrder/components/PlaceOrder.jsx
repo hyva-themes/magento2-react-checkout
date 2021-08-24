@@ -19,7 +19,7 @@ import {
   hasShippingAddressErrors,
   hasTermsAndConditionsAgreed,
 } from '../utility';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import usePlaceOrder from '../hooks/usePlaceOrder';
 import useAddressSave from '../hooks/useAddressSave';
 import useEmailInfoSave from '../hooks/useEmailInfoSave';
@@ -39,7 +39,7 @@ function PlaceOrder() {
     if (hasLoginErrors(errors)) {
       const customerWantsToSignIn = _get(values, customerWantsToSignInField);
       setErrorMessage(
-        __(
+        __mt(
           customerWantsToSignIn
             ? 'Please provide your login details.'
             : 'Please provide your email address.'
@@ -50,31 +50,33 @@ function PlaceOrder() {
     }
 
     if (hasShippingAddressErrors(errors)) {
-      setErrorMessage(__('Please provide your shipping address information.'));
+      setErrorMessage(
+        __mt('Please provide your shipping address information.')
+      );
       focusOnFormErrorElement(SHIPPING_ADDR_FORM, errors);
       return;
     }
 
     if (hasBillingAddressErrors(errors, values)) {
-      setErrorMessage(__('Please provide your billing address information.'));
+      setErrorMessage(__mt('Please provide your billing address information.'));
       focusOnFormErrorElement(BILLING_ADDR_FORM, errors);
       return;
     }
 
     if (hasShippingMethodErrors(errors)) {
-      setErrorMessage(__('Please select your shipping method.'));
+      setErrorMessage(__mt('Please select your shipping method.'));
       scrollToElement(SHIPPING_METHOD);
       return;
     }
 
     if (hasPaymentMethodErrors(errors)) {
-      setErrorMessage(__('Please select your payment method.'));
+      setErrorMessage(__mt('Please select your payment method.'));
       scrollToElement(PAYMENT_METHOD_FORM);
       return;
     }
 
     if (hasTermsAndConditionsAgreed(errors)) {
-      setErrorMessage(__('Please agree with the terms & conditions'));
+      setErrorMessage(__mt('Please agree with the terms & conditions'));
       scrollToElement(CHECKOUT_AGREEMENTS_FORM);
       return;
     }
@@ -94,7 +96,7 @@ function PlaceOrder() {
   return (
     <div className="flex items-center justify-center py-4">
       <Button variant="primary" size="lg" click={handlePerformPlaceOrder}>
-        {__('Place Order')}
+        {__mt('Place Order')}
       </Button>
     </div>
   );

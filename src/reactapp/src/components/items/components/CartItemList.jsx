@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CartItem from './CartItem';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { _abs } from '../../../utils';
 import useItemsFormContext from '../hooks/useItemsFormContext';
 
@@ -26,12 +26,12 @@ function CartItemList() {
         <table className="table w-full text-left">
           <thead className="hidden text-left md:table-header-group">
             <tr>
-              <th>{__('Item')}</th>
-              <th>{__('Qty')}</th>
-              <th>{__('Price')}</th>
-              <th className="hidden xl:table-cell">{__('Total')}</th>
+              <th>{__mt('Item')}</th>
+              <th>{__mt('Qty')}</th>
+              <th>{__mt('Price')}</th>
+              <th className="hidden xl:table-cell">{__mt('Total')}</th>
               <th>
-                <span className="sr-only">{__('Actions')}</span>
+                <span className="sr-only">{__mt('Actions')}</span>
                 &nbsp;
               </th>
             </tr>

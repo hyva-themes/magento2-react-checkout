@@ -9,7 +9,7 @@ import {
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { billingAddressFormInitValues } from '../utility';
@@ -26,7 +26,7 @@ import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 
-const requiredMessage = __('%1 is required');
+const requiredMessage = __mt('%1 is required');
 
 const initValidationSchema = {
   company: YupString().required(requiredMessage),

@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 
-import { __ } from '../i18n';
+import { __mt } from '../i18n';
 import LocalStorage from './localStorage';
 import { BILLING_ADDR_FORM } from '../config';
 import { _cleanObjByKeys, _toString } from './index';
@@ -42,8 +42,8 @@ export function formatAddressListToCardData(addressList, stateList) {
         ...street,
         city,
         regionLabel || _get(countryRegion, 'name'),
-        __('{} zipcode: {}', countryCode || country, zipcode),
-        __('phone: {}', phone),
+        __mt('%1 zipcode: %1', countryCode || country, zipcode),
+        __mt('phone: %1', phone),
       ].filter((i) => !!i),
     };
   });

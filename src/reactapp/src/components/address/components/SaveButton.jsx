@@ -2,7 +2,7 @@ import React from 'react';
 import { bool, func, shape } from 'prop-types';
 
 import Button from '../../common/Button';
-import { __ } from '../../../i18n';
+import { __mt } from '../../../i18n';
 
 function SaveButton({ actions, isFormValid }) {
   return (
@@ -11,7 +11,7 @@ function SaveButton({ actions, isFormValid }) {
       disable={!isFormValid}
       click={actions.saveAddress}
     >
-      {__('Save')}
+      {__mt('Save')}
     </Button>
   );
 }
