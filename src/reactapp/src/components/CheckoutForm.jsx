@@ -15,9 +15,9 @@ import StickyRightSidebar from './StickyRightSidebar';
 import CheckoutAgreements from './checkoutAgreements';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
 import { config } from '../config';
+import { aggregatedQueryRequest } from '../api';
 import useAppContext from '../hook/useAppContext';
 import useCartContext from '../hook/useCartContext';
-import { aggregatedQueryRequest } from '../api';
 
 function CheckoutForm() {
   const { orderId, storeAggregatedCartStates } = useCartContext();

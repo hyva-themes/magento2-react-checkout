@@ -51,3 +51,7 @@ export function _replace(str, searchTerm, replaceWith = '') {
 export function _abs(num) {
   return Math.abs(num);
 }
+
+export function _min(num1, num2) {
+  return Math.min(Number(num1), Number(num2));
+}
