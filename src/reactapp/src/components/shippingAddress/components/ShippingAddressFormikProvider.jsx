@@ -30,6 +30,7 @@ import useRegionValidation from '../../address/hooks/useRegionValidation';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 
 const initialValues = {
   company: '',
@@ -79,10 +80,16 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedCountry,
     initValidationSchema
   );
+  // this will set default addresses on the address fields on login
+  useFillDefaultAddresses({
+    ...formikData,
+    setSelectedAddress,
+    setCustomerAddressSelected,
+  });
   const editModeContext = useFormEditMode();
-  const { setFormToViewMode } = editModeContext;
   const { customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
+  const { setFormToViewMode } = editModeContext;
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
