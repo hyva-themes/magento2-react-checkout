@@ -2,14 +2,10 @@ import {
   setBillingAddressAction,
   setCustomerAddrAsBillingAddrAction,
 } from './billingAddress/actions';
-import { updateCartItemAction } from './cartItems/actions';
-import { placeOrderAction, setOrderInfoAction } from './order/actions';
 import {
   setPaymentMethodAction,
   setRestPaymentMethodAction,
 } from './paymentMethod/actions';
-import { setShippingMethodAction } from './shippingMethod/actions';
-import { setEmailOnGuestCartAction } from './email/actions';
 import {
   mergeCartsAction,
   setCartInfoAction,
@@ -23,6 +19,11 @@ import {
   setSelectedShippingAddressAction,
   setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
+import { updateCartItemAction } from './cartItems/actions';
+import { setEmailOnGuestCartAction } from './email/actions';
+import { setShippingMethodAction } from './shippingMethod/actions';
+import { placeOrderAction, setOrderInfoAction } from './order/actions';
+import { storeAggregatedCartStatesAction } from './aggregated/actions';
 
 const dispatchMapper = {
   placeOrder: placeOrderAction,
@@ -41,6 +42,7 @@ const dispatchMapper = {
   setRestPaymentMethod: setRestPaymentMethodAction,
   getCartInfoAfterMerge: getCartInfoAfterMergeAction,
   addCartShippingAddress: addCartShippingAddressAction,
+  storeAggregatedCartStates: storeAggregatedCartStatesAction,
   setCartSelectedShippingAddress: setSelectedShippingAddressAction,
   setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,

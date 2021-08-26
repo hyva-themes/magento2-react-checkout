@@ -5,7 +5,8 @@ import CartContext from '../context/Cart/CartContext';
 
 export default function useCartContext() {
   const [cartData, cartActions] = useContext(CartContext);
-  const { getGuestCartInfo, placeOrder } = cartActions;
+  const { getGuestCartInfo, placeOrder, storeAggregatedCartStates } =
+    cartActions;
   const cart = _get(cartData, 'cart');
   const orderId = _get(cartData, 'order.order_number');
   const selectedPaymentMethod = _get(cart, 'selected_payment_method');
@@ -17,5 +18,6 @@ export default function useCartContext() {
     getGuestCartInfo,
     selectedPaymentMethod,
     selectedShippingMethod,
+    storeAggregatedCartStates,
   };
 }

@@ -1,5 +1,4 @@
-export const GET_CUSTOMER_ADDRESS_LIST_QUERY = `
-query {
+export const CUSTOMER_ADDRESS_LIST_QUERY_PART = `
   customer {
     default_billing
     default_shipping
@@ -25,5 +24,10 @@ query {
       telephone
     }
   }
-}
+`;
+
+export const GET_CUSTOMER_ADDRESS_LIST_QUERY = `
+  query {
+    ${CUSTOMER_ADDRESS_LIST_QUERY_PART}
+  }
 `;

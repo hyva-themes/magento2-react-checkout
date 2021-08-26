@@ -13,7 +13,7 @@ import useItemsFormContext from '../hooks/useItemsFormContext';
 function CartItem({ item, isLastItem, actions }) {
   const { formikData, handleKeyDown, cartItemsTouched, itemUpdateHandler } =
     useItemsFormContext();
-  const qtyField = `${item.id}.quantity`;
+  const qtyField = `item__${item.id}.quantity`;
   const itemQtyField = `${CART_ITEMS_FORM}.${qtyField}`;
   const isQtyFieldTouched = _get(cartItemsTouched, qtyField);
 
