@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Login from './login';
 import Totals from './totals';
@@ -13,13 +13,14 @@ import ShippingAddress from './shippingAddress';
 import ShippingMethodsForm from './shippingMethod';
 import StickyRightSidebar from './StickyRightSidebar';
 import CheckoutAgreements from './checkoutAgreements';
-import CheckoutFormWrapper from './CheckoutFormWrapper';
 import { config } from '../config';
 import { aggregatedQueryRequest } from '../api';
 import useAppContext from '../hook/useAppContext';
 import useCartContext from '../hook/useCartContext';
+import CheckoutFormWrapper from './CheckoutFormWrapper';
 
 function CheckoutForm() {
+  const [initialData, setInitialData] = useState(false);
   const { orderId, storeAggregatedCartStates } = useCartContext();
   const [{ pageLoader }, appActions] = useAppContext();
   const {
@@ -35,6 +36,7 @@ function CheckoutForm() {
         const data = await aggregatedQueryRequest(appDispatch);
         storeAggregatedCartStates(data);
         storeAggregatedAppStates(data);
+        setInitialData(data);
         setPageLoader(false);
       } catch (error) {
         setPageLoader(false);
@@ -60,7 +62,7 @@ function CheckoutForm() {
   }
 
   return (
-    <CheckoutFormWrapper>
+    <CheckoutFormWrapper initialData={initialData}>
       <Message />
       <div className="flex justify-center">
         <div className="container">

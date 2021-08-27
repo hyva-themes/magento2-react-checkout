@@ -1,8 +1,10 @@
 export const CUSTOMER_ADDRESS_LIST_QUERY_PART = `
   customer {
+    email
+    firstname
+    lastname
     default_billing
     default_shipping
-    email
     addresses {
       id
       city

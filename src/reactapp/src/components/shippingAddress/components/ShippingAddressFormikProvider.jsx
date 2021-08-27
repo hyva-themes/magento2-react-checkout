@@ -5,7 +5,6 @@ import {
   boolean as YupBoolean,
 } from 'yup';
 import _get from 'lodash.get';
-import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
@@ -99,12 +98,11 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
-    (addressToSet) => {
+    (addressToSet) =>
       setFieldValue(SHIPPING_ADDR_FORM, {
         ...initialValues,
         ...addressToSet,
-      });
-    },
+      }),
     [setFieldValue]
   );
 
@@ -114,7 +112,6 @@ function ShippingAddressFormikProvider({ children, formikData }) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
-
       return;
     }
 
@@ -132,25 +129,15 @@ function ShippingAddressFormikProvider({ children, formikData }) {
       setIsNewAddress(false);
     }
 
-    // Set shipping address from the cart address
-    // This should happen always except if the "New Address" is going to be created
-    if (!forceFilledAddress || !isNewAddress) {
-      _set(cartShippingAddress, 'id', selectedAddress);
-      setShippingAddressFormFields({ ...cartShippingAddress });
-    }
-
     if (cartHasShippingAddress) {
       setForceFilledAddress(selectedAddress);
     }
   }, [
-    isNewAddress,
     selectedAddress,
     setFormToViewMode,
     forceFilledAddress,
-    cartShippingAddress,
     customerAddressList,
     cartHasShippingAddress,
-    setShippingAddressFormFields,
   ]);
 
   let context = {

@@ -3,16 +3,18 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   isCartAddressValid,
   billingSameAsShippingField,
+  prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
 import LocalStorage from '../../../utils/localStorage';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import { _emptyFunc, _isObjEmpty, _makePromise } from '../../../utils';
+import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
 import useShippingAddressCartContext from './useShippingAddressCartContext';
 
 /**
  * Saving default billing/shipping addresses into the quote if the quote
- * does not posses the address info.
+ * does not posses the address info when customer login
  */
 export default function useFillDefaultAddresses(shippingContext) {
   const [isDefaultAddressSaved, setIsDefaultAddressSaved] = useState(false);
@@ -72,7 +74,7 @@ export default function useFillDefaultAddresses(shippingContext) {
 
     if (defaultBillingAddress && !cartHasBillingAddress) {
       isBillingGoingToSave = defaultBillingAddress;
-      saveShippingPromise = _makePromise(
+      saveBillingPromise = _makePromise(
         setCustomerAddressAsBillingAddress,
         defaultBillingAddress,
         sameStatus
@@ -85,11 +87,19 @@ export default function useFillDefaultAddresses(shippingContext) {
       await saveShippingPromise();
 
       if (isBillingGoingToSave) {
+        const formAddressToFill = prepareFormAddressFromCartAddress(
+          customerAddressList[isBillingGoingToSave]
+        );
+        setFieldValue(BILLING_ADDR_FORM, formAddressToFill);
         setIsBillingCustomerAddress(true);
         setBillingSelected(isBillingGoingToSave);
         LocalStorage.saveCustomerBillingAddressId(isBillingGoingToSave);
       }
       if (isShippingGoingToSave) {
+        const formAddressToFill = prepareFormAddressFromCartAddress(
+          customerAddressList[defaultShippingAddress]
+        );
+        setFieldValue(SHIPPING_ADDR_FORM, formAddressToFill);
         setCustomerAddressSelected(true);
         setSelectedAddress(defaultShippingAddress);
         LocalStorage.saveCustomerShippingAddressId(defaultShippingAddress);
@@ -109,6 +119,7 @@ export default function useFillDefaultAddresses(shippingContext) {
     isBillingSame,
     setBillingSelected,
     setSelectedAddress,
+    customerAddressList,
     defaultBillingAddress,
     cartHasBillingAddress,
     defaultShippingAddress,
@@ -138,7 +149,6 @@ export default function useFillDefaultAddresses(shippingContext) {
     if (cartHasBillingAddress && cartHasShippingAddress) {
       return;
     }
-
     setIsDefaultAddressSaved(true);
     setDefaultAddressesOnQuote();
   }, [
