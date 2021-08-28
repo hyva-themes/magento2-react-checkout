@@ -11,7 +11,7 @@ export const CHECKOUT_AGREEMENTS_QUERY_PART = `
 `;
 
 export const GET_CHECKOUT_AGREEMENTS_QUERY = `
-  query {
+  query getCheckoutAgreementsQuery {
     ${CHECKOUT_AGREEMENTS_QUERY_PART}
   }
 `;

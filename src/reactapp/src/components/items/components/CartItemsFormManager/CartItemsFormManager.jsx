@@ -5,13 +5,13 @@ import { Form } from 'formik';
 import { __ } from '../../../../i18n';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
-import { prepareCartItemsUniqueId } from './utility';
 import useFormSection from '../../../../hook/useFormSection';
 import { formikDataShape } from '../../../../utils/propTypes';
 import useItemsAppContext from '../../hooks/useItemsAppContext';
 import useItemsCartContext from '../../hooks/useItemsCartContext';
 import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
+import { prepareCartItemsFormData, prepareCartItemsUniqueId } from './utility';
 
 let initialValues = {};
 
@@ -26,8 +26,8 @@ function CartItemsFormManager({ children, formikData }) {
     useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
   const [itemsUniqueId, setItemsUniqueId] = useState(true);
-  const cartItemsArr = _objToArray(cartItems);
-  const cartItemIds = prepareCartItemsUniqueId(cartItemsArr);
+  const cartItemsArray = _objToArray(cartItems);
+  const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
@@ -48,22 +48,17 @@ function CartItemsFormManager({ children, formikData }) {
   };
 
   useEffect(() => {
-    if (needToPopulateForm && cartItemsAvailable) {
-      const cartItemFormData = cartItemsArr.reduce((accumulator, item) => {
-        const cartItemId = parseInt(item.id, 10);
-        accumulator[`item__${cartItemId}`] = {
-          cart_item_id: cartItemId,
-          quantity: parseFloat(item.quantity),
-        };
-        return accumulator;
-      }, {});
-      initialValues = cartItemFormData;
-      setFieldValue(CART_ITEMS_FORM, cartItemFormData);
-      setItemsUniqueId(cartItemIds);
+    if (!needToPopulateForm || !cartItemsAvailable) {
+      return;
     }
+
+    const cartItemFormData = prepareCartItemsFormData(cartItemsArray);
+    initialValues = cartItemFormData;
+    setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+    setItemsUniqueId(cartItemIds);
   }, [
     cartItemIds,
-    cartItemsArr,
+    cartItemsArray,
     setFieldValue,
     cartItemsAvailable,
     needToPopulateForm,
@@ -89,8 +84,8 @@ function CartItemsFormManager({ children, formikData }) {
     formikData,
     handleKeyDown,
     itemUpdateHandler,
-    cartItems: cartItemsArr,
-    cartItemsAvailable: !!cartItemsArr.length,
+    cartItems: cartItemsArray,
+    cartItemsAvailable: !!cartItemsArray.length,
   };
 
   return (

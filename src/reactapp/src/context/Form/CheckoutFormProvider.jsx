@@ -55,7 +55,7 @@ function CheckoutFormProvider({ children }) {
   const [paymentActionList, setPaymentActions] = useState({});
 
   const { placeOrder } = useCartContext();
-  const [, { setPageLoader }] = useAppContext();
+  const { setPageLoader } = useAppContext();
 
   /**
    * This will help any custom payment method renderer component to register

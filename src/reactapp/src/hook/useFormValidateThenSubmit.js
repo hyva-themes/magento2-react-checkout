@@ -13,7 +13,7 @@ export default function useFormValidateThenSubmit({
   submitHandler,
   validationSchema,
 }) {
-  const [, { setErrorMessage }] = useAppContext();
+  const { setErrorMessage } = useAppContext();
   const {
     setFieldTouched,
     formSectionErrors,
