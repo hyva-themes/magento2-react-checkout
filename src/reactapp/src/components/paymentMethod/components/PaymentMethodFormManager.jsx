@@ -24,22 +24,29 @@ const validationSchema = {
 function PaymentMethodFormManager({ children, formikData }) {
   const { setPaymentMethod, selectedPaymentMethod } =
     usePaymentMethodCartContext();
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
   const { setFieldValue } = formikData;
 
   const formSubmit = async (paymentMethod) => {
+    setMessage(false);
+
+    if (!paymentMethod) {
+      return;
+    }
+
     try {
-      if (paymentMethod) {
-        setPageLoader(true);
-        await setPaymentMethod(paymentMethod);
-        setSuccessMessage(__('Payment method added successfully.'));
-        setPageLoader(false);
-      }
+      setPageLoader(true);
+      await setPaymentMethod(paymentMethod);
+      setSuccessMessage(__('Payment method added successfully.'));
+      setPageLoader(false);
     } catch (error) {
       setPageLoader(false);
       setErrorMessage(
-        __('Something went wrong while adding the payment method to the quote.')
+        error.message ||
+          __(
+            'Something went wrong while adding the payment method to the quote.'
+          )
       );
     }
   };

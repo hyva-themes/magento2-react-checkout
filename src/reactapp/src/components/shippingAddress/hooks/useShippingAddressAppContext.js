@@ -4,6 +4,7 @@ export default function useShippingAddressAppContext() {
   const {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,
@@ -14,14 +15,15 @@ export default function useShippingAddressAppContext() {
   } = useAppContext();
 
   return {
-    isLoggedIn,
     stateList,
+    isLoggedIn,
+    setMessage,
     countryList,
-    defaultShippingAddress,
-    customerAddressList,
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
+    customerAddressList,
     updateCustomerAddress,
+    defaultShippingAddress,
   };
 }

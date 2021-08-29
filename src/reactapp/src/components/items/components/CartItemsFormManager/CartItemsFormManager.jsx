@@ -20,18 +20,19 @@ const validationSchema = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const [itemsUniqueId, setItemsUniqueId] = useState(true);
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useItemsAppContext();
   const { cartItems, updateCartItem, cartItemsAvailable } =
     useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
-  const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const cartItemsArray = _objToArray(cartItems);
   const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
     try {
+      setMessage(false);
       const cartItemsToUpdate = _objToArray(cartItemsValue);
 
       if (cartItemsToUpdate.length) {
@@ -58,8 +59,8 @@ function CartItemsFormManager({ children, formikData }) {
     setItemsUniqueId(cartItemIds);
   }, [
     cartItemIds,
-    cartItemsArray,
     setFieldValue,
+    cartItemsArray,
     cartItemsAvailable,
     needToPopulateForm,
   ]);

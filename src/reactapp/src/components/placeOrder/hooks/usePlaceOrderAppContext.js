@@ -1,10 +1,8 @@
-import { useContext } from 'react';
-
-import AppContext from '../../../context/App/AppContext';
+import useAppContext from '../../../hook/useAppContext';
 
 export default function usePlaceOrderAppContext() {
-  const [, { setPageLoader, setSuccessMessage, setErrorMessage }] =
-    useContext(AppContext);
+  const { setMessage, setPageLoader, setSuccessMessage, setErrorMessage } =
+    useAppContext();
 
-  return { setPageLoader, setSuccessMessage, setErrorMessage };
+  return { setMessage, setPageLoader, setSuccessMessage, setErrorMessage };
 }

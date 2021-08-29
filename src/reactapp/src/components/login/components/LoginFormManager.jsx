@@ -44,8 +44,6 @@ const validationSchema = {
 const EMAIL_FIELD = `${LOGIN_FORM}.email`;
 
 function LoginFormManager({ children, formikData }) {
-  const { loginFormValues, setFieldValue, setFieldTouched } = formikData;
-  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
   const {
     cartEmail,
     mergeCarts,
@@ -53,8 +51,15 @@ function LoginFormManager({ children, formikData }) {
     setEmailOnGuestCart,
     getCustomerCartInfo,
   } = useLoginCartContext();
-  const { ajaxLogin, setPageLoader, setErrorMessage, setSuccessMessage } =
-    useLoginAppContext();
+  const {
+    ajaxLogin,
+    setMessage,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+  } = useLoginAppContext();
+  const { loginFormValues, setFieldValue, setFieldTouched } = formikData;
+  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
 
   const saveEmailOnCartRequest = async (email) => {
     setPageLoader(true);
@@ -93,6 +98,8 @@ function LoginFormManager({ children, formikData }) {
    * cart.
    */
   const formSubmit = async () => {
+    setMessage(false);
+
     const email = _get(loginFormValues, 'email');
     const password = _get(loginFormValues, 'password');
     const customerWantsToSignIn = _get(
