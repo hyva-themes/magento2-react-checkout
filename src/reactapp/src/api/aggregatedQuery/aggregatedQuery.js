@@ -14,6 +14,7 @@ export default async function aggregatedQuery(dispatch) {
 
   return modifier(
     await sendRequest(dispatch, { query, variables }),
+    token,
     initialCountry
   );
 }
