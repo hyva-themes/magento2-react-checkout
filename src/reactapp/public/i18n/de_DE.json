@@ -10,6 +10,7 @@
   "Billing address update failed. Please try later": "Aktualisieren der Zahlungsadresse fehlgeschlagen. Bitte versuchen Sie es später erneut",
   "Billing address updated successfully.": "Zahlungsadresse wurde erfolgreich aktualisiert.",
   "Billing address updated successfully": "Zahlungsadresse wurde erfolgreich aktualisiert",
+  "BILLING ADDRESS": "RECHNUNGSADRESSE",
   "Billing Information": "Zahlungsinformationen",
   "Cancel": "Abbrechen",
   "Cart Subtotal": "Zwischensumme Warenkorb",
@@ -62,6 +63,7 @@
   "Shipping address update failed. Please try again": "Aktualisieren der Versandadresse fehlgeschlagen. Bitte versuchen Sie es erneut.",
   "Shipping address updated successfully.": "Aktualisieren der Versandadresse erfolgreich.",
   "Shipping address updated successfully": "Aktualisieren der Versandadresse erfolgreich",
+  "SHIPPING ADDRESS": "VERSANDADRESSE",
   "Shipping Information": "Versandinformationen",
   "Shipping method not available": "Versandmethode nicht verfügbar",
   "Shipping method updated successfully.": "Aktualisieren der Versandmethode erfolgreich",
@@ -76,5 +78,6 @@
   "Total": "Gesamt",
   "Update": "Aktualisieren",
   "Use different address": "Eine andere Adresse verwenden",
+  "Use this address as my billing address": "Diese Adresse als Rechnungsadresse verwenden",
   "Your checkout details are not valid. Please verify your details.": "Ihre Zahlungsdaten sind falsch. Bitte prüfen Sie Ihre Angaben."
 }
