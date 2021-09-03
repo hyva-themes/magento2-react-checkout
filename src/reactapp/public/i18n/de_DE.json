@@ -2,6 +2,7 @@
   "-- Please Select --": "-- Bitte auswählen --",
   "{} zipcode: {}": "{} Postleitzahl: {}",
   "%1 is required": "%1 wird benötigt.",
+  "+32 000 000 000": "+49 000 000 000",
   "Actions": "Aktionen",
   "Address switching failed, sorry.": "Leider ist beim Ändern der Adresse ein Fehler aufgetreten.",
   "Billing address made same as shipping address": "Versandadresse als Zahlungsadresse übernommen",
