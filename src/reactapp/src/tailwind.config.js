@@ -1,4 +1,13 @@
 /* eslint-disable */
+
+/**
+ * 📢 🚫 This Tailwindcss configuration is not the actual one using 🚫
+ *
+ * This file is included just to make sure vscode suggests tailwindcss class
+ * inside the reactapp.
+ *
+ * The original tailwindcss configuration resides in src/view/frontend/web/css/tailwindcss.
+ */
 const colors = require('tailwindcss/colors');
 const forms = require('@tailwindcss/forms');
 
