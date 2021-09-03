@@ -42,7 +42,7 @@ function LoginForm() {
           name={fields.email}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder="john.doe@gmail.com"
+          placeholder={__('john.doe@gmail.com')}
         />
 
         {!customerWantsToSignIn && (
