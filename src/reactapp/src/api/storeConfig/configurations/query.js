@@ -6,7 +6,7 @@ export const STORE_CONFIG_QUERY_PART = `
 `;
 
 export const GET_STORE_CONFIG_QUERY = `
-  query {
+  query getStoreConfigQuery {
     ${STORE_CONFIG_QUERY_PART}
   }
 `;

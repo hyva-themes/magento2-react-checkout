@@ -8,7 +8,7 @@ export const COUNTRY_LIST_QUERY_PART = `
 `;
 
 export const GET_COUNTRY_LIST_QUERY = `
-  query {
+  query getCountryListQuery {
     ${COUNTRY_LIST_QUERY_PART}
   }
 `;

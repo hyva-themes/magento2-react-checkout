@@ -29,7 +29,7 @@ export const CUSTOMER_ADDRESS_LIST_QUERY_PART = `
 `;
 
 export const GET_CUSTOMER_ADDRESS_LIST_QUERY = `
-  query {
+  query getCustomerInfoWithAddressQuery {
     ${CUSTOMER_ADDRESS_LIST_QUERY_PART}
   }
 `;

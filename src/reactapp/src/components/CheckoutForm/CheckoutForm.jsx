@@ -1,41 +1,40 @@
 import React, { useEffect, useState } from 'react';
 
-import Login from './login';
-import Totals from './totals';
-import CartItemsForm from './items';
-import PlaceOrder from './placeOrder';
-import Message from './common/Message';
-import PageLoader from './common/Loader';
-import { AddressWrapper } from './address';
-import PaymentMethod from './paymentMethod';
-import BillingAddress from './billingAddress';
-import ShippingAddress from './shippingAddress';
-import ShippingMethodsForm from './shippingMethod';
-import StickyRightSidebar from './StickyRightSidebar';
-import CheckoutAgreements from './checkoutAgreements';
-import { config } from '../config';
-import { aggregatedQueryRequest } from '../api';
-import useAppContext from '../hook/useAppContext';
-import useCartContext from '../hook/useCartContext';
+import Login from '../login';
+import Totals from '../totals';
+import CartItemsForm from '../items';
+import PlaceOrder from '../placeOrder';
+import Message from '../common/Message';
+import PageLoader from '../common/Loader';
+import { AddressWrapper } from '../address';
+import PaymentMethod from '../paymentMethod';
+import BillingAddress from '../billingAddress';
+import ShippingAddress from '../shippingAddress';
+import ShippingMethodsForm from '../shippingMethod';
+import StickyRightSidebar from '../StickyRightSidebar';
+import CheckoutAgreements from '../checkoutAgreements';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
+import { config } from '../../config';
+import { aggregatedQueryRequest } from '../../api';
+import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
+import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
 
 function CheckoutForm() {
   const [initialData, setInitialData] = useState(false);
-  const { orderId, storeAggregatedCartStates } = useCartContext();
-  const [{ pageLoader }, appActions] = useAppContext();
-  const {
-    setPageLoader,
-    dispatch: appDispatch,
-    storeAggregatedAppStates,
-  } = appActions;
+  const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
+    useCheckoutFormAppContext();
+  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
 
+  /**
+   * Collect App, Cart data when the page loads.
+   */
   useEffect(() => {
     (async () => {
       try {
         setPageLoader(true);
         const data = await aggregatedQueryRequest(appDispatch);
-        storeAggregatedCartStates(data);
-        storeAggregatedAppStates(data);
+        await storeAggregatedCartStates(data);
+        await storeAggregatedAppStates(data);
         setInitialData(data);
         setPageLoader(false);
       } catch (error) {

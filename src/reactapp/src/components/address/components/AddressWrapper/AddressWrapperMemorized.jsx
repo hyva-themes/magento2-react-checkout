@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { node } from 'prop-types';
 
+import {
+  initialCountry,
+  isValidCustomerAddressId,
+} from '../../../../utils/address';
 import LocalStorage from '../../../../utils/localStorage';
 import useAppContext from '../../../../hook/useAppContext';
 import { formikDataShape } from '../../../../utils/propTypes';
 import { prepareMostRecentAddressOptions } from '../../utility';
-import { isValidCustomerAddressId } from '../../../../utils/address';
 import { CART_BILLING_ADDRESS } from '../../../billingAddress/utility';
 import { _emptyFunc, _makePromise, _toString } from '../../../../utils';
 import AddressWrapperContext from '../../context/AddressWrapperContext';
@@ -21,7 +24,9 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
     isValidCustomerAddressId(addressIdInCache)
   );
   const [billingSelected, setBillingSelected] = useState(initAddressId);
-  const [countriesOfWhichStatesFetched, setCountriesFetched] = useState([]);
+  const [countriesOfWhichStatesFetched, setCountriesFetched] = useState([
+    initialCountry,
+  ]);
 
   /**
    * Most recent address options are derived from the address stored in the local storage
@@ -30,7 +35,7 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
    * components. For that purpose, this needs to be kept in state.
    */
   const [mostRecentAddressOptions, setMostRecentAddressOptions] = useState([]);
-  const [{ stateList }, { fetchCountryStates }] = useAppContext();
+  const { stateList, fetchCountryStates } = useAppContext();
   const { billingCountry, shippingCountry } = formikData;
 
   /**

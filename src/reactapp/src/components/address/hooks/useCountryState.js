@@ -5,7 +5,7 @@ import useAppContext from '../../../hook/useAppContext';
 import { prepareCountryOptions, prepareCountryStateOptions } from '../utility';
 
 export default function useCountryState({ fields, formikData }) {
-  const [{ countryList, stateList }] = useAppContext();
+  const { countryList, stateList } = useAppContext();
   const regionField = fields.region;
   const { selectedCountry, selectedRegion, setFieldValue } = formikData || {};
 

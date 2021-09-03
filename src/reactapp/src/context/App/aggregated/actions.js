@@ -1,21 +1,14 @@
 import { AGGREGATED_APP_DATA } from './types';
 
-export function storeAggregatedAppStatesAction(dispatch, data) {
-  const {
-    customer,
-    countryList,
-    storeConfig,
-    rightColumnBlock,
-    checkoutAgreements,
-  } = data;
+export async function storeAggregatedAppStatesAction(dispatch, data) {
+  const { customer, countryList, checkoutAgreements, stateList } = data;
 
-  dispatch({
+  return dispatch({
     type: AGGREGATED_APP_DATA,
     payload: {
       ...customer,
+      stateList,
       countryList,
-      storeConfig,
-      rightColumnBlock,
       checkoutAgreements,
     },
   });

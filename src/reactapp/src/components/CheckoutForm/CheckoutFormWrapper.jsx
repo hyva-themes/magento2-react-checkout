@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 import { bool, object, node, oneOfType } from 'prop-types';
+
 import {
   LOGIN_FORM,
   SHIPPING_METHOD,
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
   PAYMENT_METHOD_FORM,
-} from '../config';
-import { _emptyFunc } from '../utils';
+} from '../../config';
+import { _emptyFunc } from '../../utils';
 
 function CheckoutFormWrapper({ initialData, children }) {
   const [initDataFilled, setInitDataFilled] = useState(false);

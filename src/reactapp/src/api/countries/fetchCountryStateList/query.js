@@ -1,5 +1,4 @@
-export const GET_COUNTRY_STATE_LIST_QUERY = `
-query getCountryStateListQuery($countryId: String!) {
+export const COUNTRY_STATE_LIST_QUERY_PART = `
   country(id: $countryId){
     id
     available_regions {
@@ -8,4 +7,9 @@ query getCountryStateListQuery($countryId: String!) {
       name
     }
   }
+`;
+
+export const GET_COUNTRY_STATE_LIST_QUERY = `
+query getCountryStateListQuery($countryId: String!) {
+  ${COUNTRY_STATE_LIST_QUERY_PART}
 }`;

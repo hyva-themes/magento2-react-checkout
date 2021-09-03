@@ -9,6 +9,7 @@ import { Form } from 'formik';
 import { node } from 'prop-types';
 
 import {
+  initialCountry,
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../utils/address';
@@ -16,7 +17,6 @@ import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../config';
-import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -40,7 +40,7 @@ const initialValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: RootElement.getDefaultCountryId(),
+  country: initialCountry,
 };
 
 const requiredMessage = __('%1 is required');
