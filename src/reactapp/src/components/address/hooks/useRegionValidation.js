@@ -11,7 +11,7 @@ const defaultRegionRule = YupString().nullable();
 const reqRegionRule = YupString().required(__('Region is required'));
 
 export default function useRegionValidation(countryValue, validationSchema) {
-  const [{ countryList }] = useAppContext();
+  const { countryList } = useAppContext();
 
   useEffect(() => {
     if (countryValue && validationSchema.region) {

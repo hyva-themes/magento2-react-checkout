@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { node } from 'prop-types';
 
-import useAppContext from '../hook/useAppContext';
-import LocalStorage from '../utils/localStorage';
+import useAppContext from '../../hook/useAppContext';
+import LocalStorage from '../../utils/localStorage';
 
 function CheckoutFormWrapper({ children }) {
   const customerToken = LocalStorage.getCustomerToken();
   const [customerFetched, setCustomerFetched] = useState('');
   const [addressFetched, setAddressFetched] = useState('');
-  const [
-    { isLoggedIn },
-    { setPageLoader, getCustomerInfo, getCustomerAddressList },
-  ] = useAppContext();
+  const { isLoggedIn, setPageLoader, getCustomerInfo, getCustomerAddressList } =
+    useAppContext();
 
   useEffect(() => {
     if (customerToken && customerToken !== customerFetched) {

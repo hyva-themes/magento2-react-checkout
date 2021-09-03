@@ -14,7 +14,7 @@ function AddressCard({
   billingSameCheckbox,
   address: { id, address },
 }) {
-  const [{ isLoggedIn, customerAddressList }] = useAppContext();
+  const { isLoggedIn, customerAddressList } = useAppContext();
 
   return (
     <Card bg="dark" classes="card-interactive">

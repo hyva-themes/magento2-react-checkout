@@ -8,7 +8,7 @@ import { _emptyFunc } from '../../../utils';
 import useAppContext from '../../../hook/useAppContext';
 
 function CreateNewAddressLink({ actions, forceHide }) {
-  const [{ isLoggedIn }] = useAppContext();
+  const { isLoggedIn } = useAppContext();
 
   if (!isLoggedIn || forceHide) {
     return <></>;

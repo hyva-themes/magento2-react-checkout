@@ -5,7 +5,7 @@ import { _emptyFunc } from '../../../utils';
 import useAppContext from '../../../hook/useAppContext';
 
 function Message() {
-  const [{ message }, { setMessage }] = useAppContext();
+  const { message, setMessage } = useAppContext();
   const msg = _get(message, 'message');
   const msgType = _get(message, 'type');
 

@@ -18,7 +18,7 @@ function AddressOptions({
   selectedOption,
   submitButtonLabel,
 }) {
-  const [{ customerAddressList }] = useAppContext();
+  const { customerAddressList } = useAppContext();
   const { reCalculateMostRecentAddressOptions } = useAddressWrapper();
 
   /**
