@@ -4,7 +4,7 @@ import { node } from 'prop-types';
 import useAppContext from '../hook/useAppContext';
 
 function StickyRightSidebar({ children }) {
-  const [{ message }] = useAppContext();
+  const { message } = useAppContext();
 
   return (
     <div

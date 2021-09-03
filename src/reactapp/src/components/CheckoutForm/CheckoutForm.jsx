@@ -1,34 +1,50 @@
 import React, { useEffect } from 'react';
 
-import Login from './login';
-import Totals from './totals';
-import CartItemsForm from './items';
-import PlaceOrder from './placeOrder';
-import Message from './common/Message';
-import PageLoader from './common/Loader';
-import { AddressWrapper } from './address';
-import PaymentMethod from './paymentMethod';
-import BillingAddress from './billingAddress';
-import ShippingAddress from './shippingAddress';
-import ShippingMethodsForm from './shippingMethod';
-import StickyRightSidebar from './StickyRightSidebar';
-import CheckoutAgreements from './checkoutAgreements';
+import Login from '../login';
+import Totals from '../totals';
+import CartItemsForm from '../items';
+import PlaceOrder from '../placeOrder';
+import Message from '../common/Message';
+import PageLoader from '../common/Loader';
+import { AddressWrapper } from '../address';
+import PaymentMethod from '../paymentMethod';
+import BillingAddress from '../billingAddress';
+import ShippingAddress from '../shippingAddress';
+import ShippingMethodsForm from '../shippingMethod';
+import StickyRightSidebar from '../StickyRightSidebar';
+import CheckoutAgreements from '../checkoutAgreements';
 import CheckoutFormWrapper from './CheckoutFormWrapper';
-import { config } from '../config';
-import useAppContext from '../hook/useAppContext';
-import useCartContext from '../hook/useCartContext';
+import { config } from '../../config';
+import { aggregatedQueryRequest } from '../../api';
+import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
+import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
 
 function CheckoutForm() {
-  const { orderId, getGuestCartInfo } = useCartContext();
-  const [{ pageLoader }, { setPageLoader }] = useAppContext();
+  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
+  const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
+    useCheckoutFormAppContext();
 
+  /**
+   * Collect App, Cart data when the page loads.
+   */
   useEffect(() => {
     (async () => {
-      setPageLoader(true);
-      await getGuestCartInfo();
-      setPageLoader(false);
+      try {
+        setPageLoader(true);
+        const data = await aggregatedQueryRequest(appDispatch);
+        await storeAggregatedCartStates(data);
+        await storeAggregatedAppStates(data);
+        setPageLoader(false);
+      } catch (error) {
+        setPageLoader(false);
+      }
     })();
-  }, [getGuestCartInfo, setPageLoader]);
+  }, [
+    appDispatch,
+    setPageLoader,
+    storeAggregatedAppStates,
+    storeAggregatedCartStates,
+  ]);
 
   if (orderId && config.isDevelopmentMode) {
     return (

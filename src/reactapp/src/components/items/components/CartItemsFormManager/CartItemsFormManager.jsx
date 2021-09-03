@@ -31,8 +31,8 @@ function CartItemsFormManager({ children, formikData }) {
     useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
   const [itemsUniqueId, setItemsUniqueId] = useState(true);
-  const cartItemsArr = _objToArray(cartItems);
-  const cartItemIds = prepareCartItemsUniqueId(cartItemsArr);
+  const cartItemsArray = _objToArray(cartItems);
+  const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
@@ -58,16 +58,18 @@ function CartItemsFormManager({ children, formikData }) {
   };
 
   useEffect(() => {
-    if (needToPopulateForm && cartItemsAvailable) {
-      const cartItemFormData = prepareCartItemFormikData(cartItemsArr);
-      initialValues = cartItemFormData;
-      setItemsUniqueId(cartItemIds);
-      setFieldValue(CART_ITEMS_FORM, cartItemFormData);
-      setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
+    if (!needToPopulateForm || !cartItemsAvailable) {
+      return;
     }
+
+    const cartItemFormData = prepareCartItemFormikData(cartItemsArray);
+    initialValues = cartItemFormData;
+    setItemsUniqueId(cartItemIds);
+    setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+    setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
   }, [
     cartItemIds,
-    cartItemsArr,
+    cartItemsArray,
     setFieldValue,
     cartItemsAvailable,
     needToPopulateForm,
@@ -93,8 +95,8 @@ function CartItemsFormManager({ children, formikData }) {
     formikData,
     handleKeyDown,
     itemUpdateHandler,
-    cartItems: cartItemsArr,
-    cartItemsAvailable: !!cartItemsArr.length,
+    cartItems: cartItemsArray,
+    cartItemsAvailable: !!cartItemsArray.length,
   };
 
   return (

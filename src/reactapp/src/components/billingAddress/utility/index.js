@@ -1,7 +1,7 @@
 import { __ } from '../../../i18n';
 import { _isObjEmpty } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
-import RootElement from '../../../utils/rootElement';
+import { initialCountry } from '../../../utils/address';
 
 export const CART_BILLING_ADDRESS = 'cart_billing_address';
 export const billingAddrOtherOptionField =
@@ -16,7 +16,7 @@ export const billingAddressFormInitValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: RootElement.getDefaultCountryId(),
+  country: initialCountry,
   isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
 };
 

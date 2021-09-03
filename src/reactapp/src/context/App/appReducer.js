@@ -10,6 +10,8 @@ import {
   SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './customer/types';
+import { AGGREGATED_APP_DATA } from './aggregated/types';
+import { setAggregatedData } from './aggregated/reducers';
 import { setPageLoader, setPageMessage } from './page/reducers';
 import { SET_PAGE_LOADER, SET_PAGE_MESSAGE } from './page/types';
 import { SET_CHECKOUT_AGREEMENTS } from './checkoutAgreements/types';
@@ -22,6 +24,7 @@ const actions = {
   [SET_COUNTRY_LIST]: setCountryList,
   [SET_PAGE_MESSAGE]: setPageMessage,
   [SET_CUSTOMER_INFO]: setCustomerInfo,
+  [AGGREGATED_APP_DATA]: setAggregatedData,
   [ADD_COUNTRY_STATES]: addCountryStateList,
   [SET_CHECKOUT_AGREEMENTS]: setCheckoutAgreements,
   [SET_CUSTOMER_ADDRESS_INFO]: setCustomerAddressInfo,

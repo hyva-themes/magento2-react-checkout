@@ -1,18 +1,23 @@
-import cartBillingAddrInfo from '../utility/query/cartBillingAddrInfo';
 import cartItemsInfo from '../utility/query/cartItemsInfo';
-import cartPaymentMethodsInfo from '../utility/query/cartPaymentMethodsInfo';
 import cartPriceInfo from '../utility/query/cartPriceInfo';
+import cartBillingAddrInfo from '../utility/query/cartBillingAddrInfo';
 import cartShippingAddrInfo from '../utility/query/cartShippingAddrInfo';
+import cartPaymentMethodsInfo from '../utility/query/cartPaymentMethodsInfo';
 
-export const GET_GUEST_CART_QUERY = `
-query getGuestCartQuery($cartId: String!) {
+export const CART_QUERY_PART = `
   cart(cart_id: $cartId) {
     id
     email
     ${cartItemsInfo}
+    ${cartPriceInfo}
     ${cartBillingAddrInfo}
     ${cartShippingAddrInfo}
-    ${cartPriceInfo}
     ${cartPaymentMethodsInfo}
   }
-}`;
+`;
+
+export const GET_GUEST_CART_QUERY = `
+  query getGuestCartQuery($cartId: String!) {
+    ${CART_QUERY_PART}
+  }
+`;
