@@ -11,6 +11,7 @@ export default function useShippingAddressAppContext() {
     setSuccessMessage,
     customerAddressList,
     updateCustomerAddress,
+    defaultBillingAddress,
     defaultShippingAddress,
   } = useAppContext();
 
@@ -24,6 +25,7 @@ export default function useShippingAddressAppContext() {
     setSuccessMessage,
     customerAddressList,
     updateCustomerAddress,
+    defaultBillingAddress,
     defaultShippingAddress,
   };
 }

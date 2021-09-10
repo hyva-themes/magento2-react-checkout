@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { node } from 'prop-types';
 import _get from 'lodash.get';
 import { Form } from 'formik';
+import { node } from 'prop-types';
 import { string as YupString, bool as YupBool } from 'yup';
 
 import { __ } from '../../../i18n';
-import { config, LOGIN_FORM } from '../../../config';
-import LocalStorage from '../../../utils/localStorage';
+import { LOGIN_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import LoginFormContext from '../context/LoginFormContext';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -41,16 +40,7 @@ const validationSchema = {
   ),
 };
 
-const EMAIL_FIELD = `${LOGIN_FORM}.email`;
-
 function LoginFormManager({ children, formikData }) {
-  const {
-    cartEmail,
-    mergeCarts,
-    createEmptyCart,
-    setEmailOnGuestCart,
-    getCustomerCartInfo,
-  } = useLoginCartContext();
   const {
     ajaxLogin,
     setMessage,
@@ -58,33 +48,15 @@ function LoginFormManager({ children, formikData }) {
     setErrorMessage,
     setSuccessMessage,
   } = useLoginAppContext();
-  const { loginFormValues, setFieldValue, setFieldTouched } = formikData;
-  const { editMode, setFormToEditMode, setFormEditMode } = useFormEditMode();
+  const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
+  const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
+  const { loginFormValues } = formikData;
 
   const saveEmailOnCartRequest = async (email) => {
     setPageLoader(true);
     await setEmailOnGuestCart(email);
     setSuccessMessage(__('Email address is saved.'));
     setPageLoader(false);
-  };
-
-  const mergeCartsRequest = async (currentCartId, customerCartId) => {
-    let cartInfo;
-
-    if (!customerCartId) {
-      const newCartId = await createEmptyCart();
-      cartInfo = await mergeCarts({
-        sourceCartId: currentCartId,
-        destinationCartId: newCartId,
-      });
-    } else if (customerCartId !== currentCartId) {
-      cartInfo = await mergeCarts({
-        sourceCartId: currentCartId,
-        destinationCartId: customerCartId,
-      });
-    }
-
-    return cartInfo;
   };
 
   /**
@@ -106,7 +78,6 @@ function LoginFormManager({ children, formikData }) {
       loginFormValues,
       'customerWantsToSignIn'
     );
-    const currentCartId = LocalStorage.getCartId();
 
     try {
       setPageLoader(true);
@@ -121,21 +92,8 @@ function LoginFormManager({ children, formikData }) {
 
       if (loginData.errors) {
         setErrorMessage(__(loginData.message || 'Login failed.'));
-        setPageLoader(false);
-        return;
       }
-
-      await getCustomerCartInfo();
       setPageLoader(false);
-
-      window.dispatchEvent(new Event('reload-customer-section-data'));
-
-      // this mergeCarts needed only when we launch react app.
-      // when it works in a site, ajaxLogin will merge carts it seems
-      if (config.isDevelopmentMode) {
-        const customerCartId = _get(loginData, 'data.cart.cartId');
-        await mergeCartsRequest(currentCartId, customerCartId);
-      }
     } catch (error) {
       setPageLoader(false);
       console.error(error);
@@ -148,16 +106,6 @@ function LoginFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
-  // Whenever cart-data email info get updated, the email field will be filled with that value
-  useEffect(() => {
-    if (cartEmail) {
-      setFieldValue(EMAIL_FIELD, cartEmail);
-      // formik bug: we need to call this in setTimeout; else errors persist
-      setTimeout(() => setFieldTouched(EMAIL_FIELD, true));
-      setFormEditMode(false);
-    }
-  }, [cartEmail, setFieldValue, setFormEditMode, setFieldTouched]);
-
   const formSectionContext = useFormSection({
     formikData,
     initialValues,
@@ -165,6 +113,12 @@ function LoginFormManager({ children, formikData }) {
     validationSchema,
     submitHandler: formSubmit,
   });
+
+  useEffect(() => {
+    if (cartEmail) {
+      setFormToViewMode();
+    }
+  }, [cartEmail, setFormToViewMode]);
 
   const context = {
     ...formikData,

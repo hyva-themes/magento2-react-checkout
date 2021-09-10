@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString } from 'yup';
@@ -26,8 +26,7 @@ const validationSchema = {
 function ShippingMethodFormManager({ children, formikData }) {
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
-  const { setFieldValue } = formikData;
-  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
+  const { setShippingMethod } = useShippingMethodCartContext();
 
   const formSubmit = async (shippingMethod) => {
     setMessage(false);
@@ -49,15 +48,6 @@ function ShippingMethodFormManager({ children, formikData }) {
       setPageLoader(false);
     }
   };
-
-  useEffect(() => {
-    if (selectedMethod.carrierCode && selectedMethod.methodCode) {
-      setFieldValue(SHIPPING_METHOD, {
-        methodCode: selectedMethod.methodCode,
-        carrierCode: selectedMethod.carrierCode,
-      });
-    }
-  }, [selectedMethod, setFieldValue]);
 
   let context = useFormSection({
     formikData,

@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 import { prepareFullName } from '../../../utils/customer';
 
 export default function modifyCustomerAddressList(response) {
-  const customerData = _get(response, 'data.customer', {});
+  const customerData = _get(response, 'data.customer', {}) || {};
   const defaultBillingAddress = Number(_get(customerData, 'default_billing'));
   const defaultShippingAddress = Number(_get(customerData, 'default_shipping'));
   const customerAddressList = _get(customerData, 'addresses', []).reduce(
@@ -44,8 +44,15 @@ export default function modifyCustomerAddressList(response) {
     },
     {}
   );
+  const { firstname, lastname, email } = customerData;
 
   return {
+    customer: {
+      email,
+      firstname,
+      lastname,
+      fullName: prepareFullName(customerData),
+    },
     customerAddressList,
     defaultBillingAddress,
     defaultShippingAddress,

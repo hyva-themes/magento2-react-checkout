@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -22,11 +22,9 @@ const validationSchema = {
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
-  const { setPaymentMethod, selectedPaymentMethod } =
-    usePaymentMethodCartContext();
+  const { setPaymentMethod } = usePaymentMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
-  const { setFieldValue } = formikData;
 
   const formSubmit = async (paymentMethod) => {
     setMessage(false);
@@ -50,12 +48,6 @@ function PaymentMethodFormManager({ children, formikData }) {
       );
     }
   };
-
-  useEffect(() => {
-    if (selectedPaymentMethod.code) {
-      setFieldValue(`${PAYMENT_METHOD_FORM}.code`, selectedPaymentMethod.code);
-    }
-  }, [selectedPaymentMethod, setFieldValue]);
 
   const context = useFormSection({
     formikData,

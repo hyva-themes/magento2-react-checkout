@@ -1,5 +1,5 @@
 import fetchGuestCartModifier from '../fetchGuestCart/modifier';
 
-export default function setShippingMehodModifier(result) {
+export default function setShippingMethodModifier(result) {
   return fetchGuestCartModifier(result, 'setShippingMethodsOnCart.cart');
 }

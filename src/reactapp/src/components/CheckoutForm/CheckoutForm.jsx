@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Login from '../login';
 import Totals from '../totals';
@@ -20,9 +20,10 @@ import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
 import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
 
 function CheckoutForm() {
-  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
+  const [initialData, setInitialData] = useState(false);
   const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
     useCheckoutFormAppContext();
+  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
 
   /**
    * Collect App, Cart data when the page loads.
@@ -34,6 +35,7 @@ function CheckoutForm() {
         const data = await aggregatedQueryRequest(appDispatch);
         await storeAggregatedCartStates(data);
         await storeAggregatedAppStates(data);
+        setInitialData(data);
         setPageLoader(false);
       } catch (error) {
         setPageLoader(false);
@@ -59,7 +61,7 @@ function CheckoutForm() {
   }
 
   return (
-    <CheckoutFormWrapper>
+    <CheckoutFormWrapper initialData={initialData}>
       <Message />
       <div className="flex justify-center">
         <div className="container">

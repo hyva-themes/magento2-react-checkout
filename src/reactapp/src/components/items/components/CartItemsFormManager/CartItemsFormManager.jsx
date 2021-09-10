@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { node } from 'prop-types';
 import { Form } from 'formik';
+import { node } from 'prop-types';
 
+import {
+  validate,
+  prepareCartDataToUpdate,
+  prepareCartItemsUniqueId,
+  prepareCartItemFormikData,
+  prepareCartItemsValidationSchema,
+} from './utility';
 import { __ } from '../../../../i18n';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
@@ -11,16 +18,14 @@ import useItemsAppContext from '../../hooks/useItemsAppContext';
 import useItemsCartContext from '../../hooks/useItemsCartContext';
 import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
-import { prepareCartItemsFormData, prepareCartItemsUniqueId } from './utility';
 
 let initialValues = {};
-
-const validationSchema = {};
 
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
   const [itemsUniqueId, setItemsUniqueId] = useState(true);
+  const [validationSchema, setValidationSchema] = useState({});
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useItemsAppContext();
   const { cartItems, updateCartItem, cartItemsAvailable } =
@@ -33,7 +38,12 @@ function CartItemsFormManager({ children, formikData }) {
   const itemUpdateHandler = async () => {
     try {
       setMessage(false);
-      const cartItemsToUpdate = _objToArray(cartItemsValue);
+      const isValid = await validate(validationSchema, cartItemsValue);
+      const cartItemsToUpdate = prepareCartDataToUpdate(cartItemsValue);
+
+      if (!isValid) {
+        return;
+      }
 
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
@@ -43,7 +53,7 @@ function CartItemsFormManager({ children, formikData }) {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(__('Something went wrong while updating the cart item.'));
+      setErrorMessage(error.message);
       setPageLoader(false);
     }
   };
@@ -53,10 +63,11 @@ function CartItemsFormManager({ children, formikData }) {
       return;
     }
 
-    const cartItemFormData = prepareCartItemsFormData(cartItemsArray);
+    const cartItemFormData = prepareCartItemFormikData(cartItemsArray);
     initialValues = cartItemFormData;
-    setFieldValue(CART_ITEMS_FORM, cartItemFormData);
     setItemsUniqueId(cartItemIds);
+    setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+    setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
   }, [
     cartItemIds,
     setFieldValue,
