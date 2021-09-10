@@ -10,18 +10,20 @@ export default function useShippingAddressAppContext() {
     setSuccessMessage,
     customerAddressList,
     updateCustomerAddress,
+    defaultBillingAddress,
     defaultShippingAddress,
   } = useAppContext();
 
   return {
-    isLoggedIn,
     stateList,
+    isLoggedIn,
     countryList,
-    defaultShippingAddress,
-    customerAddressList,
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
+    customerAddressList,
     updateCustomerAddress,
+    defaultBillingAddress,
+    defaultShippingAddress,
   };
 }
