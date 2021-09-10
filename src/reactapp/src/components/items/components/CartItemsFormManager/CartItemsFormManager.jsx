@@ -24,19 +24,20 @@ let initialValues = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
+  const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const [validationSchema, setValidationSchema] = useState({});
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useItemsAppContext();
   const { cartItems, updateCartItem, cartItemsAvailable } =
     useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
-  const [itemsUniqueId, setItemsUniqueId] = useState(true);
   const cartItemsArray = _objToArray(cartItems);
   const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
     try {
+      setMessage(false);
       const isValid = await validate(validationSchema, cartItemsValue);
       const cartItemsToUpdate = prepareCartDataToUpdate(cartItemsValue);
 
@@ -69,8 +70,8 @@ function CartItemsFormManager({ children, formikData }) {
     setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
   }, [
     cartItemIds,
-    cartItemsArray,
     setFieldValue,
+    cartItemsArray,
     cartItemsAvailable,
     needToPopulateForm,
   ]);

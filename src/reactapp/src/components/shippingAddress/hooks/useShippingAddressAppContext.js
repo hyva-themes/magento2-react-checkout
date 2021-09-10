@@ -4,6 +4,7 @@ export default function useShippingAddressAppContext() {
   const {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,
@@ -17,6 +18,7 @@ export default function useShippingAddressAppContext() {
   return {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,

@@ -24,18 +24,22 @@ const validationSchema = {
 };
 
 function ShippingMethodFormManager({ children, formikData }) {
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
   const { setShippingMethod } = useShippingMethodCartContext();
 
   const formSubmit = async (shippingMethod) => {
+    setMessage(false);
+
+    if (!shippingMethod.carrierCode || !shippingMethod.methodCode) {
+      return;
+    }
+
     try {
-      if (shippingMethod.carrierCode && shippingMethod.methodCode) {
-        setPageLoader(true);
-        await setShippingMethod(shippingMethod);
-        setSuccessMessage(__('Shipping method updated successfully.'));
-        setPageLoader(false);
-      }
+      setPageLoader(true);
+      await setShippingMethod(shippingMethod);
+      setSuccessMessage(__('Shipping method updated successfully.'));
+      setPageLoader(false);
     } catch (error) {
       console.error(error);
       setErrorMessage(

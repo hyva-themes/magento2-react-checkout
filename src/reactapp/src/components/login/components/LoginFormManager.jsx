@@ -6,7 +6,6 @@ import { string as YupString, bool as YupBool } from 'yup';
 
 import { __ } from '../../../i18n';
 import { LOGIN_FORM } from '../../../config';
-import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import LoginFormContext from '../context/LoginFormContext';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -42,13 +41,16 @@ const validationSchema = {
 };
 
 function LoginFormManager({ children, formikData }) {
-  const { loginFormValues } = formikData;
-  const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode(
-    !LocalStorage.getCustomerToken()
-  );
+  const {
+    ajaxLogin,
+    setMessage,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+  } = useLoginAppContext();
   const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
-  const { ajaxLogin, setPageLoader, setErrorMessage, setSuccessMessage } =
-    useLoginAppContext();
+  const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
+  const { loginFormValues } = formikData;
 
   const saveEmailOnCartRequest = async (email) => {
     setPageLoader(true);
@@ -68,6 +70,8 @@ function LoginFormManager({ children, formikData }) {
    * cart.
    */
   const formSubmit = async () => {
+    setMessage(false);
+
     const email = _get(loginFormValues, 'email');
     const password = _get(loginFormValues, 'password');
     const customerWantsToSignIn = _get(

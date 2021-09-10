@@ -4,6 +4,7 @@ export default function useBillingAddressAppContext() {
   const {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,
@@ -16,6 +17,7 @@ export default function useBillingAddressAppContext() {
   return {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,

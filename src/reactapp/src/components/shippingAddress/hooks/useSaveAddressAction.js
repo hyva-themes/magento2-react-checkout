@@ -27,6 +27,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     useAddressWrapper();
   const {
     isLoggedIn,
+    setMessage,
     setPageLoader,
     setErrorMessage,
     setSuccessMessage,
@@ -96,24 +97,26 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
   };
 
   return async (addressId) => {
-    try {
-      const addressIdContext = addressId || selectedAddress;
-      const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
-      let updateCustomerAddrPromise = _emptyFunc();
-      const updateCartAddressPromise = _makePromise(
-        submitHandler,
-        isCustomerAddress && addressId
+    setMessage(false);
+
+    const addressIdContext = addressId || selectedAddress;
+    const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
+    let updateCustomerAddrPromise = _emptyFunc();
+    const updateCartAddressPromise = _makePromise(
+      submitHandler,
+      isCustomerAddress && addressId
+    );
+
+    if (isLoggedIn && customerAddressSelected && editMode) {
+      updateCustomerAddrPromise = _makePromise(
+        updateCustomerAddress,
+        addressIdContext,
+        shippingAddressToSave,
+        regionData
       );
+    }
 
-      if (isLoggedIn && customerAddressSelected && editMode) {
-        updateCustomerAddrPromise = _makePromise(
-          updateCustomerAddress,
-          addressIdContext,
-          shippingAddressToSave,
-          regionData
-        );
-      }
-
+    try {
       setPageLoader(true);
       await updateCartAddressPromise();
 
