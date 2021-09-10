@@ -21,7 +21,7 @@ export function prepareCartItemsValidationSchema(cartItemFormData) {
   _keys(cartItemFormData).forEach((itemKey) => {
     validationSchema[itemKey] = YupNumber()
       .required(__('Required'))
-      .min(1, __('Qty should be > 0.'));
+      .min(1, __('Invalid qty'));
   });
 
   return validationSchema;
