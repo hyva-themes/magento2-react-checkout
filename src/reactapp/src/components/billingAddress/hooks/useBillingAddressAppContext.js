@@ -1,25 +1,23 @@
 import useAppContext from '../../../hook/useAppContext';
 
 export default function useBillingAddressAppContext() {
-  const [
-    {
-      stateList,
-      isLoggedIn,
-      countryList,
-      customerAddressList,
-      defaultBillingAddress,
-    },
-    {
-      setPageLoader,
-      setErrorMessage,
-      setSuccessMessage,
-      updateCustomerAddress,
-    },
-  ] = useAppContext();
+  const {
+    stateList,
+    isLoggedIn,
+    setMessage,
+    countryList,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+    customerAddressList,
+    defaultBillingAddress,
+    updateCustomerAddress,
+  } = useAppContext();
 
   return {
     stateList,
     isLoggedIn,
+    setMessage,
     countryList,
     setPageLoader,
     setErrorMessage,

@@ -33,9 +33,12 @@ function PlaceOrder() {
   const saveEmailAddressInfo = useEmailInfoSave();
   const saveBillingShippingAddress = useAddressSave();
   const validateThenPlaceOrder = usePlaceOrder();
-  const { setErrorMessage, setPageLoader } = usePlaceOrderAppContext();
+  const { setMessage, setErrorMessage, setPageLoader } =
+    usePlaceOrderAppContext();
 
   const handlePerformPlaceOrder = async () => {
+    setMessage(false);
+
     if (hasLoginErrors(errors)) {
       const customerWantsToSignIn = _get(values, customerWantsToSignInField);
       setErrorMessage(

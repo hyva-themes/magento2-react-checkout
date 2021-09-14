@@ -5,11 +5,11 @@ import {
   boolean as YupBoolean,
 } from 'yup';
 import _get from 'lodash.get';
-import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
 import {
+  initialCountry,
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../utils/address';
@@ -17,7 +17,6 @@ import { __mt } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../config';
-import RootElement from '../../../utils/rootElement';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -30,6 +29,7 @@ import useRegionValidation from '../../address/hooks/useRegionValidation';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 
 const initialValues = {
   company: '',
@@ -40,7 +40,7 @@ const initialValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: RootElement.getDefaultCountryId(),
+  country: initialCountry,
 };
 
 const requiredMessage = __mt('%1 is required');
@@ -79,10 +79,16 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     selectedCountry,
     initValidationSchema
   );
+  // this will set default addresses on the address fields on login
+  useFillDefaultAddresses({
+    ...formikData,
+    setSelectedAddress,
+    setCustomerAddressSelected,
+  });
   const editModeContext = useFormEditMode();
-  const { setFormToViewMode } = editModeContext;
   const { customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
+  const { setFormToViewMode } = editModeContext;
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
@@ -92,12 +98,11 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
-    (addressToSet) => {
+    (addressToSet) =>
       setFieldValue(SHIPPING_ADDR_FORM, {
         ...initialValues,
         ...addressToSet,
-      });
-    },
+      }),
     [setFieldValue]
   );
 
@@ -107,7 +112,6 @@ function ShippingAddressFormikProvider({ children, formikData }) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
-
       return;
     }
 
@@ -125,25 +129,15 @@ function ShippingAddressFormikProvider({ children, formikData }) {
       setIsNewAddress(false);
     }
 
-    // Set shipping address from the cart address
-    // This should happen always except if the "New Address" is going to be created
-    if (!forceFilledAddress || !isNewAddress) {
-      _set(cartShippingAddress, 'id', selectedAddress);
-      setShippingAddressFormFields({ ...cartShippingAddress });
-    }
-
     if (cartHasShippingAddress) {
       setForceFilledAddress(selectedAddress);
     }
   }, [
-    isNewAddress,
     selectedAddress,
     setFormToViewMode,
     forceFilledAddress,
-    cartShippingAddress,
     customerAddressList,
     cartHasShippingAddress,
-    setShippingAddressFormFields,
   ]);
 
   let context = {

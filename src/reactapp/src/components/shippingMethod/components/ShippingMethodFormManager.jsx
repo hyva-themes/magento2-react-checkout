@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString } from 'yup';
@@ -24,19 +24,22 @@ const validationSchema = {
 };
 
 function ShippingMethodFormManager({ children, formikData }) {
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
-  const { setFieldValue } = formikData;
-  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
+  const { setShippingMethod } = useShippingMethodCartContext();
 
   const formSubmit = async (shippingMethod) => {
+    setMessage(false);
+
+    if (!shippingMethod.carrierCode || !shippingMethod.methodCode) {
+      return;
+    }
+
     try {
-      if (shippingMethod.carrierCode && shippingMethod.methodCode) {
-        setPageLoader(true);
-        await setShippingMethod(shippingMethod);
-        setSuccessMessage(__mt('Shipping method updated successfully.'));
-        setPageLoader(false);
-      }
+      setPageLoader(true);
+      await setShippingMethod(shippingMethod);
+      setSuccessMessage(__mt('Shipping method updated successfully.'));
+      setPageLoader(false);
     } catch (error) {
       console.error(error);
       setErrorMessage(
@@ -45,15 +48,6 @@ function ShippingMethodFormManager({ children, formikData }) {
       setPageLoader(false);
     }
   };
-
-  useEffect(() => {
-    if (selectedMethod.carrierCode && selectedMethod.methodCode) {
-      setFieldValue(SHIPPING_METHOD, {
-        methodCode: selectedMethod.methodCode,
-        carrierCode: selectedMethod.carrierCode,
-      });
-    }
-  }, [selectedMethod, setFieldValue]);
 
   let context = useFormSection({
     formikData,

@@ -13,6 +13,7 @@ export default function useSaveAddressAction(billingFormikContext) {
     useBillingAddressCartContext();
   const {
     isLoggedIn,
+    setMessage,
     setPageLoader,
     setErrorMessage,
     setSuccessMessage,
@@ -32,36 +33,37 @@ export default function useSaveAddressAction(billingFormikContext) {
   } = billingFormikContext;
 
   return async (addressId) => {
-    try {
-      const addressIdContext = addressId || selectedAddress;
-      const isCustomerAddress = isValidCustomerAddressId(addressId);
-      const mostRecentAddresses =
-        LocalStorage.getMostlyRecentlyUsedAddressList();
-      const recentAddressInUse = mostRecentAddresses[addressId];
-      const billingToSave = recentAddressInUse || billingValues;
-      let updateCustomerAddrPromise = _emptyFunc();
-      let updateCartAddressPromise = _makePromise(
-        setCartBillingAddress,
-        billingToSave
+    setMessage(false);
+
+    const addressIdContext = addressId || selectedAddress;
+    const isCustomerAddress = isValidCustomerAddressId(addressId);
+    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const recentAddressInUse = mostRecentAddresses[addressId];
+    const billingToSave = recentAddressInUse || billingValues;
+    let updateCustomerAddrPromise = _emptyFunc();
+    let updateCartAddressPromise = _makePromise(
+      setCartBillingAddress,
+      billingToSave
+    );
+
+    if (isCustomerAddress) {
+      updateCartAddressPromise = _makePromise(
+        setCustomerAddressAsBillingAddress,
+        addressIdContext,
+        isBillingSame
       );
+    }
 
-      if (isCustomerAddress) {
-        updateCartAddressPromise = _makePromise(
-          setCustomerAddressAsBillingAddress,
-          addressIdContext,
-          isBillingSame
-        );
-      }
+    if (isLoggedIn && customerAddressSelected && editMode) {
+      updateCustomerAddrPromise = _makePromise(
+        updateCustomerAddress,
+        selectedAddress,
+        billingValues,
+        regionData
+      );
+    }
 
-      if (isLoggedIn && customerAddressSelected && editMode) {
-        updateCustomerAddrPromise = _makePromise(
-          updateCustomerAddress,
-          selectedAddress,
-          billingValues,
-          regionData
-        );
-      }
-
+    try {
       setPageLoader(true);
       await updateCartAddressPromise();
 

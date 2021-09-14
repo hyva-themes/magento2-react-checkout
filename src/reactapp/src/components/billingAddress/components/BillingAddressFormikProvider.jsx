@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import _get from 'lodash.get';
-import _set from 'lodash.set';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
@@ -106,13 +105,6 @@ function BillingAddressFormikProvider({ children, formikData }) {
       setFormToViewMode();
     }
 
-    // Set billing address formik fields from the cart address
-    // This should happen always except if the "New Address" is going to be created
-    if (!forceFilledAddress || !isNewAddress) {
-      _set(cartBillingAddress, 'id', selectedAddress);
-      setBillingAddressFormFields({ ...cartBillingAddress });
-    }
-
     // This should be happened only once when page loads
     if (!forceFilledAddress && isValidCustomerAddressId(selectedAddress)) {
       setIsNewAddress(false);
@@ -123,14 +115,11 @@ function BillingAddressFormikProvider({ children, formikData }) {
     }
   }, [
     isSame,
-    isNewAddress,
     selectedAddress,
     setFormToViewMode,
     forceFilledAddress,
-    cartBillingAddress,
     customerAddressList,
     cartHasBillingAddress,
-    setBillingAddressFormFields,
   ]);
 
   let context = {

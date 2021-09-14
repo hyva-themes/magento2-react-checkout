@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { node } from 'prop-types';
 import { Form } from 'formik';
+import { node } from 'prop-types';
 
 import { __mt } from '../../../../i18n';
+import {
+  validate,
+  prepareCartDataToUpdate,
+  prepareCartItemsUniqueId,
+  prepareCartItemFormikData,
+  prepareCartItemsValidationSchema,
+} from './utility';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
-import { prepareCartItemsUniqueId } from './utility';
 import useFormSection from '../../../../hook/useFormSection';
 import { formikDataShape } from '../../../../utils/propTypes';
 import useItemsAppContext from '../../hooks/useItemsAppContext';
@@ -13,26 +19,31 @@ import useItemsCartContext from '../../hooks/useItemsCartContext';
 import CartItemsFormContext from '../../context/CartItemsFormContext';
 import useEnterActionInForm from '../../../../hook/useEnterActionInForm';
 
-const initialValues = {};
-
-const validationSchema = {};
+let initialValues = {};
 
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const [itemsUniqueId, setItemsUniqueId] = useState(true);
+  const [validationSchema, setValidationSchema] = useState({});
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useItemsAppContext();
   const { cartItems, updateCartItem, cartItemsAvailable } =
     useItemsCartContext();
   const { cartItemsValue, setFieldValue } = formikData;
-  const [itemsUniqueId, setItemsUniqueId] = useState(true);
-  const cartItemsArr = _objToArray(cartItems);
-  const cartItemIds = prepareCartItemsUniqueId(cartItemsArr);
+  const cartItemsArray = _objToArray(cartItems);
+  const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
   const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
     try {
-      const cartItemsToUpdate = _objToArray(cartItemsValue);
+      setMessage(false);
+      const isValid = await validate(validationSchema, cartItemsValue);
+      const cartItemsToUpdate = prepareCartDataToUpdate(cartItemsValue);
+
+      if (!isValid) {
+        return;
+      }
 
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
@@ -42,30 +53,25 @@ function CartItemsFormManager({ children, formikData }) {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(
-        __mt('Something went wrong while updating the cart item.')
-      );
+      setErrorMessage(error.message);
       setPageLoader(false);
     }
   };
 
   useEffect(() => {
-    if (needToPopulateForm && cartItemsAvailable) {
-      const cartItemFormData = cartItemsArr.reduce((accumulator, item) => {
-        const cartItemId = parseInt(item.id, 10);
-        accumulator[cartItemId] = {
-          cart_item_id: cartItemId,
-          quantity: parseFloat(item.quantity),
-        };
-        return accumulator;
-      }, {});
-      setItemsUniqueId(cartItemIds);
-      setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+    if (!needToPopulateForm || !cartItemsAvailable) {
+      return;
     }
+
+    const cartItemFormData = prepareCartItemFormikData(cartItemsArray);
+    initialValues = cartItemFormData;
+    setItemsUniqueId(cartItemIds);
+    setFieldValue(CART_ITEMS_FORM, cartItemFormData);
+    setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
   }, [
     cartItemIds,
-    cartItemsArr,
     setFieldValue,
+    cartItemsArray,
     cartItemsAvailable,
     needToPopulateForm,
   ]);
@@ -90,8 +96,8 @@ function CartItemsFormManager({ children, formikData }) {
     formikData,
     handleKeyDown,
     itemUpdateHandler,
-    cartItems: cartItemsArr,
-    cartItemsAvailable: !!cartItemsArr.length,
+    cartItems: cartItemsArray,
+    cartItemsAvailable: !!cartItemsArray.length,
   };
 
   return (

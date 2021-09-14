@@ -1,7 +1,7 @@
-import { isError } from './cart/utility';
 import mergeCarts from './cart/mergeCarts';
 import placeOrder from './cart/placeOrder';
 import ajaxLogin from './customer/ajaxLogin';
+import aggregatedQuery from './aggregatedQuery';
 import fetchGuestCart from './cart/fetchGuestCart';
 import createEmptyCart from './cart/createEmptyCart';
 import generateToken from './customer/generateToken';
@@ -22,8 +22,6 @@ import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import restSetGuestPaymentMethod from './cart/restSetGuestPaymentMethod';
 import setCustomerAddressOnCartBilling from './cart/setCustomerAddressOnBilling';
 import setCustomerAddrOnShippingAddr from './cart/setCustomerAddrOnShippingAddr';
-
-export const isResponseError = isError;
 
 export const generateCustomerToken = generateToken;
 
@@ -72,3 +70,5 @@ export const restSetGuestPaymentMethodRequest = restSetGuestPaymentMethod;
 export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;
 
 export const getCheckoutAgreementsRequest = getCheckoutAgreements;
+
+export const aggregatedQueryRequest = aggregatedQuery;

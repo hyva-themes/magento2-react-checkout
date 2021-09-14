@@ -10,6 +10,7 @@ function UserInfoBox() {
   const { isLoggedIn, customer } = useLoginAppContext();
   const { editMode, loginFormValues, setFormToEditMode } =
     useLoginFormContext();
+  const customerEmail = _get(customer, 'email', '');
 
   if (editMode) {
     return <></>;
@@ -22,7 +23,7 @@ function UserInfoBox() {
           {isLoggedIn && (
             <>
               <span>{_get(customer, 'fullName')}</span>
-              <span>{`(${_get(customer, 'email')})`}</span>
+              {customerEmail && <span>{`(${customerEmail})`}</span>}
             </>
           )}
           {!isLoggedIn && _get(loginFormValues, 'email')}

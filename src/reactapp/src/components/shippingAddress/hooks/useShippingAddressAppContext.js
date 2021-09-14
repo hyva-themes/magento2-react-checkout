@@ -1,31 +1,31 @@
 import useAppContext from '../../../hook/useAppContext';
 
 export default function useShippingAddressAppContext() {
-  const [
-    {
-      isLoggedIn,
-      defaultShippingAddress,
-      customerAddressList,
-      stateList,
-      countryList,
-    },
-    {
-      setPageLoader,
-      setSuccessMessage,
-      updateCustomerAddress,
-      setErrorMessage,
-    },
-  ] = useAppContext();
+  const {
+    stateList,
+    isLoggedIn,
+    setMessage,
+    countryList,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+    customerAddressList,
+    updateCustomerAddress,
+    defaultBillingAddress,
+    defaultShippingAddress,
+  } = useAppContext();
 
   return {
-    isLoggedIn,
     stateList,
+    isLoggedIn,
+    setMessage,
     countryList,
-    defaultShippingAddress,
-    customerAddressList,
     setPageLoader,
-    setSuccessMessage,
     setErrorMessage,
+    setSuccessMessage,
+    customerAddressList,
     updateCustomerAddress,
+    defaultBillingAddress,
+    defaultShippingAddress,
   };
 }

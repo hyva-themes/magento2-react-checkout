@@ -1,10 +1,8 @@
-import { useContext } from 'react';
-
-import AppContext from '../../../context/App/AppContext';
+import useAppContext from '../../../hook/useAppContext';
 
 export default function usePaymentMethodAppContext() {
-  const [, appActions] = useContext(AppContext);
-  const { setPageLoader, setSuccessMessage, setErrorMessage } = appActions;
+  const { setMessage, setPageLoader, setSuccessMessage, setErrorMessage } =
+    useAppContext();
 
-  return { setPageLoader, setSuccessMessage, setErrorMessage };
+  return { setMessage, setPageLoader, setSuccessMessage, setErrorMessage };
 }

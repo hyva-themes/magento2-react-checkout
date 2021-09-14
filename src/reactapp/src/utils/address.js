@@ -1,9 +1,16 @@
 import _get from 'lodash.get';
 
+import env from './env';
 import { __mt } from '../i18n';
+import RootElement from './rootElement';
 import LocalStorage from './localStorage';
-import { BILLING_ADDR_FORM } from '../config';
 import { _cleanObjByKeys, _toString } from './index';
+import { BILLING_ADDR_FORM, config } from '../config';
+
+export const initialCountry =
+  env.defaultCountry ||
+  RootElement.getDefaultCountryId() ||
+  config.defaultCountry;
 
 export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 

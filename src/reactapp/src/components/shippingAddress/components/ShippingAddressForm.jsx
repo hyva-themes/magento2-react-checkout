@@ -152,7 +152,7 @@ function ShippingAddressForm() {
           name={fields.phone}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder="+32 000 000 000"
+          placeholder={__mt('+32 000 000 000')}
         />
       </div>
 

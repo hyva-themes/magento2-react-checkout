@@ -1,9 +1,10 @@
-export const GET_CUSTOMER_ADDRESS_LIST_QUERY = `
-query {
+export const CUSTOMER_ADDRESS_LIST_QUERY_PART = `
   customer {
+    email
+    firstname
+    lastname
     default_billing
     default_shipping
-    email
     addresses {
       id
       city
@@ -25,5 +26,10 @@ query {
       telephone
     }
   }
-}
+`;
+
+export const GET_CUSTOMER_ADDRESS_LIST_QUERY = `
+  query getCustomerInfoWithAddressQuery {
+    ${CUSTOMER_ADDRESS_LIST_QUERY_PART}
+  }
 `;

@@ -1,17 +1,21 @@
-import { useContext } from 'react';
-
-import AppContext from '../../../context/App/AppContext';
+import useAppContext from '../../../hook/useAppContext';
 
 export default function useLoginAppContext() {
-  const [appData, appActions] = useContext(AppContext);
-  const { isLoggedIn, customer } = appData;
-  const { setPageLoader, setSuccessMessage, setErrorMessage, ajaxLogin } =
-    appActions;
+  const {
+    customer,
+    ajaxLogin,
+    isLoggedIn,
+    setMessage,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+  } = useAppContext();
 
   return {
     customer,
     ajaxLogin,
     isLoggedIn,
+    setMessage,
     setPageLoader,
     setErrorMessage,
     setSuccessMessage,

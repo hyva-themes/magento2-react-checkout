@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -22,35 +22,32 @@ const validationSchema = {
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
-  const { setPaymentMethod, selectedPaymentMethod } =
-    usePaymentMethodCartContext();
-  const { setPageLoader, setErrorMessage, setSuccessMessage } =
+  const { setPaymentMethod } = usePaymentMethodCartContext();
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
-  const { setFieldValue } = formikData;
 
   const formSubmit = async (paymentMethod) => {
+    setMessage(false);
+
+    if (!paymentMethod) {
+      return;
+    }
+
     try {
-      if (paymentMethod) {
-        setPageLoader(true);
-        await setPaymentMethod(paymentMethod);
-        setSuccessMessage(__mt('Payment method added successfully.'));
-        setPageLoader(false);
-      }
+      setPageLoader(true);
+      await setPaymentMethod(paymentMethod);
+      setSuccessMessage(__mt('Payment method added successfully.'));
+      setPageLoader(false);
     } catch (error) {
       setPageLoader(false);
       setErrorMessage(
-        __mt(
-          'Something went wrong while adding the payment method to the quote.'
-        )
+        error.message ||
+          __mt(
+            'Something went wrong while adding the payment method to the quote.'
+          )
       );
     }
   };
-
-  useEffect(() => {
-    if (selectedPaymentMethod.code) {
-      setFieldValue(`${PAYMENT_METHOD_FORM}.code`, selectedPaymentMethod.code);
-    }
-  }, [selectedPaymentMethod, setFieldValue]);
 
   const context = useFormSection({
     formikData,

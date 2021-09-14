@@ -6,6 +6,7 @@ import {
   fetchCustomerInfoRequest,
   updateCustomerAddressRequest,
   fetchCustomerAddressListRequest,
+  mergeCartsRequest,
 } from '../../../api';
 import {
   setErrorMessageAction,
@@ -17,9 +18,9 @@ import {
   SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
 } from './types';
-import { config } from '../../../config';
 import { _cleanObjByKeys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
+import { config } from '../../../config';
 
 export function setLoggedInStatusAction(dispatch, status) {
   dispatch({
@@ -53,15 +54,23 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
     const response = await ajaxLoginRequest(dispatch, userCredentials);
     const { errors, data } = response;
 
-    if (config.isProductionMode && typeof window !== 'undefined') {
-      window.location.reload();
-    }
-
     if (!errors) {
+      const sourceCartId = LocalStorage.getCartId();
       const signInToken = _get(data, 'customer.signin_token');
       const cartId = _get(data, 'cart.cartId');
       LocalStorage.saveCartId(cartId);
       LocalStorage.saveCustomerToken(signInToken);
+
+      if (config.isDevelopmentMode && cartId) {
+        await mergeCartsRequest(dispatch, {
+          sourceCartId,
+          destinationCartId: cartId,
+        });
+      }
+
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
     }
 
     return response;
