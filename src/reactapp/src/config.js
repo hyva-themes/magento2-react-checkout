@@ -1,50 +1,86 @@
+import env from './utils/env';
+import RootElement from './utils/rootElement';
 import { getConfigFromLocalStorage } from './utils/localStorageConfig';
 
+const hyvaCheckoutStorageKey = 'hyva-checkout-storage';
+
 const magentoDataSources = {
-    mageCacheStorage: {
-        cartId: {
-            storageKey: 'mage-cache-storage',
-            value: 'cart.cartId',
-            timestamp: 'cart.data_id',
-        },
-        storeViewCode: {
-            storageKey: 'mage-cache-storage',
-            value: 'cart.storeViewCode',
-            timestamp: 'cart.store_view_code',
-        },
-        token: {
-            storageKey: 'mage-cache-storage',
-            value: 'customer.signin_token',
-            timestamp: 'customer.data_id',
-        },
+  hyvaCheckoutCacheStorage: {
+    storageKey: hyvaCheckoutStorageKey,
+    data: {
+      customerShippingAddress: {
+        timestamp: 'cart.data_id',
+        value: 'customer.shipping_address_id',
+      },
+      customerBillingAddress: {
+        timestamp: 'cart.data_id',
+        value: 'customer.billing_address_id',
+      },
+      billingSameAsShipping: {
+        timestamp: 'cart.data_id',
+        value: 'cart.is_billing_same_as_shipping',
+      },
+      mostRecentlyUsedAddressList: {
+        timestamp: 'cart.data_id',
+        value: 'cart.most_recently_used_address_list',
+      },
     },
-    m2BrowserPersistence: {
-        cartId: {
-            storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__cartId',
-            value: 'value',
-            ttl: 'ttl',
-            timestamp: 'timeStored',
-        },
-         storeViewCode: {
-            storageKey: 'apollo-cache-persist',
-            value: 'StoreConfig.code',
-        },
-        token: {
-            storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__signin_token',
-            value: 'value',
-            ttl: 'ttl',
-            timestamp: 'timeStored',
-        },
+  },
+  mageCacheStorage: {
+    cartId: {
+      value: 'cart.cartId',
+      timestamp: 'cart.data_id',
+      storageKey: 'mage-cache-storage',
     },
+    token: {
+      timestamp: 'customer.data_id',
+      value: 'customer.signin_token',
+      storageKey: 'mage-cache-storage',
+    },
+  },
+  m2BrowserPersistence: {
+    cartId: {
+      ttl: 'ttl',
+      value: 'value',
+      timestamp: 'timeStored',
+      storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__cartId',
+    },
+    token: {
+      ttl: 'ttl',
+      value: 'value',
+      timestamp: 'timeStored',
+      storageKey: 'M2_VENIA_BROWSER_PERSISTENCE__signin_token',
+    },
+  },
 };
 
-const activeSource = magentoDataSources.mageCacheStorage; //or `magentoDataSources.m2BrowserPersistence` for PWA;
+const nodeEnv = process.env.NODE_ENV;
+const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSources.m2BrowserPersistence` for PWA;
 
 export const config = {
-    cartId: getConfigFromLocalStorage(activeSource.cartId),
-    storeViewCode: getConfigFromLocalStorage(activeSource.storeViewCode) || 'default',
-    signInToken: getConfigFromLocalStorage(activeSource.token),
-    baseUrl: window.BASE_URL || 'https://magento2.test/',
-    defaultPaymentMethod: 'checkmo',
-    defaultCountry: 'US'
+  currencySymbols: {
+    EUR: '€',
+    GBP: '£',
+    USD: '$',
+    INR: '₹',
+  },
+  storageSource: activeSource,
+  defaultPaymentMethod: 'checkmo',
+  defaultCountry: env.defaultCountry || 'US',
+  isProductionMode: nodeEnv === 'production',
+  isDevelopmentMode: nodeEnv === 'development',
+  cartId: getConfigFromLocalStorage(activeSource.cartId),
+  baseUrl: env.baseUrl || RootElement.getBaseUrl() || '',
+  signInToken: getConfigFromLocalStorage(activeSource.token),
+  hyvaStorageSource: magentoDataSources.hyvaCheckoutCacheStorage,
 };
+
+config.successPageRedirectUrl = `${config.baseUrl}/checkout/onepage/success`;
+
+export const LOGIN_FORM = 'login';
+export const CART_ITEMS_FORM = 'items';
+export const SHIPPING_METHOD = 'shipping_method';
+export const BILLING_ADDR_FORM = 'billing_address';
+export const PAYMENT_METHOD_FORM = 'payment_method';
+export const SHIPPING_ADDR_FORM = 'shipping_address';
+export const CHECKOUT_AGREEMENTS_FORM = 'agreements';

@@ -18,11 +18,10 @@
   work correctly both with client-side routing and a non-root public URL.
   Learn how to configure a non-root public URL by running `npm run build`.
 -->
-    <link rel="stylesheet" href="https://hyva.io.lh/static/version12345678/frontend/Hyva/default/en_US/css/styles.css"/>
-    <link rel="stylesheet" href="%PUBLIC_URL%/styles.css"/>
     <title>React App</title>
+    <link  rel="stylesheet" type="text/css"  defer="defer" media="all" href="styles.css" />
 </head>
-<body data-container="body" class="checkout-index-index page-layout-checkout">
+<body data-container="body" class="checkout-index-index page-layout-checkout bg-container">
 <noscript>
     You need to enable JavaScript to run this app.
 </noscript>
@@ -47,7 +46,18 @@
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="columns">
             <div class="column main">
-                <div id="react-checkout" class="checkout-container" />
+                <div
+                    id="react-checkout"
+                    class="checkout-container"
+                    data-checkout_config='{
+                        "storeCode": "default",
+                        "language":"en_US",
+                        "currency": {
+                            "code": "USD",
+                            "symbol": "$"
+                        }
+                    }'
+                />
             </div>
         </div>
     </main>
