@@ -108,10 +108,12 @@ function ShippingAddressFormikProvider({ children, formikData }) {
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {
-    if (!cartHasShippingAddress || forceFilledAddress === selectedAddress) {
-      if (customerHasAddress(customerAddressList)) {
-        setFormToViewMode();
-      }
+    if (
+      !cartHasShippingAddress &&
+      forceFilledAddress === selectedAddress &&
+      customerHasAddress(customerAddressList)
+    ) {
+      setFormToViewMode();
       return;
     }
 
