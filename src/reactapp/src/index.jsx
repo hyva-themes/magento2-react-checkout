@@ -5,7 +5,6 @@ import CheckoutFormProvider from './context/Form/CheckoutFormProvider';
 import StepProvider from './context/Form/Step/StepProvider';
 import CartDataProvider from './context/Cart/CartDataProvider';
 import AppDataProvider from './context/App/AppDataProvider';
-import RootElement from './utils/rootElement';
 
 import './tailwind-source.css';
 
@@ -23,4 +22,6 @@ function Checkout() {
   );
 }
 
-ReactDOM.render(<Checkout />, RootElement.getElement());
+const RootElement = document.getElementById('react-checkout');
+
+ReactDOM.render(<Checkout />, RootElement);

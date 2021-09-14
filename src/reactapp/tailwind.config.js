@@ -50,8 +50,8 @@ module.exports = {
     ],
     purge: {
         content: [
-            '../../../../../reactapp/src/**/*.jsx',
-            '../../../templates/*.phtml'
+            './src/**/*.jsx',
+            '../view/frontend/templates/*.phtml'
         ]
     }
 }
