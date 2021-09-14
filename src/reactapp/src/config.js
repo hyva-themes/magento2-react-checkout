@@ -34,7 +34,7 @@ const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSour
 export const config = {
   cartId: getConfigFromLocalStorage(activeSource.cartId),
   signInToken: getConfigFromLocalStorage(activeSource.token),
-  baseUrl: process.env.REACT_APP_BASE_URL || '',
+  baseUrl: import.meta.env.REACT_APP_BASE_URL || '',
   defaultPaymentMethod: 'checkmo',
   defaultCountry: 'US',
   currencySymbols: {

@@ -16,27 +16,19 @@
     "formik": "^2.1.5",
     "lodash.get": "^4.4.2",
     "node-sass": "^4.13.1",
-    "npm-run-all": "^4.1.5",
     "preact": "^10.5.4",
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-app-polyfill": "^1.0.6",
+    "react": "^17.0.2",
     "react-dom": "^17.0.1",
-    "react-scripts": "^3.4.0",
+    "vite": "^2.5.7",
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "npm-run-all build:tailwind --parallel app:start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
+    "dev": "TAILWIND_MODE=watch vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "precommit": "lint-staged",
-    "app:start": "react-app-rewired start",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "build:tailwind": "tailwindcss build src/asset/css/tailwind.css -o src/tailwind.output.css",
-    "prestart": "npm run build:tailwind",
-    "prebuild": "npm run build:tailwind"
+    "app:start": "react-app-rewired start"
   },
   "lint-staged": {
     "src/*.{js,jsx,json,scss,css,md}": [
@@ -62,17 +54,13 @@
     ]
   },
   "devDependencies": {
+    "@preact/preset-vite": "^2.1.0",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^6.1.11",
-    "@storybook/addon-essentials": "^6.1.11",
-    "@storybook/addon-links": "^6.1.11",
-    "@storybook/node-logger": "^6.1.11",
-    "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.11",
     "@tailwindcss/custom-forms": "^0.2.1",
-    "babel-eslint": "^10.0.1",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "autoprefixer": "^10.3.4",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^7.1.0",
@@ -83,9 +71,9 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^4.2.1",
     "lint-staged": "^10.0.7",
+    "postcss": "^8.3.6",
     "prettier": "^1.19.1",
-    "react-app-rewired": "^2.1.5",
     "react-dev-utils": "^10.2.0",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^2.2.15"
   }
 }
