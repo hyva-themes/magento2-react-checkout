@@ -5,13 +5,13 @@ import ToggleBox from '../common/ToggleBox';
 import ShippingAddressForm from './components/ShippingAddressForm';
 import ShippingAddressView from './components/ShippingAddressView';
 import ShippingAddressFormikProvider from './components/ShippingAddressFormikProvider';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 
 const ShippingAddressMemorized = React.memo(({ formikData }) => (
   <ShippingAddressFormikProvider formikData={formikData}>
     <Card>
-      <ToggleBox title={__mt('Shipping Information')} show>
+      <ToggleBox title={__('Shipping Information')} show>
         <ShippingAddressForm />
         <ShippingAddressView />
       </ToggleBox>

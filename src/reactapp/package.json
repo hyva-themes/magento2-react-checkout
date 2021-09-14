@@ -39,7 +39,6 @@
     "build-storybook": "build-storybook -s public",
     "prestart": "cd ../view/frontend/web/css/tailwind/ && npm run build-dev",
     "prebuild": "cd ../view/frontend/web/css/tailwind/ && npm run build-prod",
-    "move-i18n-to-static-dir": "cp -R public/i18n ../view/frontend/web/js/",
     "tailwind-install": "cd ../view/frontend/web/css/tailwind/ && npm install && cd ../../../../../reactapp/",
     "tailwind-update": "cd ../view/frontend/web/css/tailwind/ && npm update && cd ../../../../../reactapp/"
   },

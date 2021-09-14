@@ -2,7 +2,7 @@ import React from 'react';
 import _get from 'lodash.get';
 
 import Button from '../../common/Button';
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import useLoginAppContext from '../hooks/useLoginAppContext';
 import useLoginFormContext from '../hooks/useLoginFormContext';
 
@@ -33,7 +33,7 @@ function UserInfoBox() {
       {!isLoggedIn && (
         <div className="flex items-center justify-center">
           <Button click={setFormToEditMode} variant="secondary">
-            {__mt('Edit')}
+            {__('Edit')}
           </Button>
         </div>
       )}

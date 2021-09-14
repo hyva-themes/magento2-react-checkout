@@ -3,7 +3,7 @@ import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -15,7 +15,7 @@ const initialValues = {
   code: '',
 };
 
-const requiredMessage = __mt('Required');
+const requiredMessage = __('Required');
 
 const validationSchema = {
   code: YupString().required(requiredMessage),
@@ -36,13 +36,13 @@ function PaymentMethodFormManager({ children, formikData }) {
     try {
       setPageLoader(true);
       await setPaymentMethod(paymentMethod);
-      setSuccessMessage(__mt('Payment method added successfully.'));
+      setSuccessMessage(__('Payment method added successfully.'));
       setPageLoader(false);
     } catch (error) {
       setPageLoader(false);
       setErrorMessage(
         error.message ||
-          __mt(
+          __(
             'Something went wrong while adding the payment method to the quote.'
           )
       );

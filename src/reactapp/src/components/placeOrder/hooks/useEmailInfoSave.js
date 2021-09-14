@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { LOGIN_FORM } from '../../../config';
 import usePlaceOrderAppContext from './usePlaceOrderAppContext';
 import usePlaceOrderCartContext from './usePlaceOrderCartContext';
@@ -20,7 +20,7 @@ export default function useEmailInfoSave() {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage(__mt('Email address update failed. Please try again.'));
+      setErrorMessage(__('Email address update failed. Please try again.'));
     }
   };
 }

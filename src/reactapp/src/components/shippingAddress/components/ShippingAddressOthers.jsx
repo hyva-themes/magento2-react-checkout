@@ -8,7 +8,7 @@ import {
   isValidCustomerAddressId,
   prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
 import { shippingAddrOtherOptionField } from '../utility';
 import useAddressOtherOptions from '../../address/hooks/useAddressOtherOptions';
@@ -75,7 +75,7 @@ function ShippingAddressOthers({ forceHide }) {
   const submitButtonLabel = (
     <>
       <TruckIcon className="w-6 h-6 pr-1" />
-      <span className="text-xs">{__mt('Ship Here')}</span>
+      <span className="text-xs">{__('Ship Here')}</span>
     </>
   );
 
@@ -83,8 +83,8 @@ function ShippingAddressOthers({ forceHide }) {
     <AddressOptions
       title={
         isCartShippingAddressValid
-          ? __mt('OTHER ADDRESSES')
-          : __mt('CHOOSE FROM THE ADDRESS LIST')
+          ? __('OTHER ADDRESSES')
+          : __('CHOOSE FROM THE ADDRESS LIST')
       }
       options={addressOptions}
       submitButtonLabel={submitButtonLabel}

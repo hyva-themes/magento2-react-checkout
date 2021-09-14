@@ -5,7 +5,7 @@ import {
   isCartAddressValid,
   isValidCustomerAddressId,
 } from '../../../../utils/address';
-import { __mt } from '../../../../i18n';
+import { __ } from '../../../../i18n';
 import { _toString } from '../../../../utils';
 import LocalStorage from '../../../../utils/localStorage';
 import useShippingAddressCartContext from '../../hooks/useShippingAddressCartContext';
@@ -39,7 +39,7 @@ function CancelButton() {
 
   return (
     <Button click={clickHandler} variant="secondary">
-      {__mt('Cancel')}
+      {__('Cancel')}
     </Button>
   );
 }

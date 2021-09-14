@@ -1,7 +1,7 @@
 import React from 'react';
 
 import RadioInput from '../../common/Form/RadioInput';
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
 import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
@@ -55,7 +55,7 @@ function ShippingMethodList() {
                 onChange={handleShippingMethodSelection}
               />
               <span className="pt-2 pl-3 font-semibold">
-                {__mt('Price: %1', price)}
+                {__('Price: %1', price)}
               </span>
             </li>
           );

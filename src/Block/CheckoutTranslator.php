@@ -19,7 +19,7 @@ class CheckoutTranslator extends Template
         $stringsTranslated = [];
 
         foreach ($translations as $translatableItem) {
-            $stringCollection  = explode(',', $translatableItem);
+            $stringCollection  = str_getcsv($translatableItem);
 
             foreach ($stringCollection as $stringToBeTranslated) {
                 $stringsTranslated[$stringToBeTranslated] = __($stringToBeTranslated);

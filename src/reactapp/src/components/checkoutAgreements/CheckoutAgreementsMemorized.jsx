@@ -5,7 +5,7 @@ import Header from '../common/Header';
 import CheckoutAgreementsForm from './components/CheckoutAgreementsForm';
 import CheckoutAgreementModalWrapper from './components/CheckoutAgreementModalWrapper';
 import CheckoutAgreementFormikProvider from './components/CheckoutAgreementsFormikProvider';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { _isObjEmpty } from '../../utils';
 import { formikDataShape } from '../../utils/propTypes';
 import useAgreementAppContext from './hooks/useAgreementAppContext';
@@ -20,7 +20,7 @@ const CheckoutAgreementsMemorized = React.memo(({ formikData }) => {
       ) : (
         <CheckoutAgreementModalWrapper>
           <Card>
-            <Header>{__mt('Checkout Agreements')}</Header>
+            <Header>{__('Checkout Agreements')}</Header>
             <CheckoutAgreementsForm />
           </Card>
         </CheckoutAgreementModalWrapper>

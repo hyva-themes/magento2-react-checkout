@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 import { ErrorMessage, Field } from 'formik';
 import { arrayOf, bool, shape, string } from 'prop-types';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { _replace } from '../../../utils';
 import { formikDataShape } from '../../../utils/propTypes';
 
@@ -65,7 +65,7 @@ function SelectInput({
         }}
         {...rest}
       >
-        <option value="">{__mt('-- Please Select --')}</option>
+        <option value="">{__('-- Please Select --')}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

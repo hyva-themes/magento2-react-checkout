@@ -5,7 +5,7 @@ import ToggleBox from '../common/ToggleBox';
 import BillingAddressForm from './components/BillingAddressForm';
 import BillingAddressView from './components/BillingAddressView';
 import BillingAddressFormikProvider from './components/BillingAddressFormikProvider';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 
 const BillingAddressMemorized = React.memo(({ formikData }) => {
@@ -15,7 +15,7 @@ const BillingAddressMemorized = React.memo(({ formikData }) => {
     <BillingAddressFormikProvider formikData={formikData}>
       {!isBillingSame && (
         <Card>
-          <ToggleBox title={__mt('Billing Information')} show>
+          <ToggleBox title={__('Billing Information')} show>
             <BillingAddressForm />
             <BillingAddressView />
           </ToggleBox>

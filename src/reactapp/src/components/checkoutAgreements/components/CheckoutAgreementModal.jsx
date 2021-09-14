@@ -2,7 +2,7 @@ import React from 'react';
 import _get from 'lodash.get';
 import { ClipboardCheckIcon } from '@heroicons/react/outline';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { getFormikFieldNameById } from '../utility';
 import { CHECKOUT_AGREEMENTS_FORM } from '../../../config';
 import useAgreementAppContext from '../hooks/useAgreementAppContext';
@@ -80,14 +80,14 @@ function CheckoutAgreementModal() {
               className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={() => setActiveModalId(false)}
             >
-              {__mt('Close')}
+              {__('Close')}
             </button>
             <button
               type="button"
               className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={handleAgreeButtonClick}
             >
-              {__mt('I agree')}
+              {__('I agree')}
             </button>
           </div>
         </div>

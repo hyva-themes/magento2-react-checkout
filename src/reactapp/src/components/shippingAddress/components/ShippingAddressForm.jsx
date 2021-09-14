@@ -4,7 +4,7 @@ import { SaveButton } from '../../address';
 import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './shippingAddressForm/CancelButton';
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { _keys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import { isMostRecentAddress } from '../../../utils/address';
@@ -80,34 +80,34 @@ function ShippingAddressForm() {
       <div className="py-2">
         <TextInput
           required
-          label={__mt('Company')}
+          label={__('Company')}
           name={fields.company}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder={__mt('Company')}
+          placeholder={__('Company')}
         />
         <TextInput
           required
           name={fields.firstname}
           formikData={formikData}
-          label={__mt('First name')}
+          label={__('First name')}
           onKeyDown={handleKeyDown}
-          placeholder={__mt('First name')}
+          placeholder={__('First name')}
         />
         <TextInput
           required
           name={fields.lastname}
-          label={__mt('Last name')}
+          label={__('Last name')}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder={__mt('Last name')}
+          placeholder={__('Last name')}
         />
         <TextInput
           required
-          label={__mt('Street')}
+          label={__('Street')}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder={__mt('Street')}
+          placeholder={__('Street')}
           name={`${fields.street}[0]`}
         />
         <TextInput
@@ -115,21 +115,21 @@ function ShippingAddressForm() {
           placeholder="12345"
           name={fields.zipcode}
           formikData={formikData}
-          label={__mt('Postal Code')}
+          label={__('Postal Code')}
           onKeyDown={handleKeyDown}
         />
         <TextInput
           required
-          label={__mt('City')}
+          label={__('City')}
           name={fields.city}
           formikData={formikData}
-          placeholder={__mt('City')}
+          placeholder={__('City')}
           onKeyDown={handleKeyDown}
         />
 
         <SelectInput
           required
-          label={__mt('Country')}
+          label={__('Country')}
           name={fields.country}
           formikData={formikData}
           options={countryOptions}
@@ -138,7 +138,7 @@ function ShippingAddressForm() {
 
         <SelectInput
           required
-          label={__mt('State')}
+          label={__('State')}
           name={fields.region}
           options={stateOptions}
           formikData={formikData}
@@ -148,11 +148,11 @@ function ShippingAddressForm() {
 
         <TextInput
           required
-          label={__mt('Phone')}
+          label={__('Phone')}
           name={fields.phone}
           formikData={formikData}
           onKeyDown={handleKeyDown}
-          placeholder={__mt('+32 000 000 000')}
+          placeholder={__('+32 000 000 000')}
         />
       </div>
 

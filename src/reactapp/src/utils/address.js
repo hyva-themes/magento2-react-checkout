@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
 
 import env from './env';
-import { __mt } from '../i18n';
+import { __ } from '../i18n';
 import RootElement from './rootElement';
 import LocalStorage from './localStorage';
 import { _cleanObjByKeys, _toString } from './index';
@@ -49,8 +49,8 @@ export function formatAddressListToCardData(addressList, stateList) {
         ...street,
         city,
         regionLabel || _get(countryRegion, 'name'),
-        __mt('%1 zipcode: %1', countryCode || country, zipcode),
-        __mt('phone: %1', phone),
+        __('%1 zipcode: %1', countryCode || country, zipcode),
+        __('phone: %1', phone),
       ].filter((i) => !!i),
     };
   });

@@ -5,7 +5,7 @@ import Header from '../common/Header';
 import ShippingMethodList from './components/ShippingMethodList';
 import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
 
@@ -15,7 +15,7 @@ const ShippingMethodMemorized = React.memo(({ formikData }) => {
   return (
     <ShippingMethodFormManager formikData={formikData}>
       <Card classes={methodsAvailable ? '' : 'opacity-75'}>
-        <Header>{__mt('Shipping Methods')}</Header>
+        <Header>{__('Shipping Methods')}</Header>
         <NoShippingMethodInfoBox />
         <ShippingMethodList />
       </Card>

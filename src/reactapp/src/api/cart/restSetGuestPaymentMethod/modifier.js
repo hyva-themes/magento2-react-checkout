@@ -1,13 +1,13 @@
 import _get from 'lodash.get';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 
 export default function restSetGuestPaymentMethodModifier(result) {
   const message = _get(result, 'message');
 
   if (message) {
     throw new Error(
-      __mt(
+      __(
         'Payment method selected is not available. Please choose another payment method.'
       )
     );

@@ -1,6 +1,6 @@
 import { number as YupNumber, object as YupObject } from 'yup';
 
-import { __mt } from '../../../../../i18n';
+import { __ } from '../../../../../i18n';
 import { _keys } from '../../../../../utils';
 
 export function prepareCartItemsUniqueId(cartItems) {
@@ -20,8 +20,8 @@ export function prepareCartItemsValidationSchema(cartItemFormData) {
 
   _keys(cartItemFormData).forEach((itemKey) => {
     validationSchema[itemKey] = YupNumber()
-      .required(__mt('Required'))
-      .min(1, __mt('Invalid qty'));
+      .required(__('Required'))
+      .min(1, __('Invalid qty'));
   });
 
   return validationSchema;

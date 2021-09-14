@@ -5,7 +5,7 @@ import Header from '../common/Header';
 import CartItemList from './components/CartItemList';
 import NoItemsInfoBox from './components/NoItemsInfoBox';
 import CartItemsFormManager from './components/CartItemsFormManager';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import useItemsCartContext from './hooks/useItemsCartContext';
 
@@ -15,7 +15,7 @@ const CartItemsMemorized = React.memo(({ formikData }) => {
   return (
     <CartItemsFormManager formikData={formikData}>
       <Card classes={cartItemsAvailable ? '' : 'opacity-75'}>
-        <Header>{__mt('Product Details')}</Header>
+        <Header>{__('Product Details')}</Header>
         {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
       </Card>
     </CartItemsFormManager>

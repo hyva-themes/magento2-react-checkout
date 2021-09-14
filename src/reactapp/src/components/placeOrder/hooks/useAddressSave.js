@@ -5,7 +5,7 @@ import {
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
 } from '../../../config';
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
 import { _emptyFunc, _makePromise } from '../../../utils';
 import usePlaceOrderAppContext from './usePlaceOrderAppContext';
@@ -97,9 +97,9 @@ export default function useAddressSave() {
     } catch (error) {
       console.error(error);
       if (error instanceof ShippingMethodRequiredException) {
-        setErrorMessage(__mt(error.message));
+        setErrorMessage(__(error.message));
       } else {
-        setErrorMessage(__mt('Address update failed. Please try again.'));
+        setErrorMessage(__('Address update failed. Please try again.'));
       }
     }
   };

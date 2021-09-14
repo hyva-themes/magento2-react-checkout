@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayOf, func, node, oneOfType, shape, string } from 'prop-types';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import Card from '../../common/Card';
 import { canAddressOptionRemoved } from '../utility';
 import RadioInput from '../../common/Form/RadioInput';
@@ -55,8 +55,8 @@ function AddressOptions({
                 <div className="flex items-center justify-between h-full px-3 text-xs italic font-semibold text-secondary-lighter">
                   <span>
                     {customerAddressList[id]
-                      ? __mt('FROM ADDRESS BOOK')
-                      : __mt('MOST RECENTLY USED')}
+                      ? __('FROM ADDRESS BOOK')
+                      : __('MOST RECENTLY USED')}
                   </span>
                   {canAddressOptionRemoved(id, customerAddressList) && (
                     <button
@@ -64,7 +64,7 @@ function AddressOptions({
                       onClick={() => handleRecentlyUsedAddressRemoval(id)}
                       className="pr-2 italic font-semibold text-black underline hover:text-red-500"
                     >
-                      {__mt('REMOVE')}
+                      {__('REMOVE')}
                     </button>
                   )}
                 </div>

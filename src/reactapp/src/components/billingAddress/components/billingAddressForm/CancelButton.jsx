@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Button from '../../../common/Button';
-import { __mt } from '../../../../i18n';
+import { __ } from '../../../../i18n';
 import { _toString } from '../../../../utils';
 import LocalStorage from '../../../../utils/localStorage';
 import { isCartAddressValid } from '../../../../utils/address';
@@ -37,7 +37,7 @@ function CancelButton() {
 
   return (
     <Button click={clickHandler} variant="secondary">
-      {__mt('Cancel')}
+      {__('Cancel')}
     </Button>
   );
 }

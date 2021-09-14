@@ -5,7 +5,7 @@ import Header from '../common/Header';
 import PaymentMethodList from './components/PaymentMethodList';
 import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
-import { __mt } from '../../i18n';
+import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import getCustomRenderers from '../../paymentMethods/customRenderers';
 import usePaymentMethodCartContext from './hooks/usePaymentMethodCartContext';
@@ -25,7 +25,7 @@ const PaymentMethodMemorized = React.memo(({ formikData }) => {
   return (
     <PaymentMethodFormManager formikData={formikData}>
       <Card classes={isPaymentAvailable ? '' : 'opacity-75'}>
-        <Header>{__mt('Payment Methods')}</Header>
+        <Header>{__('Payment Methods')}</Header>
         {isPaymentAvailable ? (
           <PaymentMethodList methodRenderers={renderers} />
         ) : (

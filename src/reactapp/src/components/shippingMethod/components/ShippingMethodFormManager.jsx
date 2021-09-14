@@ -3,7 +3,7 @@ import { node } from 'prop-types';
 import { Form } from 'formik';
 import { string as YupString } from 'yup';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { SHIPPING_METHOD } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
@@ -16,7 +16,7 @@ const initialValues = {
   carrierCode: '',
 };
 
-const requiredMessage = __mt('Required');
+const requiredMessage = __('Required');
 
 const validationSchema = {
   methodCode: YupString().required(requiredMessage),
@@ -38,12 +38,12 @@ function ShippingMethodFormManager({ children, formikData }) {
     try {
       setPageLoader(true);
       await setShippingMethod(shippingMethod);
-      setSuccessMessage(__mt('Shipping method updated successfully.'));
+      setSuccessMessage(__('Shipping method updated successfully.'));
       setPageLoader(false);
     } catch (error) {
       console.error(error);
       setErrorMessage(
-        __mt('Something went wrong while updating shipping method')
+        __('Something went wrong while updating shipping method')
       );
       setPageLoader(false);
     }

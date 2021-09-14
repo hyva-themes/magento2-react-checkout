@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { isValidCustomerAddressId } from '../../../utils/address';
@@ -134,11 +134,11 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       }
 
       LocalStorage.saveCustomerAddressInfo(addressIdContext, isBillingSame);
-      setSuccessMessage(__mt('Shipping address updated successfully.'));
+      setSuccessMessage(__('Shipping address updated successfully.'));
       setPageLoader(false);
     } catch (error) {
       console.error(error);
-      setErrorMessage(__mt('Shipping address update failed. Please try again'));
+      setErrorMessage(__('Shipping address update failed. Please try again'));
       setPageLoader(false);
     }
   };

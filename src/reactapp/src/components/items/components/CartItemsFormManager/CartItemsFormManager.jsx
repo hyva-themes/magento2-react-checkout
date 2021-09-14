@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
-import { __mt } from '../../../../i18n';
+import { __ } from '../../../../i18n';
 import {
   validate,
   prepareCartDataToUpdate,
@@ -48,7 +48,7 @@ function CartItemsFormManager({ children, formikData }) {
       if (cartItemsToUpdate.length) {
         setPageLoader(true);
         await updateCartItem({ cartItems: cartItemsToUpdate });
-        setSuccessMessage(__mt('Cart updated successfully.'));
+        setSuccessMessage(__('Cart updated successfully.'));
         setPageLoader(false);
       }
     } catch (error) {

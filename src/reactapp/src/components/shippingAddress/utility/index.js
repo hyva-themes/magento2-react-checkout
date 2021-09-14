@@ -1,4 +1,4 @@
-import { __mt } from '../../../i18n';
+import { __ } from '../../../i18n';
 import { _isObjEmpty } from '../../../utils';
 
 export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
@@ -7,8 +7,8 @@ export const shippingAddrOtherOptionField =
 
 export function selectedAddressTitle(isLoggedIn, customerAddressList) {
   if (!isLoggedIn || (isLoggedIn && _isObjEmpty(customerAddressList))) {
-    return __mt('SHIPPING ADDRESS');
+    return __('SHIPPING ADDRESS');
   }
 
-  return __mt('SELECTED ADDRESS');
+  return __('SELECTED ADDRESS');
 }
