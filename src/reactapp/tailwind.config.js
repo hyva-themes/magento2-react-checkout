@@ -49,7 +49,7 @@ module.exports = {
         margin: ['responsive', 'last', 'hover', 'focus'],
     },
     plugins: [
-        require('@tailwindcss/custom-forms'),
+        require('@tailwindcss/forms'),
     ],
     purge: {
         content: [
