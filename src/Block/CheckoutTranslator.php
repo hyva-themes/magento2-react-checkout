@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Hyva\Checkout\Block;
 
-
 use Magento\Framework\View\Element\Template;
 
 class CheckoutTranslator extends Template

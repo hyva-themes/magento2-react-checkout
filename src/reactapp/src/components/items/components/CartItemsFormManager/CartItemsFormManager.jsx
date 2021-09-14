@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
-import { __ } from '../../../../i18n';
 import {
   validate,
   prepareCartDataToUpdate,
@@ -10,6 +9,7 @@ import {
   prepareCartItemFormikData,
   prepareCartItemsValidationSchema,
 } from './utility';
+import { __ } from '../../../../i18n';
 import { _objToArray } from '../../../../utils';
 import { CART_ITEMS_FORM } from '../../../../config';
 import useFormSection from '../../../../hook/useFormSection';
