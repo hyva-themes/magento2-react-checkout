@@ -1,6 +1,7 @@
 const { colors } = require('tailwindcss/defaultTheme')
 
 module.exports = {
+    mode: "jit",
     important: true,
     theme: {
         colors: {
@@ -43,10 +44,6 @@ module.exports = {
             'xl': '1280px',
             // => @media (min-width: 1280px) { ... }
         },
-    },
-    variants: {
-        borderWidth: ['responsive', 'last', 'hover', 'focus'],
-        margin: ['responsive', 'last', 'hover', 'focus'],
     },
     plugins: [
         require('@tailwindcss/forms'),
