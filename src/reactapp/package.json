@@ -23,6 +23,8 @@
     "yup": "^0.32.3"
   },
   "scripts": {
+    "preinstall": "node scripts/configurePaymentMethod",
+    "precommit": "lint-staged",
     "dev": "TAILWIND_MODE=watch vite",
     "build": "vite build",
     "serve": "vite preview"
