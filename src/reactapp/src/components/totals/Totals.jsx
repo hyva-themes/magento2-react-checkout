@@ -1,8 +1,8 @@
 import React from 'react';
-import { __ } from '../../i18n';
 
 import Card from '../common/Card';
 import Header from '../common/Header';
+import { __ } from '../../i18n';
 import useTotalsCartContext from './hooks/useTotalsCartContext';
 
 function Totals() {

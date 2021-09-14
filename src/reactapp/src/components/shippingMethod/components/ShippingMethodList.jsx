@@ -1,11 +1,11 @@
 import React from 'react';
 
 import RadioInput from '../../common/Form/RadioInput';
-import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
-import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
+import { __ } from '../../../i18n';
 import { _objToArray } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
-import { __ } from '../../../i18n';
+import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
+import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 
 function ShippingMethodList() {
   const {
@@ -55,7 +55,7 @@ function ShippingMethodList() {
                 onChange={handleShippingMethodSelection}
               />
               <span className="pt-2 pl-3 font-semibold">
-                {__('Price: {}', price)}
+                {__('Price: %1', price)}
               </span>
             </li>
           );

@@ -1,4 +1,5 @@
 import _get from 'lodash.get';
+
 import { __ } from '../../../i18n';
 
 export default function restSetGuestPaymentMethodModifier(result) {
