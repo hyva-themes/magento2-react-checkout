@@ -1,8 +1,8 @@
-export function setCartShippingAddresses(state, shippingAddresses) {
+export function setCartShippingAddress(state, shippingAddress) {
   return {
     ...state,
     cart: {
-      shipping_addresses: [...shippingAddresses],
+      shipping_address: [...shippingAddress],
     },
   };
 }

@@ -1,13 +1,24 @@
 <?php
 declare(strict_types=1);
 
-/** @var Template $block */
-
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
+/** @var Template $block */
+/** @var Escaper $escaper */
+
 ?>
-<script src="<?= $block->escapeUrl($block->getViewFileUrl('Hyva_Checkout::js/react-checkout.js')) ?>"
-        typeof="text/javascript"
-        async="async"
-        defer="defer">
+<script>
+    function loadReactCartScript () {
+        var scriptTag = 'script';
+        var firstScript = document.getElementsByTagName(scriptTag)[0];
+        var newScript = document.createElement(scriptTag);
+
+        newScript.async = true;
+        newScript.defer = true;
+        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_Checkout::js/react-checkout.js')); ?>';
+
+        firstScript.parentNode.insertBefore(newScript, firstScript);
+    }
+    window.addEventListener("private-content-loaded", loadReactCartScript);
 </script>

@@ -2,45 +2,60 @@ import {
   setBillingAddressAction,
   setCustomerAddrAsBillingAddrAction,
 } from './billingAddress/actions';
-import { updateCartItemAction } from './cartItems/actions';
-import { placeOrderAction } from './order/actions';
-import { setPaymentMethodAction } from './paymentMethod/actions';
-import { setShippingMethodAction } from './shippingMethod/actions';
-import { setEmailOnGuestCartAction } from './email/actions';
 import {
-  getCartInfoAfterMergeAction,
+  setPaymentMethodAction,
+  setRestPaymentMethodAction,
+} from './paymentMethod/actions';
+import {
+  mergeCartsAction,
+  setCartInfoAction,
+  createEmptyCartAction,
   getGuestCartInfoAction,
-  setCustomerDefaultAddressToCartAction,
+  getCustomerCartIdAction,
+  getCartInfoAfterMergeAction,
 } from './cart/actions';
 import {
   addCartShippingAddressAction,
   setSelectedShippingAddressAction,
   setCustomerAddrAsShippingAddrAction,
 } from './shippingAddress/actions';
+import { updateCartItemAction } from './cartItems/actions';
+import { setEmailOnGuestCartAction } from './email/actions';
+import { setShippingMethodAction } from './shippingMethod/actions';
+import { placeOrderAction, setOrderInfoAction } from './order/actions';
+import { storeAggregatedCartStatesAction } from './aggregated/actions';
 
 const dispatchMapper = {
-  setEmailOnGuestCart: setEmailOnGuestCartAction,
-  getGuestCartInfo: getGuestCartInfoAction,
-  addCartShippingAddress: addCartShippingAddressAction,
-  setCartSelectedShippingAddress: setSelectedShippingAddressAction,
-  setCartBillingAddress: setBillingAddressAction,
-  setShippingMethod: setShippingMethodAction,
-  setPaymentMethod: setPaymentMethodAction,
   placeOrder: placeOrderAction,
+  mergeCarts: mergeCartsAction,
+  setCartInfo: setCartInfoAction,
+  setOrderInfo: setOrderInfoAction,
   updateCartItem: updateCartItemAction,
+  createEmptyCart: createEmptyCartAction,
+  getGuestCartInfo: getGuestCartInfoAction,
+  setPaymentMethod: setPaymentMethodAction,
+  setShippingMethod: setShippingMethodAction,
+  getCustomerCartId: getCustomerCartIdAction,
+  getCustomerCartInfo: getGuestCartInfoAction,
+  setEmailOnGuestCart: setEmailOnGuestCartAction,
+  setCartBillingAddress: setBillingAddressAction,
+  setRestPaymentMethod: setRestPaymentMethodAction,
   getCartInfoAfterMerge: getCartInfoAfterMergeAction,
-  setCustomerDefaultAddressToCart: setCustomerDefaultAddressToCartAction,
+  addCartShippingAddress: addCartShippingAddressAction,
+  storeAggregatedCartStates: storeAggregatedCartStatesAction,
+  setCartSelectedShippingAddress: setSelectedShippingAddressAction,
   setCustomerAddressAsBillingAddress: setCustomerAddrAsBillingAddrAction,
   setCustomerAddressAsShippingAddress: setCustomerAddrAsShippingAddrAction,
 };
 
-function cartDispatchers(dispatch) {
-  const dispatchers = {};
+function cartDispatchers(dispatch, appDispatch) {
+  const dispatchers = { dispatch };
 
-  Object.keys(dispatchMapper).forEach(dispatchName => {
+  Object.keys(dispatchMapper).forEach((dispatchName) => {
     dispatchers[dispatchName] = dispatchMapper[dispatchName].bind(
       null,
-      dispatch
+      dispatch,
+      appDispatch
     );
   });
 

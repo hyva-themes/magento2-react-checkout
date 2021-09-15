@@ -1,29 +1,29 @@
 import _get from 'lodash.get';
-import { prepareFullName } from '../utility';
+
+import { prepareFullName } from '../../../utils/customer';
 
 export default function modifyCustomerAddressList(response) {
-  const customerData = _get(response, 'data.customer', {});
+  const customerData = _get(response, 'data.customer', {}) || {};
   const defaultBillingAddress = Number(_get(customerData, 'default_billing'));
   const defaultShippingAddress = Number(_get(customerData, 'default_shipping'));
   const customerAddressList = _get(customerData, 'addresses', []).reduce(
-    (addressList, address) => {
+    (accumulator, address) => {
       const {
         id,
-        firstname,
-        lastname,
-        middlename,
-        company,
-        street,
         city,
-        region: { region: regionLabel, region_code: regionCode },
-        postcode: zipcode,
+        street,
+        company,
+        lastname,
+        firstname,
+        middlename,
         telephone: phone,
+        postcode: zipcode,
+        country_code: countryCode,
         default_billing: isDefaultBilling,
         default_shipping: isDefaultShipping,
-        country_code: countryCode,
+        region: { region: regionLabel, region_code: regionCode },
       } = address;
-      // eslint-disable-next-line no-param-reassign
-      addressList[Number(id)] = {
+      accumulator[Number(id)] = {
         id,
         firstname,
         lastname,
@@ -40,12 +40,19 @@ export default function modifyCustomerAddressList(response) {
         isDefaultBilling,
         isDefaultShipping,
       };
-      return addressList;
+      return accumulator;
     },
     {}
   );
+  const { firstname, lastname, email } = customerData;
 
   return {
+    customer: {
+      email,
+      firstname,
+      lastname,
+      fullName: prepareFullName(customerData),
+    },
     customerAddressList,
     defaultBillingAddress,
     defaultShippingAddress,

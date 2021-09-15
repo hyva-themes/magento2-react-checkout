@@ -17,11 +17,11 @@ It loads a React Checkout at [store-url]/hyva/checkout. When enabled in `hyva_ch
 It depends on these two variables in localstorage:
  - `signin_token` to the `customer` section
  - `cartId` to the `cart` section
- 
+
 For Hyvä Themes of default Magento frontend, `hyva-themes/magento2-graphql-tokens` is needed to add these tokens to the `customerSections`.
- 
+
 ## Installation
-  
+
 1. Install via composer
     ```
     composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
@@ -32,16 +32,16 @@ For Hyvä Themes of default Magento frontend, `hyva-themes/magento2-graphql-toke
     bin/magento setup:upgrade
     ```
 ## Configuration
-  
+
 In the Magento Backend Configuration:
 
 `HYVA THEMES->Checkout->General Settings->Enable`
 
-The configutation path is `hyva_checkout/general/enable`
+The configuration path is `hyva_checkout/general/enable`
 
-## More documentation coming soon
+## Documentation
 
-Read more at https://hyva.io/
+You can find the documentation here: https://hyva-themes.github.io/magento2-hyva-checkout/
 
 ## Credits
 

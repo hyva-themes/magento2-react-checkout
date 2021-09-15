@@ -1,7 +1,7 @@
 import {
-  setErrroMessageAction,
   setMessageAction,
   setPageLoaderAction,
+  setErrorMessageAction,
   setSuccessMessageAction,
 } from './page/actions';
 import {
@@ -9,29 +9,37 @@ import {
   fetchCountryStatesAction,
 } from './countries/actions';
 import {
-  getCustomerAddressListAction,
-  getCustomerInfoAction,
+  ajaxLoginAction,
   sigInCustomerAction,
+  getCustomerInfoAction,
+  setLoggedInStatusAction,
   updateCustomerAddressAction,
+  getCustomerAddressListAction,
 } from './customer/actions';
+import { storeAggregatedAppStatesAction } from './aggregated/actions';
+import { getCheckoutAgreementsAction } from './checkoutAgreements/actions';
 
 const dispatchMapper = {
-  fetchCountries: fetchCountriesAction,
-  setPageLoader: setPageLoaderAction,
-  fetchCountryStates: fetchCountryStatesAction,
-  signInCustomer: sigInCustomerAction,
-  setSuccessMessage: setSuccessMessageAction,
-  setErrorMessage: setErrroMessageAction,
+  ajaxLogin: ajaxLoginAction,
   setMessage: setMessageAction,
+  setPageLoader: setPageLoaderAction,
+  signInCustomer: sigInCustomerAction,
+  fetchCountries: fetchCountriesAction,
+  setErrorMessage: setErrorMessageAction,
   getCustomerInfo: getCustomerInfoAction,
-  getCustomerAddressList: getCustomerAddressListAction,
+  setSuccessMessage: setSuccessMessageAction,
+  setLoggedInStatus: setLoggedInStatusAction,
+  fetchCountryStates: fetchCountryStatesAction,
   updateCustomerAddress: updateCustomerAddressAction,
+  getCheckoutAgreements: getCheckoutAgreementsAction,
+  getCustomerAddressList: getCustomerAddressListAction,
+  storeAggregatedAppStates: storeAggregatedAppStatesAction,
 };
 
 export default function appDispatcher(dispatch) {
-  const dispatchers = {};
+  const dispatchers = { dispatch };
 
-  Object.keys(dispatchMapper).forEach(dispatchName => {
+  Object.keys(dispatchMapper).forEach((dispatchName) => {
     dispatchers[dispatchName] = dispatchMapper[dispatchName].bind(
       null,
       dispatch

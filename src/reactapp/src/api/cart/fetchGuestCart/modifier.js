@@ -1,29 +1,28 @@
-/* eslint-disable no-param-reassign */
 import _get from 'lodash.get';
-import { config } from '../../../config';
-import { modifyBillingAddressData } from '../setBillingAddress/modifier';
+
 import {
-  modifySelectedShippingMethod,
-  modifyShippingAddressList,
   modifyShippingMethods,
+  modifyShippingAddressList,
+  modifySelectedShippingMethod,
 } from '../setShippingAddress/modifier';
+import { _isArrayEmpty } from '../../../utils';
+import { formatPrice } from '../../../utils/price';
+import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 
 function modifyCartItemsData(cartItems) {
-  return cartItems.reduce((cartItemsInfo, item) => {
+  return cartItems.reduce((accumulator, item) => {
     const { id, quantity, prices, product } = item;
-    const currencySymbol =
-      config.currencySymbols[_get(prices, 'price.currency')];
     const priceAmount = _get(prices, 'price.value');
-    const price = `${currencySymbol}${priceAmount}`;
+    const price = formatPrice(priceAmount);
     const rowTotalAmount = _get(prices, 'row_total.value');
-    const rowTotal = `${currencySymbol}${rowTotalAmount}`;
+    const rowTotal = formatPrice(rowTotalAmount);
     const productId = _get(product, 'id');
     const productSku = _get(product, 'sku');
     const productName = _get(product, 'name');
     const productUrl = _get(product, 'url_key');
     const productSmallImgUrl = _get(product, 'small_image.url');
 
-    cartItemsInfo[id] = {
+    accumulator[id] = {
       id,
       quantity,
       priceAmount,
@@ -37,29 +36,36 @@ function modifyCartItemsData(cartItems) {
       productSmallImgUrl,
     };
 
-    return cartItemsInfo;
+    return accumulator;
   }, {});
 }
 
 function modifyCartPricesData(cartPrices) {
   const grandTotal = _get(cartPrices, 'grand_total', {});
   const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
-  const currencySymbol = config.currencySymbols[_get(grandTotal, 'currency')];
+  const discountPrices = _get(cartPrices, 'discounts', []) || [];
+  const discounts = discountPrices.map((discount) => ({
+    label: discount.label,
+    price: formatPrice(-discount.amount.value, true),
+    amount: discount.amount.value,
+  }));
   const grandTotalAmount = _get(grandTotal, 'value');
   const subTotalAmount = _get(subTotal, 'value');
 
   return {
-    subTotal: `${currencySymbol}${subTotalAmount}`,
+    discounts,
+    hasDiscounts: !_isArrayEmpty(discountPrices),
+    subTotal: formatPrice(subTotalAmount),
     subTotalAmount,
-    grandTotal: `${currencySymbol}${grandTotalAmount}`,
+    grandTotal: formatPrice(grandTotalAmount),
     grandTotalAmount,
   };
 }
 
 function modifyPaymentMethodsData(paymentMethods) {
-  return paymentMethods.reduce((methodList, method) => {
-    methodList[method.code] = method;
-    return methodList;
+  return paymentMethods.reduce((accumulator, method) => {
+    accumulator[method.code] = method;
+    return accumulator;
   }, {});
 }
 
@@ -77,7 +83,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
     email: cartData.email,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),
-    shipping_addresses: modifyShippingAddressList(shippingAddresses),
+    shipping_address: modifyShippingAddressList(shippingAddresses),
     shipping_methods: modifyShippingMethods(shippingAddresses),
     selected_shipping_method: modifySelectedShippingMethod(shippingAddresses),
     prices: modifyCartPricesData(cartPrices),

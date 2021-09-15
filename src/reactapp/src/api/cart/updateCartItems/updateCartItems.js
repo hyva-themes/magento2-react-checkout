@@ -1,12 +1,12 @@
-import { UPDATE_CART_ITEM_MUTATION } from './mutation';
 import modifier from './modifier';
-import { config } from '../../../config';
 import sendRequest from '../../sendRequest';
+import { UPDATE_CART_ITEM_MUTATION } from './mutation';
+import LocalStorage from '../../../utils/localStorage';
 
-export default async function updateCartItems(cartItem) {
-  const variables = { ...cartItem, cartId: config.cartId };
+export default async function updateCartItems(dispatch, cartItem) {
+  const variables = { ...cartItem, cartId: LocalStorage.getCartId() };
 
   return modifier(
-    await sendRequest({ query: UPDATE_CART_ITEM_MUTATION, variables })
+    await sendRequest(dispatch, { query: UPDATE_CART_ITEM_MUTATION, variables })
   );
 }

@@ -1,12 +1,12 @@
-import PLACE_ORDER_MUTATION from './mutation';
 import modifier from './modifier';
-import { config } from '../../../config';
 import sendRequest from '../../sendRequest';
+import PLACE_ORDER_MUTATION from './mutation';
+import LocalStorage from '../../../utils/localStorage';
 
-export default async function placeOrder() {
-  const variables = { cartId: config.cartId };
+export default async function placeOrder(dispatch) {
+  const variables = { cartId: LocalStorage.getCartId() };
 
   return modifier(
-    await sendRequest({ query: PLACE_ORDER_MUTATION, variables })
+    await sendRequest(dispatch, { query: PLACE_ORDER_MUTATION, variables })
   );
 }
