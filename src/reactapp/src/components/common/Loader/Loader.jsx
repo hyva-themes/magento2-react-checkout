@@ -1,6 +1,7 @@
 import React from 'react';
 import { number } from 'prop-types';
 
+import { __ } from '../../../i18n';
 import Card from '../Card';
 
 function PulseBox({ repeat }) {
@@ -41,7 +42,7 @@ function Loader() {
         style={{ borderTopColor: '#3498db' }}
       />
       <h2 className="text-center text-white text-xl font-semibold">
-        Loading...
+        {__('Loading...')}
       </h2>
     </div>
   );
