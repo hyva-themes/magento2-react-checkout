@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#setting-up-hyva-checkout" class="md-skip">
           Skip to content
         </a>
       
@@ -190,25 +190,67 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Installation
       </a>
       
-    </li>
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
-
+  
     
-      
-      
-      
-
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
   
-    <li class="md-nav__item">
-      <a href="../how_to_use/" class="md-nav__link">
-        How to use
-      </a>
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-hyva-themes" class="md-nav__link">
+    Additional Steps - Hyvä Themes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-luma-theme" class="md-nav__link">
+    Additional Steps - Luma Theme
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-headless-solutions" class="md-nav__link">
+    Additional Steps - Headless Solutions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -306,6 +348,49 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-hyva-themes" class="md-nav__link">
+    Additional Steps - Hyvä Themes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-luma-theme" class="md-nav__link">
+    Additional Steps - Luma Theme
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-steps-headless-solutions" class="md-nav__link">
+    Additional Steps - Headless Solutions
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -317,7 +402,9 @@
               
                 
                 
-                <h1 id="installation">Installation</h1>
+                <h1 id="setting-up-hyva-checkout">Setting up Hyvä Checkout</h1>
+<h2 id="installation">Installation</h2>
+<p>The recommended approach is via composer. For that, follow below steps.</p>
 <ol>
 <li>
 <p>Install via composer</p>
@@ -325,24 +412,72 @@
 
 composer require hyva-themes/magento2-hyva-checkout
 </code></pre>
-<div class="admonition attention">
-<p class="admonition-title">Attention please</p>
-<p>We have a new version of hyvä checkout available in the branch <code>develop</code>. It is almost stable and we are testing it internally. It will be published as the first stable release soon. The new version supports all type of products and much more extendable. We highly recommend to use the <code>develop</code> branch in your project too. For that, use the below command:</p>
-<pre><code>composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
-
-composer require hyva-themes/magento2-hyva-checkout dev-develop
-</code></pre>
-</div>
 </li>
 <li>
 <p>Enable module
     <code>bin/magento setup:upgrade</code></p>
 </li>
+<li>Apply theme specific changes (if any). You can find more details of this further down.</li>
 </ol>
-<h1 id="configuration">Configuration</h1>
-<p>In the Magento Backend Configuration:</p>
+<p>If you need to customize the checkout page, then it would be much better you fork the original repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository. This is the recommended approach when it comes to the customizing the Hyvä Checkout.</p>
+<p>Another approach would be setting up Hyvä Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/Checkout</code> and then copy the content of <code>src/</code> directory of Hyvä Checkout module over there. This will also allow you to track the customizations.</p>
+<div class="admonition note">
+<p class="admonition-title">The experimental solution for Hyvä Checkout</p>
+<p>There does exist an another approach, probably the best customization approach for Hvyä Checkout out there. It is provided by <a href="https://twitter.com/jissereitsma"><strong>Jisse Reitsma</strong></a> and you can find the solution here <a href="https://github.com/yireo-training/Yireo_ExampleHyvaCheckout"><strong>Yireo_ExampleHyvaCheckout</strong></a></p>
+<p>In this approach, we can create a custom module and it will allow us to extend only those react component which needs to be modified for the desired result. This is a flexible solution and we endorse it. Do check it out!</p>
+</div>
+<h2 id="configuration">Configuration</h2>
+<p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/checkout</code>.</p>
+<p>If you want to make Hyvä Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>
 <p><code>HYVA THEMES-&gt;Checkout-&gt;General Settings-&gt;Enable</code></p>
 <p>The configuration path is <code>hyva_checkout/general/enable</code></p>
+<h2 id="additional-steps-hyva-themes">Additional Steps - Hyvä Themes</h2>
+<p>Both Hyvä Themes and Hyvä Checkout use TailwindCSS for styling. In a Hyvä Themes based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
+<ol>
+<li>It adds an additional style sheet in the site. One more style sheet means one more render-blocking resource in the browser.</li>
+<li>The style sheet holds lot of duplicated styles since both using the TailwindCSS.</li>
+</ol>
+<p>Due to these reasons, it is better to add Hyvä Checkout styled components in the TailwindCSS purge directory list of your Hyvä Themes based site. You can find more details of this in the official documentation of Hyvä Themes: <a href="https://docs.hyva.io/doc/tailwind-purging-settings-goVaHblLAR"><strong>Tailwind Purging settings</strong></a></p>
+<p>Below is the bare minimum steps you need to do in order to achieve it.</p>
+<ol>
+<li>You need to setup a child theme in your site. It should be inherited from <code>Hyva/default</code> theme. For the sake of simplicity, I am calling this child theme as <code>Hyva/custom</code>.</li>
+<li>Copy over the web directory from <code>vendor/hyva-themes/magento2-default-theme/web/</code> to your own theme <code>app/design/frontend/Hyva/custom/web/</code></li>
+<li>Edit the <code>tailwind.config.js</code> file inside your theme and add following lines inside purge directory list.</li>
+</ol>
+<pre><code>module.exports = {
+    ...
+    purge: {
+        content: [
+            ...
+            // Hyva checkout components
+            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/**/*.jsx',
+            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/view/frontend/templates/react-container.phtml',
+            ...
+        ]
+    }
+}
+...
+</code></pre>
+<p>With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.</p>
+<h2 id="additional-steps-luma-theme">Additional Steps - Luma Theme</h2>
+<p>For Luma theme based site, Hyvä Checkout module works out of box. This is because the stylesheet responsible for the Hyvä Checkout styles <code>Hyva_Checkout::css/styles.css</code> is already included through a layout update.</p>
+<div class="admonition warning">
+<p class="admonition-title">In a Luma based theme</p>
+<p>You would encounter some CSS problems. This is because we are using Tailwind CSS for the styling of the checkout page and since this is a different CSS approach that is being used in the Luma theme, some CSS conflicts should be expected.</p>
+</div>
+<h2 id="additional-steps-headless-solutions">Additional Steps - Headless Solutions</h2>
+<p>You are required to include the stylesheet <code>Hyva_Checkout::css/styles.css</code> and the js file <code>Hyva_Checkout::js/react-checkout.js</code> in your checkout page. These two static resources are already included through layout update. But, if your headless solution does not respect the layout update, then it is your job to include them in your checkout page.</p>
+<p>You need to pass the checkout related configurations (from Magento 2 backend) to the ReactApp. This is currently managed through data attributes in the below HTML DOM element.</p>
+<p>File:  <code>src/view/frontend/templates/react-container.phtml</code></p>
+<pre><code>&lt;div
+    id=&quot;react-checkout&quot;
+    data-base_url=&quot;&lt;?= $block-&gt;getBaseUrl() ?&gt;&quot;
+    data-static_file_path=&quot;&lt;?= $block-&gt;getViewFileUrl('Hyva_Checkout/js') ?&gt;&quot;
+    data-checkout_config=&quot;&lt;?= $escaper-&gt;escapeHtmlAttr($configProvider-&gt;getConfig()) ?&gt;&quot;
+&gt;
+</code></pre>
+<p>Same thing you should do in your headless approach.</p>
+<p>Ideally, these information must be managed through a custom graphql query. This way, it would be compatible with any type of frontend solution. It will be resolved in a future version of Hyvä Checkout.</p>
                 
               
               
@@ -375,13 +510,13 @@ composer require hyva-themes/magento2-hyva-checkout dev-develop
         </a>
       
       
-        <a href="../how_to_use/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../customize/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              How to use
+              How to customize
             </div>
           </div>
           <div class="md-footer__button md-icon">

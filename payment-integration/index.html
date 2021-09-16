@@ -197,21 +197,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../how_to_use/" class="md-nav__link">
-        How to use
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../customize/" class="md-nav__link">
         How to customize
       </a>
@@ -490,8 +475,8 @@
 <p>Payment methods integration is in progress. We don't have any plans to keep payment components as part of Hyvä Checkout. But we will be maintaining separate payment repositories which will hold the custom payment method components which you can use with Hyvä Checkout seamlessly.</p>
 <p>Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.</p>
 <ul>
-<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-payone">hyva-themes/magento2-hyva-checkout-payone</a> (Not published yet)</li>
-<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express">hyva-themes/magento2-hyva-checkout-paypal-express</a> (Not published yet)</li>
+<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-payone">hyva-themes/magento2-hyva-checkout-payone</a></li>
+<li><a href="https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express">hyva-themes/magento2-hyva-checkout-paypal-express</a></li>
 </ul>
 <p>We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.</p>
 <hr />
@@ -507,7 +492,6 @@
         &lt;referenceContainer name=&quot;content&quot;&gt;
             &lt;block name=&quot;checkout.container&quot; cacheable=&quot;false&quot; template=&quot;Hyva_Checkout::react-container.phtml&quot;&gt;
                 &lt;arguments&gt;
-                    ...
                     &lt;argument name=&quot;checkout_config_provider&quot; xsi:type=&quot;object&quot;&gt;Hyva\Checkout\ViewModel\CheckoutConfigProvider&lt;/argument&gt;
                 &lt;/arguments&gt;
             &lt;/block&gt;
@@ -549,8 +533,6 @@
     |____renderers.js
     |
     |____src/components/PaypalExpress.jsx
-    |
-    |____i18n/en_US.json
 </code></pre>
 <p>You need at least two files in order to properly create a custom payment renderer.</p>
 <ol>
@@ -565,9 +547,6 @@ export default {
 };
 </code></pre>
 <p>So it exports an object. Each key specifies the payment method code (<code>paypal_express</code>) and its value is the custom payment render component (<code>PaypalExpress</code>).</p>
-</li>
-<li>
-<p>If your custom payment method defines any translatable labels within it, then we need to add them in the <code>i18n/[locale].json</code> files. In the given example, <code>i18n/en_US.json</code> represents this.</p>
 </li>
 </ol>
 <h4 id="how-to-use-a-custom-payment-renderer-repo-with-hyva-checkout">How To Use A Custom Payment Renderer Repo With Hyvä Checkout</h4>

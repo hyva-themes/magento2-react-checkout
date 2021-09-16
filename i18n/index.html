@@ -197,21 +197,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../how_to_use/" class="md-nav__link">
-        How to use
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../customize/" class="md-nav__link">
         How to customize
       </a>
@@ -273,22 +258,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-a-new-language-translation-support" class="md-nav__link">
-    How to add a new language translation support
+  <a href="#translation-the-backend-story" class="md-nav__link">
+    Translation - The backend story
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-can-we-translate-strings-in-the-component" class="md-nav__link">
-    How can we translate strings in the component?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    How it works
+  <a href="#translation-frontend-story" class="md-nav__link">
+    Translation - Frontend story
   </a>
   
 </li>
@@ -356,22 +334,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-add-a-new-language-translation-support" class="md-nav__link">
-    How to add a new language translation support
+  <a href="#translation-the-backend-story" class="md-nav__link">
+    Translation - The backend story
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-can-we-translate-strings-in-the-component" class="md-nav__link">
-    How can we translate strings in the component?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    How it works
+  <a href="#translation-frontend-story" class="md-nav__link">
+    Translation - Frontend story
   </a>
   
 </li>
@@ -390,11 +361,54 @@
                 
                 
                 <h1 id="internationalization">Internationalization</h1>
-<p>Hyva checkout supports Internationalization. It uses JSON files to keep your translation keywords. All of your translation JSON files needs to be kept under <code>src/reactapp/public/i18n</code> directory. We have already provided <code>en_US.json</code> file for your reference there.</p>
-<h2 id="how-to-add-a-new-language-translation-support">How to add a new language translation support</h2>
-<p>You need to put your translation file inside <code>src/reactapp/public/i18n</code> directory. The format of your file is <code>[locale_code].json</code>. For example, for a German store, it should be <code>de_DE.json</code>. This is all you need to do.</p>
-<h2 id="how-can-we-translate-strings-in-the-component">How can we translate strings in the component?</h2>
-<p>There is a helper function <code>__()</code> available, similar to the translation facility in Magento templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, please see the <code>PlaceOrder</code> component.</p>
+<p>Hyvä Checkout uses Magento 2 translation feature under the hood. The translations are prepared using a block <code>Hyva\Checkout\Block\CheckoutTranslator</code> and passed over to the ReactApp via a global variable <code>CHECKOUT_TRANSLATIONS</code>. These would be picked up by the ReactApp and utilize it.</p>
+<h2 id="translation-the-backend-story">Translation - The backend story</h2>
+<p>Hyvä Checkout uses layout XML update to include the checkout related translatable strings.</p>
+<p>File:  <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code></p>
+<pre><code>&lt;block class=&quot;Hyva\Checkout\Block\CheckoutTranslator&quot; name=&quot;checkout.translations&quot; template=&quot;Hyva_Checkout::translation.phtml&quot;&gt;
+    &lt;arguments&gt;
+        &lt;argument name=&quot;checkout_translations&quot; xsi:type=&quot;array&quot;&gt;
+            &lt;item name=&quot;hyva_checkout_core&quot; xsi:type=&quot;string&quot;&gt;
+                &lt;![CDATA[-- Please Select --,%1 zipcode: %1,%1 is required,...]]&gt;
+            &lt;/item&gt;
+        &lt;/argument&gt;
+    &lt;/arguments&gt;
+&lt;/block&gt;
+</code></pre>
+<p>As you can see here <code>Hyva\Checkout\Block\CheckoutTranslator</code> is responsible for doing the translation process. We are passing <code>checkout_translations</code> as an argument here and it will be an array. Finally, we are passing the core translatable strings through the group <code>hyva_checkout_core</code> here.</p>
+<p>File: <code>src/view/frontend/templates/translation.phtml</code></p>
+<pre><code>&lt;script&gt;
+    var CHECKOUT_TRANSLATIONS = '&lt;?= $block-&gt;getTranslations()  ?&gt;';
+&lt;/script&gt;
+</code></pre>
+<p>Here we are passing the translation using a global javascript variable <code>CHECKOUT_TRANSLATIONS</code> to the frontend.</p>
+<p>So when you need to add more translatable strings through this, all you need to do is pass it through the layout update XML file.</p>
+<p>File: <code>&lt;your/layout/update/xml&gt;/hyvacheckout_checkout_index.xml</code></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;page xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; layout=&quot;1column&quot; xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:View/Layout/etc/page_configuration.xsd&quot;&gt;
+    &lt;body&gt;
+        &lt;referenceContainer name=&quot;content&quot;&gt;
+            &lt;referenceBlock name=&quot;checkout.translations&quot;&gt;
+                &lt;arguments&gt;
+                    &lt;argument name=&quot;checkout_translations&quot; xsi:type=&quot;array&quot;&gt;
+                        &lt;item name=&quot;&lt;unique_group_name_here&gt;&quot; xsi:type=&quot;string&quot;&gt;
+                            &lt;![CDATA[your translations,goes here]]&gt;
+                        &lt;/item&gt;
+                    &lt;/argument&gt;
+                &lt;/arguments&gt;
+            &lt;/referenceBlock&gt;
+        &lt;/referenceContainer&gt;
+    &lt;/body&gt;
+&lt;/page&gt;
+</code></pre>
+<p>Make sure to use a unique group name for your translations. After this by clearing the <code>layout</code> and <code>full_page</code> cache, your translations would be added and will be available in the ReactApp to be used.</p>
+<div class="admonition note">
+<p class="admonition-title">What if my translatable string contains a comma?</p>
+<p>In this case, you need to include it like below</p>
+<p><code>"first part of string, second part of string"</code></p>
+</div>
+<h2 id="translation-frontend-story">Translation - Frontend story</h2>
+<p>There is a helper function <code>__()</code> available in the ReactApp similar to the translation facility in Magento 2 templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, please see the <code>PlaceOrder</code> component.</p>
 <p>File: <code>src/reactapp/src/components/PlaceOrder.jsx</code></p>
 <pre><code>import React from 'react';
 import { __ } from '../i18n';
@@ -422,29 +436,9 @@ export default PlaceOrder;
 <pre><code>const firstName = 'Julius';
 const lastName = 'Caesar';
 
-__('My name is {} {}', firstName, lastName);
+__('My name is %1 %1', firstName, lastName);
 </code></pre>
-<p>In the string <code>{}</code> part indicates it is the dynamic part and needs to be replaced with the other parameters passing to the <code>__()</code>. These parameters will be replaced in the <code>{}</code> part in the given order.</p>
-<h2 id="how-it-works">How it works</h2>
-<p>It all starts with the root element on which react app is acted on. In the hyva-module, the root DOM looks like below:</p>
-<p>File: <code>src/view/frontend/templates/react-container.phtml</code></p>
-<pre><code>&lt;div
-    id=&quot;react-checkout&quot;
-    data-language=&quot;&lt;?= $localeProvider-&gt;getLocaleCode() ?&gt;&quot;
-    data-static_file_path=&quot;&lt;?= $block-&gt;getViewFileUrl('Hyva_Checkout/js') ?&gt;&quot;
-&gt;
-   ...
-&lt;/div&gt;
-</code></pre>
-<p>As you can see there is the data attribute <code>data-language</code> which will represent the current store locale. For example, if you are viewing a UK store, then it will look like</p>
-<pre><code>&lt;div
-    id=&quot;react-checkout&quot;
-    data-language=&quot;en_GB&quot;
-    data-static_file_path=&quot;https://example.com/static/version1619794305/frontend/Magento/luma/en_GB/Hyva_Checkout/js&quot;
-&gt;
-</code></pre>
-<p>so <code>en_GB</code> is the locale code  here. In this case, we need to keep our translation json file at <code>src/reactapp/public/i18n/en_GB.json</code>. React app will fetch the correct tanslation json file based on this and load it.</p>
-<p>You also note that there is another data attirbute which is <code>data-static_file_path</code>. This is needed in order to load the translation json file as a static asset in a hyva-theme or in luma-theme. So we copy all the translation json files available in <code>src/reactapp/public/i18n</code> directory into the directory <code>src/view/frontend/web/js/i18n</code> during the app build process and thus these static json files will be used by the production build.</p>
+<p>In the string <code>%1</code> part indicates it is the dynamic part and needs to be replaced with the other parameters passing to the <code>__()</code>. These parameters will be replaced in the <code>%1</code> part in the given order.</p>
                 
               
               
