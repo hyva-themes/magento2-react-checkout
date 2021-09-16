@@ -34,12 +34,12 @@ function CheckoutFormWrapper({ initialData, children }) {
       return _emptyFunc();
     }
 
-    const { customer, cart } = initialData;
-    const email = _get(customer, 'customer.email', '');
+    const { cart } = initialData;
+    const email = _get(cart, 'email', '');
     const billingAddress = _get(cart, 'billing_address', {});
     const shippingAddress = _get(cart, 'shipping_address', {});
-    const paymentMethod = _get(cart, 'selected_payment_method', {}) || {};
-    const shippingMethod = _get(cart, 'selected_shipping_method', {}) || {};
+    const paymentMethod = _get(cart, 'selected_payment_method') || {};
+    const shippingMethod = _get(cart, 'selected_shipping_method') || {};
 
     /**
      * Without this timer, it seems setFieldValue no longer work for the initial
