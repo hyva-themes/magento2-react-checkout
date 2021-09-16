@@ -1,6 +1,12 @@
 # How To Customize Hyva Checkout
-Hyva checkout is a Magento 2 module which holds a react app inside it. So when you want
-to customize the checkout, you need to work with the react app embedded inside the module.
+Hyva checkout is a Magento 2 module which holds a react app inside it. So when you want to customize the checkout, you need to work with the react app embedded inside the module.
+
+Also, when it comes to customization, the installation approach you have taken into account becomes important. Checkout the [**installation instructions**](/installation/) for further details.
+
+## Development Mode
+The ReactApp embedded inside Hyvä Checkout allow us to launch it as a stand alone App. This is the best way of customizing Hyvä Checkout for your site. When you launch the ReactApp, it will be served from the address `http://localhost:3000`. It will prompt you to provide a valid cartId and once you provided the cartId, you can now work with the checkout in the most efficient way as this development mode supports Hot Module Reloading (HMR).
+
+To setting up the development environment, follow the further steps.
 
 ## Where is the react app
 You can find the react app at `src/reactapp`.
@@ -33,7 +39,7 @@ You can find the react app at `src/reactapp`.
 
     Use only one option above. Don't do both.
 
-4. There are some more configurations you can do using environment variables. You can find an example in `env.example` file. If you need any of the configurations specified there, then create `.env` file at the root path of the react app and add your custom configurations there. You can find more details of these environment variables [here](env_variables.md).
+4. There are some more configurations you can do using environment variables. You can find an example in `env.example` file. If you need any of the configurations specified there, then create `.env` file at the root path of the react app and add your custom configurations there. You can find more details of these environment variables [**here**](env_variables.md).
 
 ## Start App
 
