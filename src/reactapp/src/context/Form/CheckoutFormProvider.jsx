@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import _get from 'lodash.get';
 import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
@@ -6,10 +7,12 @@ import { object as YupObject } from 'yup';
 import CheckoutFormContext from './CheckoutFormContext';
 import useCartContext from '../../hook/useCartContext';
 import useAppContext from '../../hook/useAppContext';
+import { config } from '../../config';
+import LocalStorage from '../../utils/localStorage';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
-  sections.forEach(section => {
+  sections.forEach((section) => {
     initValues[section.id] = section.initialValues;
   });
   return initValues;
@@ -19,13 +22,13 @@ function prepareFormValidationSchema(sections, sectionId) {
   const schemaRules = {};
 
   if (sectionId) {
-    const section = sections.find(sec => sec.id === sectionId);
+    const section = sections.find((sec) => sec.id === sectionId);
     schemaRules[sectionId] = YupObject().shape(section.validationSchema);
 
     return YupObject().shape(schemaRules);
   }
 
-  sections.forEach(section => {
+  sections.forEach((section) => {
     schemaRules[section.id] = YupObject().shape(section.validationSchema);
   });
   return YupObject().shape(schemaRules);
@@ -45,28 +48,57 @@ function CheckoutFormProvider({ children }) {
    */
   const [sections, updateSections] = useState([]);
 
-  const cartData = useCartContext();
-  const [, { setPageLoader }] = useAppContext();
+  /**
+   * if any of the payment method has any custom action needs to be carried out
+   * during "Place Order" action, then it must be added here
+   */
+  const [paymentActionList, setPaymentActions] = useState({});
+
+  const { placeOrder } = useCartContext();
+  const { setPageLoader } = useAppContext();
+
+  /**
+   * This will help any custom payment method renderer component to register
+   * a custom payment action. Custom payment action will be triggered when
+   * the place order happens.
+   */
+  const registerPaymentAction = useCallback(
+    (paymentMethodCode, paymentMethodAction) => {
+      setPaymentActions((actions) => ({
+        ...actions,
+        [paymentMethodCode]: paymentMethodAction,
+      }));
+    },
+    [setPaymentActions]
+  );
 
   /**
    * This will register individual form sections to the checkout-form-formik
    */
-  const registerFormSection = useCallback(section => {
-    updateSections(prevSections => [...prevSections, section]);
+  const registerFormSection = useCallback((section) => {
+    updateSections((prevSections) => [...prevSections, section]);
   }, []);
 
-  const formSubmit = useCallback(
-    async values => {
-      try {
-        setPageLoader(true);
-        await cartData.placeOrder(values, cartData);
-        setPageLoader(false);
-      } catch (error) {
-        setPageLoader(false);
+  const formSubmit = async (values) => {
+    try {
+      setPageLoader(true);
+      const order = await placeOrder(values, paymentActionList);
+
+      const orderNumber = _get(order, 'order_number');
+
+      if (orderNumber && config.isProductionMode) {
+        LocalStorage.clearCheckoutStorage();
+        window.location.replace(config.successPageRedirectUrl);
       }
-    },
-    [setPageLoader, cartData]
-  );
+
+      if (orderNumber && config.isDevelopmentMode) {
+        LocalStorage.clearCheckoutStorage();
+      }
+      setPageLoader(false);
+    } catch (error) {
+      setPageLoader(false);
+    }
+  };
 
   const context = useMemo(
     () => ({
@@ -85,8 +117,8 @@ function CheckoutFormProvider({ children }) {
    *
    * So the whole initValues would be represented like:
    * {
-   *    [form_section_id]: { ...form_section_init_vallues},
-   *    [form_section_id]: { ...form_section_init_vallues},
+   *    [form_section_id]: { ...form_section_init_values},
+   *    [form_section_id]: { ...form_section_init_values},
    * }
    */
   const formInitialValues = prepareFormInitValues(sections);
@@ -110,8 +142,9 @@ function CheckoutFormProvider({ children }) {
     <CheckoutFormContext.Provider
       value={{
         ...context,
-        checkoutFormValidationShema: formValidationSchema,
+        checkoutFormValidationSchema: formValidationSchema,
         submitHandler: formSubmit,
+        registerPaymentAction,
       }}
     >
       <Formik

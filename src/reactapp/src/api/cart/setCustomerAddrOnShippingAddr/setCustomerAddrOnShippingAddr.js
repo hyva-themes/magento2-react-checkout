@@ -1,13 +1,16 @@
-import { SET_CUSTOMER_ADDR_ON_CART_SHIPPING_ADDR_MUTATION } from './mutation';
 import modifier from './modifier';
-import { config } from '../../../config';
 import sendRequest from '../../sendRequest';
+import LocalStorage from '../../../utils/localStorage';
+import { SET_CUSTOMER_ADDR_ON_CART_SHIPPING_ADDR_MUTATION } from './mutation';
 
-export default async function setCustomerAddrOnShippingAddr(customerAddressId) {
-  const variables = { customerAddressId, cartId: config.cartId };
+export default async function setCustomerAddrOnShippingAddr(
+  dispatch,
+  customerAddressId
+) {
+  const variables = { customerAddressId, cartId: LocalStorage.getCartId() };
 
   return modifier(
-    await sendRequest({
+    await sendRequest(dispatch, {
       query: SET_CUSTOMER_ADDR_ON_CART_SHIPPING_ADDR_MUTATION,
       variables,
     })

@@ -7,6 +7,7 @@ import CheckoutFormProvider from './context/Form/CheckoutFormProvider';
 import StepProvider from './context/Form/Step/StepProvider';
 import CartDataProvider from './context/Cart/CartDataProvider';
 import AppDataProvider from './context/App/AppDataProvider';
+import RootElement from './utils/rootElement';
 
 function Checkout() {
   return (
@@ -21,6 +22,5 @@ function Checkout() {
     </AppDataProvider>
   );
 }
-const RootElement = document.getElementById('react-checkout');
 
-ReactDOM.render(<Checkout />, RootElement);
+ReactDOM.render(<Checkout />, RootElement.getElement());

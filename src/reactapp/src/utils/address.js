@@ -1,16 +1,62 @@
 import _get from 'lodash.get';
 
-import {
-  _cleanObjByKeys,
-  _isArrayEmpty,
-  _isObjEmpty,
-  _keys,
-  _objToArray,
-  _toString,
-} from './index';
+import env from './env';
+import { __ } from '../i18n';
+import RootElement from './rootElement';
 import LocalStorage from './localStorage';
+import { _cleanObjByKeys, _toString } from './index';
+import { BILLING_ADDR_FORM, config } from '../config';
 
-export const shippingAddressFormInitValues = {
+export const initialCountry =
+  env.defaultCountry ||
+  RootElement.getDefaultCountryId() ||
+  config.defaultCountry;
+
+export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
+
+export function isCartAddressValid(address) {
+  return !!(address && address.firstname && address.country);
+}
+
+export function isValidCustomerAddressId(addressId) {
+  // Number.isNaN should not use here. both functions works differently.
+  // eslint-disable-next-line no-restricted-globals
+  return addressId && !isNaN(addressId);
+}
+
+export function formatAddressListToCardData(addressList, stateList) {
+  return addressList.map((addr) => {
+    const {
+      id,
+      city = '',
+      phone = '',
+      street = [],
+      region = '',
+      zipcode = '',
+      company = '',
+      country = '',
+      fullName = '',
+      regionLabel = '',
+      countryCode = '',
+    } = addr;
+    const countryRegions = _get(stateList, `${country}`, []);
+    const countryRegion = countryRegions.find((state) => state.code === region);
+    return {
+      id: _toString(id),
+      address: [
+        fullName,
+        company,
+        ...street,
+        city,
+        regionLabel || _get(countryRegion, 'name'),
+        __('%1 zipcode: %1', countryCode || country, zipcode),
+        __('phone: %1', phone),
+      ].filter((i) => !!i),
+    };
+  });
+}
+
+const addressInitValues = {
   company: '',
   firstname: '',
   lastname: '',
@@ -20,132 +66,40 @@ export const shippingAddressFormInitValues = {
   city: '',
   region: '',
   country: '',
-  isSameAsShipping: true,
-  selectedAddress: '',
 };
 
-export function modifyAddrObjListToArrayList(addressList) {
-  const newList = _objToArray(addressList).map(addr => {
-    const {
-      id,
-      fullName = '',
-      street = [],
-      city = '',
-      regionLabel = '',
-      countryCode = '',
-      zipcode = '',
-      phone = '',
-      company = '',
-    } = addr;
-    return {
-      id: _toString(id),
-      address: [
-        fullName,
-        company,
-        ...street,
-        city,
-        regionLabel,
-        `${countryCode} zipcode: ${zipcode}`,
-        `phone: ${phone}`,
-      ].filter(i => !!i),
-    };
-  });
-
-  // if a new address entry there, then we want to show it first
-  if (addressList.new) {
-    return newList.reverse();
-  }
-
-  return newList;
-}
-
-export function isCartHoldingAddressInfo(cartInfo) {
-  return (
-    isCartHoldingBillingAddress(cartInfo) &&
-    isCartHoldingShippingAddress(cartInfo)
-  );
-}
-
-export function isCartHoldingShippingAddress(cartInfo) {
-  const cartShippingAddress = _get(cartInfo, 'shipping_addresses');
-
-  return !_isObjEmpty(cartShippingAddress);
-}
-
-export function isCartHoldingBillingAddress(cartInfo) {
-  const cartBillingAddress = _get(cartInfo, 'billing_address');
-
-  return (
-    !!_get(cartBillingAddress, 'firstname') &&
-    !!_get(cartBillingAddress, 'country')
-  );
-}
-
-export function getFirstItemFromShippingAddrList(addressList) {
-  return _isObjEmpty(addressList)
-    ? addressList
-    : addressList[_keys(addressList)[0]];
-}
-
-export function getFirstItemIdFromShippingAddrList(addressList) {
-  const addressIds = _keys(addressList);
-
-  return _isArrayEmpty(addressIds) ? '' : addressIds[0];
-}
-
-export function prepareFormAddressFromAddressListById(
-  shippingAddressList,
-  selectedAddressId
-) {
-  const address = { ..._get(shippingAddressList, selectedAddressId, {}) };
+export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
+  const newAddress = { ...address };
   const { countryCode, regionCode } = address;
 
   if (countryCode) {
-    address.country = countryCode;
+    newAddress.country = countryCode;
   }
   if (regionCode) {
-    address.region = regionCode;
+    newAddress.region = regionCode;
+  }
+  if (selectedAddressId) {
+    newAddress.selectedAddress = selectedAddressId;
   }
 
   const keysToRemove = [
-    'countryCode',
     'fullName',
-    'isDefaultBilling',
-    'isDefaultShipping',
     'middlename',
     'regionCode',
+    'countryCode',
     'regionLabel',
+    'isDefaultBilling',
+    'isDefaultShipping',
   ];
 
   return {
-    ...shippingAddressFormInitValues,
-    ..._cleanObjByKeys(address, keysToRemove),
-    selectedAddress: selectedAddressId,
+    ...addressInitValues,
+    ..._cleanObjByKeys(newAddress, keysToRemove),
   };
 }
 
-export function prepareCartAddressWithId(addressList, addressId) {
-  return {
-    [addressId]: {
-      id: addressId,
-      ...getFirstItemFromShippingAddrList(addressList),
-    },
-  };
-}
+export function isMostRecentAddress(addressId) {
+  const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
 
-export function saveCustomerAddressToLocalStorage(addressId, isBillingSame) {
-  LocalStorage.saveBillingSameAsShipping(isBillingSame);
-  LocalStorage.saveCustomerShippingAddressId(addressId);
-
-  if (isBillingSame) {
-    LocalStorage.saveCustomerBillingAddressId(addressId);
-  }
-}
-
-export function isCartBillingAddressValid(cartBillingAddress) {
-  return (
-    cartBillingAddress &&
-    cartBillingAddress.firstname &&
-    cartBillingAddress.country
-  );
+  return !!recentAddressList[addressId];
 }

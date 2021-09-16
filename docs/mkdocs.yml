@@ -2,7 +2,6 @@ site_name: Hyvä Themes - Hyvä Checkout
 nav:
   - Home: index.md
   - Installation: installation.md
-  - How to use: how_to_use.md
   - How to customize: customize.md
   - How can build: build.md
   - Internationalization: i18n.md

@@ -2,11 +2,14 @@ import { GENERATE_CUSTOMER_TOKEN_MUTATION } from './mutation';
 import modifier from './modifier';
 import sendRequest from '../../sendRequest';
 
-export default async function generateToken(userCredentials) {
+export default async function generateToken(dispatch, userCredentials) {
   const variables = { ...userCredentials };
 
   const output = modifier(
-    await sendRequest({ query: GENERATE_CUSTOMER_TOKEN_MUTATION, variables })
+    await sendRequest(dispatch, {
+      variables,
+      query: GENERATE_CUSTOMER_TOKEN_MUTATION,
+    })
   );
 
   if (output.error) {

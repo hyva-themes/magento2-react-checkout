@@ -8,8 +8,8 @@ Payment methods integration is in progress. We don't have any plans to keep paym
 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
-- [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone) (Not published yet)
-- [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express) (Not published yet)
+- [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
+- [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express)
 
 We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.
 _____________
@@ -30,7 +30,6 @@ File: `src/view/frontend/layout/hyvacheckout_checkout_index.xml`
         <referenceContainer name="content">
             <block name="checkout.container" cacheable="false" template="Hyva_Checkout::react-container.phtml">
                 <arguments>
-                    ...
                     <argument name="checkout_config_provider" xsi:type="object">Hyva\Checkout\ViewModel\CheckoutConfigProvider</argument>
                 </arguments>
             </block>
@@ -82,8 +81,6 @@ src/reactapp/src/paymentMethods/
     |____renderers.js
     |
     |____src/components/PaypalExpress.jsx
-    |
-    |____i18n/en_US.json
 ```
 You need at least two files in order to properly create a custom payment renderer.
 
@@ -99,8 +96,6 @@ You need at least two files in order to properly create a custom payment rendere
         };
 
     So it exports an object. Each key specifies the payment method code (`paypal_express`) and its value is the custom payment render component (`PaypalExpress`).
-
-3. If your custom payment method defines any translatable labels within it, then we need to add them in the `i18n/[locale].json` files. In the given example, `i18n/en_US.json` represents this.
 
 
 #### How To Use A Custom Payment Renderer Repo With Hyvä Checkout
