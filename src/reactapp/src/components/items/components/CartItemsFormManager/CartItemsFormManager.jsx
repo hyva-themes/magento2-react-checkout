@@ -24,7 +24,7 @@ let initialValues = {};
 const formSubmit = () => {};
 
 function CartItemsFormManager({ children, formikData }) {
-  const [itemsUniqueId, setItemsUniqueId] = useState(true);
+  const [isFilled, setIsFilled] = useState(false);
   const [validationSchema, setValidationSchema] = useState({});
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useItemsAppContext();
@@ -33,7 +33,6 @@ function CartItemsFormManager({ children, formikData }) {
   const { cartItemsValue, setFieldValue } = formikData;
   const cartItemsArray = _objToArray(cartItems);
   const cartItemIds = prepareCartItemsUniqueId(cartItemsArray);
-  const needToPopulateForm = itemsUniqueId !== cartItemIds;
 
   const itemUpdateHandler = async () => {
     try {
@@ -59,21 +58,21 @@ function CartItemsFormManager({ children, formikData }) {
   };
 
   useEffect(() => {
-    if (!needToPopulateForm || !cartItemsAvailable) {
+    if (isFilled || !cartItemsAvailable) {
       return;
     }
 
     const cartItemFormData = prepareCartItemFormikData(cartItemsArray);
     initialValues = cartItemFormData;
-    setItemsUniqueId(cartItemIds);
     setFieldValue(CART_ITEMS_FORM, cartItemFormData);
     setValidationSchema(prepareCartItemsValidationSchema(cartItemFormData));
+    setIsFilled(true);
   }, [
+    isFilled,
     cartItemIds,
     setFieldValue,
     cartItemsArray,
     cartItemsAvailable,
-    needToPopulateForm,
   ]);
 
   const handleKeyDown = useEnterActionInForm({
