@@ -4,18 +4,51 @@
 [![Hyvä Themes](https://repository-images.githubusercontent.com/303806175/a3973c80-479c-11eb-8716-03e369d87143)](https://hyva.io/)
 
 ## hyva-themes/magento2-hyva-checkout
-This module contains a ReactApp that can be used to build a Headless Magento checkout.
+Hyvä Checkout is a Magento 2 module which provides a fast performing checkout for a Magento based site. It uses React (a modern javascript library) to construct the checkout page.
 
 Compatible with Magento 2.3.4 and higher.
-
-!!! attention "Please note"
-    This module is heavily under construction. We recommend using the `develop` branch where a new version of the checkout is shaping into. Later, `master` would be replaced with `develop`.
 
 ## What does it do?
 It loads a React Checkout at `[store-url]/hyva/checkout`. When enabled in `hyva_checkout/general/enable` it replaces the default checkout.
 
-It depends on these two variables in localstorage:
+
+It depends on these two variables in localStorage:
+
  - `signin_token` to the `customer` section
  - `cartId` to the `cart` section
 
-For Hyvä Themes of default Magento frontend, `hyva-themes/magento2-graphql-tokens` is needed to add these tokens to the `customerSections`.
+## What are the benefits?
+
+In the default Luma theme in Magento 2, the checkout page is completely rendered using javascript. Unfortunately, the uiComponents are difficult to comprehend and developers are struggling when it comes to customize the checkout page. Also, the Luma checkout is too slow since it requires more than 400 javascript and template files needs to be download on the page load.
+
+In Hyvä Checkout, the UI is constructed using React Components. This means, if you are familiar with the React, then the development is super fun and enjoyable. It is easy to bring any kind of customizations. It loads only a single javascript file in order to render the entire checkout page. So the checkout page loads fast and performs well.
+
+By default, the checkout works out of box. But, in most of the time you need to customize the checkout page to bring some custom functionalities or modifying existing checkout behaviour or change the look and feel. To make this tedious process simpler, you can launch the embedded ReactApp as a stand alone App and by providing a cartId, you can work on the checkout page exclusively. This development mode supports by Hot Module Reloading (HMR) which will enable us to see the changes we have been making on the code almost immediately reflect on the browser and that will eventually going to save a huge amount of time in the development.
+
+## Where can we use it?
+
+Hyvä Checkout can be used in any Luma based themes or with Hyvä Theme directly. With some modifications, we can also use this with a headless approach too.
+
+!!! Note "In a Luma based theme"
+    You would encounter some CSS problems. This is because we are using Tailwind CSS for the styling of the checkout page and since this is a different CSS approach that is being used in the Luma theme, some CSS conflicts should be expected.
+
+!!! Note "In a headless approach"
+    There are some configurations we are passing through the data attribute via HTML DOM. This needs to be implemented in the headless approach to make it work there.
+
+## Dependencies
+
+In order to use Hyvä Checkout, you would require the following
+
+- React knowledge. This is essential to work with Hyvä Checkout as it is completely build with React.
+- A magento 2 site with graphql API.
+- Nodejs >= 10 is required in order to make it work.
+
+## Technologies/ Terminologies Used
+
+The following technologies are used in the Hyvä Checkout.
+
+ - **React** : React is used to build the UI.
+ - **Tailwind CSS** : This is used for styling the react components.
+ - **Formik** : This is used to store the checkout form states.A popular library in React realm.
+ - **Yup** : This is used for the validation of the checkout form. It works well with Formik.
+ - **GraphQL** : It uses the Magento 2 GraphQL API in order to update the quote from the checkout page.
