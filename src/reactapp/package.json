@@ -35,8 +35,6 @@
     "eject": "react-app-rewired eject",
     "precommit": "lint-staged",
     "app:start": "react-app-rewired start",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
     "prestart": "cd ../view/frontend/web/css/tailwind/ && npm run build-dev",
     "prebuild": "cd ../view/frontend/web/css/tailwind/ && npm run build-prod",
     "tailwind-install": "cd ../view/frontend/web/css/tailwind/ && npm install && cd ../../../../../reactapp/",
