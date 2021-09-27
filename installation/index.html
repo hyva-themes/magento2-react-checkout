@@ -220,6 +220,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#customization-steps" class="md-nav__link">
+    Customization Steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -330,6 +337,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faqs/" class="md-nav__link">
+        FAQs
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -357,6 +379,13 @@
         <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization-steps" class="md-nav__link">
+    Customization Steps
   </a>
   
 </li>
@@ -419,13 +448,19 @@ composer require hyva-themes/magento2-hyva-checkout
 </li>
 <li>Apply theme specific changes (if any). You can find more details of this further down.</li>
 </ol>
-<p>If you need to customize the checkout page, then it would be much better you fork the original repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository. This is the recommended approach when it comes to the customizing the Hyvä Checkout.</p>
+<h2 id="customization-steps">Customization Steps</h2>
+<p>In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä Checkout, you can basically take three approaches which is given below.</p>
+<ul>
+<li>
+<p>The recommended way of customizing Hvyä Checkout would be using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Magento2 Checkout Example Template</strong></a>. In this approach, you are keeping the Hyvä Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at <code>app/code/</code> directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä Checkout and adopt the changes into your customization if needed.</p>
+</li>
+<li>
+<p>Another approach would be to fork the original Hyvä Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.</p>
+</li>
+<li>
 <p>Another approach would be setting up Hyvä Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/Checkout</code> and then copy the content of <code>src/</code> directory of Hyvä Checkout module over there. This will also allow you to track the customizations.</p>
-<div class="admonition note">
-<p class="admonition-title">The experimental solution for Hyvä Checkout</p>
-<p>There does exist an another approach, probably the best customization approach for Hvyä Checkout out there. It is provided by <a href="https://twitter.com/jissereitsma"><strong>Jisse Reitsma</strong></a> and you can find the solution here <a href="https://github.com/yireo-training/Yireo_ExampleHyvaCheckout"><strong>Yireo_ExampleHyvaCheckout</strong></a></p>
-<p>In this approach, we can create a custom module and it will allow us to extend only those react component which needs to be modified for the desired result. This is a flexible solution and we endorse it. Do check it out!</p>
-</div>
+</li>
+</ul>
 <h2 id="configuration">Configuration</h2>
 <p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/checkout</code>.</p>
 <p>If you want to make Hyvä Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>

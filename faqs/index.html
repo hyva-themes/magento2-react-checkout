@@ -14,7 +14,7 @@
     
     
       
-        <title>Internationalization - Hyvä Themes - Hyvä Checkout</title>
+        <title>FAQs - Hyvä Themes - Hyvä Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#internationalization" class="md-skip">
+        <a href="#frequently-asked-questions" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +87,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Internationalization
+              FAQs
             
           </span>
         </div>
@@ -225,56 +225,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Internationalization
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../i18n/" class="md-nav__link">
         Internationalization
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#translation-the-backend-story" class="md-nav__link">
-    Translation - The backend story
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#translation-frontend-story" class="md-nav__link">
-    Translation - Frontend story
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -315,11 +270,20 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../faqs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         FAQs
       </a>
+      
     </li>
   
 
@@ -342,28 +306,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#translation-the-backend-story" class="md-nav__link">
-    Translation - The backend story
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#translation-frontend-story" class="md-nav__link">
-    Translation - Frontend story
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -375,85 +317,13 @@
               
                 
                 
-                <h1 id="internationalization">Internationalization</h1>
-<p>Hyvä Checkout uses Magento 2 translation feature under the hood. The translations are prepared using a block <code>Hyva\Checkout\Block\CheckoutTranslator</code> and passed over to the ReactApp via a global variable <code>CHECKOUT_TRANSLATIONS</code>. These would be picked up by the ReactApp and utilize it.</p>
-<h2 id="translation-the-backend-story">Translation - The backend story</h2>
-<p>Hyvä Checkout uses layout XML update to include the checkout related translatable strings.</p>
-<p>File:  <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code></p>
-<pre><code>&lt;block class=&quot;Hyva\Checkout\Block\CheckoutTranslator&quot; name=&quot;checkout.translations&quot; template=&quot;Hyva_Checkout::translation.phtml&quot;&gt;
-    &lt;arguments&gt;
-        &lt;argument name=&quot;checkout_translations&quot; xsi:type=&quot;array&quot;&gt;
-            &lt;item name=&quot;hyva_checkout_core&quot; xsi:type=&quot;string&quot;&gt;
-                &lt;![CDATA[-- Please Select --,%1 zipcode: %1,%1 is required,...]]&gt;
-            &lt;/item&gt;
-        &lt;/argument&gt;
-    &lt;/arguments&gt;
-&lt;/block&gt;
-</code></pre>
-<p>As you can see here <code>Hyva\Checkout\Block\CheckoutTranslator</code> is responsible for doing the translation process. We are passing <code>checkout_translations</code> as an argument here and it will be an array. Finally, we are passing the core translatable strings through the group <code>hyva_checkout_core</code> here.</p>
-<p>File: <code>src/view/frontend/templates/translation.phtml</code></p>
-<pre><code>&lt;script&gt;
-    var CHECKOUT_TRANSLATIONS = '&lt;?= $block-&gt;getTranslations()  ?&gt;';
-&lt;/script&gt;
-</code></pre>
-<p>Here we are passing the translation using a global javascript variable <code>CHECKOUT_TRANSLATIONS</code> to the frontend.</p>
-<p>So when you need to add more translatable strings through this, all you need to do is pass it through the layout update XML file.</p>
-<p>File: <code>&lt;your/layout/update/xml&gt;/hyvacheckout_checkout_index.xml</code></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;page xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; layout=&quot;1column&quot; xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:View/Layout/etc/page_configuration.xsd&quot;&gt;
-    &lt;body&gt;
-        &lt;referenceContainer name=&quot;content&quot;&gt;
-            &lt;referenceBlock name=&quot;checkout.translations&quot;&gt;
-                &lt;arguments&gt;
-                    &lt;argument name=&quot;checkout_translations&quot; xsi:type=&quot;array&quot;&gt;
-                        &lt;item name=&quot;&lt;unique_group_name_here&gt;&quot; xsi:type=&quot;string&quot;&gt;
-                            &lt;![CDATA[your translations,goes here]]&gt;
-                        &lt;/item&gt;
-                    &lt;/argument&gt;
-                &lt;/arguments&gt;
-            &lt;/referenceBlock&gt;
-        &lt;/referenceContainer&gt;
-    &lt;/body&gt;
-&lt;/page&gt;
-</code></pre>
-<p>Make sure to use a unique group name for your translations. After this by clearing the <code>layout</code> and <code>full_page</code> cache, your translations would be added and will be available in the ReactApp to be used.</p>
-<div class="admonition note">
-<p class="admonition-title">What if my translatable string contains a comma?</p>
-<p>In this case, you need to include it like below</p>
-<p><code>"first part of string, second part of string"</code></p>
-</div>
-<h2 id="translation-frontend-story">Translation - Frontend story</h2>
-<p>There is a helper function <code>__()</code> available in the ReactApp similar to the translation facility in Magento 2 templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, please see the <code>PlaceOrder</code> component.</p>
-<p>File: <code>src/reactapp/src/components/PlaceOrder.jsx</code></p>
-<pre><code>import React from 'react';
-import { __ } from '../i18n';
-
-function PlaceOrder() {
-
-  return (
-    &lt;div className=&quot;flex items-center justify-center h-24&quot;&gt;
-      &lt;Button
-        variant=&quot;warning&quot;
-        big
-        disable={!isValid}
-        click={() =&gt; submitHandler(values)}
-      &gt;
-        {__('Place Order')}
-      &lt;/Button&gt;
-    &lt;/div&gt;
-  );
-}
-
-export default PlaceOrder;
-</code></pre>
-<p>see the import of the function <code>__()</code> and usage. It is that simple.</p>
-<p>Another job <code>__()</code> function does is, it accepts any number of parameters which will be replaced in the string at the right position. For example, if you want to print the string: <code>My name is Julius Caesar</code>. You can do this:</p>
-<pre><code>const firstName = 'Julius';
-const lastName = 'Caesar';
-
-__('My name is %1 %1', firstName, lastName);
-</code></pre>
-<p>In the string <code>%1</code> part indicates it is the dynamic part and needs to be replaced with the other parameters passing to the <code>__()</code>. These parameters will be replaced in the <code>%1</code> part in the given order.</p>
+                <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+<details class="question"><summary>Is Hyvä Checkout stable?</summary><p>Hyvä Checkout is stable enough to use in production. It supports all basic features needed for a checkout. Currently, there is a release candidate <code>1.0.0-rc2</code> available which will be soon be released as the first major version <code>1.0.0</code></p>
+</details>
+<details class="question"><summary>Is there a demo available?</summary><p>A demo for the Hyvä Checkout will be soon available in <a href="https://demo.hyva.io/"><strong>Hyvä Demo</strong></a> site.</p>
+</details>
+<details class="question"><summary>Which custom payment methods supported?</summary><p>Currently Payone is supported. More custom payment methods are in progress.</p>
+</details>
                 
               
               
@@ -471,7 +341,7 @@ __('My name is %1 %1', firstName, lastName);
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../build/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../env_variables/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -480,25 +350,11 @@ __('My name is %1 %1', firstName, lastName);
               <span class="md-footer__direction">
                 Previous
               </span>
-              How can build
+              React app configurations
             </div>
           </div>
         </a>
       
-      
-        <a href="../payment-integration/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Payment Integration
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
