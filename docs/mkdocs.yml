@@ -7,9 +7,11 @@ nav:
   - Internationalization: i18n.md
   - Payment Integration: payment-integration.md
   - React app configurations: env_variables.md
+  - FAQs: faqs.md
 theme:
   name: material
   logo: assets/img/hyva-logo-360.png
   favicon: assets/img/hyva-logo-360.png
 markdown_extensions:
   - admonition
+  - pymdownx.details
