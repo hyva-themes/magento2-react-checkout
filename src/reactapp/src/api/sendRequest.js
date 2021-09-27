@@ -1,5 +1,3 @@
-import _get from 'lodash.get';
-
 import {
   responseDataEmpty,
   responseContainErrors,
@@ -51,8 +49,7 @@ export default function sendRequest(
         return response;
       }
 
-      const errors = _get(response, 'errors', []);
-      const exception = new GraphQLResponseException(errors);
+      const exception = new GraphQLResponseException(response);
 
       dispatch({
         type: SET_PAGE_MESSAGE,

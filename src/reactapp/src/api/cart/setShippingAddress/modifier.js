@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 
-import { config } from '../../../config';
+import { formatPrice } from '../../../utils/price';
 import { prepareFullName } from '../../../utils/customer';
 
 export function modifySelectedShippingMethod(addressList) {
@@ -11,11 +11,10 @@ export function modifySelectedShippingMethod(addressList) {
   }
 
   const {
+    amount: { value },
     method_code: methodCode,
     carrier_code: carrierCode,
-    amount: { currency, value },
   } = selectedMethod;
-  const currencySymbol = _get(config.currencySymbols, currency, '');
   const methodId = `${carrierCode}__${methodCode}`;
 
   return {
@@ -23,7 +22,7 @@ export function modifySelectedShippingMethod(addressList) {
     carrierCode,
     methodCode,
     amount: value,
-    price: `${currencySymbol}${value}`,
+    price: formatPrice(value),
   };
 }
 
@@ -40,7 +39,7 @@ export function modifyShippingMethods(addressList) {
       carrier_code: carrierCode,
       method_title: methodTitle,
       carrier_title: carrierTitle,
-      price_incl_tax: { currency: priceCurrency, value: amount },
+      price_incl_tax: { value: amount },
     } = method;
 
     const methodId = `${carrierCode}__${methodCode}`;
@@ -51,7 +50,7 @@ export function modifyShippingMethods(addressList) {
       carrierTitle,
       methodCode,
       methodTitle,
-      price: `${_get(config.currencySymbols, priceCurrency, '')}${amount}`,
+      price: formatPrice(amount),
       amount,
     };
 
