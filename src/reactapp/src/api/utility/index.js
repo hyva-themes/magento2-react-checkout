@@ -1,8 +1,15 @@
 import _get from 'lodash.get';
+
 import { _isArrayEmpty, _keys } from '../../utils';
 
-export function GraphQLResponseException(errors) {
-  this.message = errors.map((error) => error.message).join('; ');
+export function GraphQLResponseException(response) {
+  const errors = _get(response, 'errors') || [];
+
+  if (errors === true) {
+    this.message = _get(response, 'message') || '';
+  } else {
+    this.message = errors.map((error) => error.message).join('; ');
+  }
 }
 
 export function responseContainErrors(response) {

@@ -18,7 +18,7 @@ It depends on these two variables in localstorage:
  - `signin_token` to the `customer` section
  - `cartId` to the `cart` section
 
-For Hyvä Themes of default Magento frontend, `hyva-themes/magento2-graphql-tokens` is needed to add these tokens to the `customerSections`.
+For Hyvä Themes or default Magento frontend, `hyva-themes/magento2-graphql-tokens` is needed to add these tokens to the `customerSections`.
 
 ## Installation
 
@@ -45,7 +45,9 @@ You can find the documentation here: https://hyva-themes.github.io/magento2-hyva
 
 ## Credits
 
-- [Willem Wigman][link-author]
+- [Rajeev K Tomy][link-author]
+- [Willem Wigman][link-author2]
+- [integer_net GmbH][link-company1]
 - [All Contributors][link-contributors]
 
 ## License
@@ -54,5 +56,7 @@ The MIT License (MIT). Please see [License File](LICENSE.txt) for more informati
 
 [ico-compatibility]: https://img.shields.io/badge/magento-%202.3%20|%202.4-brightgreen.svg?logo=magento&longCache=true&style=flat-square
 
-[link-author]: https://github.com/wigman
+[link-author]: https://github.com/progammer-rkt
+[link-author2]: https://github.com/wigman
+[link-company1]: https://integer-net.com
 [link-contributors]: ../../contributors

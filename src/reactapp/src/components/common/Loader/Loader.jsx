@@ -2,6 +2,7 @@ import React from 'react';
 import { number } from 'prop-types';
 
 import Card from '../Card';
+import { __ } from '../../../i18n';
 
 function PulseBox({ repeat }) {
   const repeatArr = [];
@@ -35,13 +36,13 @@ PulseBox.propTypes = {
 
 function Loader() {
   return (
-    <div className="z-20 backdrop flex-col items-center justify-center">
+    <div className="z-20 flex-col items-center justify-center backdrop">
       <div
-        className="animate-spin rounded-full border-4 border-t-4 border-white h-12 w-12 mb-4"
+        className="w-12 h-12 mb-4 border-4 border-t-4 border-white rounded-full animate-spin"
         style={{ borderTopColor: '#3498db' }}
       />
-      <h2 className="text-center text-white text-xl font-semibold">
-        Loading...
+      <h2 className="text-xl font-semibold text-center text-white">
+        {__('Loading...')}
       </h2>
     </div>
   );
