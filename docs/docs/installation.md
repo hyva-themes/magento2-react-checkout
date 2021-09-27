@@ -17,14 +17,16 @@ The recommended approach is via composer. For that, follow below steps.
     ```
 3. Apply theme specific changes (if any). You can find more details of this further down.
 
-If you need to customize the checkout page, then it would be much better you fork the original repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository. This is the recommended approach when it comes to the customizing the Hyvä Checkout.
+## Customization Steps
 
-Another approach would be setting up Hyvä Checkout inside `app/code` directory. To do this, you need to create the directory `app/code/Hyva/Checkout` and then copy the content of `src/` directory of Hyvä Checkout module over there. This will also allow you to track the customizations.
+In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä Checkout, you can basically take three approaches which is given below.
 
-!!! Note "The experimental solution for Hyvä Checkout"
-    There does exist an another approach, probably the best customization approach for Hvyä Checkout out there. It is provided by [**Jisse Reitsma**](https://twitter.com/jissereitsma) and you can find the solution here [**Yireo_ExampleHyvaCheckout**](https://github.com/yireo-training/Yireo_ExampleHyvaCheckout)
+- The recommended way of customizing Hvyä Checkout would be using the [**Magento2 Checkout Example Template**](https://github.com/hyva-themes/magento2-checkout-example). In this approach, you are keeping the Hyvä Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at `app/code/` directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä Checkout and adopt the changes into your customization if needed.
 
-    In this approach, we can create a custom module and it will allow us to extend only those react component which needs to be modified for the desired result. This is a flexible solution and we endorse it. Do check it out!
+- Another approach would be to fork the original Hyvä Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.
+
+- Another approach would be setting up Hyvä Checkout inside `app/code` directory. To do this, you need to create the directory `app/code/Hyva/Checkout` and then copy the content of `src/` directory of Hyvä Checkout module over there. This will also allow you to track the customizations.
+
 ## Configuration
 
 Once the module is available in your site, you can see the checkout page at the url `[store-url]/hyva/checkout`.
