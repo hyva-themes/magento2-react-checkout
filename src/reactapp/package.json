@@ -17,30 +17,19 @@
     "formik": "^2.2.6",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "npm-run-all": "^4.1.5",
     "preact": "^10.5.4",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
-    "react-app-polyfill": "^2.0.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "^4.0.3",
+    "vite": "^2.5.10",
     "yup": "^0.32.8"
   },
   "scripts": {
-    "preinstall": "node scripts/configurePaymentMethods && npm run tailwind-install",
-    "preupdate": "npm run tailwind-update",
-    "start": "npm run app:start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "precommit": "lint-staged",
-    "app:start": "react-app-rewired start",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "prestart": "cd ../view/frontend/web/css/tailwind/ && npm run build-dev",
-    "prebuild": "cd ../view/frontend/web/css/tailwind/ && npm run build-prod",
-    "tailwind-install": "cd ../view/frontend/web/css/tailwind/ && npm install && cd ../../../../../reactapp/",
-    "tailwind-update": "cd ../view/frontend/web/css/tailwind/ && npm update && cd ../../../../../reactapp/"
+    "preinstall": "node scripts/configurePaymentMethods",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "src/*.{js,jsx,json,scss,css,md}": [
@@ -73,6 +62,7 @@
     "@babel/eslint-parser": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@preact/preset-vite": "^2.1.2",
     "@tailwindcss/forms": "^0.3.3",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -85,8 +75,7 @@
     "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
     "prettier": "^2.3.2",
-    "react-app-rewired": "^2.1.8",
-    "react-dev-utils": "^11.0.4",
+    "react-dev-utils": "^5.0.3",
     "tailwindcss": "^2.2.7"
   }
 }

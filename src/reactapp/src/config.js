@@ -54,7 +54,7 @@ const magentoDataSources = {
   },
 };
 
-const nodeEnv = process.env.NODE_ENV;
+const nodeEnv = import.meta.env.NODE_ENV;
 const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSources.m2BrowserPersistence` for PWA;
 
 export const config = {

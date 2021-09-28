@@ -1,6 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
+  mode: "jit",
   important: true,
   theme: {
     extend: {
@@ -91,7 +92,7 @@ module.exports = {
   plugins: [require("@tailwindcss/forms")],
   purge: {
     content: [
-      "../../../../../reactapp/src/**/*.jsx",
+      "./src/**/*.jsx",
       "../../../templates/*.phtml",
     ],
   },

@@ -1,0 +1,12 @@
+/* purgecss start ignore */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+/* purgecss end ignore */
+
+@import url(./tailwind/forms.css);
+@import url(./tailwind/messages.css);
+@import url(./tailwind/button.css);
+@import url(./tailwind/modal.css);
+@import url(./tailwind/theming.css);
+
+@import "tailwindcss/utilities";
