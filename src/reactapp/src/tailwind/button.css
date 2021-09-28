@@ -1,12 +1,5 @@
 .btn {
-    @apply flex bg-gray-500 rounded-lg px-4 py-1 text-white text-base font-medium shadow-md items-center;
-
-    @screen md {
-        @apply px-6 text-lg;
-    }
-    @screen xl {
-        @apply py-2 text-base;
-    }
+    @apply flex bg-gray-500 rounded-lg px-4 py-1 text-white text-base font-medium shadow-md items-center md:px-6 md:text-lg xl:py-2 xl:text-base;
 
     svg {
         @apply inline-flex;
