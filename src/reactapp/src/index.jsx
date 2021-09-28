@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from "preact";
 
 import CheckoutForm from './components/CheckoutForm';
 import CheckoutFormProvider from './context/Form/CheckoutFormProvider';
@@ -24,4 +23,4 @@ function Checkout() {
   );
 }
 
-ReactDOM.render(<Checkout />, RootElement.getElement());
+render(<Checkout />, RootElement.getElement());

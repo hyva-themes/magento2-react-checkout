@@ -14,14 +14,14 @@ $configProvider = $block->getData('checkout_config_provider');
 <div
     id="react-checkout"
     data-base_url="<?= $block->getBaseUrl() ?>"
-    data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout/js') ?>"
+    data-static_file_path="<?= $block->getViewFileUrl('Hyva_Checkout') ?>"
     data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
 >
     <div class="container">
         <div class="flex flex-col max-h-screen my-6 lg:flex-row">
             <div class="w-full lg:w-3/5 md:mr-2">
                 <div class="mr-1 space-y-2">
-                    <div class="card w-full px-4 py-4">
+                    <div class="w-full px-4 py-4 card">
                         <div class="flex space-x-4 animate-pulse">
                             <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
                             <div class="flex-1 py-1 space-y-4">
@@ -33,7 +33,7 @@ $configProvider = $block->getData('checkout_config_provider');
                             </div>
                         </div>
                     </div>
-                    <div class="card w-full px-4 py-4">
+                    <div class="w-full px-4 py-4 card">
                         <div class="flex space-x-4 animate-pulse">
                             <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
                             <div class="flex-1 py-1 space-y-4">
@@ -45,7 +45,7 @@ $configProvider = $block->getData('checkout_config_provider');
                             </div>
                         </div>
                     </div>
-                    <div class="card w-full px-4 py-4">
+                    <div class="w-full px-4 py-4 card">
                         <div class="flex space-x-4 animate-pulse">
                             <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
                             <div class="flex-1 py-1 space-y-4">
@@ -110,9 +110,9 @@ $configProvider = $block->getData('checkout_config_provider');
                 </div>
             </div>
 
-            <div class="w-full lg:w-2/5 sticky self-start">
+            <div class="sticky self-start w-full lg:w-2/5">
                 <div class="ml-1 space-y-2">
-                    <div class="card w-full px-4 py-4">
+                    <div class="w-full px-4 py-4 card">
                         <div class="flex space-x-4 animate-pulse">
                             <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
                             <div class="flex-1 py-1 space-y-4">
@@ -154,7 +154,7 @@ $configProvider = $block->getData('checkout_config_provider');
                             </div>
                         </div>
                     </div>
-                    <div class="card w-full px-4 py-4">
+                    <div class="w-full px-4 py-4 card">
                         <div class="flex space-x-4 animate-pulse">
                             <div class="w-12 h-12 bg-gray-400 rounded-full"></div>
                             <div class="flex-1 py-1 space-y-4">

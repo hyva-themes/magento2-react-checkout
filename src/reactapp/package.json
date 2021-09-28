@@ -63,6 +63,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
     "@preact/preset-vite": "^2.1.2",
+    "@prefresh/vite": "^2.2.3",
     "@tailwindcss/forms": "^0.3.3",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.1",
