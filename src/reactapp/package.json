@@ -26,7 +26,7 @@
   },
   "scripts": {
     "preinstall": "node scripts/configurePaymentMethods",
-    "start": "vite",
+    "start": "TAILWIND_MODE=watch vite",
     "build": "vite build",
     "serve": "vite preview",
     "precommit": "lint-staged"
