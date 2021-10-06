@@ -9,6 +9,7 @@ const initialState = {
     loaded: false,
     email: null,
     id: null,
+    isVirtualCart: true,
     billing_address: null,
     shipping_address: {},
     selected_shipping_address: selectedShippingAddress || '',

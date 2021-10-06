@@ -1,23 +1,24 @@
-import { useContext } from 'react';
 import _get from 'lodash.get';
 
-import CartContext from '../../../context/Cart/CartContext';
 import { isCartAddressValid } from '../../../utils/address';
+import useCartContext from '../../../hook/useCartContext';
 
 export default function usePlaceOrderCartContext() {
-  const [cartData, cartActions] = useContext(CartContext);
-  const email = _get(cartData, 'cart.email');
-  const billingAddress = _get(cartData, 'cart.billing_address');
-  const shippingAddress = _get(cartData, 'cart.shipping_address');
   const {
+    cart,
     setShippingMethod,
     setEmailOnGuestCart,
     setCartBillingAddress,
     addCartShippingAddress,
-  } = cartActions;
+  } = useCartContext();
+  const email = _get(cart, 'email');
+  const isVirtualCart = _get(cart, 'isVirtualCart');
+  const billingAddress = _get(cart, 'billing_address');
+  const shippingAddress = _get(cart, 'shipping_address');
 
   return {
     email,
+    isVirtualCart,
     billingAddress,
     shippingAddress,
     setShippingMethod,
