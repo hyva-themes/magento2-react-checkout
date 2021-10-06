@@ -220,22 +220,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#customization-steps" class="md-nav__link">
-    Customization Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-steps-hyva-themes" class="md-nav__link">
-    Additional Steps - Hyvä Themes
+  <a href="#additional-required-steps-hyva-themes" class="md-nav__link">
+    Additional Required Steps - Hyvä Themes
   </a>
   
 </li>
@@ -250,6 +236,20 @@
         <li class="md-nav__item">
   <a href="#additional-steps-headless-solutions" class="md-nav__link">
     Additional Steps - Headless Solutions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization-steps" class="md-nav__link">
+    Customization Steps
   </a>
   
 </li>
@@ -384,22 +384,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#customization-steps" class="md-nav__link">
-    Customization Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-steps-hyva-themes" class="md-nav__link">
-    Additional Steps - Hyvä Themes
+  <a href="#additional-required-steps-hyva-themes" class="md-nav__link">
+    Additional Required Steps - Hyvä Themes
   </a>
   
 </li>
@@ -414,6 +400,20 @@
         <li class="md-nav__item">
   <a href="#additional-steps-headless-solutions" class="md-nav__link">
     Additional Steps - Headless Solutions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization-steps" class="md-nav__link">
+    Customization Steps
   </a>
   
 </li>
@@ -448,25 +448,7 @@ composer require hyva-themes/magento2-hyva-checkout
 </li>
 <li>Apply theme specific changes (if any). You can find more details of this further down.</li>
 </ol>
-<h2 id="customization-steps">Customization Steps</h2>
-<p>In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä Checkout, you can basically take three approaches which is given below.</p>
-<ul>
-<li>
-<p>The recommended way of customizing Hvyä Checkout would be using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Magento2 Checkout Example Template</strong></a>. In this approach, you are keeping the Hyvä Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at <code>app/code/</code> directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä Checkout and adopt the changes into your customization if needed.</p>
-</li>
-<li>
-<p>Another approach would be to fork the original Hyvä Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.</p>
-</li>
-<li>
-<p>Another approach would be setting up Hyvä Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/Checkout</code> and then copy the content of <code>src/</code> directory of Hyvä Checkout module over there. This will also allow you to track the customizations.</p>
-</li>
-</ul>
-<h2 id="configuration">Configuration</h2>
-<p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/checkout</code>.</p>
-<p>If you want to make Hyvä Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>
-<p><code>HYVA THEMES-&gt;Checkout-&gt;General Settings-&gt;Enable</code></p>
-<p>The configuration path is <code>hyva_checkout/general/enable</code></p>
-<h2 id="additional-steps-hyva-themes">Additional Steps - Hyvä Themes</h2>
+<h2 id="additional-required-steps-hyva-themes">Additional Required Steps - Hyvä Themes</h2>
 <p>Both Hyvä Themes and Hyvä Checkout use TailwindCSS for styling. In a Hyvä Themes based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
 <ol>
 <li>It adds an additional style sheet in the site. One more style sheet means one more render-blocking resource in the browser.</li>
@@ -493,6 +475,10 @@ composer require hyva-themes/magento2-hyva-checkout
 }
 ...
 </code></pre>
+<div class="admonition note">
+<p class="admonition-title">For Hyva_CheckoutExample template users</p>
+<p>If you are using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Hyva_CheckoutExample</strong></a> template for customizing Hyvä Checkout, then you are required to include the react components in that module too in the above purge list.</p>
+</div>
 <p>With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.</p>
 <h2 id="additional-steps-luma-theme">Additional Steps - Luma Theme</h2>
 <p>For Luma theme based site, Hyvä Checkout module works out of box. This is because the stylesheet responsible for the Hyvä Checkout styles <code>Hyva_Checkout::css/styles.css</code> is already included through a layout update.</p>
@@ -513,6 +499,24 @@ composer require hyva-themes/magento2-hyva-checkout
 </code></pre>
 <p>Same thing you should do in your headless approach.</p>
 <p>Ideally, these information must be managed through a custom graphql query. This way, it would be compatible with any type of frontend solution. It will be resolved in a future version of Hyvä Checkout.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/checkout</code>.</p>
+<p>If you want to make Hyvä Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>
+<p><code>HYVA THEMES-&gt;Checkout-&gt;General Settings-&gt;Enable</code></p>
+<p>The configuration path is <code>hyva_checkout/general/enable</code></p>
+<h2 id="customization-steps">Customization Steps</h2>
+<p>In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä Checkout, you can basically take three approaches which is given below.</p>
+<ul>
+<li>
+<p>The recommended way of customizing Hvyä Checkout would be using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Magento2 Checkout Example Template</strong></a>. In this approach, you are keeping the Hyvä Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at <code>app/code/</code> directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä Checkout and adopt the changes into your customization if needed.</p>
+</li>
+<li>
+<p>Another approach would be to fork the original Hyvä Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.</p>
+</li>
+<li>
+<p>Another approach would be setting up Hyvä Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/Checkout</code> and then copy the content of <code>src/</code> directory of Hyvä Checkout module over there. This will also allow you to track the customizations.</p>
+</li>
+</ul>
                 
               
               
