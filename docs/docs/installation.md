@@ -48,9 +48,12 @@ module.exports = {
 ...
 ```
 
+!!! Note "For Hyva_CheckoutExample template users"
+    If you are using the [**Hyva_CheckoutExample**](https://github.com/hyva-themes/magento2-checkout-example) template for customizing Hyvä Checkout, then you are required to include the react components in that module too in the above purge list.
+
 With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.
 
-## Additional Required Steps - Luma Theme
+## Additional Steps - Luma Theme
 
 For Luma theme based site, Hyvä Checkout module works out of box. This is because the stylesheet responsible for the Hyvä Checkout styles `Hyva_Checkout::css/styles.css` is already included through a layout update.
 
@@ -58,7 +61,7 @@ For Luma theme based site, Hyvä Checkout module works out of box. This is becau
 
     You would encounter some CSS problems. This is because we are using Tailwind CSS for the styling of the checkout page and since this is a different CSS approach that is being used in the Luma theme, some CSS conflicts should be expected.
 
-## Additional Required Steps - Headless Solutions
+## Additional Steps - Headless Solutions
 
 You are required to include the stylesheet `Hyva_Checkout::css/styles.css` and the js file `Hyva_Checkout::js/react-checkout.js` in your checkout page. These two static resources are already included through layout update. But, if your headless solution does not respect the layout update, then it is your job to include them in your checkout page.
 
