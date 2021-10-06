@@ -43,7 +43,7 @@ sed -i 's/Hyva\/default/Hyva\/custom/' app/design/frontend/Hyva/custom/registrat
 bin/magento setup:upgrade
 ```
 
-2. Copy over the web directory from `vendor/hyva-themes/magento2-default-theme/web/` to your own theme `app/design/frontend/Hyva/custom/web/` (already done if you followed previuos instructions).
+2. Copy over the web directory from `vendor/hyva-themes/magento2-default-theme/web/` to your own theme `app/design/frontend/Hyva/custom/web/` (already done if you followed previous instructions).
 3. Edit the `tailwind.config.js` file inside your theme and add/uncomment following lines inside purge directory list.
 
 ```
