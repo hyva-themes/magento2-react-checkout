@@ -29,8 +29,22 @@ Due to these reasons, it is better to add Hyvä Checkout styled components in th
 Below is the bare minimum steps you need to do in order to achieve it.
 
 1. You need to setup a child theme in your site. It should be inherited from `Hyva/default` theme. For the sake of simplicity, I am calling this child theme as `Hyva/custom`.
-2. Copy over the web directory from `vendor/hyva-themes/magento2-default-theme/web/` to your own theme `app/design/frontend/Hyva/custom/web/`
-3. Edit the `tailwind.config.js` file inside your theme and add following lines inside purge directory list.
+
+Here's how to quickly set it up from the command line;
+
+```bash
+mkdir -p app/design/frontend/Hyva/custom
+cp -R vendor/hyva-themes/magento2-default-theme/web app/design/frontend/Hyva/custom/web
+cp vendor/hyva-themes/magento2-default-theme/registration.php app/design/frontend/Hyva/custom
+cp vendor/hyva-themes/magento2-default-theme/theme.xml app/design/frontend/Hyva/custom
+sed -i 's/Hyva\/reset/Hyva\/default/' app/design/frontend/Hyva/custom/theme.xml
+sed -i 's/Default/Custom/' app/design/frontend/Hyva/custom/theme.xml
+sed -i 's/Hyva\/default/Hyva\/custom/' app/design/frontend/Hyva/custom/registration.php
+bin/magento setup:upgrade
+```
+
+2. Copy over the web directory from `vendor/hyva-themes/magento2-default-theme/web/` to your own theme `app/design/frontend/Hyva/custom/web/` (already done if you followed previuos instructions).
+3. Edit the `tailwind.config.js` file inside your theme and add/uncomment following lines inside purge directory list.
 
 ```
 module.exports = {
@@ -48,8 +62,15 @@ module.exports = {
 ...
 ```
 
+4. Install dependencies and build the new CSS.
+
+```
+npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ install
+npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ run build-dev
+```
+
 !!! Note "For Hyva_CheckoutExample template users"
-    If you are using the [**Hyva_CheckoutExample**](https://github.com/hyva-themes/magento2-checkout-example) template for customizing Hyvä Checkout, then you are required to include the react components in that module too in the above purge list.
+    If you are using the [**Hyva_CheckoutExample**](https://github.com/hyva-themes/magento2-checkout-example) template for customizing Hyvä Checkout, then you are required to include the React components in that module too in the above purge list.
 
 With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.
 
