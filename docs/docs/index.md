@@ -17,7 +17,7 @@ It depends on these two variables in localStorage:
  - `cartId` to the `cart` section
 
 ## What it is not
-Hyvä Checkout is not an alternative for the default Luma checkout. Rather, it provides you a base on which you can build your own custom checkout for your site. It is a powerful tool with which you can develop the checkout in the most efficient way.
+Hyvä Checkout is not an a drop-in replacement for the default Luma checkout; it does not have feature parity. Rather, it provides you a base on which you can build your own custom checkout for your site. It is a powerful tool with which you can develop the checkout in the most efficient way.
 
 It basically avoids the frustration you have when you want to customize the Luma checkout by making the development process super fun.
 
