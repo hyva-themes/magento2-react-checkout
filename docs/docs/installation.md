@@ -66,7 +66,7 @@ module.exports = {
 
 ```
 npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ install
-npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ run build-dev
+npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ run build-prod
 ```
 
 !!! Note "For Hyva_CheckoutExample template users"
