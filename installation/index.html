@@ -458,8 +458,20 @@ composer require hyva-themes/magento2-hyva-checkout
 <p>Below is the bare minimum steps you need to do in order to achieve it.</p>
 <ol>
 <li>You need to setup a child theme in your site. It should be inherited from <code>Hyva/default</code> theme. For the sake of simplicity, I am calling this child theme as <code>Hyva/custom</code>.</li>
-<li>Copy over the web directory from <code>vendor/hyva-themes/magento2-default-theme/web/</code> to your own theme <code>app/design/frontend/Hyva/custom/web/</code></li>
-<li>Edit the <code>tailwind.config.js</code> file inside your theme and add following lines inside purge directory list.</li>
+</ol>
+<p>Here's how to quickly set it up from the command line;</p>
+<pre><code class="language-bash">mkdir -p app/design/frontend/Hyva/custom
+cp -R vendor/hyva-themes/magento2-default-theme/web app/design/frontend/Hyva/custom/web
+cp vendor/hyva-themes/magento2-default-theme/registration.php app/design/frontend/Hyva/custom
+cp vendor/hyva-themes/magento2-default-theme/theme.xml app/design/frontend/Hyva/custom
+sed -i 's/Hyva\/reset/Hyva\/default/' app/design/frontend/Hyva/custom/theme.xml
+sed -i 's/Default/Custom/' app/design/frontend/Hyva/custom/theme.xml
+sed -i 's/Hyva\/default/Hyva\/custom/' app/design/frontend/Hyva/custom/registration.php
+bin/magento setup:upgrade
+</code></pre>
+<ol>
+<li>Copy over the web directory from <code>vendor/hyva-themes/magento2-default-theme/web/</code> to your own theme <code>app/design/frontend/Hyva/custom/web/</code> (already done if you followed previous instructions).</li>
+<li>Edit the <code>tailwind.config.js</code> file inside your theme and add/uncomment following lines inside purge directory list.</li>
 </ol>
 <pre><code>module.exports = {
     ...
@@ -475,9 +487,15 @@ composer require hyva-themes/magento2-hyva-checkout
 }
 ...
 </code></pre>
+<ol>
+<li>Install dependencies and build the new CSS.</li>
+</ol>
+<pre><code>npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ install
+npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ run build-prod
+</code></pre>
 <div class="admonition note">
 <p class="admonition-title">For Hyva_CheckoutExample template users</p>
-<p>If you are using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Hyva_CheckoutExample</strong></a> template for customizing Hyvä Checkout, then you are required to include the react components in that module too in the above purge list.</p>
+<p>If you are using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Hyva_CheckoutExample</strong></a> template for customizing Hyvä Checkout, then you are required to include the React components in that module too in the above purge list.</p>
 </div>
 <p>With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.</p>
 <h2 id="additional-steps-luma-theme">Additional Steps - Luma Theme</h2>
