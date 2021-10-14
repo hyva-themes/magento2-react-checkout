@@ -23,7 +23,6 @@ function Login() {
     () => ({
       ...formikSectionData,
       loginFormValues: formikSectionData.formSectionValues,
-      isLoginFormTouched: formikSectionData.isFormSectionTouched,
     }),
     [formikSectionData]
   );
