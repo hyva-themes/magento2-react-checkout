@@ -48,9 +48,8 @@ export function formatAddressListToCardData(addressList, stateList) {
         company,
         ...street,
         __('%1 %1', zipcode, city),
-        city,
         regionLabel || _get(countryRegion, 'name'),
-        countryCode || country
+        countryCode || country,
         __('Phone: %1', phone),
       ].filter((i) => !!i),
     };

@@ -23,7 +23,8 @@ function CheckoutForm() {
   const [initialData, setInitialData] = useState(false);
   const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
     useCheckoutFormAppContext();
-  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
+  const { orderId, isVirtualCart, storeAggregatedCartStates } =
+    useCheckoutFormCartContext();
 
   /**
    * Collect App, Cart data when the page loads.
@@ -70,8 +71,12 @@ function CheckoutForm() {
               <div className="w-full space-y-2 md:max-w-md xl:max-w-full">
                 <Login />
                 <AddressWrapper>
-                  <ShippingAddress />
-                  <ShippingMethodsForm />
+                  {!isVirtualCart && (
+                    <>
+                      <ShippingAddress />
+                      <ShippingMethodsForm />
+                    </>
+                  )}
                   <BillingAddress />
                   <PaymentMethod />
                 </AddressWrapper>
