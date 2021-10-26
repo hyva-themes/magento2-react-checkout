@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Card from '../common/Card';
-import Header from '../common/Header';
+import ToggleBox from '../common/ToggleBox';
 import CartItemList from './components/CartItemList';
 import NoItemsInfoBox from './components/NoItemsInfoBox';
 import CartItemsFormManager from './components/CartItemsFormManager';
@@ -15,8 +15,9 @@ const CartItemsMemorized = React.memo(({ formikData }) => {
   return (
     <CartItemsFormManager formikData={formikData}>
       <Card classes={cartItemsAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Product Details')}</Header>
-        {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
+        <ToggleBox show title={__('Product Details')}>
+          {cartItemsAvailable ? <CartItemList /> : <NoItemsInfoBox />}
+        </ToggleBox>
       </Card>
     </CartItemsFormManager>
   );

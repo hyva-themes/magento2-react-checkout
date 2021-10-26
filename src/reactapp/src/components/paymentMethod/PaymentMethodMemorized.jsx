@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Card from '../common/Card';
-import Header from '../common/Header';
+import ToggleBox from '../common/ToggleBox';
 import PaymentMethodList from './components/PaymentMethodList';
 import NoPaymentMethodInfoBox from './components/NoPaymentMethodInfoBox';
 import PaymentMethodFormManager from './components/PaymentMethodFormManager';
@@ -25,12 +25,13 @@ const PaymentMethodMemorized = React.memo(({ formikData }) => {
   return (
     <PaymentMethodFormManager formikData={formikData}>
       <Card classes={isPaymentAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Payment Methods')}</Header>
-        {isPaymentAvailable ? (
-          <PaymentMethodList methodRenderers={renderers} />
-        ) : (
-          <NoPaymentMethodInfoBox />
-        )}
+        <ToggleBox show title={__('Payment Methods')}>
+          {isPaymentAvailable ? (
+            <PaymentMethodList methodRenderers={renderers} />
+          ) : (
+            <NoPaymentMethodInfoBox />
+          )}
+        </ToggleBox>
       </Card>
     </PaymentMethodFormManager>
   );

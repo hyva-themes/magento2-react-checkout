@@ -1,10 +1,10 @@
 import React from 'react';
 
 import Card from '../common/Card';
-import Header from '../common/Header';
+import ToggleBox from '../common/ToggleBox/ToggleBox';
 import ShippingMethodList from './components/ShippingMethodList';
-import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import NoShippingMethodInfoBox from './components/NoShippingMethodInfoBox';
+import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
@@ -15,9 +15,10 @@ const ShippingMethodMemorized = React.memo(({ formikData }) => {
   return (
     <ShippingMethodFormManager formikData={formikData}>
       <Card classes={methodsAvailable ? '' : 'opacity-75'}>
-        <Header>{__('Shipping Methods')}</Header>
-        <NoShippingMethodInfoBox />
-        <ShippingMethodList />
+        <ToggleBox title={__('Shipping Methods')} show>
+          <NoShippingMethodInfoBox />
+          <ShippingMethodList />
+        </ToggleBox>
       </Card>
     </ShippingMethodFormManager>
   );

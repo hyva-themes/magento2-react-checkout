@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Card from '../common/Card';
-import Header from '../common/Header';
+import ToggleBox from '../common/ToggleBox';
 import CheckoutAgreementsForm from './components/CheckoutAgreementsForm';
 import CheckoutAgreementModalWrapper from './components/CheckoutAgreementModalWrapper';
 import CheckoutAgreementFormikProvider from './components/CheckoutAgreementsFormikProvider';
@@ -20,8 +20,9 @@ const CheckoutAgreementsMemorized = React.memo(({ formikData }) => {
       ) : (
         <CheckoutAgreementModalWrapper>
           <Card>
-            <Header>{__('Checkout Agreements')}</Header>
-            <CheckoutAgreementsForm />
+            <ToggleBox show title={__('Checkout Agreements')}>
+              <CheckoutAgreementsForm />
+            </ToggleBox>
           </Card>
         </CheckoutAgreementModalWrapper>
       )}
