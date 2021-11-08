@@ -23,6 +23,7 @@ const initialValues = {
 const validationSchema = {
   customerWantsToSignIn: YupBool(),
   email: YupString()
+    .nullable()
     .required(__('Email is required'))
     .email(__('Email is invalid')),
   password: YupString().test(
