@@ -7,11 +7,13 @@ import UserInfoBox from './components/UserInfoBox';
 import LoginFormManager from './components/LoginFormManager';
 import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
+import LoginInfoBox from './components/LoginInfoBox';
 
 const LoginMemorized = React.memo(({ formikData }) => (
   <LoginFormManager formikData={formikData}>
     <Card>
-      <ToggleBox title={__('Email')} show>
+      <ToggleBox title={__('Customer Information')} show>
+        <LoginInfoBox />
         <LoginForm />
         <UserInfoBox />
       </ToggleBox>
