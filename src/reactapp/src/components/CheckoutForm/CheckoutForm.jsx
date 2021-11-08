@@ -66,7 +66,7 @@ function CheckoutForm() {
       <Message />
       <div className="flex justify-center">
         <div className="container">
-          <div className="flex flex-col my-6 md:flex-row">
+          <div className="flex flex-col my-6 space-y-2 md:flex-row md:space-y-0">
             <div className="w-full lg:w-3/5 md:mr-2">
               <div className="w-full space-y-2 md:max-w-md xl:max-w-full">
                 <Login />
