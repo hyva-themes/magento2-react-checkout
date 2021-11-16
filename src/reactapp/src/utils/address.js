@@ -56,7 +56,7 @@ export function formatAddressListToCardData(addressList, stateList) {
   });
 }
 
-const addressInitValues = {
+export const addressInitValues = {
   company: '',
   firstname: '',
   lastname: '',
@@ -65,7 +65,7 @@ const addressInitValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: '',
+  country: initialCountry,
 };
 
 export function prepareFormAddressFromCartAddress(address, selectedAddressId) {

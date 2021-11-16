@@ -55,3 +55,11 @@ export function _abs(num) {
 export function _min(num1, num2) {
   return Math.min(Number(num1), Number(num2));
 }
+
+export function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export function _range(start, end) {
+  return Array.from({ length: end }, (val, ind) => ind + start);
+}

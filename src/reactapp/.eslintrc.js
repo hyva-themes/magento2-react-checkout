@@ -19,7 +19,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-underscore-dangle': 0,
     'react/jsx-props-no-spreading': 0,
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
     'react/forbid-prop-types': [
       'error',
       {

@@ -1,6 +1,11 @@
 export function setAggregatedData(state, data) {
+  const { cart, ...otherData } = data;
   return {
     ...state,
-    ...data,
+    ...otherData,
+    cart: {
+      ...state.cart,
+      ...cart,
+    },
   };
 }

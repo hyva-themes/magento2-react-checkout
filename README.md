@@ -1,4 +1,3 @@
-
 # Hyvä Themes - Hyvä Checkout
 
 [![Hyvä Themes](https://repository-images.githubusercontent.com/303806175/a3973c80-479c-11eb-8716-03e369d87143)](https://hyva.io/)

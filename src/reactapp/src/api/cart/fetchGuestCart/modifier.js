@@ -11,7 +11,7 @@ import { modifyBillingAddressData } from '../setBillingAddress/modifier';
 
 function modifyCartItemsData(cartItems) {
   return cartItems.reduce((accumulator, item) => {
-    const { id, quantity, prices, product } = item;
+    const { id, quantity, prices, product, product_type: productType } = item;
     const priceAmount = _get(prices, 'price.value');
     const price = formatPrice(priceAmount);
     const rowTotalAmount = _get(prices, 'row_total.value');
@@ -21,10 +21,27 @@ function modifyCartItemsData(cartItems) {
     const productName = _get(product, 'name');
     const productUrl = _get(product, 'url_key');
     const productSmallImgUrl = _get(product, 'small_image.url');
+    const selectedConfigOptions = (
+      _get(item, 'configurable_options') || []
+    ).map((configOption) => {
+      const {
+        id: optionId,
+        value_label: value,
+        option_label: option,
+      } = configOption;
+      return {
+        optionId,
+        value,
+        option,
+        label: `${option}: ${value}`,
+      };
+    });
 
     accumulator[id] = {
       id,
+      productType,
       quantity,
+      isConfigurable: productType === 'configurable',
       priceAmount,
       price,
       rowTotal,
@@ -34,6 +51,7 @@ function modifyCartItemsData(cartItems) {
       productName,
       productUrl,
       productSmallImgUrl,
+      selectedConfigOptions,
     };
 
     return accumulator;

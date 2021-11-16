@@ -4,11 +4,10 @@ import { node } from 'prop-types';
 import { Formik } from 'formik';
 import { object as YupObject } from 'yup';
 
-import CheckoutFormContext from './CheckoutFormContext';
-import useCartContext from '../../hook/useCartContext';
-import useAppContext from '../../hook/useAppContext';
 import { config } from '../../config';
 import LocalStorage from '../../utils/localStorage';
+import CheckoutFormContext from './CheckoutFormContext';
+import { useAppContext, useCartContext } from '../../hooks';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -38,6 +37,10 @@ function prepareFormValidationSchema(sections, sectionId) {
  * Provider that wraps the entire checkout form
  */
 function CheckoutFormProvider({ children }) {
+  /**
+   * Update whether formik needs to be re-initialize or not
+   */
+  const [enableReinitialize, setEnableReInitialize] = useState(true);
   /**
    * Represent which form section is active at the moment
    */
@@ -76,7 +79,12 @@ function CheckoutFormProvider({ children }) {
    * This will register individual form sections to the checkout-form-formik
    */
   const registerFormSection = useCallback((section) => {
-    updateSections((prevSections) => [...prevSections, section]);
+    updateSections((prevSections) => {
+      const newSections = prevSections.filter(
+        (prevSection) => prevSection.id !== section.id
+      );
+      return [...newSections, section];
+    });
   }, []);
 
   const formSubmit = async (values) => {
@@ -142,13 +150,16 @@ function CheckoutFormProvider({ children }) {
     <CheckoutFormContext.Provider
       value={{
         ...context,
-        checkoutFormValidationSchema: formValidationSchema,
-        submitHandler: formSubmit,
+        enableReinitialize,
         registerPaymentAction,
+        setEnableReInitialize,
+        formSections: sections,
+        submitHandler: formSubmit,
+        checkoutFormValidationSchema: formValidationSchema,
       }}
     >
       <Formik
-        enableReinitialize
+        enableReinitialize={enableReinitialize}
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
         onSubmit={formSubmit}
