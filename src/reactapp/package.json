@@ -1,6 +1,6 @@
 {
   "name": "hyva-checkout",
-  "version": "0.1.0",
+  "version": "2.0-develop",
   "description": "A headless React Checkout for Magento 2",
   "repository": "local",
   "keywords": [
@@ -27,7 +27,7 @@
     "yup": "^0.32.8"
   },
   "scripts": {
-    "preinstall": "node scripts/configurePaymentMethods && npm run tailwind-install",
+    "preinstall": "node scripts/configurePaymentMethods && node scripts/configureThemes && npm run tailwind-install",
     "preupdate": "npm run tailwind-update",
     "start": "npm run app:start",
     "build": "react-app-rewired build",
@@ -49,7 +49,8 @@
     ]
   },
   "config": {
-    "paymentMethodsRepo": "Add your payment methods here"
+    "paymentMethodsRepo": "Add your payment methods here",
+    "themeRepositories": "Add your themes here"
   },
   "eslintConfig": {
     "extends": "react-app"
