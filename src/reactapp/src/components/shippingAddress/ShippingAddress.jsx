@@ -9,9 +9,6 @@ import { SHIPPING_ADDR_FORM } from '../../config';
 import { shippingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
 import { billingSameAsShippingField } from '../../utils/address';
-
-const regionField = `${SHIPPING_ADDR_FORM}.region`;
-const countryField = `${SHIPPING_ADDR_FORM}.country`;
 /**
  * Entry point of shipping address Form Section
  *
@@ -27,8 +24,6 @@ const countryField = `${SHIPPING_ADDR_FORM}.country`;
 function ShippingAddress() {
   const { values } = useFormikContext();
   const sectionFormikData = useFormikMemorizer(SHIPPING_ADDR_FORM);
-  const selectedRegion = _get(values, regionField);
-  const selectedCountry = _get(values, countryField);
   const isBillingSame = !!_get(values, billingSameAsShippingField);
   const shippingOtherOptionSelected = _get(
     values,
@@ -50,17 +45,15 @@ function ShippingAddress() {
     () => ({
       ...sectionFormikData,
       isBillingSame,
-      selectedRegion,
-      selectedCountry,
       formSectionErrors,
       shippingOtherOptionSelected,
       shippingValues: formSectionValues,
       isBillingFormTouched: isFormSectionTouched,
+      selectedRegion: sectionFormikData.formSectionValues?.region,
+      selectedCountry: sectionFormikData.formSectionValues?.country,
     }),
     [
       isBillingSame,
-      selectedRegion,
-      selectedCountry,
       sectionFormikData,
       formSectionValues,
       formSectionErrors,

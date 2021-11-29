@@ -10,9 +10,6 @@ import { billingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
 import { billingSameAsShippingField } from '../../utils/address';
 
-const regionField = `${BILLING_ADDR_FORM}.region`;
-const countryField = `${BILLING_ADDR_FORM}.country`;
-
 /**
  * Entry point Billing Address Form Section
  *
@@ -28,8 +25,6 @@ const countryField = `${BILLING_ADDR_FORM}.country`;
 function BillingAddress() {
   const { values } = useFormikContext();
   const formSectionData = useFormikMemorizer(BILLING_ADDR_FORM);
-  const selectedRegion = _get(values, regionField);
-  const selectedCountry = _get(values, countryField);
   const isBillingSame = _get(values, billingSameAsShippingField);
   const billingOtherOptionSelected = _get(values, billingAddrOtherOptionField);
   const { formSectionValues, formSectionErrors, isFormSectionTouched } =
@@ -48,18 +43,16 @@ function BillingAddress() {
     () => ({
       ...formSectionData,
       isBillingSame,
-      selectedRegion,
-      selectedCountry,
       formSectionErrors,
       billingOtherOptionSelected,
       billingValues: formSectionValues,
       isBillingAddressTouched: isFormSectionTouched,
+      selectedRegion: formSectionData.formSectionValues?.region,
+      selectedCountry: formSectionData.formSectionValues?.country,
     }),
     [
       isBillingSame,
-      selectedRegion,
       formSectionData,
-      selectedCountry,
       formSectionErrors,
       formSectionValues,
       isFormSectionTouched,
