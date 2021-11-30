@@ -1,6 +1,7 @@
 import _get from 'lodash.get';
 
-import { _isArray, _keys } from './index';
+import { __ } from '../i18n';
+import { _isArray, _keys, _ucFirst } from './index';
 
 export function scrollToElement(elementId) {
   const element = document.getElementById(elementId);
@@ -32,12 +33,17 @@ export function prepareFormSectionErrorMessage(
       if (_isArray(formSectionErrors[field])) {
         _keys(formSectionErrors[field]).forEach((innerField) => {
           errorMessages.push(
-            formSectionErrors[field][innerField].replace('%1', field)
+            formSectionErrors[field][innerField].replace(
+              '%1',
+              __(_ucFirst(field))
+            )
           );
           setFieldTouched(`${formId}.${field}.${innerField}`, true);
         });
       } else {
-        errorMessages.push(formSectionErrors[field].replace('%1', field));
+        errorMessages.push(
+          formSectionErrors[field].replace('%1', __(_ucFirst(field)))
+        );
         setFieldTouched(`${formId}.${field}`, true);
       }
 
