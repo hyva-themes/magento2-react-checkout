@@ -1,15 +1,17 @@
 import React from 'react';
-import { object } from 'prop-types';
 import _get from 'lodash.get';
+import { object } from 'prop-types';
 
 import RadioInput from '../../common/Form/RadioInput';
-import { _objToArray } from '../../../utils';
+import { __ } from '../../../i18n';
+import { classNames, _objToArray } from '../../../utils';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 import usePaymentMethodFormContext from '../hooks/usePaymentMethodFormContext';
 
 function PaymentMethodList({ methodRenderers }) {
   const { fields, submitHandler, formikData } = usePaymentMethodFormContext();
-  const { methodList } = usePaymentMethodCartContext();
+  const { methodList, doCartContainShippingAddress } =
+    usePaymentMethodCartContext();
   const { paymentValues, setFieldValue, setFieldTouched } = formikData;
 
   const handlePaymentMethodSelection = async (event) => {
@@ -32,7 +34,16 @@ function PaymentMethodList({ methodRenderers }) {
   };
 
   return (
-    <div className="py-4">
+    <div
+      title={
+        !doCartContainShippingAddress &&
+        __('Please provide a shipping address first.')
+      }
+      className={classNames(
+        !doCartContainShippingAddress ? 'cursor-not-allowed opacity-40' : '',
+        'py-4'
+      )}
+    >
       <ul>
         {_objToArray(methodList).map((method) => {
           const MethodRenderer = methodRenderers[method.code];
@@ -46,6 +57,7 @@ function PaymentMethodList({ methodRenderers }) {
                 />
               ) : (
                 <RadioInput
+                  disabled={!doCartContainShippingAddress}
                   label={method.title}
                   name="paymentMethod"
                   value={method.code}
