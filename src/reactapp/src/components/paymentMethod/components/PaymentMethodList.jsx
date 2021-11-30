@@ -10,9 +10,10 @@ import usePaymentMethodFormContext from '../hooks/usePaymentMethodFormContext';
 
 function PaymentMethodList({ methodRenderers }) {
   const { fields, submitHandler, formikData } = usePaymentMethodFormContext();
-  const { methodList, doCartContainShippingAddress } =
+  const { methodList, isVirtualCart, doCartContainShippingAddress } =
     usePaymentMethodCartContext();
   const { paymentValues, setFieldValue, setFieldTouched } = formikData;
+  const paymentAvailable = isVirtualCart || doCartContainShippingAddress;
 
   const handlePaymentMethodSelection = async (event) => {
     const methodSelected = _get(methodList, `${event.target.value}.code`);
@@ -36,11 +37,10 @@ function PaymentMethodList({ methodRenderers }) {
   return (
     <div
       title={
-        !doCartContainShippingAddress &&
-        __('Please provide a shipping address first.')
+        !paymentAvailable && __('Please provide a shipping address first.')
       }
       className={classNames(
-        !doCartContainShippingAddress ? 'cursor-not-allowed opacity-40' : '',
+        !paymentAvailable ? 'cursor-not-allowed opacity-40' : '',
         'py-4'
       )}
     >
@@ -57,10 +57,10 @@ function PaymentMethodList({ methodRenderers }) {
                 />
               ) : (
                 <RadioInput
-                  disabled={!doCartContainShippingAddress}
+                  value={method.code}
                   label={method.title}
                   name="paymentMethod"
-                  value={method.code}
+                  disabled={!paymentAvailable}
                   onChange={handlePaymentMethodSelection}
                   checked={method.code === paymentValues.code}
                 />
