@@ -1,9 +1,13 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
-  const config = {
+export default defineConfig(({ mode }) => {
+  // includes app env settings into process.env;
+  // Only settings starts with `HYVA_` works
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd(), ['HYVA_']) };
+
+  return {
     envPrefix: 'HYVA_',
     build: {
       cssCodeSplit: false,
@@ -24,7 +28,7 @@ export default defineConfig(({ command }) => {
     server: {
       proxy: {
         '/backend': {
-          target: 'http://m24-hyva.test',
+          target: process.env.HYVA_BASE_URL || 'https://demo.hyva.io',
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/backend/, ''),
@@ -32,14 +36,5 @@ export default defineConfig(({ command }) => {
       },
     },
     plugins: [react()],
-  };
-
-  if (command === 'serve') {
-    return config;
-  }
-  // command === 'build'
-  return {
-    // build specific config
-    ...config,
   };
 });
