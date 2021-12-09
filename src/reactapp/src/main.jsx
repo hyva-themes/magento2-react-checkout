@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import RootElement from './utils/rootElement';
 import CheckoutForm from './app/code/checkoutForm';
@@ -8,7 +8,6 @@ import CartDataProvider from './context/Cart/CartDataProvider';
 import CheckoutFormProvider from './context/Form/CheckoutFormProvider';
 
 import './index.css';
-
 
 function Checkout() {
   return (

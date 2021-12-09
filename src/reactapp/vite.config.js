@@ -19,7 +19,7 @@ export default defineConfig(({ command }) => {
     esbuild: {
       jsxFactory: 'h',
       jsxFragment: 'Fragment',
-      jsxInject: `import { h, Fragment } from 'preact'`,
+      jsxInject: `import { h, Fragment } from 'react'`,
     },
     server: {
       proxy: {
@@ -41,10 +41,10 @@ export default defineConfig(({ command }) => {
   return {
     // build specific config
     ...config,
-    resolve: {
-      alias: {
-        react: 'preact/compat',
-      },
-    },
+    // resolve: {
+    //   alias: {
+    //     react: 'preact/compat',
+    //   },
+    // },
   };
 });

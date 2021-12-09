@@ -54,7 +54,6 @@ const magentoDataSources = {
   },
 };
 
-const nodeEnv = process.env.NODE_ENV;
 const activeSource = magentoDataSources.mageCacheStorage; // or `magentoDataSources.m2BrowserPersistence` for PWA;
 
 export const config = {
@@ -67,8 +66,8 @@ export const config = {
   storageSource: activeSource,
   defaultPaymentMethod: 'checkmo',
   defaultCountry: env.defaultCountry || 'US',
-  isProductionMode: nodeEnv === 'production',
-  isDevelopmentMode: nodeEnv === 'development',
+  isProductionMode: import.meta.env.PROD,
+  isDevelopmentMode: import.meta.env.DEV,
   cartId: getConfigFromLocalStorage(activeSource.cartId),
   baseUrl: env.baseUrl || RootElement.getBaseUrl() || '',
   signInToken: getConfigFromLocalStorage(activeSource.token),

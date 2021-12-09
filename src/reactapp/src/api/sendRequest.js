@@ -7,6 +7,7 @@ import env from '../utils/env';
 import RootElement from '../utils/rootElement';
 import LocalStorage from '../utils/localStorage';
 import { SET_PAGE_MESSAGE } from '../context/App/page/types';
+import { config } from '../config';
 
 export const RESPONSE_TEXT = 'text';
 export const RESPONSE_JSON = 'json';
@@ -26,7 +27,8 @@ export default function sendRequest(
     ...additionalHeaders,
   };
   const token = LocalStorage.getCustomerToken();
-  const url = `/backend/${relativeUrl || 'graphql'}`;
+  const urlPrefix = config.isDevelopmentMode ? '/backend/' : '/';
+  const url = `${urlPrefix}${relativeUrl || 'graphql'}`;
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
