@@ -1,11 +1,11 @@
 const {
-  REACT_APP_BASE_URL: baseUrl,
-  REACT_APP_LANGUAGE: language,
-  REACT_APP_STORE_CODE: storeCode,
-  REACT_APP_CURRENCY_CODE: currencyCode,
-  REACT_APP_CURRENCY_SYMBOL: currencySymbol,
-  REACT_APP_DEFAULT_COUNTRY: defaultCountry,
-} = process.env;
+  HYVA_BASE_URL: baseUrl,
+  HYVA_LANGUAGE: language,
+  HYVA_STORE_CODE: storeCode,
+  HYVA_CURRENCY_CODE: currencyCode,
+  HYVA_CURRENCY_SYMBOL: currencySymbol,
+  HYVA_DEFAULT_COUNTRY: defaultCountry,
+} = import.meta.env;
 
 export default {
   baseUrl,

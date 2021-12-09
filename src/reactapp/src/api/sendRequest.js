@@ -4,7 +4,6 @@ import {
   GraphQLResponseException,
 } from './utility';
 import env from '../utils/env';
-import { config } from '../config';
 import RootElement from '../utils/rootElement';
 import LocalStorage from '../utils/localStorage';
 import { SET_PAGE_MESSAGE } from '../context/App/page/types';
@@ -16,7 +15,7 @@ const storeCode = env.storeCode || RootElement.getStoreCode();
 
 export default function sendRequest(
   dispatch,
-  queryParams = {},
+  queryParams,
   relativeUrl,
   responseType = 'json',
   additionalHeaders = {}
@@ -27,7 +26,7 @@ export default function sendRequest(
     ...additionalHeaders,
   };
   const token = LocalStorage.getCustomerToken();
-  const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
+  const url = `/backend/${relativeUrl || 'graphql'}`;
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -36,7 +35,7 @@ export default function sendRequest(
   return fetch(url, {
     headers,
     method: 'POST',
-    body: JSON.stringify({ ...queryParams }),
+    body: JSON.stringify({ ...(queryParams || {}) }),
   })
     .then((response) => {
       if (response.ok && responseType === RESPONSE_TEXT) {

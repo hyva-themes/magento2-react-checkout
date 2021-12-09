@@ -1,94 +1,54 @@
 {
-  "name": "hyva-checkout",
-  "version": "2.0-develop",
-  "description": "A headless React Checkout for Magento 2",
-  "repository": "local",
-  "keywords": [
-    "react",
-    "checkout",
-    "magento"
-  ],
-  "author": "Willem Wigman",
-  "license": "MIT",
-  "private": true,
-  "proxy": "https://demo.hyva.io",
-  "dependencies": {
-    "@heroicons/react": "^1.0.1",
-    "formik": "^2.2.6",
-    "lodash.get": "^4.4.2",
-    "lodash.set": "^4.3.2",
-    "npm-run-all": "^4.1.5",
-    "preact": "^10.5.4",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-app-polyfill": "^2.0.0",
-    "react-dom": "^17.0.1",
-    "react-scripts": "^4.0.3",
-    "yup": "^0.32.8"
-  },
+  "name": "vite-hyva-checkout",
+  "proxy": "http://m24-hyva.test",
   "scripts": {
-    "preinstall": "node scripts/configurePaymentMethods && node scripts/configureThemes && npm run tailwind-install",
-    "preupdate": "npm run tailwind-update",
-    "start": "npm run app:start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "precommit": "lint-staged",
-    "app:start": "react-app-rewired start",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "prestart": "cd ../view/frontend/web/css/tailwind/ && npm run build-dev",
-    "prebuild": "cd ../view/frontend/web/css/tailwind/ && npm run build-prod",
-    "tailwind-install": "cd ../view/frontend/web/css/tailwind/ && npm install && cd ../../../../../reactapp/",
-    "tailwind-update": "cd ../view/frontend/web/css/tailwind/ && npm update && cd ../../../../../reactapp/"
-  },
-  "lint-staged": {
-    "src/*.{js,jsx,json,scss,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "dev": "npm-run-all --parallel dev:*",
+    "build": "vite build",
+    "serve": "vite preview",
+    "dev:twc": "tailwindcss --postcss -i tailwind/tailwind.css -o src/index.css --watch",
+    "build:twc": "postcss -i tailwind/tailwind.css -o tailwind/build.css --minify",
+    "dev:vite": "vite",
+    "preinstall": "node scripts/configurePaymentMethods && node scripts/configureThemes"
   },
   "config": {
-    "paymentMethodsRepo": "Add your payment methods here",
-    "themeRepositories": "Add your themes here"
+    "themeRepositories": "Add your themes here",
+    "paymentMethodsRepo": "Add your payment methods here"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "ie 11",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "ie 11",
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "@heroicons/react": "^1.0.5",
+    "@vitejs/plugin-react": "^1.0.0",
+    "formik": "^2.2.9",
+    "lodash.get": "^4.4.2",
+    "lodash.set": "^4.3.2",
+    "preact": "^10.6.2",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "vite": "^2.6.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/eslint-parser": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "@babel/preset-react": "^7.14.5",
-    "@tailwindcss/forms": "^0.3.3",
-    "cypress": "^8.7.0",
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb": "^18.2.1",
+    "@babel/eslint-parser": "^7.16.3",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@tailwindcss/forms": "^0.3.4",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.4.1",
+    "eslint-config-airbnb": "^19.0.2",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^7.0.1",
-    "lint-staged": "^11.1.2",
-    "prettier": "^2.3.2",
-    "react-app-rewired": "^2.1.8",
-    "react-dev-utils": "^11.0.4",
-    "tailwindcss": "^2.2.7"
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.3.11",
+    "postcss-cli": "^9.0.2",
+    "postcss-import": "^14.0.2",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^2.2.19"
   }
 }
