@@ -41,10 +41,5 @@ export default defineConfig(({ command }) => {
   return {
     // build specific config
     ...config,
-    // resolve: {
-    //   alias: {
-    //     react: 'preact/compat',
-    //   },
-    // },
   };
 });

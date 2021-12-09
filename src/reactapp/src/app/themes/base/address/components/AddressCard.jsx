@@ -24,7 +24,6 @@ function AddressCard({
       </div>
       <hr />
       <ul className="pt-3">
-
         {address.map((addrAttr, index) => (
           <li
             key={`${id}_${addrAttr}_${index}`}

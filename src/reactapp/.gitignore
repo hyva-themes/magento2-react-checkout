@@ -3,3 +3,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.idea/
+.vscode/
+.storybook/
+.env
+src/paymentMethods/*

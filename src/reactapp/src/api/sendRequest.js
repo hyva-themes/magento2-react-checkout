@@ -4,10 +4,10 @@ import {
   GraphQLResponseException,
 } from './utility';
 import env from '../utils/env';
+import { config } from '../config';
 import RootElement from '../utils/rootElement';
 import LocalStorage from '../utils/localStorage';
 import { SET_PAGE_MESSAGE } from '../context/App/page/types';
-import { config } from '../config';
 
 export const RESPONSE_TEXT = 'text';
 export const RESPONSE_JSON = 'json';
