@@ -7,6 +7,11 @@ nav:
   - Internationalization: i18n.md
   - Payment Integration: payment-integration.md
   - React app configurations: env_variables.md
+  - New Version - 2.0:
+    - Getting started: 2.0/new_version.md
+    - How to use it: 2.0/installation.md
+    - Multiple themes: 2.0/multi-theme.md
+    - Major changes: 2.0/major-changes.md
   - FAQs: faqs.md
 theme:
   name: material
