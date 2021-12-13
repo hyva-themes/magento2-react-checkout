@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
 
-import useCartContext from '../../../hook/useCartContext';
+import { useCartContext } from '../../../../../hooks';
 
 export default function useCheckoutFormCartContext() {
   const { order, cart, storeAggregatedCartStates } = useCartContext();

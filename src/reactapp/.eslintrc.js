@@ -19,7 +19,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-underscore-dangle': 0,
     'react/jsx-props-no-spreading': 0,
-    'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'react/forbid-prop-types': [
       'error',
       {
@@ -29,5 +29,9 @@ module.exports = {
       },
     ],
     'react/no-danger': 0,
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'function-declaration' },
+    ],
   },
 };

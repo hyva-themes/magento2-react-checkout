@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Hyva_Checkout::css/styles.css" defer="defer" />
-        <script src="Hyva_Checkout::js/react-checkout.js" defer="defer" />
+        <css src="Hyva_Checkout::style.css" defer="defer" />
+        <script src="Hyva_Checkout::react-checkout.es.js" defer="defer" />
     </head>
     <body>
         <referenceContainer name="content">

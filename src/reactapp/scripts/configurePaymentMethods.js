@@ -10,9 +10,8 @@ const paymentDirectoryPath = './src/paymentMethods/';
  * `config.paymentMethodsRepo` section in package.json file into the
  * `src/paymentMethods`
  *
- * It will also populate `src/paymentMethods/paymentConfig.json` file with the
- * available payment methods details. This will be used by the react app to
- * correctly configure the custom payment methods into the app.
+ * It will also populate `src/paymentMethods/customRenderers.js` which can be
+ * used to port custom payment renderers into the react app.
  */
 module.exports = (async () => {
   const paymentRepos = util.collectConfiguredReposFromEnv('paymentMethodsRepo');
@@ -24,11 +23,22 @@ module.exports = (async () => {
     'payment method'
   );
 
-  // write down available payment methods into `src/paymentMethods/paymentConfig.json`
-  fs.writeFileSync(
-    `${paymentDirectoryPath}paymentConfig.json`,
-    JSON.stringify({ availablePaymentMethods: paymentMethodList })
-  );
+  let content = 'export default {};\n';
+  if (paymentMethodList.length) {
+    content = paymentMethodList
+      .map(
+        (method) => `import ${method}Renderers from './${method}/renderers';\n`
+      )
+      .join('');
+    content += '\n';
+    content += `export default {\n`;
+    content += paymentMethodList
+      .map((method) => `  ...${method}Renderers,\n`)
+      .join('');
+    content += '};\n';
+  }
+
+  fs.writeFileSync(`${paymentDirectoryPath}customRenderers.js`, content);
 
   console.log('Payment methods successfully added');
 })();

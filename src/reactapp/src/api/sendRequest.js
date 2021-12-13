@@ -16,7 +16,7 @@ const storeCode = env.storeCode || RootElement.getStoreCode();
 
 export default function sendRequest(
   dispatch,
-  queryParams = {},
+  queryParams,
   relativeUrl,
   responseType = 'json',
   additionalHeaders = {}
@@ -27,7 +27,8 @@ export default function sendRequest(
     ...additionalHeaders,
   };
   const token = LocalStorage.getCustomerToken();
-  const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
+  const urlPrefix = config.isDevelopmentMode ? '/backend/' : '/';
+  const url = `${urlPrefix}${relativeUrl || 'graphql'}`;
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -36,7 +37,7 @@ export default function sendRequest(
   return fetch(url, {
     headers,
     method: 'POST',
-    body: JSON.stringify({ ...queryParams }),
+    body: JSON.stringify({ ...(queryParams || {}) }),
   })
     .then((response) => {
       if (response.ok && responseType === RESPONSE_TEXT) {
