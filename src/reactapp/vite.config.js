@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       lib: {
         formats: ['es'],
         entry: 'src/main.jsx',
-        fileName: 'react-checkout',
+        fileName: (format) => `react-checkout.${format}.min.js`,
         name: 'react-checkout.js',
       },
     },
