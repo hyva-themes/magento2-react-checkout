@@ -8,7 +8,7 @@
 "Billing address update failed. Please try again.","Aktualisieren der Zahlungsadresse ist fehlgeschlagen. Bitte versuchen Sie es erneut."
 "Billing address updated successfully.","Zahlungsadresse wurde erfolgreich aktualisiert."
 "BILLING ADDRESS","RECHNUNGSADRESSE"
-"Billing Information","Zahlungsinformation"
+"Billing Information","Rechnungsinformationen"
 "Cancel","Abbrechen"
 "Cart Subtotal","Zwischensumme Warenkorb"
 "Cart updated successfully.","Warenkorb erfolgreich aktualisiert."
@@ -84,3 +84,4 @@
 "Update","Aktualisieren"
 "Use this address as my billing address","Diese Adresse als meine Rechnungsadresse verwenden"
 "Your checkout details are not valid. Please verify your details.","Ihre Zahlungsdaten sind falsch. Bitte prüfen Sie Ihre Angaben."
+"Zipcode","Postleitzahl"

@@ -25,8 +25,10 @@ function BillingAddressForm() {
     handleKeyDown,
     billingValues,
     isBillingSame,
+    setFieldValue,
     setIsNewAddress,
     selectedAddress,
+    setFieldTouched,
     validationSchema,
     setSelectedAddress,
   } = useBillingAddressFormikContext();
@@ -68,6 +70,14 @@ function BillingAddressForm() {
       );
       reCalculateMostRecentAddressOptions();
     }
+  };
+
+  const handleCountryChange = (event) => {
+    const newValue = event.target.value;
+    setFieldTouched(fields.country, newValue);
+    setFieldValue(fields.country, newValue);
+    // when country is changed, then always reset region field.
+    setFieldValue(fields.region, '');
   };
 
   if (viewMode) {
@@ -131,7 +141,7 @@ function BillingAddressForm() {
           name={fields.country}
           formikData={formikData}
           options={countryOptions}
-          onKeyDown={handleKeyDown}
+          onChange={handleCountryChange}
         />
         <SelectInput
           required
@@ -139,7 +149,6 @@ function BillingAddressForm() {
           name={fields.region}
           options={stateOptions}
           formikData={formikData}
-          onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
         />
         <TextInput
