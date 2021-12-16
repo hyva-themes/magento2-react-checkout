@@ -1,6 +1,7 @@
 import {
   isValidCustomerAddressId,
   billingSameAsShippingField,
+  prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
 import { __ } from '../../../i18n';
 import LocalStorage from '../../../utils/localStorage';
@@ -30,6 +31,7 @@ export default function useSaveAddressAction(billingFormikContext) {
     setSelectedAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
+    setBillingAddressFormFields,
   } = billingFormikContext;
 
   return async (addressId) => {
@@ -65,7 +67,11 @@ export default function useSaveAddressAction(billingFormikContext) {
 
     try {
       setPageLoader(true);
-      await updateCartAddressPromise();
+      const result = await updateCartAddressPromise();
+      const addressToSet = prepareFormAddressFromCartAddress(
+        result?.billing_address
+      );
+      setBillingAddressFormFields(addressToSet);
 
       // we don't need to await customer address update operation;
       // it can happen in background

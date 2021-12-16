@@ -118,8 +118,9 @@ export async function updateCustomerAddressAction(
   stateInfo
 ) {
   try {
-    const address = { ...customerAddress };
-    const { country, phone, region, zipcode } = customerAddress;
+    const { country, phone, region, zipcode, ...otherAddressParts } =
+      customerAddress;
+    const address = { ...otherAddressParts };
 
     if (country) {
       address.country_code = country;
@@ -133,6 +134,8 @@ export async function updateCustomerAddressAction(
         region: _get(stateInfo, 'code'),
         region_id: _get(stateInfo, 'id'),
       };
+    } else {
+      address.region = {};
     }
     if (zipcode) {
       address.postcode = zipcode;
