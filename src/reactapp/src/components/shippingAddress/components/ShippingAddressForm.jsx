@@ -4,10 +4,13 @@ import { SaveButton } from '../../address';
 import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './shippingAddressForm/CancelButton';
+import {
+  isMostRecentAddress,
+  isValidCustomerAddressId,
+} from '../../../utils/address';
 import { __ } from '../../../i18n';
 import { _keys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
-import { isMostRecentAddress } from '../../../utils/address';
 import useCountryState from '../../address/hooks/useCountryState';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
@@ -24,10 +27,12 @@ function ShippingAddressForm() {
     handleKeyDown,
     submitHandler,
     isBillingSame,
+    setFieldValue,
     shippingValues,
     selectedCountry,
     selectedAddress,
     setIsNewAddress,
+    setFieldTouched,
     validationSchema,
     setSelectedAddress,
     isBillingFormTouched,
@@ -48,7 +53,7 @@ function ShippingAddressForm() {
   const saveAddressAction = async () => {
     await formSubmitHandler();
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || isValidCustomerAddressId(selectedAddress)) {
       return;
     }
 
@@ -69,6 +74,14 @@ function ShippingAddressForm() {
       );
       reCalculateMostRecentAddressOptions();
     }
+  };
+
+  const handleCountryChange = (event) => {
+    const newValue = event.target.value;
+    setFieldTouched(fields.country, newValue);
+    setFieldValue(fields.country, newValue);
+    // when country is changed, then always reset region field.
+    setFieldValue(fields.region, '');
   };
 
   if (viewMode) {
@@ -133,7 +146,7 @@ function ShippingAddressForm() {
           name={fields.country}
           formikData={formikData}
           options={countryOptions}
-          onKeyDown={handleKeyDown}
+          onChange={handleCountryChange}
         />
 
         <SelectInput
@@ -142,7 +155,6 @@ function ShippingAddressForm() {
           name={fields.region}
           options={stateOptions}
           formikData={formikData}
-          onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
         />
 

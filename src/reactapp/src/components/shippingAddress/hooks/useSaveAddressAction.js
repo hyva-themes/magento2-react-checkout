@@ -1,12 +1,15 @@
 import _get from 'lodash.get';
 
+import {
+  isValidCustomerAddressId,
+  prepareFormAddressFromCartAddress,
+} from '../../../utils/address';
 import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
-import { isValidCustomerAddressId } from '../../../utils/address';
+import { _emptyFunc, _makePromise } from '../../../utils';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useShippingAddressAppContext from './useShippingAddressAppContext';
-import { _cleanObjByKeys, _emptyFunc, _makePromise } from '../../../utils';
 import useShippingAddressCartContext from './useShippingAddressCartContext';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
@@ -21,10 +24,9 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setSelectedAddress,
     customerAddressSelected,
     setCustomerAddressSelected,
+    setShippingAddressFormFields,
     shippingValues: shippingAddressToSave,
   } = shippingAddressFormContext;
-  const { setBillingSelected, setIsBillingCustomerAddress } =
-    useAddressWrapper();
   const {
     isLoggedIn,
     setMessage,
@@ -39,6 +41,8 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
+  const { setBillingSelected, setIsBillingCustomerAddress } =
+    useAddressWrapper();
 
   const submitHandler = async (customerAddressId) => {
     const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
@@ -81,11 +85,12 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     const shippingAddrResponse = await updateShippingAddress();
     await updateBillingAddress();
 
+    const addressToSet = prepareFormAddressFromCartAddress(
+      _get(shippingAddrResponse, 'shipping_address')
+    );
+    setShippingAddressFormFields(addressToSet);
+
     if (isBillingSame) {
-      const addressToSet = _cleanObjByKeys(
-        _get(shippingAddrResponse, 'shipping_address'),
-        ['fullName']
-      );
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
