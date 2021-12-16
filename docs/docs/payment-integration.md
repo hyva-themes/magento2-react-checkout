@@ -10,6 +10,7 @@ Below, we are listing the payment repositories, and each repository will have sp
 
 - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
 - [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
+- [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
 - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express) (_*publicly available soon_)
 
 We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.
