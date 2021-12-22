@@ -49,7 +49,7 @@ class Index
             /** @var Forward $resultForward */
             $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
             $result = $resultForward
-                ->setModule('hyva')
+                ->setModule('react-checkout')
                 ->setController('checkout')
                 ->forward('index');
 

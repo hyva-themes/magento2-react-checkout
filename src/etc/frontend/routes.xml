@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route id="reactcheckout" frontName="reactcheckout">
+        <route id="react_checkout" frontName="react-checkout">
             <module name="Hyva_ReactCheckout" />
         </route>
     </router>
