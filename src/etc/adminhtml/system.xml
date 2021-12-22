@@ -4,10 +4,10 @@
         <tab id="hyva_themes" sortOrder="999" translate="label">
             <label>Hyva Themes</label>
         </tab>
-        <section id="hyva_checkout" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-            <label>Hyvä Checkout</label>
+        <section id="hyva_react_checkout" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>React Checkout</label>
             <tab>hyva_themes</tab>
-            <resource>Hyva_Checkout::config_hyva_checkout</resource>
+            <resource>Hyva_ReactCheckout::config_hyva_react_checkout</resource>
             <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
                 <label>General Settings</label>
                 <field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"

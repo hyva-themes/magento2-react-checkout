@@ -1,10 +1,9 @@
 <?php
 /**
  * Hyvä Themes - https://hyva.io
- * Copyright © Wigman Interactive. All rights reserved.
- * This product is licensed per Magento production install
+ * Copyright © Hyva Themes B.V. All rights reserved.
  */
 
 use Magento\Framework\Component\ComponentRegistrar;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Hyva_Checkout', __DIR__);
+ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Hyva_ReactCheckout', __DIR__);

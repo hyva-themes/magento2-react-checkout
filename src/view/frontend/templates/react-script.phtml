@@ -16,7 +16,7 @@ use Magento\Framework\View\Element\Template;
 
         newScript.async = true;
         newScript.defer = true;
-        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_Checkout::js/react-checkout.js')); ?>';
+        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_ReactCheckout::js/react-checkout.js')); ?>';
 
         firstScript.parentNode.insertBefore(newScript, firstScript);
     }

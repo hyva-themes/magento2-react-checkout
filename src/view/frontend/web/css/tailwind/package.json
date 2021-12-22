@@ -24,7 +24,7 @@
     "build-prod": "NODE_ENV=production npm run build && npm run minify && cp ../styles.css ../../../../../reactapp/public/styles.css && npm run output-success",
     "output-success": "echo \"\\033[0;32mDone!\\033[0m\""
   },
-  "author": "Willem Wigman - Hyvä Themes",
+  "author": "Hyvä Themes B.V.",
   "license": "ISC",
   "private": true
 }

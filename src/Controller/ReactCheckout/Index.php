@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\Controller\Checkout;
+namespace Hyva\ReactCheckout\Controller\ReactCheckout;
 
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Checkout\Controller\Action;
@@ -21,6 +21,13 @@ class Index extends Action implements HttpGetActionInterface
      */
     private $checkoutHelper;
 
+    /**
+     * @param Context $context
+     * @param Session $customerSession
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $accountManagement
+     * @param Data $checkoutHelper
+     */
     public function __construct(
         Context $context,
         Session $customerSession,
