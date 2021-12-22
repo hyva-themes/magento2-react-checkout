@@ -12,7 +12,7 @@ Compatible with Magento 2.3.4 and higher.
 
 ## Documentation
 
-You can find the documentation here: https://hyva-themes.github.io/magento2-hyva-checkout/
+You can find the documentation here: https://hyva-themes.github.io/magento2-react-checkout/
 
 ## What does it do?
 It loads a React Checkout at `[store-url]/react-checkout/checkout`. When enabled in `hyva_react_checkout/general/enable` it replaces the default checkout.
@@ -51,7 +51,7 @@ If you want to install the checkout as a demo or just try it out, install it dir
    
 To fully customize the checkout to your needs, either clone this repo, or use https://github.com/hyva-themes/magento2-checkout-example.
 
-Read the full documentation here: https://hyva-themes.github.io/magento2-hyva-checkout/
+Read the full documentation here: https://hyva-themes.github.io/magento2-react-checkout/
 
 ## Configuration
 
