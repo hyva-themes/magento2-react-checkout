@@ -1,20 +1,22 @@
-import { useContext } from 'react';
 import _get from 'lodash.get';
 
-import CartContext from '../../../context/Cart/CartContext';
 import { _isObjEmpty } from '../../../utils';
+import useCartContext from '../../../hook/useCartContext';
+import { isCartAddressValid } from '../../../utils/address';
 
 export default function usePaymentMethodCartContext() {
-  const [cartData, cartActions] = useContext(CartContext);
-  const cart = _get(cartData, 'cart', {});
-  const methodList = _get(cart, 'available_payment_methods', {});
+  const { cart, setPaymentMethod } = useCartContext();
+  const shippingAddress = _get(cart, 'shipping_address');
+  const methodList = _get(cart, 'available_payment_methods') || {};
   const selectedPaymentMethod = _get(cart, 'selected_payment_method');
-  const { setPaymentMethod } = cartActions;
+  const isVirtualCart = !!_get(cart, 'isVirtualCart');
 
   return {
-    selectedPaymentMethod,
     methodList,
-    isPaymentAvailable: !_isObjEmpty(methodList),
+    isVirtualCart,
     setPaymentMethod,
+    selectedPaymentMethod,
+    isPaymentAvailable: !_isObjEmpty(methodList),
+    doCartContainShippingAddress: isCartAddressValid(shippingAddress),
   };
 }

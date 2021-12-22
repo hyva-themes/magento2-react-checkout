@@ -70,7 +70,7 @@ function modifyPaymentMethodsData(paymentMethods) {
 }
 
 export default function fetchGuestCartModifier(result, dataMethod) {
-  const cartData = _get(result, `data.${dataMethod || 'cart'}`, {});
+  const cartData = _get(result, `data.${dataMethod || 'cart'}`) || {};
   const shippingAddresses = _get(cartData, 'shipping_addresses', []);
   const billingAddress = _get(cartData, 'billing_address', {}) || {};
   const cartItems = _get(cartData, 'items', []);
@@ -81,6 +81,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
   return {
     id: cartData.id,
     email: cartData.email,
+    isVirtualCart: cartData.is_virtual,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_address: modifyShippingAddressList(shippingAddresses),

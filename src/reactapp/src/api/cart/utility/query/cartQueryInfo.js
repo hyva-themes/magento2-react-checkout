@@ -7,6 +7,7 @@ import cartShippingAddrInfo from './cartShippingAddrInfo';
 export const CART_DATA_FRAGMENT = `
   id
   email
+  is_virtual
   ${cartItemsInfo}
   ${cartBillingAddrInfo}
   ${cartShippingAddrInfo}

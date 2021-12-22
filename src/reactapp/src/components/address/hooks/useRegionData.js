@@ -11,12 +11,7 @@ export default function useRegionData(countryValue, regionValue) {
   // State info needed in multiple occasions. it is useful to store this data separately
   // and then re-use it.
   useEffect(() => {
-    if (
-      _get(regionData, 'code') !== regionValue &&
-      regionValue &&
-      countryValue &&
-      stateList
-    ) {
+    if (_get(regionData, 'code') !== regionValue && countryValue && stateList) {
       const newRegion = _get(stateList, countryValue, []).find(
         (state) => state.code === regionValue
       );
