@@ -1,5 +1,9 @@
+# :warning: Hyvä Checkout is moving to hyva-themes/magento2-react-checkout
 
-# Hyvä Themes - Hyvä Checkout
+The **React Checkout** will be available under https://github.com/hyva-themes/magento2-react-checkout 
+
+
+# Hyvä Themes - React Checkout
 
 [![Hyvä Themes](https://repository-images.githubusercontent.com/303806175/a3973c80-479c-11eb-8716-03e369d87143)](https://hyva.io/)
 
