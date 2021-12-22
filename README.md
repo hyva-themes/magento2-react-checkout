@@ -1,12 +1,12 @@
 # Hyvä Themes - React Checkout
 
+A Highly Customizable Checkout for Magento 2, Built with React.
+
 # [![Hyvä Themes](./images/logo-hyva.svg)](https://hyva.io/)
 
 ## hyva-themes/magento2-react-checkout
 
 ![Supported Magento Versions][ico-compatibility]
-
-This module contains a ReactApp that can be used to build a Headless Magento checkout.
 
 Compatible with Magento 2.3.4 and higher.
 
@@ -15,7 +15,7 @@ Compatible with Magento 2.3.4 and higher.
 You can find the documentation here: https://hyva-themes.github.io/magento2-react-checkout/
 
 ## What does it do?
-It loads a React Checkout at `[store-url]/react-checkout/checkout`. When enabled in `hyva_react_checkout/general/enable` it replaces the default checkout.
+It loads a React Checkout at `[store-url]/hyva/reactcheckout`. When enabled in `hyva_react_checkout/general/enable` it replaces the default checkout.
 
 It depends on these two variables in localstorage:
  - `signin_token` to the `customer` section

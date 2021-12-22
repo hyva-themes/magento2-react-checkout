@@ -28,8 +28,7 @@ class Index
     public function __construct(
         ResultFactory $resultFactory,
         Checkout $checkoutConfig
-    )
-    {
+    ) {
         $this->resultFactory = $resultFactory;
         $this->checkoutConfig = $checkoutConfig;
     }
@@ -41,16 +40,17 @@ class Index
      * @param callable $proceed
      * @return ResultInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * phpcs:ignore MEQP2.Classes.PublicNonInterfaceMethods.PublicMethodFound, Generic.CodeAnalysis.UnusedFunctionParameter.Found
      */
-    //phpcs:ignore MEQP2.Classes.PublicNonInterfaceMethods.PublicMethodFound, Generic.CodeAnalysis.UnusedFunctionParameter.Found
     public function aroundExecute(CheckoutIndex $subject, callable $proceed)
     {
         if ($this->isNeedToRedirectCheckout()) {
             /** @var Forward $resultForward */
             $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
             $result = $resultForward
-                ->setModule('react-checkout')
-                ->setController('checkout')
+                ->setModule('hyva')
+                ->setController('reactcheckout')
                 ->forward('index');
 
         } else {
@@ -60,7 +60,7 @@ class Index
     }
 
     /**
-     * Check if need to perform redirect to cart
+     * Check if it is needed to perform redirect to cart
      *
      * @return bool
      */
