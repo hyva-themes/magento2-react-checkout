@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\Plugin\CheckoutController;
+namespace Hyva\ReactCheckout\Plugin\CheckoutController;
 
-use Hyva\Checkout\Config\Checkout;
+use Hyva\ReactCheckout\Config\Checkout;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\Result\Forward;

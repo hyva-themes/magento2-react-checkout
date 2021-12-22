@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\Controller\Checkout;
+namespace Hyva\ReactCheckout\Controller\Checkout;
 
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Checkout\Controller\Action;

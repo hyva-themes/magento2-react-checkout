@@ -1,15 +1,15 @@
 {
-  "name": "hyva-checkout",
-  "version": "0.1.0",
-  "description": "A headless React Checkout for Magento 2",
+  "name": "hyva-react-checkout",
+  "version": "1.0.0",
+  "description": "A React Checkout for Magento 2",
   "repository": "local",
   "keywords": [
     "react",
     "checkout",
     "magento"
   ],
-  "author": "Willem Wigman",
-  "license": "MIT",
+  "author": "Hyvä Themes BV",
+  "license": "BSD-3-Clause",
   "private": true,
   "proxy": "https://demo.hyva.io",
   "dependencies": {
