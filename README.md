@@ -15,7 +15,7 @@ Compatible with Magento 2.3.4 and higher.
 You can find the documentation here: https://hyva-themes.github.io/magento2-hyva-checkout/
 
 ## What does it do?
-It loads a React Checkout at [store-url]/hyva/checkout. When enabled in `hyva_checkout/general/enable` it replaces the default checkout.
+It loads a React Checkout at `[store-url]/react-checkout/checkout`. When enabled in `hyva_react_checkout/general/enable` it replaces the default checkout.
 
 It depends on these two variables in localstorage:
  - `signin_token` to the `customer` section
@@ -65,7 +65,7 @@ The configuration path is `hyva_react_checkout/general/enable`
 
 This Checkout has been built in corporation - and with the support of - our main partner, integer_net.
 
-[![integer_net GmbH](./images/logo-integernet.png)](https://integer-net.de)
+# [![integer_net GmbH](./images/logo-integernet.png)](https://integer-net.de)
 
 In particular, [Rajeev K Tomy][link-author] has been a monumental in the development of this Checkout.
 
