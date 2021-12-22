@@ -45,7 +45,7 @@ The configuration path is `hyva_checkout/general/enable`
 
 ## Documentation
 
-You can find the documentation here: https://hyva-themes.github.io/magento2-hyva-checkout/
+You can find the documentation here: https://hyva-themes.github.io/magento2-react-checkout/
 
 ## Credits
 
