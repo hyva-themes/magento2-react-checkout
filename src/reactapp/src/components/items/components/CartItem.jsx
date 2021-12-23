@@ -117,7 +117,7 @@ function CartItem({ item, isLastItem, actions }) {
                       </td>
                     </tr>
                     <tr>
-                      <th className="px-2 py-2 text-base">{__('Total')}</th>
+                      <th className="px-2 py-2 text-base">{__('Subtotal')}</th>
                       <td className="pl-2 text-base text-right">
                         {item.rowTotal}
                       </td>

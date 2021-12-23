@@ -23,6 +23,7 @@ const initialValues = {
 const validationSchema = {
   customerWantsToSignIn: YupBool(),
   email: YupString()
+    .nullable()
     .required(__('Email is required'))
     .email(__('Email is invalid')),
   password: YupString().test(
@@ -50,14 +51,7 @@ function LoginFormManager({ children, formikData }) {
   } = useLoginAppContext();
   const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
   const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
-  const { loginFormValues } = formikData;
-
-  const saveEmailOnCartRequest = async (email) => {
-    setPageLoader(true);
-    await setEmailOnGuestCart(email);
-    setSuccessMessage(__('Email address is saved.'));
-    setPageLoader(false);
-  };
+  const { loginFormValues, setFieldTouched } = formikData;
 
   /**
    * Sign-in submit is handled here
@@ -83,7 +77,10 @@ function LoginFormManager({ children, formikData }) {
       setPageLoader(true);
 
       if (!customerWantsToSignIn) {
-        await saveEmailOnCartRequest(email);
+        await setEmailOnGuestCart(email);
+        setSuccessMessage(__('Email address is saved.'));
+        setFormToViewMode();
+        setFieldTouched(`${LOGIN_FORM}.email`, false);
         setPageLoader(false);
         return;
       }

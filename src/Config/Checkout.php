@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\Config;
+namespace Hyva\ReactCheckout\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -21,7 +21,7 @@ class Checkout
     public function isEnabled(): bool
     {
         return $this->scopeConfig->isSetFlag(
-            'hyva_checkout/general/enable',
+            'hyva_react_checkout/general/enable',
             ScopeInterface::SCOPE_STORE
         );
     }

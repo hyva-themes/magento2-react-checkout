@@ -24,6 +24,7 @@ import usePlaceOrder from '../hooks/usePlaceOrder';
 import useAddressSave from '../hooks/useAddressSave';
 import useEmailInfoSave from '../hooks/useEmailInfoSave';
 import usePlaceOrderAppContext from '../hooks/usePlaceOrderAppContext';
+import usePlaceOrderCartContext from '../hooks/usePlaceOrderCartContext';
 import { focusOnFormErrorElement, scrollToElement } from '../../../utils/form';
 
 const customerWantsToSignInField = `${LOGIN_FORM}.customerWantsToSignIn`;
@@ -33,6 +34,7 @@ function PlaceOrder() {
   const saveEmailAddressInfo = useEmailInfoSave();
   const saveBillingShippingAddress = useAddressSave();
   const validateThenPlaceOrder = usePlaceOrder();
+  const { isVirtualCart } = usePlaceOrderCartContext();
   const { setMessage, setErrorMessage, setPageLoader } =
     usePlaceOrderAppContext();
 
@@ -58,7 +60,7 @@ function PlaceOrder() {
       return;
     }
 
-    if (hasBillingAddressErrors(errors, values)) {
+    if (hasBillingAddressErrors(errors, values, isVirtualCart)) {
       setErrorMessage(__('Please provide your billing address information.'));
       focusOnFormErrorElement(BILLING_ADDR_FORM, errors);
       return;

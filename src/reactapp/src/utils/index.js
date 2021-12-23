@@ -55,3 +55,14 @@ export function _abs(num) {
 export function _min(num1, num2) {
   return Math.min(Number(num1), Number(num2));
 }
+
+export function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export function _ucFirst(str) {
+  if (!str) {
+    return str;
+  }
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}

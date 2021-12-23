@@ -22,14 +22,18 @@ export function hasShippingAddressErrors(errors) {
   return !_isObjEmpty(shippingAddressErrors);
 }
 
-export function hasBillingAddressErrors(errors, values) {
+export function hasBillingAddressErrors(errors, values, isVirtualCart) {
   const billingAddressErrors = _get(errors, BILLING_ADDR_FORM);
   const isBillingSameAsShipping = _get(
     values,
     `${BILLING_ADDR_FORM}.isSameAsShipping`
   );
 
-  return !_isObjEmpty(billingAddressErrors) && !isBillingSameAsShipping;
+  if (isVirtualCart || !isBillingSameAsShipping) {
+    return !_isObjEmpty(billingAddressErrors);
+  }
+
+  return false;
 }
 
 export function hasShippingMethodErrors(errors) {

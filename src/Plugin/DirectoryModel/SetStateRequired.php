@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Hyva\Checkout\Plugin\DirectoryModel;
+namespace Hyva\ReactCheckout\Plugin\DirectoryModel;
 
 use Magento\Directory\Model\CountryInformationAcquirer;
 use Magento\Directory\Model\Data\CountryInformation;

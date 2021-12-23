@@ -15,12 +15,12 @@ function LoginForm() {
     formikData,
     submitHandler,
     handleKeyDown,
-    setFieldValue,
     loginFormValues,
     validationSchema,
-    isLoginFormTouched,
+    formSectionTouched,
   } = useLoginFormContext();
   const customerWantsToSignIn = _get(loginFormValues, 'customerWantsToSignIn');
+  const isLoginFormTouched = _get(formSectionTouched, 'email') || false;
   const handleButtonClick = useFormValidateThenSubmit({
     formId,
     formikData,
@@ -44,24 +44,6 @@ function LoginForm() {
           onKeyDown={handleKeyDown}
           placeholder={__('john.doe@gmail.com')}
         />
-
-        {!customerWantsToSignIn && (
-          <div
-            role="button"
-            tabIndex="0"
-            className="py-3 text-sm text-center text-black underline cursor-pointer"
-            onClick={() => {
-              setFieldValue(fields.customerWantsToSignIn, true);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                setFieldValue(fields.customerWantsToSignIn, true);
-              }
-            }}
-          >
-            {__('I will sign-in and checkout')}
-          </div>
-        )}
 
         {customerWantsToSignIn && (
           <div>
