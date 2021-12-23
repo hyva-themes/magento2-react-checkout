@@ -2,7 +2,7 @@
 
 A Highly Customizable Checkout for Magento 2, Built with React.
 
-# [![Hyvä Themes](./images/logo-hyva.svg)](https://hyva.io/)
+# [![Hyvä Themes](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-hyva.svg)](https://hyva.io/)
 
 ## hyva-themes/magento2-react-checkout
 
@@ -38,7 +38,7 @@ If you want to install the checkout as a demo or just try it out, install it dir
     ```
     composer require hyva-themes/magento2-react-checkout
     ```
-   
+
     Via Github:
     ```
     composer config repositories.hyva-themes/magento2-react-checkout git git@github.com:hyva-themes/magento2-react-checkout.git
@@ -48,7 +48,7 @@ If you want to install the checkout as a demo or just try it out, install it dir
     ```
     bin/magento setup:upgrade
     ```
-   
+
 To fully customize the checkout to your needs, either clone this repo, or use https://github.com/hyva-themes/magento2-checkout-example.
 
 Read the full documentation here: https://hyva-themes.github.io/magento2-react-checkout/
@@ -65,7 +65,7 @@ The configuration path is `hyva_react_checkout/general/enable`
 
 This Checkout has been built in corporation - and with the support of - our main partner, integer_net.
 
-# [![integer_net GmbH](./images/logo-integernet.png)](https://integer-net.de)
+# [![integer_net GmbH](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-integernet.png)](https://integer-net.de)
 
 In particular, [Rajeev K Tomy][link-author] has been a monumental in the development of this Checkout.
 

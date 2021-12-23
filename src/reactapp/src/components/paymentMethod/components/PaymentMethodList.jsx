@@ -37,7 +37,7 @@ function PaymentMethodList({ methodRenderers }) {
   return (
     <div
       title={
-        !paymentAvailable && __('Please provide a shipping address first.')
+        !paymentAvailable ? __('Please provide a shipping address first.') : ''
       }
       className={classNames(
         !paymentAvailable ? 'cursor-not-allowed opacity-40' : '',
