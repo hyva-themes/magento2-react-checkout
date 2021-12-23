@@ -1,6 +1,6 @@
 {
   "name": "hyva-react-checkout",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Highly Customizable Checkout for Magento 2, Built with React.",
   "repository": "local",
   "keywords": [
@@ -12,7 +12,7 @@
   "author": "Hyvä Themes BV",
   "license": "BSD-3-Clause",
   "private": true,
-  "proxy": "https://demo.hyva.io",
+  "proxy": "http://m24-hyva.test",
   "dependencies": {
     "@heroicons/react": "^1.0.5",
     "formik": "^2.2.6",
