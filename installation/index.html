@@ -14,7 +14,7 @@
     
     
       
-        <title>Installation - Hyvä Themes - Hyvä Checkout</title>
+        <title>Installation - Hyvä Themes - React Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setting-up-hyva-checkout" class="md-skip">
+        <a href="#setting-up-hyva-react-checkout" class="md-skip">
           Skip to content
         </a>
       
@@ -69,7 +69,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
@@ -81,7 +81,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Hyvä Themes - Hyvä Checkout
+            Hyvä Themes - React Checkout
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
     </a>
-    Hyvä Themes - Hyvä Checkout
+    Hyvä Themes - React Checkout
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -509,15 +509,21 @@
               
                 
                 
-                <h1 id="setting-up-hyva-checkout">Setting up Hyvä Checkout</h1>
+                <h1 id="setting-up-hyva-react-checkout">Setting up Hyvä React Checkout</h1>
+<p>This checkout is not intended to be installed as plug-and-play. It should be considered as a toolbox to build your own checkout based on your needs. A developer with ReactJS knowledge will be required.</p>
+<p>Ideally, you would use this checkout with your own version of this module. There are number of ways you can setup your own version of this module which is described in detail in the section <a href="#customization-steps">Customization Steps</a></p>
 <h2 id="installation">Installation</h2>
-<p>The recommended approach is via composer. For that, follow below steps.</p>
+<p>If you want to install the checkout as a demo or just try it out, install it directly as follows:</p>
 <ol>
 <li>
 <p>Install via composer</p>
-<pre><code>composer config repositories.hyva-themes/magento2-hyva-checkout git git@github.com:hyva-themes/magento2-hyva-checkout.git
+<p>a. Via Packagist:</p>
+<pre><code>composer require hyva-themes/magento2-react-checkout
+</code></pre>
+<p>b. Via composer</p>
+<pre><code>composer config repositories.hyva-themes/magento2-react-checkout git git@github.com:hyva-themes/magento2-react-checkout.git
 
-composer require hyva-themes/magento2-hyva-checkout
+composer require hyva-themes/magento2-react-checkout
 </code></pre>
 </li>
 <li>
@@ -527,12 +533,12 @@ composer require hyva-themes/magento2-hyva-checkout
 <li>Apply theme specific changes (if any). You can find more details of this further down.</li>
 </ol>
 <h2 id="additional-required-steps-hyva-themes">Additional Required Steps - Hyvä Themes</h2>
-<p>Both Hyvä Themes and Hyvä Checkout use TailwindCSS for styling. In a Hyvä Themes based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
+<p>Both Hyvä Themes and Hyvä React Checkout use TailwindCSS for styling. In a Hyvä Themes based site, it does not make sense to include <code>Hyva_Checkout::css/styles.css</code> stylesheet because of the following reasons.</p>
 <ol>
 <li>It adds an additional style sheet in the site. One more style sheet means one more render-blocking resource in the browser.</li>
 <li>The style sheet holds lot of duplicated styles since both using the TailwindCSS.</li>
 </ol>
-<p>Due to these reasons, it is better to add Hyvä Checkout styled components in the TailwindCSS purge directory list of your Hyvä Themes based site. You can find more details of this in the official documentation of Hyvä Themes: <a href="https://docs.hyva.io/doc/tailwind-purging-settings-goVaHblLAR"><strong>Tailwind Purging settings</strong></a></p>
+<p>Due to these reasons, it is better to add Hyvä React Checkout styled components in the TailwindCSS purge directory list of your Hyvä Themes based site. You can find more details of this in the official documentation of Hyvä Themes: <a href="https://docs.hyva.io/doc/tailwind-purging-settings-goVaHblLAR"><strong>Tailwind Purging settings</strong></a></p>
 <p>Below is the bare minimum steps you need to do in order to achieve it.</p>
 <ol>
 <li>You need to setup a child theme in your site. It should be inherited from <code>Hyva/default</code> theme. For the sake of simplicity, I am calling this child theme as <code>Hyva/custom</code>.</li>
@@ -573,44 +579,45 @@ npm --prefix app/design/frontend/Hyva/custom/web/tailwind/ run build-prod
 </code></pre>
 <div class="admonition note">
 <p class="admonition-title">For Hyva_CheckoutExample template users</p>
-<p>If you are using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Hyva_CheckoutExample</strong></a> template for customizing Hyvä Checkout, then you are required to include the React components in that module too in the above purge list.</p>
+<p>If you are using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Hyva_CheckoutExample</strong></a> template for customizing Hyvä React Checkout, then you are required to include the React components in that module too in the above purge list.</p>
 </div>
-<p>With these changes in place, Hyvä Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.</p>
+<p>With these changes in place, Hyvä React Checkout styles will be also considered by your theme and thus you will see a stylized checkout page in your store.</p>
 <h2 id="additional-steps-luma-theme">Additional Steps - Luma Theme</h2>
-<p>For Luma theme based site, Hyvä Checkout module works out of box. This is because the stylesheet responsible for the Hyvä Checkout styles <code>Hyva_Checkout::css/styles.css</code> is already included through a layout update.</p>
+<p>For Luma theme based site, Hyvä React Checkout module works out of box. This is because the stylesheet responsible for the Hyvä React Checkout styles <code>Hyva_ReactCheckout::css/styles.css</code> is already included through a layout update.</p>
 <div class="admonition warning">
 <p class="admonition-title">In a Luma based theme</p>
 <p>You would encounter some CSS problems. This is because we are using Tailwind CSS for the styling of the checkout page and since this is a different CSS approach that is being used in the Luma theme, some CSS conflicts should be expected.</p>
 </div>
 <h2 id="additional-steps-headless-solutions">Additional Steps - Headless Solutions</h2>
-<p>You are required to include the stylesheet <code>Hyva_Checkout::css/styles.css</code> and the js file <code>Hyva_Checkout::js/react-checkout.js</code> in your checkout page. These two static resources are already included through layout update. But, if your headless solution does not respect the layout update, then it is your job to include them in your checkout page.</p>
+<p>You are required to include the stylesheet <code>Hyva_ReactCheckout::css/styles.css</code> and the js file <code>Hyva_ReactCheckout::js/react-checkout.js</code> in your checkout page. These two static resources are already included through layout update. But, if your headless solution does not respect the layout update, then it is your job to include them in your checkout page.</p>
 <p>You need to pass the checkout related configurations (from Magento 2 backend) to the ReactApp. This is currently managed through data attributes in the below HTML DOM element.</p>
 <p>File:  <code>src/view/frontend/templates/react-container.phtml</code></p>
 <pre><code>&lt;div
     id=&quot;react-checkout&quot;
     data-base_url=&quot;&lt;?= $block-&gt;getBaseUrl() ?&gt;&quot;
-    data-static_file_path=&quot;&lt;?= $block-&gt;getViewFileUrl('Hyva_Checkout/js') ?&gt;&quot;
+    data-static_file_path=&quot;&lt;?= $block-&gt;getViewFileUrl('Hyva_ReactCheckout/js') ?&gt;&quot;
     data-checkout_config=&quot;&lt;?= $escaper-&gt;escapeHtmlAttr($configProvider-&gt;getConfig()) ?&gt;&quot;
 &gt;
 </code></pre>
 <p>Same thing you should do in your headless approach.</p>
-<p>Ideally, these information must be managed through a custom graphql query. This way, it would be compatible with any type of frontend solution. It will be resolved in a future version of Hyvä Checkout.</p>
+<p>Ideally, these information must be managed through a custom graphql query. This way, it would be compatible with any type of frontend solution. It will be resolved in a future version of Hyvä React Checkout.</p>
 <h2 id="configuration">Configuration</h2>
-<p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/checkout</code>.</p>
-<p>If you want to make Hyvä Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>
+<p>Once the module is available in your site, you can see the checkout page at the url <code>[store-url]/hyva/reactcheckout</code>.</p>
+<p>If you want to make Hyvä React Checkout as your default checkout solution, then enable the below configuration in the Magento2 Backend:</p>
 <p><code>HYVA THEMES-&gt;Checkout-&gt;General Settings-&gt;Enable</code></p>
-<p>The configuration path is <code>hyva_checkout/general/enable</code></p>
+<p>The configuration path is <code>hyva_react_checkout/general/enable</code>.</p>
+<p>After this, you would be able to see your checkout when you navigate to <code>[store-url]/checkout</code>.</p>
 <h2 id="customization-steps">Customization Steps</h2>
-<p>In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä Checkout, you can basically take three approaches which is given below.</p>
+<p>In almost all cases, you need to customize the checkout. When it comes to customizing Hyvä React Checkout, you can basically have three approaches. You should opt one of the approaches given below which best suits your needs.</p>
 <ul>
 <li>
-<p>The recommended way of customizing Hvyä Checkout would be using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Magento2 Checkout Example Template</strong></a>. In this approach, you are keeping the Hyvä Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at <code>app/code/</code> directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä Checkout and adopt the changes into your customization if needed.</p>
+<p>The recommended way of customizing Hvyä Checkout would be using the <a href="https://github.com/hyva-themes/magento2-checkout-example"><strong>Magento2 Checkout Example Template</strong></a>. In this approach, you are keeping the Hyvä React Checkout as a composer dependency and never touches it. The customization is done via another module which you setup at <code>app/code/</code> directory using the template given above. In a nutshell, this template includes a custom webpack configuration which enables you to copy over the React Components you really need to alter. This way, the customization will be kept differently and thus eventually it would be easy for you to upgrade Hyvä React Checkout and adopt the changes into your customization if needed.</p>
 </li>
 <li>
-<p>Another approach would be to fork the original Hyvä Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.</p>
+<p>The second approach would be to fork the original Hyvä React Checkout repository and use the forked version in your site. This way, you can keep and versioning the customization you are making in that forked repository.</p>
 </li>
 <li>
-<p>Another approach would be setting up Hyvä Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/Checkout</code> and then copy the content of <code>src/</code> directory of Hyvä Checkout module over there. This will also allow you to track the customizations.</p>
+<p>The third approach would be setting up Hyvä React Checkout inside <code>app/code</code> directory. To do this, you need to create the directory <code>app/code/Hyva/ReactCheckout</code> and then copy the content of <code>src/</code> directory of Hyvä React Checkout module over there. This will also allow you to track the customizations.</p>
 </li>
 </ul>
                 

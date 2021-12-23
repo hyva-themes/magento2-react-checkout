@@ -14,7 +14,7 @@
     
     
       
-        <title>Hyvä Themes - Hyvä Checkout</title>
+        <title>Hyvä Themes - React Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hyva-themes-hyva-checkout" class="md-skip">
+        <a href="#hyva-themes-react-checkout" class="md-skip">
           Skip to content
         </a>
       
@@ -69,7 +69,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href="." title="Hyvä Themes - React Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="assets/img/hyva-logo-360.png" alt="logo">
 
@@ -81,7 +81,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Hyvä Themes - Hyvä Checkout
+            Hyvä Themes - React Checkout
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href="." title="Hyvä Themes - React Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="assets/img/hyva-logo-360.png" alt="logo">
 
     </a>
-    Hyvä Themes - Hyvä Checkout
+    Hyvä Themes - React Checkout
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -198,8 +198,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hyva-themesmagento2-hyva-checkout" class="md-nav__link">
-    hyva-themes/magento2-hyva-checkout
+  <a href="#hyva-themesmagento2-react-checkout" class="md-nav__link">
+    hyva-themes/magento2-react-checkout
   </a>
   
 </li>
@@ -462,8 +462,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hyva-themesmagento2-hyva-checkout" class="md-nav__link">
-    hyva-themes/magento2-hyva-checkout
+  <a href="#hyva-themesmagento2-react-checkout" class="md-nav__link">
+    hyva-themes/magento2-react-checkout
   </a>
   
 </li>
@@ -523,28 +523,29 @@
               
                 
                 
-                <h1 id="hyva-themes-hyva-checkout">Hyvä Themes - Hyvä Checkout</h1>
+                <h1 id="hyva-themes-react-checkout">Hyvä Themes - React Checkout</h1>
 <p><a href="https://hyva.io/"><img alt="Hyvä Themes" src="https://repository-images.githubusercontent.com/303806175/a3973c80-479c-11eb-8716-03e369d87143" /></a></p>
-<h2 id="hyva-themesmagento2-hyva-checkout">hyva-themes/magento2-hyva-checkout</h2>
-<p>Hyvä Checkout is a Magento 2 module which provides a fast performing checkout for a Magento based site. It uses React (a modern javascript library) to construct the checkout page.</p>
+<h2 id="hyva-themesmagento2-react-checkout"><a href="https://github.com/hyva-themes/magento2-react-checkout">hyva-themes/magento2-react-checkout</a></h2>
+<p>Hyvä React Checkout is an open-sourced Magento 2 module which provides a fast performing checkout page powered by React (a modern javascript library).</p>
 <p>Compatible with Magento 2.3.4 and higher.</p>
 <h2 id="what-does-it-do">What does it do?</h2>
-<p>It loads a React Checkout at <code>[store-url]/hyva/checkout</code>. When enabled in <code>hyva_checkout/general/enable</code> it replaces the default checkout.</p>
-<p>It depends on these two variables in localStorage:</p>
+<p>It loads a React Checkout at <code>[store-url]/hyva/reactcheckout</code>. When enabled in <code>hyva_react_checkout/general/enable</code> it replaces the default checkout.</p>
+<p>It depends on these two variables in <code>localstorage</code>:</p>
 <ul>
-<li><code>signin_token</code> to the <code>customer</code> section</li>
-<li><code>cartId</code> to the <code>cart</code> section</li>
+<li><code>signin_token</code> to the customer section</li>
+<li><code>cartId</code> to the cart section</li>
 </ul>
+<p>For Hyvä Themes or default Magento frontend, <code>hyva-themes/magento2-graphql-tokens</code> is needed to add these tokens to the customerSections.</p>
 <h2 id="what-it-is-not">What it is not</h2>
-<p>Hyvä Checkout is not an a drop-in replacement for the default Luma checkout; it does not have feature parity. Rather, it provides you a base on which you can build your own custom checkout for your site. It is a powerful tool with which you can develop the checkout in the most efficient way.</p>
+<p>Hyvä React Checkout is not a drop-in replacement for the default Luma checkout; it does not have feature parity. Rather, it provides you a base on which you can build your own custom checkout for your site. It is a powerful tool with which you can develop the checkout in the most efficient way.</p>
 <p>It basically avoids the frustration you have when you want to customize the Luma checkout by making the development process super fun.</p>
 <p>It gives you a fast performing checkout as the final bundle size of the javascript is less than 90kb.</p>
 <h2 id="what-are-the-benefits">What are the benefits?</h2>
 <p>In the default Luma theme in Magento 2, the checkout page is completely rendered using javascript. Unfortunately, the uiComponents are difficult to comprehend and developers are struggling when it comes to customize the checkout page. Also, the Luma checkout is too slow since it requires more than 400 javascript and template files needs to be download on the page load.</p>
-<p>In Hyvä Checkout, the UI is constructed using React Components. This means, if you are familiar with the React, then the development is super fun and enjoyable. It is easy to bring any kind of customizations. It loads only a single javascript file in order to render the entire checkout page. So the checkout page loads fast and performs well.</p>
+<p>In Hyvä React Checkout, the UI is constructed using React Components. This means, if you are familiar with the React, then the development is super fun and enjoyable. It is easy to bring any kind of customizations. It loads only a single javascript file in order to render the entire checkout page. So the checkout page loads fast and performs well.</p>
 <p>By default, the checkout works out of box. But, in most of the time you need to customize the checkout page to bring some custom functionalities or modifying existing checkout behaviour or change the look and feel. To make this tedious process simpler, you can launch the embedded ReactApp as a stand alone App and by providing a cartId, you can work on the checkout page exclusively. This development mode supports by Hot Module Reloading (HMR) which will enable us to see the changes we have been making on the code almost immediately reflect on the browser and that will eventually going to save a huge amount of time in the development.</p>
 <h2 id="where-can-we-use-it">Where can we use it?</h2>
-<p>Hyvä Checkout can be used in any Luma based themes or with Hyvä Theme directly. With some modifications, we can also use this with a headless approach too.</p>
+<p>Hyvä React Checkout can be used in any Luma based themes or with Hyvä Theme directly. With some modifications, we can also use this with a headless approach too.</p>
 <div class="admonition note">
 <p class="admonition-title">In a Luma based theme</p>
 <p>You would encounter some CSS problems. This is because we are using Tailwind CSS for the styling of the checkout page and since this is a different CSS approach that is being used in the Luma theme, some CSS conflicts should be expected.</p>
@@ -554,14 +555,14 @@
 <p>There are some configurations we are passing through the data attribute via HTML DOM. This needs to be implemented in the headless approach to make it work there.</p>
 </div>
 <h2 id="dependencies">Dependencies</h2>
-<p>In order to use Hyvä Checkout, you would require the following</p>
+<p>In order to use Hyvä React Checkout, you would require the following</p>
 <ul>
-<li>React knowledge. This is essential to work with Hyvä Checkout as it is completely build with React.</li>
+<li>React knowledge. This is essential to work with Hyvä React Checkout as it is completely build with React.</li>
 <li>A magento 2 site with graphql API.</li>
 <li>Nodejs &gt;= 10 is required in order to make it work.</li>
 </ul>
 <h2 id="technologies-terminologies-used">Technologies/ Terminologies Used</h2>
-<p>The following technologies are used in the Hyvä Checkout.</p>
+<p>The following technologies are used in the Hyvä React Checkout.</p>
 <ul>
 <li><strong>React</strong> : React is used to build the UI.</li>
 <li><strong>Tailwind CSS</strong> : This is used for styling the react components.</li>

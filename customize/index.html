@@ -14,7 +14,7 @@
     
     
       
-        <title>How to customize - Hyvä Themes - Hyvä Checkout</title>
+        <title>How to customize - Hyvä Themes - React Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-customize-hyva-checkout" class="md-skip">
+        <a href="#how-to-customize-hyva-react-checkout" class="md-skip">
           Skip to content
         </a>
       
@@ -69,7 +69,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
@@ -81,7 +81,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Hyvä Themes - Hyvä Checkout
+            Hyvä Themes - React Checkout
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
     </a>
-    Hyvä Themes - Hyvä Checkout
+    Hyvä Themes - React Checkout
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -481,11 +481,11 @@
               
                 
                 
-                <h1 id="how-to-customize-hyva-checkout">How To Customize Hyva Checkout</h1>
-<p>Hyva checkout is a Magento 2 module which holds a react app inside it. So when you want to customize the checkout, you need to work with the react app embedded inside the module.</p>
+                <h1 id="how-to-customize-hyva-react-checkout">How To Customize Hyvä React Checkout</h1>
+<p>Hyvä React Checkout is a Magento 2 module which holds a react app inside it. So when you want to customize the checkout, you need to work with the react app embedded inside the module.</p>
 <p>Also, when it comes to customization, the installation approach you have taken into account becomes important. Checkout the <a href="/installation/"><strong>installation instructions</strong></a> for further details.</p>
 <h2 id="development-mode">Development Mode</h2>
-<p>The ReactApp embedded inside Hyvä Checkout allow us to launch it as a stand alone App. This is the best way of customizing Hyvä Checkout for your site. When you launch the ReactApp, it will be served from the address <code>http://localhost:3000</code>. It will prompt you to provide a valid cartId and once you provided the cartId, you can now work with the checkout in the most efficient way as this development mode supports Hot Module Reloading (HMR).</p>
+<p>The ReactApp embedded inside Hyvä React Checkout allow us to launch it as a stand alone App. This is the best way of customizing Hyvä React Checkout for your site. When you launch the ReactApp, it will be served from the address <code>http://localhost:3000</code>. It will prompt you to provide a valid cartId and once you provided the cartId, you can now work with the checkout in the most efficient way as this development mode supports Hot Module Reloading (HMR).</p>
 <p>To setting up the development environment, follow the further steps.</p>
 <h2 id="where-is-the-react-app">Where is the react app</h2>
 <p>You can find the react app at <code>src/reactapp</code>.</p>
@@ -511,8 +511,7 @@
 <p class="admonition-title">CORS complaint from the browser</p>
 <p>One disadvantage you may face here is the complaint of CORS issue from browser.</p>
 </div>
-<p><strong>3.b</strong> - A hacky trick would be specify your site as your <code>proxy</code> in the <code>package.json</code>. There is
-      already an entry there. Replace it with yours</p>
+<p><strong>3.b</strong> - Another option would be specify your site as your <code>proxy</code> in the <code>package.json</code>. There is already an entry there. Replace it with yours</p>
 <pre><code>"proxy": "http://your-m2-site.com",
 </code></pre>
 <p>Use only one option above. Don't do both.</p>

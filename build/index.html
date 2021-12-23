@@ -14,7 +14,7 @@
     
     
       
-        <title>How can build - Hyvä Themes - Hyvä Checkout</title>
+        <title>How can build - Hyvä Themes - React Checkout</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-can-build-the-hyva-checkout-app" class="md-skip">
+        <a href="#how-can-build-the-hyva-react-checkout" class="md-skip">
           Skip to content
         </a>
       
@@ -69,7 +69,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
@@ -81,7 +81,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Hyvä Themes - Hyvä Checkout
+            Hyvä Themes - React Checkout
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
     </a>
-    Hyvä Themes - Hyvä Checkout
+    Hyvä Themes - React Checkout
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -439,15 +439,25 @@
               
                 
                 
-                <h1 id="how-can-build-the-hyva-checkout-app">How can build the Hyvä-Checkout app</h1>
+                <h1 id="how-can-build-the-hyva-react-checkout">How can build the Hyvä React Checkout</h1>
 <p>In the build process, you are making the react application ready for use as a Magento module.</p>
 <p>In a normal circumstance, you don't need to do this process. However, if you want to customize
 the react app in a way you needed, then you need to alter the react components by your own. In this
 case, knowing the build process is necessary in order to get your changes reflected in the site.</p>
 <h2 id="how-can-you-build-the-app">How can you build the app</h2>
-<p>You can build the react app with the below command</p>
+<ul>
+<li>
+<p>Go to reactapp directory</p>
+<pre><code>cd src/reactapp/
+</code></pre>
+</li>
+<li>
+<p>Run build command</p>
 <pre><code>NODE_ENV=production npm run build
 </code></pre>
+</li>
+</ul>
+<p>Here it is assumed you already installed the dependencies by running <code>npm install</code> command.</p>
                 
               
               

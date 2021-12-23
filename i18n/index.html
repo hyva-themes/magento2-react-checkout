@@ -14,7 +14,7 @@
     
     
       
-        <title>Internationalization - Hyvä Themes - Hyvä Checkout</title>
+        <title>Internationalization - Hyvä Themes - React Checkout</title>
       
     
     
@@ -69,7 +69,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-header__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
@@ -81,7 +81,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Hyvä Themes - Hyvä Checkout
+            Hyvä Themes - React Checkout
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Hyvä Themes - Hyvä Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - Hyvä Checkout" data-md-component="logo">
+    <a href=".." title="Hyvä Themes - React Checkout" class="md-nav__button md-logo" aria-label="Hyvä Themes - React Checkout" data-md-component="logo">
       
   <img src="../assets/img/hyva-logo-360.png" alt="logo">
 
     </a>
-    Hyvä Themes - Hyvä Checkout
+    Hyvä Themes - React Checkout
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -454,21 +454,23 @@
                 
                 
                 <h1 id="internationalization">Internationalization</h1>
-<p>Hyvä Checkout uses Magento 2 translation feature under the hood. The translations are prepared using a block <code>Hyva\Checkout\Block\CheckoutTranslator</code> and passed over to the ReactApp via a global variable <code>CHECKOUT_TRANSLATIONS</code>. These would be picked up by the ReactApp and utilize it.</p>
+<p>Hyvä React Checkout uses Magento 2 translation feature under the hood. The translations are prepared using the block <code>Hyva\ReactCheckout\Block\CheckoutTranslator</code> and passed over to the ReactApp via a javascript global variable <code>CHECKOUT_TRANSLATIONS</code>. These would be picked up by the ReactApp and utilize it.</p>
 <h2 id="translation-the-backend-story">Translation - The backend story</h2>
-<p>Hyvä Checkout uses layout XML update to include the checkout related translatable strings.</p>
-<p>File:  <code>src/view/frontend/layout/hyvacheckout_checkout_index.xml</code></p>
-<pre><code>&lt;block class=&quot;Hyva\Checkout\Block\CheckoutTranslator&quot; name=&quot;checkout.translations&quot; template=&quot;Hyva_Checkout::translation.phtml&quot;&gt;
+<p>Hyvä React Checkout uses layout XML update to include the checkout related translatable strings.</p>
+<p>File:  <code>src/view/frontend/layout/hyva_reactcheckout_index.xml</code></p>
+<pre><code>&lt;block class=&quot;Hyva\ReactCheckout\Block\CheckoutTranslator&quot;
+       name=&quot;checkout.translations&quot;
+       template=&quot;Hyva_ReactCheckout::translation.phtml&quot;&gt;
     &lt;arguments&gt;
         &lt;argument name=&quot;checkout_translations&quot; xsi:type=&quot;array&quot;&gt;
-            &lt;item name=&quot;hyva_checkout_core&quot; xsi:type=&quot;string&quot;&gt;
+            &lt;item name=&quot;hyva_react_checkout_core&quot; xsi:type=&quot;string&quot;&gt;
                 &lt;![CDATA[-- Please Select --,%1 zipcode: %1,%1 is required,...]]&gt;
             &lt;/item&gt;
         &lt;/argument&gt;
     &lt;/arguments&gt;
 &lt;/block&gt;
 </code></pre>
-<p>As you can see here <code>Hyva\Checkout\Block\CheckoutTranslator</code> is responsible for doing the translation process. We are passing <code>checkout_translations</code> as an argument here and it will be an array. Finally, we are passing the core translatable strings through the group <code>hyva_checkout_core</code> here.</p>
+<p>As you can see here <code>Hyva\ReactCheckout\Block\CheckoutTranslator</code> is responsible for doing the translation process. We are passing <code>checkout_translations</code> as an argument here and it will be an array. Finally, we are passing the core translatable strings through the group <code>hyva_checkout_core</code> here.</p>
 <p>File: <code>src/view/frontend/templates/translation.phtml</code></p>
 <pre><code>&lt;script&gt;
     var CHECKOUT_TRANSLATIONS = '&lt;?= $block-&gt;getTranslations()  ?&gt;';
@@ -476,7 +478,7 @@
 </code></pre>
 <p>Here we are passing the translation using a global javascript variable <code>CHECKOUT_TRANSLATIONS</code> to the frontend.</p>
 <p>So when you need to add more translatable strings through this, all you need to do is pass it through the layout update XML file.</p>
-<p>File: <code>&lt;your/layout/update/xml&gt;/hyvacheckout_checkout_index.xml</code></p>
+<p>File: <code>&lt;your/layout/update/xml&gt;/hyva_reactcheckout_index.xml</code></p>
 <pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;page xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; layout=&quot;1column&quot; xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:View/Layout/etc/page_configuration.xsd&quot;&gt;
     &lt;body&gt;
@@ -501,7 +503,7 @@
 <p><code>"first part of string, second part of string"</code></p>
 </div>
 <h2 id="translation-frontend-story">Translation - Frontend story</h2>
-<p>There is a helper function <code>__()</code> available in the ReactApp similar to the translation facility in Magento 2 templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, please see the <code>PlaceOrder</code> component.</p>
+<p>There is a helper function <code>__()</code> available in the ReactApp similar to the translation facility in Magento 2 templates. You can find this helper function at <code>src/reactapp/src/i18n/__.js</code>. For an example, go to the <code>PlaceOrder</code> component.</p>
 <p>File: <code>src/reactapp/src/components/PlaceOrder.jsx</code></p>
 <pre><code>import React from 'react';
 import { __ } from '../i18n';
