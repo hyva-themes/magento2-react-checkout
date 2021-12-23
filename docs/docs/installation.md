@@ -63,8 +63,8 @@ module.exports = {
         content: [
             ...
             // Hyva checkout components
-            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/reactapp/src/**/*.jsx',
-            '../../../../../../../vendor/hyva-themes/magento2-hyva-checkout/src/view/frontend/templates/react-container.phtml',
+            '../../../../../../../vendor/hyva-themes/magento2-react-checkout/src/reactapp/src/**/*.jsx',
+            '../../../../../../../vendor/hyva-themes/magento2-react-checkout/src/view/frontend/templates/react-container.phtml',
             ...
         ]
     }
