@@ -1,10 +1,12 @@
 # Payment Integration
-In Hyvä Checkout, the payment options will be shown as radio inputs by default. You can choose the option and place the order, and everything works out of the box.
+In Hyvä React Checkout, the payment options will be shown as radio inputs by default. You can choose the option and place the order, and everything works out of the box.
 
-But showing just a radio input box and allowing you to select/deselect them is not what you needed for all payment options. Some payment methods need different behavior. Also, some payment methods need a separate flow when we perform the "place order" action. To help you out in such cases, Hyvä Checkout already possesses some superpowers, which we will see in a short time.
+But showing just a radio input box and allowing you to select/deselect them is not what you needed for all payment options. Some payment methods need different behavior. Also, some payment methods need a separate flow when we perform the "place order" action. To help you out in such cases, Hyvä React Checkout already possesses some superpowers, which we will see in a short time.
 
 ## Payment Supports
-Payment methods integration is in progress. We don't have any plans to keep payment components as part of Hyvä Checkout. But we will be maintaining separate payment repositories which will hold the custom payment method components which you can use with Hyvä Checkout seamlessly.
+There are numerous payment service providers (PSP) out there. In a site, we opt one of the PSP by adding its Magento 2 extension and configure it. These PSPs will support many modes of payment methods. Due to this, it will be a cumbersome process to support all the PSPs out there.
+
+Due to the above reason, we are not keeping payment components as part of Hyvä React Checkout. But we will be maintaining separate payment repositories that would support most common PSPs which will hold the custom payment method components which you can use with Hyvä React Checkout seamlessly.
 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
@@ -13,16 +15,16 @@ Below, we are listing the payment repositories, and each repository will have sp
 - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
 - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express) (_*publicly available soon_)
 
-We are open to contributions here as the payment options available out there are many, and you all can help out to grow the above list.
+This is a community effort. So we welcome all of you to help out to grow the above list. The _payone_ repository is an ideal place to look into if you need to create a payment method integration repository.
 _____________
 ## Payment Configurations and Its Usage
 Depending upon the payment methods, you may have some special configuration settings in your store. Usually, you do this under `Stores > Configuration`. If you are familiar with the default Magento 2 checkout page, then you may know that Magento 2 passes this configuration via a global variable which you can find at `window.checkoutConfig`.
 
-To collect these checkout configurations, we have a ViewModel (`Hyva\Checkout\ViewModel\CheckoutConfigProvider`) available in the module and we are passing this configuration through the root DOM element.
+To collect these checkout configurations, we have a ViewModel (`Hyva\ReactCheckout\ViewModel\CheckoutConfigProvider`) available in the module and we are passing this configuration through the root DOM element.
 
 See the layout file where we injecting the view model.
 
-File: `src/view/frontend/layout/hyvacheckout_checkout_index.xml`
+File: `src/view/frontend/layout/hyva_reactcheckout_index.xml`
 
 ```
 <?xml version="1.0"?>
@@ -30,9 +32,15 @@ File: `src/view/frontend/layout/hyvacheckout_checkout_index.xml`
     ...
     <body>
         <referenceContainer name="content">
-            <block name="checkout.container" cacheable="false" template="Hyva_Checkout::react-container.phtml">
+            <block
+                cacheable="false"
+                name="checkout.container"
+                template="Hyva_ReactCheckout::react-container.phtml"
+            >
                 <arguments>
-                    <argument name="checkout_config_provider" xsi:type="object">Hyva\Checkout\ViewModel\CheckoutConfigProvider</argument>
+                    <argument
+                        name="checkout_config_provider"
+                        xsi:type="object">Hyva\ReactCheckout\ViewModel\CheckoutConfigProvider</argument>
                 </arguments>
             </block>
         </referenceContainer>
@@ -50,7 +58,7 @@ See the data attribute `data-checkout_configuration` through which we are passin
         <?php
         ...
         /** @var \Magento\Framework\Escaper $escaper */
-        /** @var \Hyva\Checkout\ViewModel\CheckoutConfigProvider $configProvider */
+        /** @var \Hyva\ReactCheckout\ViewModel\CheckoutConfigProvider $configProvider */
         $configProvider = $block->getCheckoutConfigProvider();
         ...
         ?>
@@ -66,12 +74,12 @@ See the data attribute `data-checkout_configuration` through which we are passin
 Now the react app has access to the payment configurations, and it can be used in the application according to your need.
 
 ## Custom Payment Renderer
-As already stated, by default, all payment methods appear as a radio input. But Hyvä Checkout allows using a custom renderer for any payment methods.
+As already stated, by default, all payment methods appear as a radio input. But Hyvä React Checkout allows using a custom renderer for any payment methods.
 
-You can either develop your own custom payment renderer within the `reactapp`or use an existing custom payment renderer repo within Hyvä Checkout.
+You can either develop your own custom payment renderer within the `reactapp`or use an existing custom payment renderer repo within Hyvä React Checkout.
 
 #### How To Create My Own Custom Payment Renderer
-Lets say we want to create a custom payment renderer for paypal-express solution. This is how you do this in Hyvä Checkout.
+Lets say we want to create a custom payment renderer for paypal-express solution. This is how you do this in Hyvä React Checkout.
 
 Create following folders/ files in `src/reactapp/src/paymentMethods`
 
@@ -100,7 +108,7 @@ You need at least two files in order to properly create a custom payment rendere
     So it exports an object. Each key specifies the payment method code (`paypal_express`) and its value is the custom payment render component (`PaypalExpress`).
 
 
-#### How To Use A Custom Payment Renderer Repo With Hyvä Checkout
+#### How To Use A Custom Payment Renderer Repo With Hyvä React Checkout
 
 You need to specify your custom payment repo in the `package.json` file as shown below:
 
@@ -169,7 +177,7 @@ export default async function getCustomRenderers() {
 Here it loops through available payment methods and dynamically fetching the `renderers.js` file inside each payment method. Then merge them together to get the final custom payment renderers available.
 
 #### How Custom Payment Renderer Interacts on Place Order Action
-If your payment method needs to alter the behaviour of place order action, then Hyvä Checkout provides some features out of the box to help you out.
+If your payment method needs to alter the behaviour of place order action, then Hyvä React Checkout provides some features out of the box to help you out.
 
 File: `src/reactapp/src/context/Form/CheckoutFormProvider.jsx`
 ```
@@ -245,7 +253,7 @@ So in the `useEffect`, we are registering custom place order action for the paym
 
   2. Define your custom API methods within the payment method itself.
 
-      Hyvä Checkout holds all of its api methods inside `src/reactapp/src/api/` directory. The components does not use any api methods defined here directly. Instead we are passing them through `AppContext` or `CartContext`. So if an API method needed in your payment method is already defined in the app, then access them through the corresponding context and use it with your payment method.
+      Hyvä React Checkout holds all of its api methods inside `src/reactapp/src/api/` directory. The components does not use any api methods defined here directly. Instead we are passing them through `AppContext` or `CartContext`. So if an API method needed in your payment method is already defined in the app, then access them through the corresponding context and use it with your payment method.
 
       But in some cases, your payment method needs to use its own custom api methods. In this case, it should be defined inside `src/reactapp/src/paymentMethods/<yourPaymentMethod>/src/api/` directory. When you define your custom API methods, it will be good to follow the conventions we already using in `src/reactapp/src/api/`.
 

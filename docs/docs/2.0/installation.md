@@ -7,7 +7,7 @@ Below provides the minimal steps to launch the react app embedded in Hyvä Check
 1. Clone the repository
 
 
-        git clone git@github.com:hyva-themes/magento2-hyva-checkout.git hyva-checkout
+        git clone git@github.com:hyva-themes/magento2-react-checkout.git hyva-checkout
 
 2. Switch to 2.0 branch
 
@@ -41,7 +41,7 @@ Below provides the minimal steps to launch the react app embedded in Hyvä Check
 
 When you build, there are two files generated and stored into `src/view/frontend/web/` directory.
 
-- `react-checkout.es.js` - the build of the react app
+- `react-checkout.es.min.js` - the build of the react app
 - `style.css` - the CSS file needs to be used.
 
 When you use this module as a magento extension, these two files will be used in your checkout. So you don't need to do anything further here.
