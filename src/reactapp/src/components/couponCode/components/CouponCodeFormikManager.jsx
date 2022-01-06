@@ -3,7 +3,6 @@ import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
 
-import { __ } from '../../../i18n';
 import { COUPON_CODE_FORM } from '../../../config';
 import { CouponCodeFormikContext } from '../context';
 import useFormSection from '../../../hook/useFormSection';
@@ -13,10 +12,8 @@ const initialValues = {
   couponCode: '',
 };
 
-const requiredMessage = __('Required');
-
 const validationSchema = {
-  code: YupString().required(requiredMessage),
+  code: YupString().nullable(),
 };
 
 function CouponCodeFormikManager({ children, formikData }) {

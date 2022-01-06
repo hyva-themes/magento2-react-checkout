@@ -6,10 +6,10 @@ import { bool, object, node, oneOfType } from 'prop-types';
 import {
   LOGIN_FORM,
   SHIPPING_METHOD,
+  COUPON_CODE_FORM,
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
   PAYMENT_METHOD_FORM,
-  COUPON_CODE_FORM,
 } from '../../config';
 import { _emptyFunc } from '../../utils';
 

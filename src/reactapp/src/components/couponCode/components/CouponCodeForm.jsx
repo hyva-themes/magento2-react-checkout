@@ -10,7 +10,7 @@ import {
 } from '../hooks';
 
 function CouponCodeForm() {
-  const [codeChecked, setCodeChecked] = useState();
+  const [codeChecked, setCodeChecked] = useState('');
   const { fields, formikData, setFieldError, setFieldTouched, setFieldValue } =
     useCouponCodeFormContext();
   const { setPageLoader, setSuccessMessage, setErrorMessage } =
