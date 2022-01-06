@@ -77,11 +77,13 @@ export default function fetchGuestCartModifier(result, dataMethod) {
   const cartPrices = _get(cartData, 'prices', {});
   const paymentMethods = _get(cartData, 'available_payment_methods', []);
   const selectedPaymentMethod = _get(cartData, 'selected_payment_method', {});
+  const appliedCoupon = _get(cartData, 'applied_coupons[0].code') || '';
 
   return {
     id: cartData.id,
     email: cartData.email,
     isVirtualCart: cartData.is_virtual,
+    appliedCoupon,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_address: modifyShippingAddressList(shippingAddresses),

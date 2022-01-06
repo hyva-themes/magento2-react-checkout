@@ -9,6 +9,9 @@ export const CART_QUERY_PART = `
     id
     email
     is_virtual
+    applied_coupons {
+      code
+    }
     ${cartItemsInfo}
     ${cartPriceInfo}
     ${cartBillingAddrInfo}

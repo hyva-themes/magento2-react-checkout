@@ -9,6 +9,7 @@ import {
   BILLING_ADDR_FORM,
   SHIPPING_ADDR_FORM,
   PAYMENT_METHOD_FORM,
+  COUPON_CODE_FORM,
 } from '../../config';
 import { _emptyFunc } from '../../utils';
 
@@ -36,6 +37,7 @@ function CheckoutFormWrapper({ initialData, children }) {
 
     const { cart } = initialData;
     const email = _get(cart, 'email', '');
+    const appliedCoupon = _get(cart, 'appliedCoupon');
     const billingAddress = _get(cart, 'billing_address', {});
     const shippingAddress = _get(cart, 'shipping_address', {});
     const paymentMethod = _get(cart, 'selected_payment_method') || {};
@@ -63,6 +65,7 @@ function CheckoutFormWrapper({ initialData, children }) {
         ...billingAddress,
       });
       await setFieldValue(`${PAYMENT_METHOD_FORM}.code`, paymentMethod.code);
+      await setFieldValue(`${COUPON_CODE_FORM}.couponCode`, appliedCoupon);
       setInitDataFilled(true);
     }, 100);
 

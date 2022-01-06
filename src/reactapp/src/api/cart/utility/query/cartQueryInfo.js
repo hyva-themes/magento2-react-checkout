@@ -8,6 +8,9 @@ export const CART_DATA_FRAGMENT = `
   id
   email
   is_virtual
+  applied_coupons {
+    code
+  }
   ${cartItemsInfo}
   ${cartBillingAddrInfo}
   ${cartShippingAddrInfo}
