@@ -8,6 +8,9 @@ export const CART_QUERY_PART = `
   cart(cart_id: $cartId) {
     id
     email
+    applied_coupons {
+      code
+    }
     ${cartItemsInfo}
     ${cartPriceInfo}
     ${cartBillingAddrInfo}

@@ -1,6 +1,5 @@
 {
   "name": "vite-hyva-checkout",
-  "version": "2.0-develop",
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
     "build": "vite build",
