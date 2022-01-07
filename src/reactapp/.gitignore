@@ -8,4 +8,3 @@ dist-ssr
 .storybook/
 .env
 src/paymentMethods/*
-src/index.css
