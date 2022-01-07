@@ -3,6 +3,7 @@ import React from 'react';
 import Login from './login';
 import Totals from './totals';
 import CartItemsForm from './items';
+import CouponCode from './couponCode';
 import { AddressWrapper } from './address';
 import { Message } from '../../code/common';
 import PaymentMethod from './paymentMethod';
@@ -40,6 +41,7 @@ function Index() {
                   )}
                   <BillingAddress />
                   <PaymentMethod />
+                  <CouponCode />
                 </AddressWrapper>
               </div>
             </div>

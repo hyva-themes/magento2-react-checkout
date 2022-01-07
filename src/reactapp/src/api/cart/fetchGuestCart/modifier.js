@@ -89,16 +89,18 @@ function modifyPaymentMethodsData(paymentMethods) {
 
 export default function fetchGuestCartModifier(result, dataMethod) {
   const cartData = _get(result, `data.${dataMethod || 'cart'}`, {});
-  const shippingAddresses = _get(cartData, 'shipping_addresses', []);
-  const billingAddress = _get(cartData, 'billing_address', {}) || {};
   const cartItems = _get(cartData, 'items', []);
   const cartPrices = _get(cartData, 'prices', {});
+  const shippingAddresses = _get(cartData, 'shipping_addresses', []);
+  const billingAddress = _get(cartData, 'billing_address', {}) || {};
+  const appliedCoupon = _get(cartData, 'applied_coupons[0].code') || '';
   const paymentMethods = _get(cartData, 'available_payment_methods', []);
   const selectedPaymentMethod = _get(cartData, 'selected_payment_method', {});
 
   return {
     id: cartData.id,
     email: cartData.email,
+    appliedCoupon,
     items: modifyCartItemsData(cartItems),
     billing_address: modifyBillingAddressData(billingAddress),
     shipping_address: modifyShippingAddressList(shippingAddresses),

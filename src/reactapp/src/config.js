@@ -78,6 +78,7 @@ config.successPageRedirectUrl = `${config.baseUrl}/checkout/onepage/success`;
 
 export const LOGIN_FORM = 'login';
 export const CART_ITEMS_FORM = 'items';
+export const COUPON_CODE_FORM = 'coupon_code';
 export const SHIPPING_METHOD = 'shipping_method';
 export const BILLING_ADDR_FORM = 'billing_address';
 export const PAYMENT_METHOD_FORM = 'payment_method';
