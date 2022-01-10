@@ -63,3 +63,10 @@ export function classNames(...classes) {
 export function _range(start, end) {
   return Array.from({ length: end }, (val, ind) => ind + start);
 }
+
+export function _ucFirst(str) {
+  if (!str) {
+    return str;
+  }
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}

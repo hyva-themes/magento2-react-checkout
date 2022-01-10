@@ -1,5 +1,7 @@
 {
   "name": "vite-hyva-checkout",
+  "author": "Hyvä Themes BV",
+  "license": "BSD-3-Clause",
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
     "build": "vite build",

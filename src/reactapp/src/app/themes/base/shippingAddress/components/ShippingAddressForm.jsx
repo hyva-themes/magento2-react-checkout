@@ -25,10 +25,12 @@ function ShippingAddressForm() {
     handleKeyDown,
     submitHandler,
     isBillingSame,
+    setFieldValue,
     shippingValues,
     selectedCountry,
     selectedAddress,
     setIsNewAddress,
+    setFieldTouched,
     validationSchema,
     setSelectedAddress,
     isBillingFormTouched,
@@ -45,6 +47,14 @@ function ShippingAddressForm() {
     submitHandler,
     validationSchema,
   });
+
+  const handleCountryChange = (event) => {
+    const newValue = event.target.value;
+    setFieldTouched(fields.country, newValue);
+    setFieldValue(fields.country, newValue);
+    // when country is changed, then always reset region field.
+    setFieldValue(fields.region, '');
+  };
 
   const saveAddressAction = async () => {
     await formSubmitHandler();
@@ -73,7 +83,7 @@ function ShippingAddressForm() {
   };
 
   if (viewMode) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -134,7 +144,7 @@ function ShippingAddressForm() {
           name={fields.country}
           formikData={formikData}
           options={countryOptions}
-          onKeyDown={handleKeyDown}
+          onChange={handleCountryChange}
         />
 
         <SelectInput
@@ -143,7 +153,6 @@ function ShippingAddressForm() {
           name={fields.region}
           options={stateOptions}
           formikData={formikData}
-          onKeyDown={handleKeyDown}
           isHidden={!selectedCountry || !hasStateOptions}
         />
 

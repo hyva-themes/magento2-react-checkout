@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\ViewModel;
+namespace Hyva\ReactCheckout\ViewModel;
 
 use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\Serialize\SerializerInterface;

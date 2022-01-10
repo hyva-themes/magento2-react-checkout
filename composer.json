@@ -1,6 +1,6 @@
 {
-  "name": "hyva-themes/magento2-hyva-checkout",
-  "description": "Highly customizable Magento 2 Checkout, Headless, built with React",
+  "name": "hyva-themes/magento2-react-checkout",
+  "description": "Highly customizable Magento 2 Checkout, built with React",
   "type": "magento2-module",
   "require": {
     "magento/framework": "*",
@@ -24,7 +24,7 @@
       "src/registration.php"
     ],
     "psr-4": {
-      "Hyva\\Checkout\\": "src/"
+      "Hyva\\ReactCheckout\\": "src/"
     }
   }
 }
