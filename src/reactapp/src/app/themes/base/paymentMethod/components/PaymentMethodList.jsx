@@ -1,18 +1,21 @@
 import React from 'react';
-import { object } from 'prop-types';
 import _get from 'lodash.get';
+import { object } from 'prop-types';
 
 import { RadioInput } from '../../../../code/common/Form';
 import {
   usePaymentMethodCartContext,
   usePaymentMethodFormContext,
 } from '../../../../code/paymentMethod/hooks';
-import { _objToArray } from '../../../../../utils';
+import { __ } from '../../../../../i18n';
+import { classNames, _objToArray } from '../../../../../utils';
 
 function PaymentMethodList({ methodRenderers }) {
   const { fields, submitHandler, formikData } = usePaymentMethodFormContext();
-  const { methodList } = usePaymentMethodCartContext();
+  const { methodList, isVirtualCart, doCartContainShippingAddress } =
+    usePaymentMethodCartContext();
   const { paymentValues, setFieldValue, setFieldTouched } = formikData;
+  const paymentAvailable = isVirtualCart || doCartContainShippingAddress;
 
   const handlePaymentMethodSelection = async (event) => {
     const methodSelected = _get(methodList, `${event.target.value}.code`);
@@ -34,7 +37,15 @@ function PaymentMethodList({ methodRenderers }) {
   };
 
   return (
-    <div className="py-4">
+    <div
+      title={
+        !paymentAvailable ? __('Please provide a shipping address first.') : ''
+      }
+      className={classNames(
+        !paymentAvailable ? 'cursor-not-allowed opacity-40' : '',
+        'py-4'
+      )}
+    >
       <ul>
         {_objToArray(methodList).map((method) => {
           const MethodRenderer = methodRenderers[method.code];
@@ -48,9 +59,10 @@ function PaymentMethodList({ methodRenderers }) {
                 />
               ) : (
                 <RadioInput
+                  value={method.code}
                   label={method.title}
                   name="paymentMethod"
-                  value={method.code}
+                  disabled={!paymentAvailable}
                   onChange={handlePaymentMethodSelection}
                   checked={method.code === paymentValues.code}
                 />

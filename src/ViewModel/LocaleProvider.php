@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hyva\Checkout\ViewModel;
+namespace Hyva\ReactCheckout\ViewModel;
 
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;

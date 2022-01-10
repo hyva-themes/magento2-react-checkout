@@ -8,6 +8,7 @@ export const CART_QUERY_PART = `
   cart(cart_id: $cartId) {
     id
     email
+    is_virtual
     applied_coupons {
       code
     }
