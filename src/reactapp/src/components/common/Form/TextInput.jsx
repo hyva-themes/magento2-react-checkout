@@ -18,6 +18,7 @@ function TextInput({
   className,
   formikData,
   placeholder,
+  defaultValue,
   ...rest
 }) {
   const {
@@ -31,7 +32,7 @@ function TextInput({
   const inputId = id || name;
   const relativeFieldName = _replace(name, formSectionId).replace('.', '');
   const hasFieldError = !!_get(formSectionErrors, relativeFieldName);
-  const value = _get(formSectionValues, relativeFieldName, '') || '';
+  const value = _get(formSectionValues, relativeFieldName, defaultValue) || '';
   const hasFieldTouched = !!_get(formSectionTouched, relativeFieldName);
   const hasError = hasFieldError && hasFieldTouched;
 
@@ -85,6 +86,7 @@ TextInput.propTypes = {
   helpText: string,
   className: string,
   placeholder: string,
+  defaultValue: string,
   name: string.isRequired,
   formikData: formikDataShape.isRequired,
 };
@@ -98,6 +100,7 @@ TextInput.defaultProps = {
   className: '',
   required: false,
   placeholder: '',
+  defaultValue: '',
   isHidden: false,
 };
 
