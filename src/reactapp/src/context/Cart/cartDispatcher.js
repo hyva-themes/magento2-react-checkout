@@ -1,4 +1,8 @@
 import {
+  applyCouponCodeAction,
+  removeCouponCodeAction,
+} from './couponCode/actions';
+import {
   setBillingAddressAction,
   setCustomerAddrAsBillingAddrAction,
 } from './billingAddress/actions';
@@ -32,8 +36,10 @@ const dispatchMapper = {
   setOrderInfo: setOrderInfoAction,
   updateCartItem: updateCartItemAction,
   createEmptyCart: createEmptyCartAction,
+  applyCouponCode: applyCouponCodeAction,
   getGuestCartInfo: getGuestCartInfoAction,
   setPaymentMethod: setPaymentMethodAction,
+  removeCouponCode: removeCouponCodeAction,
   setShippingMethod: setShippingMethodAction,
   getCustomerCartId: getCustomerCartIdAction,
   getCustomerCartInfo: getGuestCartInfoAction,

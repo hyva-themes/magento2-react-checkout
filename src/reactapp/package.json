@@ -1,6 +1,6 @@
 {
   "name": "hyva-react-checkout",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Highly Customizable Checkout for Magento 2, Built with React.",
   "repository": "local",
   "keywords": [

@@ -4,6 +4,7 @@ import Login from '../login';
 import Totals from '../totals';
 import CartItemsForm from '../items';
 import PlaceOrder from '../placeOrder';
+import CouponCode from '../couponCode';
 import Message from '../common/Message';
 import PageLoader from '../common/Loader';
 import { AddressWrapper } from '../address';
@@ -79,6 +80,7 @@ function CheckoutForm() {
                   )}
                   <BillingAddress />
                   <PaymentMethod />
+                  <CouponCode />
                 </AddressWrapper>
               </div>
             </div>

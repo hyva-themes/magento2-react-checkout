@@ -20,6 +20,7 @@ import fetchCountryStateList from './countries/fetchCountryStateList';
 import getCheckoutAgreements from './storeConfig/getCheckoutAgreements';
 import fetchCustomerAddressList from './customer/fetchCustomerAddresses';
 import restSetGuestPaymentMethod from './cart/restSetGuestPaymentMethod';
+import { applyCouponCodeToCart, removeCouponCodeFromCart } from './cart/coupon';
 import setCustomerAddressOnCartBilling from './cart/setCustomerAddressOnBilling';
 import setCustomerAddrOnShippingAddr from './cart/setCustomerAddrOnShippingAddr';
 
@@ -72,3 +73,7 @@ export const restSetMyPaymentMethodRequest = restSetMyPaymentMethod;
 export const getCheckoutAgreementsRequest = getCheckoutAgreements;
 
 export const aggregatedQueryRequest = aggregatedQuery;
+
+export const applyCouponCodeToCartRequest = applyCouponCodeToCart;
+
+export const removeCouponCodeFromCartRequest = removeCouponCodeFromCart;
