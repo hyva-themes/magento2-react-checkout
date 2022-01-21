@@ -78,7 +78,7 @@ const LocalStorage = {
     return _get(LocalStorage.getHyvaCheckoutStorage(), source.value, true);
   },
 
-  getMostlyRecentlyUsedAddressList() {
+  getMostRecentlyUsedAddressList() {
     return (
       _get(
         LocalStorage.getHyvaCheckoutStorage(),
@@ -200,7 +200,7 @@ const LocalStorage = {
   },
 
   addAddressToMostRecentlyUsedList(newAddress) {
-    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const existingAddrList = LocalStorage.getMostRecentlyUsedAddressList();
     const newAddressId = `new_address_${_keys(existingAddrList).length + 1}`;
 
     _set(newAddress, 'id', newAddressId);
@@ -217,7 +217,7 @@ const LocalStorage = {
   },
 
   updateMostRecentlyAddedAddress(addressId, addressToUpdate) {
-    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const existingAddrList = LocalStorage.getMostRecentlyUsedAddressList();
 
     _set(existingAddrList, addressId, addressToUpdate);
 
@@ -231,7 +231,7 @@ const LocalStorage = {
   },
 
   removeMostRecentlyUsedAddress(addressId) {
-    const existingAddrList = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const existingAddrList = LocalStorage.getMostRecentlyUsedAddressList();
 
     const storageData = _set(
       LocalStorage.getHyvaCheckoutStorage(),

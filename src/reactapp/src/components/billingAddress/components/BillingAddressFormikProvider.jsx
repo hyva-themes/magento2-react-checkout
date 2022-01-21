@@ -88,7 +88,10 @@ function BillingAddressFormikProvider({ children, formikData }) {
   );
 
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
+    if (
+      !isNewAddress &&
+      (forceFilledAddress === selectedAddress || !cartHasBillingAddress)
+    ) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
@@ -115,6 +118,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     }
   }, [
     isSame,
+    isNewAddress,
     selectedAddress,
     setFormToViewMode,
     forceFilledAddress,

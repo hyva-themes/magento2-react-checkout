@@ -29,7 +29,7 @@ function BillingAddressOthers({ forceHide }) {
   const { cartBillingAddress } = useBillingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const isCartBillingAddressValid = isCartAddressValid(cartBillingAddress);
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   const addressOptions = useAddressOtherOptions({
     selectedAddress,

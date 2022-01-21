@@ -99,7 +99,7 @@ export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
 }
 
 export function isMostRecentAddress(addressId) {
-  const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const recentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   return !!recentAddressList[addressId];
 }

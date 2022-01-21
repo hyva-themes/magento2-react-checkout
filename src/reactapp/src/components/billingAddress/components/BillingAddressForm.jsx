@@ -54,7 +54,7 @@ function BillingAddressForm() {
     }
 
     if (isNewAddress) {
-      const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+      const recentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
       const newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
       LocalStorage.addAddressToMostRecentlyUsedList(billingValues);
       setIsNewAddress(false);

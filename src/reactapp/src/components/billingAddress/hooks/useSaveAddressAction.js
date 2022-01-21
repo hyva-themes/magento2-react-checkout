@@ -39,7 +39,7 @@ export default function useSaveAddressAction(billingFormikContext) {
 
     const addressIdContext = addressId || selectedAddress;
     const isCustomerAddress = isValidCustomerAddressId(addressId);
-    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[addressId];
     const billingToSave = recentAddressInUse || billingValues;
     let updateCustomerAddrPromise = _emptyFunc();

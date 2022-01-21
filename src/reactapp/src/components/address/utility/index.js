@@ -45,7 +45,7 @@ export function prepareMostRecentAddressOptions(
   stateList,
   selectedAddress = ''
 ) {
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   if (_isObjEmpty(mostRecentAddressList)) {
     return [];

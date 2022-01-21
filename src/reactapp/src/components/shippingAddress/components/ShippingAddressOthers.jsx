@@ -29,7 +29,7 @@ function ShippingAddressOthers({ forceHide }) {
   const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   const addressOptions = useAddressOtherOptions({
     selectedAddress,
     cartAddress: cartShippingAddress,

@@ -45,7 +45,7 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     useAddressWrapper();
 
   const submitHandler = async (customerAddressId) => {
-    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
     const addressToSave = recentAddressInUse || shippingAddressToSave;
     const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
