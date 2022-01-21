@@ -4,10 +4,11 @@ import { SaveButton } from '../../address';
 import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './billingAddressForm/CancelButton';
+import SaveInBookCheckbox from '../../address/components/SaveInBookCheckbox';
 import { __ } from '../../../i18n';
 import { _keys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
-import { isMostRecentAddress } from '../../../utils/address';
+import { isValidCustomerAddressId } from '../../../utils/address';
 import useCountryState from '../../address/hooks/useCountryState';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
@@ -20,7 +21,6 @@ function BillingAddressForm() {
     formId,
     viewMode,
     formikData,
-    isNewAddress,
     submitHandler,
     handleKeyDown,
     billingValues,
@@ -47,29 +47,39 @@ function BillingAddressForm() {
   const { selectedCountry, isBillingAddressTouched } = formikData;
 
   const saveAddressAction = async () => {
-    await formSubmitHandler();
+    let newAddressId = selectedAddress;
+
+    // Updating mostRecentAddressList in prior to form submit; Because values
+    // there would be used in the submit action if the address is from
+    // mostRecentAddressList.
+    if (isLoggedIn) {
+      if (isValidCustomerAddressId(selectedAddress)) {
+        // This means a customer address been edited and now changed and submitted.
+        // So treat this as a new address;
+        const recentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
+        newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
+        LocalStorage.addAddressToMostRecentlyUsedList(
+          billingValues,
+          newAddressId
+        );
+      } else {
+        LocalStorage.updateMostRecentlyAddedAddress(
+          newAddressId,
+          billingValues
+        );
+      }
+    }
+
+    await formSubmitHandler(newAddressId);
 
     if (!isLoggedIn) {
       return;
     }
 
-    if (isNewAddress) {
-      const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
-      const newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
-      LocalStorage.addAddressToMostRecentlyUsedList(billingValues);
-      setIsNewAddress(false);
-      setSelectedAddress(newAddressId);
-      LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame, false);
-      reCalculateMostRecentAddressOptions();
-    }
-
-    if (isMostRecentAddress(selectedAddress)) {
-      LocalStorage.updateMostRecentlyAddedAddress(
-        selectedAddress,
-        billingValues
-      );
-      reCalculateMostRecentAddressOptions();
-    }
+    setIsNewAddress(false);
+    setSelectedAddress(newAddressId);
+    LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame, false);
+    reCalculateMostRecentAddressOptions();
   };
 
   const handleCountryChange = (event) => {
@@ -159,6 +169,7 @@ function BillingAddressForm() {
           onKeyDown={handleKeyDown}
           placeholder={__('+32 000 000 000')}
         />
+        <SaveInBookCheckbox fields={fields} formikData={formikData} />
       </div>
 
       <div className="flex items-center justify-around mt-2">

@@ -4,13 +4,11 @@ import { SaveButton } from '../../address';
 import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './shippingAddressForm/CancelButton';
-import {
-  isMostRecentAddress,
-  isValidCustomerAddressId,
-} from '../../../utils/address';
+import SaveInBookCheckbox from '../../address/components/SaveInBookCheckbox';
 import { __ } from '../../../i18n';
 import { _keys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
+import { isValidCustomerAddressId } from '../../../utils/address';
 import useCountryState from '../../address/hooks/useCountryState';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
@@ -23,7 +21,6 @@ function ShippingAddressForm() {
     formId,
     viewMode,
     formikData,
-    isNewAddress,
     handleKeyDown,
     submitHandler,
     isBillingSame,
@@ -51,29 +48,39 @@ function ShippingAddressForm() {
   });
 
   const saveAddressAction = async () => {
-    await formSubmitHandler();
+    let newAddressId = selectedAddress;
 
-    if (!isLoggedIn || isValidCustomerAddressId(selectedAddress)) {
+    // Updating mostRecentAddressList in prior to form submit; Because values
+    // there would be used in the submit action if the address is from
+    // mostRecentAddressList.
+    if (isLoggedIn) {
+      if (isValidCustomerAddressId(selectedAddress)) {
+        // This means a customer address been edited and now changed and submitted.
+        // So treat this as a new address;
+        const recentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
+        newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
+        LocalStorage.addAddressToMostRecentlyUsedList(
+          shippingValues,
+          newAddressId
+        );
+      } else {
+        LocalStorage.updateMostRecentlyAddedAddress(
+          newAddressId,
+          shippingValues
+        );
+      }
+    }
+
+    await formSubmitHandler(newAddressId);
+
+    if (!isLoggedIn) {
       return;
     }
 
-    if (isNewAddress) {
-      const recentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
-      const newAddressId = `new_address_${_keys(recentAddressList).length + 1}`;
-      LocalStorage.addAddressToMostRecentlyUsedList(shippingValues);
-      setIsNewAddress(false);
-      setSelectedAddress(newAddressId);
-      LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame);
-      reCalculateMostRecentAddressOptions();
-    }
-
-    if (isMostRecentAddress(selectedAddress)) {
-      LocalStorage.updateMostRecentlyAddedAddress(
-        selectedAddress,
-        shippingValues
-      );
-      reCalculateMostRecentAddressOptions();
-    }
+    setIsNewAddress(false);
+    setSelectedAddress(newAddressId);
+    LocalStorage.saveCustomerAddressInfo(newAddressId, isBillingSame);
+    reCalculateMostRecentAddressOptions();
   };
 
   const handleCountryChange = (event) => {
@@ -166,6 +173,7 @@ function ShippingAddressForm() {
           onKeyDown={handleKeyDown}
           placeholder={__('+32 000 000 000')}
         />
+        <SaveInBookCheckbox fields={fields} formikData={formikData} />
       </div>
 
       <div className="flex items-center justify-around mt-2">

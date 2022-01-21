@@ -42,6 +42,7 @@ const initValidationSchema = {
   region: YupString().nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBool(),
+  saveInBook: YupBool(),
 };
 
 function BillingAddressFormikProvider({ children, formikData }) {

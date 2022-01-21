@@ -15,37 +15,28 @@ import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 export default function useSaveAddressAction(shippingAddressFormContext) {
   const {
-    editMode,
-    regionData,
     setFieldValue,
     isBillingSame,
     selectedAddress,
     setFormToViewMode,
     setSelectedAddress,
-    customerAddressSelected,
     setCustomerAddressSelected,
     setShippingAddressFormFields,
     shippingValues: shippingAddressToSave,
   } = shippingAddressFormContext;
-  const {
-    isLoggedIn,
-    setMessage,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-    updateCustomerAddress,
-  } = useShippingAddressAppContext();
   const {
     setCartBillingAddress,
     addCartShippingAddress,
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useShippingAddressAppContext();
   const { setBillingSelected, setIsBillingCustomerAddress } =
     useAddressWrapper();
 
   const submitHandler = async (customerAddressId) => {
-    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
     const addressToSave = recentAddressInUse || shippingAddressToSave;
     const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
@@ -85,9 +76,12 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     const shippingAddrResponse = await updateShippingAddress();
     await updateBillingAddress();
 
-    const addressToSet = prepareFormAddressFromCartAddress(
-      _get(shippingAddrResponse, 'shipping_address')
-    );
+    const addressToSet = {
+      ...prepareFormAddressFromCartAddress(
+        _get(shippingAddrResponse, 'shipping_address')
+      ),
+      saveInBook: addressToSave?.saveInBook,
+    };
     setShippingAddressFormFields(addressToSet);
 
     if (isBillingSame) {
@@ -106,28 +100,15 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
 
     const addressIdContext = addressId || selectedAddress;
     const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
-    let updateCustomerAddrPromise = _emptyFunc();
     const updateCartAddressPromise = _makePromise(
       submitHandler,
       isCustomerAddress && addressId
     );
 
-    if (isLoggedIn && customerAddressSelected && editMode) {
-      updateCustomerAddrPromise = _makePromise(
-        updateCustomerAddress,
-        addressIdContext,
-        shippingAddressToSave,
-        regionData
-      );
-    }
-
     try {
       setPageLoader(true);
-      await updateCartAddressPromise();
 
-      // we don't need to await customer address update operation;
-      // it can happen in background
-      updateCustomerAddrPromise();
+      await updateCartAddressPromise();
 
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);

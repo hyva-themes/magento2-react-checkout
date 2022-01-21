@@ -2,17 +2,18 @@ import { CART_DATA_FRAGMENT } from '../utility/query/cartQueryInfo';
 
 export const SET_CART_BILLING_ADDRESS_MUTATION = `
 mutation setBillingAddress(
-  $cartId: String!,
-  $firstname: String!,
-  $lastname: String!,
-  $company: String,
-  $street: [String]!,
-  $city: String!,
-  $region: String,
-  $zipcode: String!,
-  $country: String!,
-  $phone: String!,
+  $cartId: String!
+  $firstname: String!
+  $lastname: String!
+  $company: String
+  $street: [String]!
+  $city: String!
+  $region: String
+  $zipcode: String!
+  $country: String!
+  $phone: String!
   $isSameAsShipping: Boolean
+  $saveInBook: Boolean
 ) {
   setBillingAddressOnCart(
     input: {
@@ -29,7 +30,7 @@ mutation setBillingAddress(
           postcode: $zipcode
           country_code: $country
           telephone: $phone
-          save_in_address_book: false
+          save_in_address_book: $saveInBook
         }
       }
     }

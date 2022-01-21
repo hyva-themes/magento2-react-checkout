@@ -1,5 +1,6 @@
 import _get from 'lodash.get';
 
+import { _isObjEmpty } from '../../../utils';
 import { prepareFullName } from '../../../utils/customer';
 
 export default function modifyCustomerAddressList(response) {
@@ -52,6 +53,7 @@ export default function modifyCustomerAddressList(response) {
       firstname,
       lastname,
       fullName: prepareFullName(customerData),
+      hasAddress: !_isObjEmpty(customerAddressList),
     },
     customerAddressList,
     defaultBillingAddress,

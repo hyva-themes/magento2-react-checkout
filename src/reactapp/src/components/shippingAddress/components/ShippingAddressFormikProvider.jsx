@@ -25,11 +25,11 @@ import { customerHasAddress } from '../../../utils/customer';
 import useRegionData from '../../address/hooks/useRegionData';
 import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
+import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 import useRegionValidation from '../../address/hooks/useRegionValidation';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
-import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 
 const initialValues = {
   company: '',
@@ -41,6 +41,7 @@ const initialValues = {
   city: '',
   region: '',
   country: initialCountry,
+  saveInBook: false,
 };
 
 const requiredMessage = __('%1 is required');
@@ -60,6 +61,7 @@ const initValidationSchema = {
   region: YupString().nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBoolean(),
+  saveInBook: YupBoolean(),
 };
 
 const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());

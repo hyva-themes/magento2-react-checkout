@@ -35,7 +35,7 @@ function CheckoutFormWrapper({ initialData, children }) {
       return _emptyFunc();
     }
 
-    const { cart } = initialData;
+    const { cart, customer } = initialData;
     const email = _get(cart, 'email', '');
     const appliedCoupon = _get(cart, 'appliedCoupon');
     const billingAddress = _get(cart, 'billing_address', {});
@@ -55,6 +55,7 @@ function CheckoutFormWrapper({ initialData, children }) {
       await setFieldValue(SHIPPING_ADDR_FORM, {
         ...shippingAddressValues,
         ...shippingAddress,
+        saveInBook: !!customer?.customer?.email,
       });
       await setFieldValue(SHIPPING_METHOD, {
         methodCode: shippingMethod.methodCode || '',
@@ -63,6 +64,7 @@ function CheckoutFormWrapper({ initialData, children }) {
       await setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressValues,
         ...billingAddress,
+        saveInBook: !!customer?.customer?.email,
       });
       await setFieldValue(`${PAYMENT_METHOD_FORM}.code`, paymentMethod.code);
       await setFieldValue(`${COUPON_CODE_FORM}.couponCode`, appliedCoupon);
