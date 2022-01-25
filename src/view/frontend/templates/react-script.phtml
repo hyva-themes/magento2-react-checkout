@@ -6,7 +6,7 @@ use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
 /** @var Escaper $escaper */
-
+$buildJsFile = 'Hyva_ReactCheckout::react-checkout.es.min.js';
 ?>
 <script>
     function loadReactCartScript () {
@@ -17,7 +17,7 @@ use Magento\Framework\View\Element\Template;
         newScript.async = true;
         newScript.defer = true;
         newScript.type = 'module';
-        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_ReactCheckout::react-checkout.es.min.js')); ?>';
+        newScript.src = '<?= $escaper->escapeUrl($block->getViewFileUrl($buildJsFile)); ?>';
 
         firstScript.parentNode.insertBefore(newScript, firstScript);
     }
