@@ -1,8 +1,12 @@
 <?php
 use Magento\Framework\Escaper;
+use Hyva\ReactCheckout\Block\CheckoutTranslator;
 
-/** @var \Hyva\ReactCheckout\Block\CheckoutTranslator $block  */
+/**
+ * @var CheckoutTranslator $block
+ * @var Escaper $escaper
+ */
 ?>
 <script>
-    var CHECKOUT_TRANSLATIONS = '<?= $block->getTranslations()  ?>';
+    var CHECKOUT_TRANSLATIONS = '<?= $escaper->escapeJs($block->getTranslations())  ?>';
 </script>
