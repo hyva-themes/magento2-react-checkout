@@ -26,7 +26,7 @@ export function modifyBillingAddressData(billingAddress) {
     phone,
     zipcode,
     city,
-    region: regionCode,
+    region: regionCode || '',
     country: countryCode,
     isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
   };
