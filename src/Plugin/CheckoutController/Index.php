@@ -52,7 +52,6 @@ class Index
                 ->setModule('hyva')
                 ->setController('reactcheckout')
                 ->forward('index');
-
         } else {
             $result = $proceed();
         }
