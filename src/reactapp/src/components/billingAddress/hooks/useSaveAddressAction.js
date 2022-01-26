@@ -4,32 +4,23 @@ import {
   prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
 import { __ } from '../../../i18n';
+import { _makePromise } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
-import { _emptyFunc, _makePromise } from '../../../utils';
 import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressCartContext from './useBillingAddressCartContext';
 
 export default function useSaveAddressAction(billingFormikContext) {
   const { setCartBillingAddress, setCustomerAddressAsBillingAddress } =
     useBillingAddressCartContext();
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useBillingAddressAppContext();
   const {
-    isLoggedIn,
-    setMessage,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-    updateCustomerAddress,
-  } = useBillingAddressAppContext();
-  const {
-    editMode,
-    regionData,
     billingValues,
     isBillingSame,
     setFieldValue,
     selectedAddress,
     setFormToViewMode,
     setSelectedAddress,
-    customerAddressSelected,
     setCustomerAddressSelected,
     setBillingAddressFormFields,
   } = billingFormikContext;
@@ -42,7 +33,6 @@ export default function useSaveAddressAction(billingFormikContext) {
     const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[addressId];
     const billingToSave = recentAddressInUse || billingValues;
-    let updateCustomerAddrPromise = _emptyFunc();
     let updateCartAddressPromise = _makePromise(
       setCartBillingAddress,
       billingToSave
@@ -56,31 +46,19 @@ export default function useSaveAddressAction(billingFormikContext) {
       );
     }
 
-    if (isLoggedIn && customerAddressSelected && editMode) {
-      updateCustomerAddrPromise = _makePromise(
-        updateCustomerAddress,
-        selectedAddress,
-        billingValues,
-        regionData
-      );
-    }
-
     try {
       setPageLoader(true);
+
       const result = await updateCartAddressPromise();
-      const addressToSet = prepareFormAddressFromCartAddress(
-        result?.billing_address
-      );
+
+      const addressToSet = {
+        ...prepareFormAddressFromCartAddress(result?.billing_address),
+        saveInBook: billingToSave?.saveInBook,
+      };
       setBillingAddressFormFields(addressToSet);
-
-      // we don't need to await customer address update operation;
-      // it can happen in background
-      updateCustomerAddrPromise();
-
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);
       setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
-
       LocalStorage.saveCustomerAddressInfo(
         addressIdContext,
         isBillingSame,

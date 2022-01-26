@@ -57,15 +57,25 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
     if (!errors) {
       const sourceCartId = LocalStorage.getCartId();
       const signInToken = _get(data, 'customer.signin_token');
-      const cartId = _get(data, 'cart.cartId');
+      const cartId = _get(data, 'cart.cartId') || sourceCartId;
+
       LocalStorage.saveCartId(cartId);
       LocalStorage.saveCustomerToken(signInToken);
 
-      if (config.isDevelopmentMode && cartId) {
-        await mergeCartsRequest(dispatch, {
-          sourceCartId,
-          destinationCartId: cartId,
-        });
+      if (config.isDevelopmentMode) {
+        if (cartId !== sourceCartId) {
+          await mergeCartsRequest(dispatch, {
+            sourceCartId,
+            destinationCartId: cartId,
+          });
+        }
+        if (!signInToken) {
+          const { token } = await generateCustomerToken(dispatch, {
+            email: userCredentials?.username,
+            ...userCredentials,
+          });
+          LocalStorage.saveCustomerToken(token);
+        }
       }
 
       if (typeof window !== 'undefined') {

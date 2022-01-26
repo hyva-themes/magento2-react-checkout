@@ -26,8 +26,8 @@ function ShippingAddressOthers({ forceHide }) {
     shippingOtherOptionSelected,
     setShippingAddressFormFields,
   } = useShippingAddressFormikContext();
-  const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
+  const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
   const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   const addressOptions = useAddressOtherOptions({

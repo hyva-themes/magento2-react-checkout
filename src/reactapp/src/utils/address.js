@@ -4,6 +4,7 @@ import env from './env';
 import { __ } from '../i18n';
 import RootElement from './rootElement';
 import LocalStorage from './localStorage';
+import { prepareFullName } from './customer';
 import { _cleanObjByKeys, _toString } from './index';
 import { BILLING_ADDR_FORM, config } from '../config';
 
@@ -35,7 +36,8 @@ export function formatAddressListToCardData(addressList, stateList) {
       zipcode = '',
       company = '',
       country = '',
-      fullName = '',
+      firstname = '',
+      lastname = '',
       regionLabel = '',
       countryCode = '',
     } = addr;
@@ -44,7 +46,7 @@ export function formatAddressListToCardData(addressList, stateList) {
     return {
       id: _toString(id),
       address: [
-        fullName,
+        prepareFullName({ firstname, lastname }),
         company,
         ...street,
         __('%1 %1', zipcode, city),

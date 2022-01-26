@@ -219,7 +219,7 @@ const LocalStorage = {
   updateMostRecentlyAddedAddress(addressId, addressToUpdate) {
     const existingAddrList = LocalStorage.getMostRecentlyUsedAddressList();
 
-    _set(existingAddrList, addressId, addressToUpdate);
+    _set(existingAddrList, addressId, { ...addressToUpdate, id: addressId });
 
     const storageData = _set(
       LocalStorage.getHyvaCheckoutStorage(),

@@ -41,10 +41,7 @@ export function prepareCountryStateOptions(stateList, countrySelected) {
   return _objToArray(stateListObj).sort(sortByItemLabel);
 }
 
-export function prepareMostRecentAddressOptions(
-  stateList,
-  selectedAddress = ''
-) {
+export function prepareMostRecentAddressOptions(stateList) {
   const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   if (_isObjEmpty(mostRecentAddressList)) {
@@ -52,7 +49,7 @@ export function prepareMostRecentAddressOptions(
   }
 
   const mostRecentAddrOptions = formatAddressListToCardData(
-    _objToArray(_cleanObjByKeys(mostRecentAddressList, [selectedAddress])),
+    _objToArray(mostRecentAddressList),
     stateList
   );
 
