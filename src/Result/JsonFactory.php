@@ -5,9 +5,6 @@ namespace Hyva\ReactCheckout\Result;
 
 use Magento\Framework\ObjectManagerInterface;
 
-/**
- * @SuppressWarnings(PHPMD)
- */
 class JsonFactory extends \Magento\Framework\Controller\Result\JsonFactory
 {
     /**
@@ -15,6 +12,7 @@ class JsonFactory extends \Magento\Framework\Controller\Result\JsonFactory
      *
      * @param  \Magento\Framework\ObjectManagerInterface  $objectManager
      * @param  string  $instanceName
+     * phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
