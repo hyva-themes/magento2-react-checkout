@@ -60,6 +60,7 @@ class AjaxLogin
      * @param  \Magento\Customer\Controller\Ajax\Login  $ajaxLoginController
      * @param  \Magento\Framework\Controller\ResultInterface  $result
      * @return \Magento\Framework\Controller\ResultInterface
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterExecute(
         CustomerAjaxLoginController $ajaxLoginController,

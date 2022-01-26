@@ -5,6 +5,9 @@ namespace Hyva\ReactCheckout\Result;
 
 use Magento\Framework\ObjectManagerInterface;
 
+/**
+ * @SuppressWarnings(PHPMD)
+ */
 class JsonFactory extends \Magento\Framework\Controller\Result\JsonFactory
 {
     /**
