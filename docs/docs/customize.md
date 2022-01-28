@@ -1,7 +1,7 @@
 # How To Customize Hyvä React Checkout
 Hyvä React Checkout is a Magento 2 module which holds a react app inside it. So when you want to customize the checkout, you need to work with the react app embedded inside the module.
 
-Also, when it comes to customization, the installation approach you have taken into account becomes important. Checkout the [**installation instructions**](/installation/) for further details.
+Also, when it comes to customization, the installation approach you have taken into account becomes important. Checkout the [**installation instructions**](/magento2-react-checkout/installation/) for further details.
 
 ## Development Mode
 The ReactApp embedded inside Hyvä React Checkout allow us to launch it as a stand alone App. This is the best way of customizing Hyvä React Checkout for your site. When you launch the ReactApp, it will be served from the address `http://localhost:3000`. It will prompt you to provide a valid cartId and once you provided the cartId, you can now work with the checkout in the most efficient way as this development mode supports Hot Module Reloading (HMR).

@@ -7,4 +7,4 @@
     A demo for the Hyvä Checkout is available in [**Hyvä Demo**](https://demo.hyva.io/) site. There is a [**demo from Elgento**](https://hyva-demo.elgentos.io/)'s team too
 
 ??? question "Which custom payment methods supported?"
-    To see supported payment methods, see [Payment Supports](/payment-integration/#payment-supports).
+    To see supported payment methods, see [Payment Supports](/magento2-react-checkout/payment-integration/#payment-supports).
