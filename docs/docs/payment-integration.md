@@ -123,58 +123,36 @@ File: `src/reactapp/package.json`
 As you can see above, we are configuring `payone` custom payment solution under `config.paymentMethodsRepo`. With this change in your `package.json` and if you run `npm install`, then your repo will be cloned into `src/reactapp/src/paymentMethods` directory and properly configured over there.
 
 ### How Custom Payment Renderer Works
-It all starts from the react component `<PaymentMethod />`. This component is responsible for showing the entire payment method section. See its implementation
+It all starts from the react component `<PaymentMethodMemorized />`. This component is responsible for showing the entire payment method section. See its implementation
 
-File: `src/reactapp/src/components/paymentMethod/PaymentMethod.jsx`
+File: `src/reactapp/src/components/paymentMethod/PaymentMethodMemorized.jsx`
 ```
 import React, { useEffect, useState } from 'react';
 ...
-import getCustomRenderers from '../../paymentMethods/customRenderers';
+import customRenderers from '../../paymentMethods/customRenderers';
 
-function PaymentMethod() {
-  const [renderers, setRenderers] = useState({});
+const PaymentMethodMemorized = React.memo(({ formikData }) => {
   ...
-  // collect custom renderers from the custom payment methods installed.
-  useEffect(() => {
-    (async () => {
-      const availableRenderers = await getCustomRenderers();
-      setRenderers(availableRenderers);
-    })();
-  }, []);
-
   return (
-    <PaymentMethodFormManager>
-      <Card>
-        <Header>{__('Payment Methods')}</Header>
-        ...
-        <PaymentMethodList methodRenderers={renderers} />
-        ...
+    <PaymentMethodFormManager formikData={formikData}>
+      <Card classes={isPaymentAvailable ? '' : 'opacity-75'}>
+        <ToggleBox show title={__('Payment Methods')}>
+          {isPaymentAvailable ? (
+            <PaymentMethodList methodRenderers={customRenderers} />
+          ) : (
+            <NoPaymentMethodInfoBox />
+          )}
+        </ToggleBox>
       </Card>
     </PaymentMethodFormManager>
   );
 }
 
-export default PaymentMethod;
+export default PaymentMethodMemorized;
 ```
-Here `renderers` state holds the custom payment renderers. This value is an object where its keys will be payment method code and values will be renderer component. `renderers` state is then passing to `<PaymentMethodList />` component. This component will loop through each payment method and if a custom payment renderer defined for a payment, then it will use that custom payment renderer for that payment method; else, it will render the payment method as radio button (default behaviour).
+Here `customRenderers` holds all the custom payment renderers available. This value is an object where its keys will be payment method code and values will be renderer component. `renderers` state is then passing to `<PaymentMethodList />` component. This component will loop through each payment method and if a custom payment renderer defined for a payment, then it will use that custom payment renderer for that payment method; else, it will render the payment method as radio button (default behaviour).
 
-In the `useEffect` above, it is fetching the custom renderers. This is collecting from `customRenderers.js`
-
-File: `src/reactapp/src/paymentMethods/customRenderers.js`
-```
-export default async function getCustomRenderers() {
-  const paymentMethodRenderers = await paymentFetcher.fetchDataFromPaymentMethods(
-    'renderers.js',
-    []
-  );
-
-  return paymentMethodRenderers.reduce(
-    (renderers, item) => ({ ...renderers, ...item }),
-    {}
-  );
-}
-```
-Here it loops through available payment methods and dynamically fetching the `renderers.js` file inside each payment method. Then merge them together to get the final custom payment renderers available.
+`customRenderers` object which is coming from the file `src/paymentMethods/customRenderers.js` is an auto-generated file. This file is updated when you have custom payment renderer repositories setup in your `package.json` file and you perform the installation `npm install`. The chance to alter this file happens only in those situations where you have your own custom payment renderers and you want to make them available in the payment method section. In that case, you need to manually add your custom payment renderer in that file.
 
 #### How Custom Payment Renderer Interacts on Place Order Action
 If your payment method needs to alter the behaviour of place order action, then Hyvä React Checkout provides some features out of the box to help you out.
