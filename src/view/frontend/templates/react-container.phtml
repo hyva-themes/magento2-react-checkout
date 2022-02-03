@@ -14,7 +14,7 @@ $configProvider = $block->getData('checkout_config_provider');
 <div
     id="react-checkout"
     data-base_url="<?= $block->getBaseUrl() ?>"
-    data-base_url="<?= $escaper->escapeUrl($block->getBaseUrl()) ?>"
+    data-checkout_config="<?= $escaper->escapeHtmlAttr($configProvider->getConfig()) ?>"
     data-static_file_path="<?= $escaper->escapeUrl($block->getViewFileUrl('Hyva_ReactCheckout')) ?>"
 >
     <div class="container">
