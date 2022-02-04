@@ -4,9 +4,20 @@ prices {
     value
     currency
   }
+  subtotal_excluding_tax {
+    value
+    currency
+  }
   subtotal_including_tax {
     value
     currency
+  }
+  applied_taxes {
+    label
+    amount {
+      currency
+      value
+    }
   }
   discounts {
     label

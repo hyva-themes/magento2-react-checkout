@@ -10,21 +10,27 @@ export default function useTotalsCartContext() {
   const prices = _get(cart, 'prices', {}) || {};
   const { price: shippingMethodRate, amount: shippingAmount } = shippingMethod;
   const {
-    subTotal,
+    subTotalIncl,
+    subTotalExcl,
     grandTotal,
+    appliedTaxes,
+    hasAppliedTaxes,
     discounts,
     hasDiscounts,
-    subTotalAmount,
+    subTotalInclAmount,
     grandTotalAmount,
   } = prices;
 
   return {
-    subTotal,
+    subTotalIncl,
+    subTotalExcl,
     grandTotal,
     discounts,
+    appliedTaxes,
     shippingMethodRate,
     hasDiscounts,
-    hasSubTotal: !!subTotalAmount,
+    hasAppliedTaxes,
+    hasSubTotal: !!subTotalInclAmount,
     hasGrandTotal: !!grandTotalAmount,
     hasShippingRate: !!shippingAmount,
   };

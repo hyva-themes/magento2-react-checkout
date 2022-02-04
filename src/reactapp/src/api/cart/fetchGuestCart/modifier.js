@@ -42,21 +42,33 @@ function modifyCartItemsData(cartItems) {
 
 function modifyCartPricesData(cartPrices) {
   const grandTotal = _get(cartPrices, 'grand_total', {});
-  const subTotal = _get(cartPrices, 'subtotal_including_tax', {});
+  const subTotalIncl = _get(cartPrices, 'subtotal_including_tax', {});
+  const subTotalExcl = _get(cartPrices, 'subtotal_excluding_tax', {});
   const discountPrices = _get(cartPrices, 'discounts', []) || [];
   const discounts = discountPrices.map((discount) => ({
     label: discount.label,
     price: formatPrice(-discount.amount.value, true),
     amount: discount.amount.value,
   }));
+  const appliedTaxAmounts = _get(cartPrices, 'applied_taxes', []) || [];
+  const appliedTaxes = appliedTaxAmounts.map((tax) => ({
+    label: tax.label,
+    price: formatPrice(tax.amount.value),
+    amount: tax.amount.value,
+  }));
   const grandTotalAmount = _get(grandTotal, 'value');
-  const subTotalAmount = _get(subTotal, 'value');
+  const subTotalInclAmount = _get(subTotalIncl, 'value');
+  const subTotalExclAmount = _get(subTotalExcl, 'value');
 
   return {
     discounts,
     hasDiscounts: !_isArrayEmpty(discountPrices),
-    subTotal: formatPrice(subTotalAmount),
-    subTotalAmount,
+    appliedTaxes,
+    hasAppliedTaxes: !_isArrayEmpty(appliedTaxAmounts),
+    subTotalIncl: formatPrice(subTotalInclAmount),
+    subTotalInclAmount,
+    subTotalExcl: formatPrice(subTotalExclAmount),
+    subTotalExclAmount,
     grandTotal: formatPrice(grandTotalAmount),
     grandTotalAmount,
   };
