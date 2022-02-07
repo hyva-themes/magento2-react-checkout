@@ -6,7 +6,7 @@ export default function useTotalsCartContext() {
   const { cart } = useCartContext();
   const prices = _get(cart, 'prices') || {};
   const shippingMethod = _get(cart, 'selected_shipping_method') || {};
-  const { price: shippingMethodRate, amount: shippingAmount } = shippingMethod;
+  const { price: shippingMethodRate } = shippingMethod;
   const {
     subTotal,
     discounts,
@@ -24,6 +24,6 @@ export default function useTotalsCartContext() {
     shippingMethodRate,
     hasSubTotal: !!subTotalAmount,
     hasGrandTotal: !!grandTotalAmount,
-    hasShippingRate: !!shippingAmount,
+    hasShippingRate: !!shippingMethodRate,
   };
 }
