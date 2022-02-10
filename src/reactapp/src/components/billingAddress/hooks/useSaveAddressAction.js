@@ -1,4 +1,5 @@
 import {
+  CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
   billingSameAsShippingField,
   prepareFormAddressFromCartAddress,
@@ -70,7 +71,12 @@ export default function useSaveAddressAction(billingFormikContext) {
       // In this case, we will force set billing === shipping
       const billingIdInStorage = LocalStorage.getCustomerBillingAddressId();
       const shippingIdInStorage = LocalStorage.getCustomerShippingAddressId();
-      if (billingIdInStorage === shippingIdInStorage) {
+
+      if (
+        billingIdInStorage &&
+        billingIdInStorage !== CART_SHIPPING_ADDRESS &&
+        billingIdInStorage === shippingIdInStorage
+      ) {
         setFieldValue(billingSameAsShippingField, true);
       }
 

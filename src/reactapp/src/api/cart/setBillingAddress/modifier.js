@@ -2,8 +2,12 @@ import _get from 'lodash.get';
 
 import LocalStorage from '../../../utils/localStorage';
 import { prepareFullName } from '../../../utils/customer';
+import { isCartAddressValid } from '../../../utils/address';
 
 export function modifyBillingAddressData(billingAddress) {
+  if (!isCartAddressValid(billingAddress)) {
+    return {};
+  }
   const {
     company = '',
     firstname = '',

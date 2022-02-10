@@ -25,13 +25,13 @@ function BillingAddressView() {
   } = useBillingAddressFormikContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
-  const isCartShippingAddressValid = isCartAddressValid(cartBillingAddress);
+  const isCartBillingAddressValid = isCartAddressValid(cartBillingAddress);
   const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   // hide other section if there exists only one address for use.
   const hideOtherAddrSection =
     isLoggedIn &&
-    _keys(customerAddressList).length <= 1 &&
-    !_keys(mostRecentAddressList).length;
+    (_keys(customerAddressList).length > 1 ||
+      (!_keys(mostRecentAddressList).length && !isCartBillingAddressValid));
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
@@ -50,7 +50,7 @@ function BillingAddressView() {
     <div className="py-2">
       <div className="mt-5">
         <div className="my-2 space-y-2 lg:flex lg:items-start lg:space-x-4 lg:space-y-0 lg:justify-center">
-          {isCartShippingAddressValid && (
+          {isCartBillingAddressValid && (
             <div
               className={
                 !isLoggedIn || hideOtherAddrSection ? 'w-1/2' : 'w-full'
@@ -63,7 +63,7 @@ function BillingAddressView() {
               />
             </div>
           )}
-          {!isCartShippingAddressValid ? (
+          {!isCartBillingAddressValid ? (
             <div className="w-4/5">
               <BillingAddressOthers forceHide={hideOtherAddrSection} />
               <CreateNewAddressLink
