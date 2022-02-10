@@ -12,7 +12,7 @@
   "author": "Hyvä Themes BV",
   "license": "BSD-3-Clause",
   "private": true,
-  "proxy": "http://m24-hyva.test",
+  "proxy": "https://demo.hyva.io",
   "dependencies": {
     "@heroicons/react": "^1.0.5",
     "formik": "^2.2.6",
