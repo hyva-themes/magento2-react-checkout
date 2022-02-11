@@ -7,8 +7,7 @@ import {
   isCartAddressValid,
   CART_SHIPPING_ADDRESS,
 } from '../../../utils/address';
-import { _keys } from '../../../utils';
-import LocalStorage from '../../../utils/localStorage';
+import { computeCanHideOtherAddressSection } from '../../address/utility';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
@@ -28,12 +27,13 @@ function ShippingAddressView() {
   const { cartShippingAddress } = useShippingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
-  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   // hide other section if there exists only one address for use.
-  const hideOtherAddrSection =
-    isLoggedIn &&
-    (_keys(customerAddressList).length > 1 ||
-      (!_keys(mostRecentAddressList).length && !isCartShippingAddressValid));
+  const hideOtherAddrSection = computeCanHideOtherAddressSection(
+    isLoggedIn,
+    selectedAddress,
+    cartShippingAddress,
+    customerAddressList
+  );
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);

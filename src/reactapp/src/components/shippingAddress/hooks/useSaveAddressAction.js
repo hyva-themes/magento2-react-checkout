@@ -39,7 +39,8 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
     const addressToSave = recentAddressInUse || shippingAddressToSave;
-    const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
+    const useCustomerAddressInSave =
+      isValidCustomerAddressId(customerAddressId) && !recentAddressInUse;
 
     setPageLoader(true);
 
@@ -99,10 +100,9 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setMessage(false);
 
     const addressIdContext = addressId || selectedAddress;
-    const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
     const updateCartAddressPromise = _makePromise(
       submitHandler,
-      isCustomerAddress && addressId
+      addressIdContext
     );
 
     try {

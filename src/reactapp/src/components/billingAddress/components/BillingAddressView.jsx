@@ -3,10 +3,9 @@ import React from 'react';
 import { CreateNewAddressLink } from '../../address';
 import BillingAddressOthers from './BillingAddressOthers';
 import BillingAddressSelected from './BillingAddressSelected';
-import { _keys } from '../../../utils';
 import { CART_BILLING_ADDRESS } from '../utility';
-import LocalStorage from '../../../utils/localStorage';
 import { isCartAddressValid } from '../../../utils/address';
+import { computeCanHideOtherAddressSection } from '../../address/utility';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
@@ -26,12 +25,13 @@ function BillingAddressView() {
   const { cartBillingAddress } = useBillingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
   const isCartBillingAddressValid = isCartAddressValid(cartBillingAddress);
-  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   // hide other section if there exists only one address for use.
-  const hideOtherAddrSection =
-    isLoggedIn &&
-    (_keys(customerAddressList).length > 1 ||
-      (!_keys(mostRecentAddressList).length && !isCartBillingAddressValid));
+  const hideOtherAddrSection = computeCanHideOtherAddressSection(
+    isLoggedIn,
+    selectedAddress,
+    cartBillingAddress,
+    customerAddressList
+  );
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
