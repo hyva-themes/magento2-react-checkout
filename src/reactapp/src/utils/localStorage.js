@@ -194,7 +194,10 @@ const LocalStorage = {
 
     if (isBillingSame) {
       LocalStorage.saveCustomerBillingAddressId(addressId);
-    } else if (selectedShippingAddrId === addressId) {
+    } else if (
+      addressId !== 'cart_shipping_address' &&
+      selectedShippingAddrId === addressId
+    ) {
       LocalStorage.saveBillingSameAsShipping(true);
     }
   },

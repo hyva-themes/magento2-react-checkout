@@ -11,11 +11,11 @@ import { node } from 'prop-types';
 import {
   initialCountry,
   isCartAddressValid,
+  CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
 } from '../../../utils/address';
 import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
-import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import useFormSection from '../../../hook/useFormSection';

@@ -5,13 +5,15 @@ import { __ } from '../i18n';
 import RootElement from './rootElement';
 import LocalStorage from './localStorage';
 import { prepareFullName } from './customer';
-import { _cleanObjByKeys, _toString } from './index';
 import { BILLING_ADDR_FORM, config } from '../config';
+import { _cleanObjByKeys, _isNumber, _toString } from './index';
 
 export const initialCountry =
   env.defaultCountry ||
   RootElement.getDefaultCountryId() ||
   config.defaultCountry;
+
+export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
 
 export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
@@ -104,4 +106,19 @@ export function isMostRecentAddress(addressId) {
   const recentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   return !!recentAddressList[addressId];
+}
+
+export function prepareAddressForSaving(addressToSave, regionData) {
+  // Region code some times can be integer instead of string eg: FR
+  // In those cases, use "region_id" instead of "region" input in GQL in order
+  // to update the address data.
+  if (_isNumber(regionData?.code)) {
+    return {
+      ...addressToSave,
+      region: '',
+      regionId: regionData?.id,
+    };
+  }
+
+  return addressToSave;
 }

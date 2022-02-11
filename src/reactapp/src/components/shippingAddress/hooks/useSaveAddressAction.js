@@ -1,6 +1,7 @@
 import _get from 'lodash.get';
 
 import {
+  prepareAddressForSaving,
   isValidCustomerAddressId,
   prepareFormAddressFromCartAddress,
 } from '../../../utils/address';
@@ -15,6 +16,7 @@ import { billingAddressFormInitValues } from '../../billingAddress/utility';
 
 export default function useSaveAddressAction(shippingAddressFormContext) {
   const {
+    regionData,
     setFieldValue,
     isBillingSame,
     selectedAddress,
@@ -38,8 +40,12 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
   const submitHandler = async (customerAddressId) => {
     const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
-    const addressToSave = recentAddressInUse || shippingAddressToSave;
-    const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
+    const addressToSave = prepareAddressForSaving(
+      recentAddressInUse || shippingAddressToSave,
+      regionData
+    );
+    const useCustomerAddressInSave =
+      isValidCustomerAddressId(customerAddressId) && !recentAddressInUse;
 
     setPageLoader(true);
 
@@ -99,10 +105,9 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setMessage(false);
 
     const addressIdContext = addressId || selectedAddress;
-    const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
     const updateCartAddressPromise = _makePromise(
       submitHandler,
-      isCustomerAddress && addressId
+      addressIdContext
     );
 
     try {
