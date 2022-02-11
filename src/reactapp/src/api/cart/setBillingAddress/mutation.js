@@ -9,6 +9,7 @@ mutation setBillingAddress(
   $street: [String]!
   $city: String!
   $region: String
+  $regionId: Int
   $zipcode: String!
   $country: String!
   $phone: String!
@@ -27,6 +28,7 @@ mutation setBillingAddress(
           street: $street
           city: $city
           region: $region
+          region_id: $regionId
           postcode: $zipcode
           country_code: $country
           telephone: $phone

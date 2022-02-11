@@ -9,6 +9,7 @@ mutation setShippingAddress(
   $street: [String]!
   $city: String!
   $region: String
+  $regionId: Int
   $zipcode: String!
   $country: String!
   $phone: String!
@@ -25,6 +26,7 @@ mutation setShippingAddress(
           street: $street
           city: $city
           region: $region
+          region_id: $regionId
           postcode: $zipcode
           country_code: $country
           telephone: $phone
