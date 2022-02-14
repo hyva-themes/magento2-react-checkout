@@ -21,7 +21,7 @@ export default function useFormValidateThenSubmit({
     isFormSectionTouched,
   } = formikData || {};
 
-  return async () => {
+  return async (...args) => {
     if (isFormSectionTouched && !_isObjEmpty(formSectionErrors)) {
       setErrorMessage(
         prepareFormSectionErrorMessage(
@@ -37,7 +37,7 @@ export default function useFormValidateThenSubmit({
     const isValid = await validationRules.validate(formSectionValues);
 
     if (isValid) {
-      await submitHandler();
+      await submitHandler(...args);
     }
   };
 }

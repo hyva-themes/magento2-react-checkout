@@ -15,6 +15,8 @@ export async function setBillingAddressAction(
     type: SET_CART_INFO,
     payload: cartInfo,
   });
+
+  return cartInfo;
 }
 
 export async function setCustomerAddrAsBillingAddrAction(
@@ -34,7 +36,9 @@ export async function setCustomerAddrAsBillingAddrAction(
       type: SET_CART_INFO,
       payload: cartInfo,
     });
+    return cartInfo;
   } catch (error) {
     // @todo error message
   }
+  return {};
 }

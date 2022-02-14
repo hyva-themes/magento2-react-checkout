@@ -1468,6 +1468,12 @@ body {
   margin-bottom: calc(1rem * var(--tw-space-y-reverse)) !important;
 }
 
+.space-y-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0 !important;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse))) !important;
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse)) !important;
+}
+
 .self-start {
   align-self: flex-start !important;
 }
@@ -1664,8 +1670,12 @@ body {
   padding-left: 0.5rem !important;
 }
 
-.pb-2 {
-  padding-bottom: 0.5rem !important;
+.pb-4 {
+  padding-bottom: 1rem !important;
+}
+
+.pl-4 {
+  padding-left: 1rem !important;
 }
 
 .pt-3 {
@@ -1692,12 +1702,12 @@ body {
   padding-top: 1.25rem !important;
 }
 
-.pb-4 {
-  padding-bottom: 1rem !important;
-}
-
 .pl-1 {
   padding-left: 0.25rem !important;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem !important;
 }
 
 .pt-2 {

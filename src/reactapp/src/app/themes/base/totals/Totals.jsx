@@ -7,11 +7,13 @@ import { useTotalsCartContext } from '../../../code/totals/hooks';
 
 function Totals() {
   const {
-    subTotal,
     discounts,
     grandTotal,
     hasSubTotal,
+    subTotalIncl,
+    appliedTaxes,
     hasDiscounts,
+    hasAppliedTaxes,
     hasShippingRate,
     shippingMethodRate,
   } = useTotalsCartContext();
@@ -21,11 +23,11 @@ function Totals() {
       <ToggleBox show title={__('Order Summary')}>
         <div className="py-4">
           <div>
-            <div className="pb-2 space-y-3 border-b">
+            <div className="pb-4 space-y-3 border-b">
               {hasSubTotal && (
                 <div className="flex justify-between">
                   <div>{__('Cart Subtotal')}</div>
-                  <div>{subTotal}</div>
+                  <div>{subTotalIncl}</div>
                 </div>
               )}
 
@@ -33,6 +35,22 @@ function Totals() {
                 <div className="flex justify-between">
                   <div>{__('Shipping')}</div>
                   <div>{shippingMethodRate}</div>
+                </div>
+              )}
+              {hasAppliedTaxes && (
+                <div>
+                  <h4>{__('Tax')}</h4>
+                  <ul className="mt-2 space-y-1">
+                    {appliedTaxes.map((tax) => (
+                      <li
+                        key={tax.label}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="pl-4 text-sm">{tax.label}</span>
+                        <span>{tax.price}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
               {hasDiscounts &&

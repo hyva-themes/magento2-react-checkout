@@ -41,18 +41,15 @@ export function prepareCountryStateOptions(stateList, countrySelected) {
   return _objToArray(stateListObj).sort(sortByItemLabel);
 }
 
-export function prepareMostRecentAddressOptions(
-  stateList,
-  selectedAddress = ''
-) {
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+export function prepareMostRecentAddressOptions(stateList) {
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   if (_isObjEmpty(mostRecentAddressList)) {
     return [];
   }
 
   const mostRecentAddrOptions = formatAddressListToCardData(
-    _objToArray(_cleanObjByKeys(mostRecentAddressList, [selectedAddress])),
+    _objToArray(mostRecentAddressList),
     stateList
   );
 

@@ -29,7 +29,7 @@ function ShippingAddress() {
   const formikData = useMemo(
     () => ({
       ...shippingFormikData,
-      shippingAddrOtherOptionField,
+      shippingOtherOptionSelected,
     }),
     [shippingFormikData, shippingOtherOptionSelected]
   );

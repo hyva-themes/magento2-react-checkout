@@ -12,8 +12,8 @@ class JsonFactory extends \Magento\Framework\Controller\Result\JsonFactory
      *
      * @param  \Magento\Framework\ObjectManagerInterface  $objectManager
      * @param  string  $instanceName
-     * @SuppressWarnings(PHPMD.UselessOverridingMethod)
      */
+    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
     public function __construct(
         ObjectManagerInterface $objectManager,
         $instanceName = Json::class

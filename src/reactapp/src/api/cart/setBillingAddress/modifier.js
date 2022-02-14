@@ -8,7 +8,6 @@ export function modifyBillingAddressData(billingAddress) {
   if (!isCartAddressValid(billingAddress)) {
     return {};
   }
-
   const {
     company = '',
     firstname = '',
@@ -31,7 +30,7 @@ export function modifyBillingAddressData(billingAddress) {
     phone,
     zipcode,
     city,
-    region: regionCode,
+    region: regionCode || '',
     country: countryCode,
     isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
   };

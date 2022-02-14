@@ -1,28 +1,24 @@
 import {
+  CART_SHIPPING_ADDRESS,
+  prepareAddressForSaving,
   isValidCustomerAddressId,
   billingSameAsShippingField,
+  prepareFormAddressFromCartAddress,
 } from '../../../../../utils/address';
 import {
   useBillingAddressAppContext,
   useBillingAddressCartContext,
 } from '../../../../code/billingAddress/hooks';
 import { __ } from '../../../../../i18n';
+import { _makePromise } from '../../../../../utils';
 import LocalStorage from '../../../../../utils/localStorage';
-import { _emptyFunc, _makePromise } from '../../../../../utils';
 
 export default function useSaveAddressAction(billingFormikContext) {
   const { setCartBillingAddress, setCustomerAddressAsBillingAddress } =
     useBillingAddressCartContext();
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useBillingAddressAppContext();
   const {
-    isLoggedIn,
-    setMessage,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-    updateCustomerAddress,
-  } = useBillingAddressAppContext();
-  const {
-    editMode,
     regionData,
     billingValues,
     isBillingSame,
@@ -30,8 +26,8 @@ export default function useSaveAddressAction(billingFormikContext) {
     selectedAddress,
     setFormToViewMode,
     setSelectedAddress,
-    customerAddressSelected,
     setCustomerAddressSelected,
+    setBillingAddressFormFields,
   } = billingFormikContext;
 
   return async (addressId) => {
@@ -39,10 +35,12 @@ export default function useSaveAddressAction(billingFormikContext) {
 
     const addressIdContext = addressId || selectedAddress;
     const isCustomerAddress = isValidCustomerAddressId(addressId);
-    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[addressId];
-    const billingToSave = recentAddressInUse || billingValues;
-    let updateCustomerAddrPromise = _emptyFunc();
+    const billingToSave = prepareAddressForSaving(
+      recentAddressInUse || billingValues,
+      regionData
+    );
     let updateCartAddressPromise = _makePromise(
       setCartBillingAddress,
       billingToSave
@@ -56,27 +54,19 @@ export default function useSaveAddressAction(billingFormikContext) {
       );
     }
 
-    if (isLoggedIn && customerAddressSelected && editMode) {
-      updateCustomerAddrPromise = _makePromise(
-        updateCustomerAddress,
-        selectedAddress,
-        billingValues,
-        regionData
-      );
-    }
-
     try {
       setPageLoader(true);
-      await updateCartAddressPromise();
 
-      // we don't need to await customer address update operation;
-      // it can happen in background
-      updateCustomerAddrPromise();
+      const result = await updateCartAddressPromise();
 
+      const addressToSet = {
+        ...prepareFormAddressFromCartAddress(result?.billing_address),
+        saveInBook: billingToSave?.saveInBook,
+      };
+      setBillingAddressFormFields(addressToSet);
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);
       setCustomerAddressSelected(isValidCustomerAddressId(addressIdContext));
-
       LocalStorage.saveCustomerAddressInfo(
         addressIdContext,
         isBillingSame,
@@ -88,7 +78,12 @@ export default function useSaveAddressAction(billingFormikContext) {
       // In this case, we will force set billing === shipping
       const billingIdInStorage = LocalStorage.getCustomerBillingAddressId();
       const shippingIdInStorage = LocalStorage.getCustomerShippingAddressId();
-      if (billingIdInStorage === shippingIdInStorage) {
+
+      if (
+        billingIdInStorage &&
+        billingIdInStorage !== CART_SHIPPING_ADDRESS &&
+        billingIdInStorage === shippingIdInStorage
+      ) {
         setFieldValue(billingSameAsShippingField, true);
       }
 

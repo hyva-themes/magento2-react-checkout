@@ -18,6 +18,7 @@ export const billingAddressFormInitValues = {
   region: '',
   country: initialCountry,
   isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
+  saveInBook: false,
 };
 
 export function selectedAddressTitle(isLoggedIn, customerAddressList) {

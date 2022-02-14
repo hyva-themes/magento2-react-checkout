@@ -70,3 +70,7 @@ export function _ucFirst(str) {
   }
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
+
+export function _isNumber(value) {
+  return !Number.isNaN(Number(value));
+}

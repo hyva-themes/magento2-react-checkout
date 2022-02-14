@@ -9,8 +9,8 @@ import {
   useBillingAddressFormikContext,
 } from '../../../../code/billingAddress/hooks';
 import { CART_BILLING_ADDRESS } from '../utility';
-import { _isObjEmpty } from '../../../../../utils';
 import { isCartAddressValid } from '../../../../../utils/address';
+import { computeCanHideOtherAddressSection } from '../../address/utility';
 
 function BillingAddressView() {
   const {
@@ -26,8 +26,14 @@ function BillingAddressView() {
   } = useBillingAddressFormikContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useBillingAddressAppContext();
-  const hideOtherAddrSection = isLoggedIn && _isObjEmpty(customerAddressList);
-  const isCartShippingAddressValid = isCartAddressValid(cartBillingAddress);
+  const isCartBillingAddressValid = isCartAddressValid(cartBillingAddress);
+  // hide other section if there exists only one address for use.
+  const hideOtherAddrSection = computeCanHideOtherAddressSection(
+    isLoggedIn,
+    selectedAddress,
+    cartBillingAddress,
+    customerAddressList
+  );
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
@@ -39,14 +45,14 @@ function BillingAddressView() {
   };
 
   if (editMode) {
-    return <></>;
+    return null;
   }
 
   return (
     <div className="py-2">
       <div className="mt-5">
         <div className="my-2 space-y-2 lg:flex lg:items-start lg:space-x-4 lg:space-y-0 lg:justify-center">
-          {isCartShippingAddressValid && (
+          {isCartBillingAddressValid && (
             <div
               className={
                 !isLoggedIn || hideOtherAddrSection ? 'w-1/2' : 'w-full'
@@ -59,7 +65,7 @@ function BillingAddressView() {
               />
             </div>
           )}
-          {!isCartShippingAddressValid ? (
+          {!isCartBillingAddressValid ? (
             <div className="w-4/5">
               <BillingAddressOthers forceHide={hideOtherAddrSection} />
               <CreateNewAddressLink

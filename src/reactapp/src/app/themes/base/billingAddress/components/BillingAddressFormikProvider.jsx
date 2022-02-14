@@ -48,6 +48,7 @@ const initValidationSchema = {
   region: YupString().nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBool(),
+  saveInBook: YupBool(),
 };
 
 function BillingAddressFormikProvider({ children, formikData }) {
@@ -94,7 +95,10 @@ function BillingAddressFormikProvider({ children, formikData }) {
   );
 
   useEffect(() => {
-    if (forceFilledAddress === selectedAddress || !cartHasBillingAddress) {
+    if (
+      !isNewAddress &&
+      (forceFilledAddress === selectedAddress || !cartHasBillingAddress)
+    ) {
       if (customerHasAddress(customerAddressList)) {
         setFormToViewMode();
       }
@@ -121,6 +125,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     }
   }, [
     isSame,
+    isNewAddress,
     selectedAddress,
     setFormToViewMode,
     forceFilledAddress,

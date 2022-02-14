@@ -4,13 +4,11 @@ items {
   product_type
   quantity
   prices {
-    price {
+    row_total_incl_tax {
       value
-      currency
-    },
-    row_total {
+    }
+    price_incl_tax {
       value
-      currency
     }
   }
   product {

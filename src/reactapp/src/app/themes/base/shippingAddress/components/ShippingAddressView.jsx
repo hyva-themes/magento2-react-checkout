@@ -4,13 +4,15 @@ import { CreateNewAddressLink } from '../../address';
 import ShippingAddressOthers from './ShippingAddressOthers';
 import ShippingAddressSelected from './ShippingAddressSelected';
 import {
+  isCartAddressValid,
+  CART_SHIPPING_ADDRESS,
+} from '../../../../../utils/address';
+import {
   useShippingAddressAppContext,
   useShippingAddressCartContext,
   useShippingAddressFormikContext,
 } from '../../../../code/shippingAddress/hooks';
-import { CART_SHIPPING_ADDRESS } from '../utility';
-import { _isObjEmpty } from '../../../../../utils';
-import { isCartAddressValid } from '../../../../../utils/address';
+import { computeCanHideOtherAddressSection } from '../../address/utility';
 
 function ShippingAddressView() {
   const {
@@ -26,8 +28,14 @@ function ShippingAddressView() {
   } = useShippingAddressFormikContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
-  const hideOtherAddrSection = isLoggedIn && _isObjEmpty(customerAddressList);
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
+  // hide other section if there exists only one address for use.
+  const hideOtherAddrSection = computeCanHideOtherAddressSection(
+    isLoggedIn,
+    selectedAddress,
+    cartShippingAddress,
+    customerAddressList
+  );
 
   const newAddressClickHandler = () => {
     setIsNewAddress(true);
@@ -39,7 +47,7 @@ function ShippingAddressView() {
   };
 
   if (editMode) {
-    return <></>;
+    return null;
   }
 
   return (

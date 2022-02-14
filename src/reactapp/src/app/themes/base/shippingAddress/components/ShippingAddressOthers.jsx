@@ -31,7 +31,7 @@ function ShippingAddressOthers({ forceHide }) {
   const { cartShippingAddress } = useShippingAddressCartContext();
   const { isLoggedIn, customerAddressList } = useShippingAddressAppContext();
   const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
   const addressOptions = useAddressOtherOptions({
     selectedAddress,
     cartAddress: cartShippingAddress,
@@ -71,7 +71,7 @@ function ShippingAddressOthers({ forceHide }) {
   };
 
   if (!isLoggedIn || forceHide) {
-    return <></>;
+    return null;
   }
 
   const submitButtonLabel = (

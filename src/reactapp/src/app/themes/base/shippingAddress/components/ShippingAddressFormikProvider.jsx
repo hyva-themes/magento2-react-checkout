@@ -11,6 +11,7 @@ import { node } from 'prop-types';
 import {
   initialCountry,
   isCartAddressValid,
+  CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
 } from '../../../../../utils/address';
 import {
@@ -28,7 +29,6 @@ import {
 } from '../../../../code/shippingAddress/hooks';
 import { __ } from '../../../../../i18n';
 import { _toString } from '../../../../../utils';
-import { CART_SHIPPING_ADDRESS } from '../utility';
 import { SHIPPING_ADDR_FORM } from '../../../../../config';
 import LocalStorage from '../../../../../utils/localStorage';
 import { formikDataShape } from '../../../../../utils/propTypes';
@@ -46,6 +46,7 @@ const initialValues = {
   city: '',
   region: '',
   country: initialCountry,
+  saveInBook: false,
 };
 
 const requiredMessage = __('%1 is required');
@@ -65,6 +66,7 @@ const initValidationSchema = {
   region: YupString().nullable(),
   country: YupString().required(requiredMessage),
   isSameAsShipping: YupBoolean(),
+  saveInBook: YupBoolean(),
 };
 
 const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());

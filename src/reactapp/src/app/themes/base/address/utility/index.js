@@ -1,12 +1,14 @@
 import _get from 'lodash.get';
 
 import {
+  _keys,
   _isObjEmpty,
   _objToArray,
   _cleanObjByKeys,
 } from '../../../../../utils';
 import {
   isCartAddressValid,
+  isValidCustomerAddressId,
   formatAddressListToCardData,
 } from '../../../../../utils/address';
 import LocalStorage from '../../../../../utils/localStorage';
@@ -49,7 +51,7 @@ export function prepareMostRecentAddressOptions(
   stateList,
   selectedAddress = ''
 ) {
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   if (_isObjEmpty(mostRecentAddressList)) {
     return [];
@@ -89,4 +91,40 @@ export function canAddressOptionRemoved(addressId, customerAddressList) {
   }
 
   return !customerAddressList[addressId];
+}
+
+export function computeCanHideOtherAddressSection(
+  isLoggedIn,
+  selectedAddress,
+  cartShippingAddress,
+  customerAddressList
+) {
+  const isCartShippingAddressValid = isCartAddressValid(cartShippingAddress);
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
+  const customerHoldsAddress = _keys(customerAddressList).length;
+  const mostRecentAddressExists = _keys(mostRecentAddressList).length;
+  let hideOtherAddrSection =
+    isLoggedIn && !customerHoldsAddress && !mostRecentAddressExists;
+
+  if (customerHoldsAddress || mostRecentAddressExists) {
+    if (customerHoldsAddress && mostRecentAddressExists) {
+      // more than one extra address present; so show "other addresses" section.
+      hideOtherAddrSection = false;
+    } else if (isCartShippingAddressValid) {
+      // so extra address is present and a cart address also exists, so deciding
+      // to show other addresses section.
+      hideOtherAddrSection = false;
+
+      if (
+        customerHoldsAddress === 1 &&
+        isValidCustomerAddressId(selectedAddress)
+      ) {
+        // this means the cart address is the only customer address itself.
+        // so need to hide other address section
+        hideOtherAddrSection = true;
+      }
+    }
+  }
+
+  return hideOtherAddrSection;
 }

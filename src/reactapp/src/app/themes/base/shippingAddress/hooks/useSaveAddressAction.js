@@ -1,10 +1,10 @@
 import _get from 'lodash.get';
 
 import {
-  _emptyFunc,
-  _makePromise,
-  _cleanObjByKeys,
-} from '../../../../../utils';
+  prepareAddressForSaving,
+  isValidCustomerAddressId,
+  prepareFormAddressFromCartAddress,
+} from '../../../../../utils/address';
 import {
   useShippingAddressAppContext,
   useShippingAddressCartContext,
@@ -13,50 +13,45 @@ import { __ } from '../../../../../i18n';
 import { useAddressWrapper } from '../../address/hooks';
 import { BILLING_ADDR_FORM } from '../../../../../config';
 import LocalStorage from '../../../../../utils/localStorage';
-import { isValidCustomerAddressId } from '../../../../../utils/address';
+import { _emptyFunc, _makePromise } from '../../../../../utils';
 import { billingAddressFormInitValues } from '../../billingAddress/utility';
-
-const emptyCallback = _emptyFunc();
 
 export default function useSaveAddressAction(shippingAddressFormContext) {
   const {
-    editMode,
     regionData,
     setFieldValue,
     isBillingSame,
     selectedAddress,
     setFormToViewMode,
     setSelectedAddress,
-    customerAddressSelected,
     setCustomerAddressSelected,
+    setShippingAddressFormFields,
     shippingValues: shippingAddressToSave,
   } = shippingAddressFormContext;
-  const { setBillingSelected, setIsBillingCustomerAddress } =
-    useAddressWrapper();
-  const {
-    isLoggedIn,
-    setMessage,
-    setPageLoader,
-    setErrorMessage,
-    setSuccessMessage,
-    updateCustomerAddress,
-  } = useShippingAddressAppContext();
   const {
     setCartBillingAddress,
     addCartShippingAddress,
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
+  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
+    useShippingAddressAppContext();
+  const { setBillingSelected, setIsBillingCustomerAddress } =
+    useAddressWrapper();
 
   const submitHandler = async (customerAddressId) => {
-    const mostRecentAddresses = LocalStorage.getMostlyRecentlyUsedAddressList();
+    const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[customerAddressId];
-    const addressToSave = recentAddressInUse || shippingAddressToSave;
-    const useCustomerAddressInSave = customerAddressId && !recentAddressInUse;
+    const addressToSave = prepareAddressForSaving(
+      recentAddressInUse || shippingAddressToSave,
+      regionData
+    );
+    const useCustomerAddressInSave =
+      isValidCustomerAddressId(customerAddressId) && !recentAddressInUse;
 
     setPageLoader(true);
 
-    let updateBillingAddress = emptyCallback;
+    let updateBillingAddress = _emptyFunc();
     let updateShippingAddress = _makePromise(
       addCartShippingAddress,
       addressToSave,
@@ -89,11 +84,15 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     const shippingAddrResponse = await updateShippingAddress();
     await updateBillingAddress();
 
+    const addressToSet = {
+      ...prepareFormAddressFromCartAddress(
+        _get(shippingAddrResponse, 'shipping_address')
+      ),
+      saveInBook: addressToSave?.saveInBook,
+    };
+    setShippingAddressFormFields(addressToSet);
+
     if (isBillingSame) {
-      const addressToSet = _cleanObjByKeys(
-        _get(shippingAddrResponse, 'shipping_address'),
-        ['fullName']
-      );
       setFieldValue(BILLING_ADDR_FORM, {
         ...billingAddressFormInitValues,
         ...addressToSet,
@@ -108,29 +107,15 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setMessage(false);
 
     const addressIdContext = addressId || selectedAddress;
-    const isCustomerAddress = isValidCustomerAddressId(addressIdContext);
-    let updateCustomerAddrPromise = emptyCallback;
     const updateCartAddressPromise = _makePromise(
       submitHandler,
-      isCustomerAddress && addressId
+      addressIdContext
     );
-
-    if (isLoggedIn && customerAddressSelected && editMode) {
-      updateCustomerAddrPromise = _makePromise(
-        updateCustomerAddress,
-        addressIdContext,
-        shippingAddressToSave,
-        regionData
-      );
-    }
 
     try {
       setPageLoader(true);
-      await updateCartAddressPromise();
 
-      // we don't need to await customer address update operation;
-      // it can happen in background
-      updateCustomerAddrPromise();
+      await updateCartAddressPromise();
 
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);

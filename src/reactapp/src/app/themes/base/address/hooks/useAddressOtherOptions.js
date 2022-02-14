@@ -10,7 +10,7 @@ export default function useAddressOtherOptions({
 }) {
   const { customerAddressList } = useAppContext();
   const { mostRecentAddressOptions } = useAddressWrapper();
-  const mostRecentAddressList = LocalStorage.getMostlyRecentlyUsedAddressList();
+  const mostRecentAddressList = LocalStorage.getMostRecentlyUsedAddressList();
 
   let addressOptions = prepareCustomerAddressOptions({
     cartAddress,

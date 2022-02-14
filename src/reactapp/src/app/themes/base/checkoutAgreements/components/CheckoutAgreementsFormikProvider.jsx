@@ -54,8 +54,12 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
 }
 
 CheckoutAgreementFormikProvider.propTypes = {
-  children: node.isRequired,
+  children: node,
   formikData: formikDataShape.isRequired,
+};
+
+CheckoutAgreementFormikProvider.defaultProps = {
+  children: null,
 };
 
 export default CheckoutAgreementFormikProvider;
