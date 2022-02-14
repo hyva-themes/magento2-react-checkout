@@ -29,7 +29,17 @@ function CartItem({ item, isLastItem, actions }) {
           />
           <div className="text-xs">
             <div>{item.productName}</div>
-            <div>{item.productSku}</div>
+            {item.isConfigurable ? (
+              <ul className="flex flex-wrap space-x-3 text-gray-400">
+                {item.selectedConfigOptions.map((configOption) => (
+                  <li key={configOption.optionId}>{configOption.label}</li>
+                ))}
+              </ul>
+            ) : (
+              <ul className="space-y-1 text-gray-400">
+                <li>{`SKU: ${item.productSku}`}</li>
+              </ul>
+            )}
           </div>
         </div>
       </td>
@@ -76,7 +86,24 @@ function CartItem({ item, isLastItem, actions }) {
                             alt={item.productSku}
                             src={item.productSmallImgUrl}
                           />
-                          <div className="pl-2">{item.productName}</div>
+                          <div className="pl-2 space-y-2">
+                            <div>{item.productName}</div>
+                            {item.isConfigurable ? (
+                              <ul className="flex flex-wrap space-x-3 text-xs text-gray-400">
+                                {item.selectedConfigOptions.map(
+                                  (configOption) => (
+                                    <li key={configOption.optionId}>
+                                      {configOption.label}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            ) : (
+                              <ul className="space-y-1 text-gray-400">
+                                <li>{`SKU: ${item.productSku}`}</li>
+                              </ul>
+                            )}
+                          </div>
                         </div>
                       </td>
                     </tr>
