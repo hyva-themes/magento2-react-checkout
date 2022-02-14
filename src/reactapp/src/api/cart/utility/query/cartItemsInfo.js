@@ -1,15 +1,14 @@
 const cartItemsInfo = `
 items {
   id
+  product_type
   quantity
   prices {
-    price {
+    row_total_incl_tax {
       value
-      currency
-    },
-    row_total {
+    }
+    price_incl_tax {
       value
-      currency
     }
   }
   product {
@@ -21,6 +20,13 @@ items {
       url
     }
     url_key
+  }
+  ...on ConfigurableCartItem {
+    configurable_options {
+      id
+      option_label
+      value_label
+    }
   }
 }`;
 

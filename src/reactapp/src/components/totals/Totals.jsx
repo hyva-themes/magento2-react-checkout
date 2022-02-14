@@ -7,14 +7,13 @@ import useTotalsCartContext from './hooks/useTotalsCartContext';
 
 function Totals() {
   const {
-    subTotalIncl,
-    subTotalExcl,
     discounts,
-    appliedTaxes,
     grandTotal,
     hasSubTotal,
-    hasAppliedTaxes,
+    subTotalIncl,
+    appliedTaxes,
     hasDiscounts,
+    hasAppliedTaxes,
     hasShippingRate,
     shippingMethodRate,
   } = useTotalsCartContext();
