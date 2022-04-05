@@ -22,9 +22,7 @@ const BillingAddressMemorized = React.memo(({ formikData }) => {
             <BillingAddressView />
           </ToggleBox>
         </Card>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </BillingAddressFormikProvider>
   );
 });

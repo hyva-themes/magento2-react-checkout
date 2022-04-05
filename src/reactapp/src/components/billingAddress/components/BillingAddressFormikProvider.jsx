@@ -127,6 +127,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     cartHasBillingAddress,
   ]);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   let context = {
     ...regionData,
     ...formikData,
@@ -168,8 +169,12 @@ function BillingAddressFormikProvider({ children, formikData }) {
 }
 
 BillingAddressFormikProvider.propTypes = {
-  children: node.isRequired,
+  children: node,
   formikData: formikDataShape.isRequired,
+};
+
+BillingAddressFormikProvider.defaultProps = {
+  children: null,
 };
 
 export default BillingAddressFormikProvider;

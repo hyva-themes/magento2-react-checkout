@@ -26,7 +26,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
   small: false,
-  extra: <></>,
+  extra: null,
 };
 
 export default Header;

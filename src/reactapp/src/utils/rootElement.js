@@ -13,7 +13,7 @@ const RootElement = {
   },
 
   getCurrency() {
-    return _get(RootElement.getCheckoutConfig(), 'currency', {});
+    return _get(RootElement.getCheckoutConfig(), 'currency') || {};
   },
 
   getFilePath() {
@@ -21,7 +21,7 @@ const RootElement = {
   },
 
   getPaymentConfig() {
-    return _get(RootElement.getCheckoutConfig(), 'payment', {});
+    return _get(RootElement.getCheckoutConfig(), 'payment') || {};
   },
 
   getDefaultCountryId() {

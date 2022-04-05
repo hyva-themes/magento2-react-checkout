@@ -24,7 +24,7 @@ function Message() {
   }, [message, msgType, setMessage]);
 
   if (!message) {
-    return <></>;
+    return null;
   }
 
   return (

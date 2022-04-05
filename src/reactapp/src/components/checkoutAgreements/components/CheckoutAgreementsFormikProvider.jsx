@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Form } from 'formik';
+import React, { useEffect, useState, useMemo } from 'react';
 import { node } from 'prop-types';
+import { Form, FormikContext } from 'formik';
 
 import {
   prepareAgreementsFormData,
@@ -44,7 +44,10 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
     id: CHECKOUT_AGREEMENTS_FORM,
   });
 
-  const context = { ...formContext, ...formikData, formikData };
+  const context = useMemo(
+    () => ({ ...formContext, ...formikData, formikData }),
+    [formikData, FormikContext]
+  );
 
   return (
     <CheckoutAgreementsFormikContext.Provider value={context}>
@@ -54,8 +57,12 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
 }
 
 CheckoutAgreementFormikProvider.propTypes = {
-  children: node.isRequired,
+  children: node,
   formikData: formikDataShape.isRequired,
+};
+
+CheckoutAgreementFormikProvider.defaultProps = {
+  children: null,
 };
 
 export default CheckoutAgreementFormikProvider;

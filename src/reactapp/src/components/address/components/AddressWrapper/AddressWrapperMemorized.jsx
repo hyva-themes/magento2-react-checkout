@@ -121,6 +121,7 @@ const AddressWrapperMemorized = React.memo(({ children, formikData }) => {
     setMostRecentAddressOptions(addressOptions);
   }, [stateList]);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
     billingSelected,
     setBillingSelected,

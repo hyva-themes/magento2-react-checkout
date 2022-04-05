@@ -117,6 +117,7 @@ function LoginFormManager({ children, formikData }) {
     }
   }, [cartEmail, setFormToViewMode]);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
     ...formikData,
     ...formSectionContext,

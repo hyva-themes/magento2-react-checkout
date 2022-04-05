@@ -92,7 +92,7 @@ function ShippingAddressForm() {
   };
 
   if (viewMode) {
-    return <></>;
+    return null;
   }
 
   return (

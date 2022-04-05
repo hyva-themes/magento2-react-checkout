@@ -10,7 +10,7 @@ function LoginInfoBox() {
   const customerWantsToSignIn = _get(loginFormValues, 'customerWantsToSignIn');
 
   if (!editMode) {
-    return <></>;
+    return null;
   }
 
   if (customerWantsToSignIn) {

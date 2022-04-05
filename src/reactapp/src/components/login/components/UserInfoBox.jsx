@@ -13,7 +13,7 @@ function UserInfoBox() {
   const customerEmail = _get(customer, 'email', '');
 
   if (editMode) {
-    return <></>;
+    return null;
   }
 
   return (

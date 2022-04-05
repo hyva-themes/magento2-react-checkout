@@ -36,7 +36,7 @@ function ShippingAddressSelected() {
   };
 
   if (!isCartAddressValid(cartShippingAddress)) {
-    return <></>;
+    return null;
   }
 
   return (

@@ -89,6 +89,7 @@ function CartItemsFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
     ...formSectionContext,
     ...formikData,

@@ -24,7 +24,7 @@ Card.propTypes = {
 Card.defaultProps = {
   bg: '',
   classes: '',
-  children: <></>,
+  children: null,
 };
 
 export default Card;

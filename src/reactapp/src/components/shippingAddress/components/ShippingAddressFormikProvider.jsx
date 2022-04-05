@@ -144,6 +144,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     cartHasShippingAddress,
   ]);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   let context = {
     ...regionData,
     ...formikData,

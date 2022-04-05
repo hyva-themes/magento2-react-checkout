@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import _get from 'lodash.get';
-import { node } from 'prop-types';
 import { Formik } from 'formik';
+import { node } from 'prop-types';
 import { object as YupObject } from 'yup';
 
-import CheckoutFormContext from './CheckoutFormContext';
-import useCartContext from '../../hook/useCartContext';
-import useAppContext from '../../hook/useAppContext';
 import { config } from '../../config';
 import LocalStorage from '../../utils/localStorage';
+import useAppContext from '../../hook/useAppContext';
+import useCartContext from '../../hook/useCartContext';
+import CheckoutFormContext from './CheckoutFormContext';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -140,11 +140,12 @@ function CheckoutFormProvider({ children }) {
 
   return (
     <CheckoutFormContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         ...context,
-        checkoutFormValidationSchema: formValidationSchema,
-        submitHandler: formSubmit,
         registerPaymentAction,
+        submitHandler: formSubmit,
+        checkoutFormValidationSchema: formValidationSchema,
       }}
     >
       <Formik

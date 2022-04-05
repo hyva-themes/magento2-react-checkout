@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -49,7 +49,7 @@ function PaymentMethodFormManager({ children, formikData }) {
     }
   };
 
-  const context = useFormSection({
+  const formContext = useFormSection({
     formikData,
     initialValues,
     validationSchema,
@@ -57,10 +57,13 @@ function PaymentMethodFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
+  const context = useMemo(
+    () => ({ ...formContext, ...formikData, formikData }),
+    [formContext, formikData]
+  );
+
   return (
-    <PaymentMethodFormContext.Provider
-      value={{ ...context, ...formikData, formikData }}
-    >
+    <PaymentMethodFormContext.Provider value={context}>
       <Form id={PAYMENT_METHOD_FORM}>{children}</Form>
     </PaymentMethodFormContext.Provider>
   );

@@ -36,7 +36,7 @@ function BillingAddressSelected() {
   };
 
   if (!isCartAddressValid(cartBillingAddress)) {
-    return <></>;
+    return null;
   }
 
   return (

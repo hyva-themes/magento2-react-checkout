@@ -11,7 +11,7 @@ function CreateNewAddressLink({ actions, forceHide }) {
   const { isLoggedIn } = useAppContext();
 
   if (!isLoggedIn || forceHide) {
-    return <></>;
+    return null;
   }
 
   return (
