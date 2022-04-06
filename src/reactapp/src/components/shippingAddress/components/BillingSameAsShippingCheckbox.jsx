@@ -81,7 +81,7 @@ function BillingSameAsShippingCheckbox() {
     !isCartAddressValid(cartShippingAddress) &&
     isCartAddressValid(cartBillingAddress)
   ) {
-    return <></>;
+    return null;
   }
 
   return (

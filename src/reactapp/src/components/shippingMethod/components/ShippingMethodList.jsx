@@ -35,7 +35,7 @@ function ShippingMethodList() {
   };
 
   if (!methodsAvailable) {
-    return <></>;
+    return null;
   }
 
   return (

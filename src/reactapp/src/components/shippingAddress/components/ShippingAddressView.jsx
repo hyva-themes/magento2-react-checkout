@@ -45,7 +45,7 @@ function ShippingAddressView() {
   };
 
   if (editMode) {
-    return <></>;
+    return null;
   }
 
   return (

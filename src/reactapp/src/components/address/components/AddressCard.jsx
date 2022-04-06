@@ -66,7 +66,7 @@ AddressCard.propTypes = {
 
 AddressCard.defaultProps = {
   title: '',
-  billingSameCheckbox: <></>,
+  billingSameCheckbox: null,
 };
 
 export default AddressCard;

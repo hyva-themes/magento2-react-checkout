@@ -15,9 +15,7 @@ const CheckoutAgreementsMemorized = React.memo(({ formikData }) => {
 
   return (
     <CheckoutAgreementFormikProvider formikData={formikData}>
-      {_isObjEmpty(checkoutAgreements) ? (
-        <></>
-      ) : (
+      {_isObjEmpty(checkoutAgreements) ? null : (
         <CheckoutAgreementModalWrapper>
           <Card>
             <ToggleBox show title={__('Checkout Agreements')}>

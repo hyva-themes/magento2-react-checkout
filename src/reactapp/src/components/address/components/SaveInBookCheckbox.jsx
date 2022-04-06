@@ -12,7 +12,7 @@ function SaveInBookCheckbox({ fields, formikData }) {
   const saveInAddressBook = !!_get(formikData, 'formSectionValues.saveInBook');
 
   if (!isLoggedIn || !customer?.hasAddress) {
-    return <></>;
+    return null;
   }
 
   return (

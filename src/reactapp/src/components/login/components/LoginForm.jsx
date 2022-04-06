@@ -29,7 +29,7 @@ function LoginForm() {
   });
 
   if (!editMode) {
-    return <></>;
+    return null;
   }
 
   return (

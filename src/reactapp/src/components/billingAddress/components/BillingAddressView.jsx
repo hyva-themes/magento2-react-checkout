@@ -43,7 +43,7 @@ function BillingAddressView() {
   };
 
   if (editMode) {
-    return <></>;
+    return null;
   }
 
   return (

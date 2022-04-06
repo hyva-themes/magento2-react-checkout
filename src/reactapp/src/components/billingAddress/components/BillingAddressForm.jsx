@@ -91,7 +91,7 @@ function BillingAddressForm() {
   };
 
   if (viewMode) {
-    return <></>;
+    return null;
   }
 
   return (

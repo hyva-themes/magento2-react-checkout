@@ -1,9 +1,10 @@
 import React, { useMemo, useReducer } from 'react';
 import { node } from 'prop-types';
+
 import cartReducer from './cartReducer';
 import CartContext from './CartContext';
-import cartDispatchers from './cartDispatcher';
 import initialState from './initialState';
+import cartDispatchers from './cartDispatcher';
 import useAppContext from '../../hook/useAppContext';
 
 function CartDataProvider({ children }) {
@@ -13,11 +14,13 @@ function CartDataProvider({ children }) {
     () => cartDispatchers(dispatch, appDispatch),
     [dispatch, appDispatch]
   );
+  const context = useMemo(
+    () => [cartData, cartActions],
+    [cartData, cartActions]
+  );
 
   return (
-    <CartContext.Provider value={[cartData, cartActions]}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={context}>{children}</CartContext.Provider>
   );
 }
 

@@ -16,6 +16,7 @@ const storeCode = env.storeCode || RootElement.getStoreCode();
 
 export default function sendRequest(
   dispatch,
+  // eslint-disable-next-line default-param-last
   queryParams = {},
   relativeUrl,
   responseType = 'json',

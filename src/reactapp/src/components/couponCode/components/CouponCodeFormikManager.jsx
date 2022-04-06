@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -19,7 +19,7 @@ const validationSchema = {
 function CouponCodeFormikManager({ children, formikData }) {
   const formSubmit = () => {};
 
-  const context = useFormSection({
+  const formContext = useFormSection({
     formikData,
     initialValues,
     validationSchema,
@@ -27,10 +27,13 @@ function CouponCodeFormikManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
+  const context = useMemo(
+    () => ({ ...formContext, ...formikData, formikData }),
+    [formContext, formikData]
+  );
+
   return (
-    <CouponCodeFormikContext.Provider
-      value={{ ...context, ...formikData, formikData }}
-    >
+    <CouponCodeFormikContext.Provider value={context}>
       <Form id={COUPON_CODE_FORM}>{children}</Form>
     </CouponCodeFormikContext.Provider>
   );

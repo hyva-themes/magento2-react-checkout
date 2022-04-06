@@ -7,7 +7,7 @@ function NoShippingMethodInfoBox() {
   const { methodsAvailable } = useShippingMethodCartContext();
 
   if (methodsAvailable) {
-    return <></>;
+    return null;
   }
 
   return (
