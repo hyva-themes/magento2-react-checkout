@@ -10,10 +10,11 @@ Due to the above reason, we are not keeping payment components as part of Hyvä 
 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
-- [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
-- [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
-- [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
-- [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-hyva-checkout-paypal-express) (_*publicly available soon_)
+- Offline payment methods - [rajeev-k-tomy/magento2-hyva-react-checkout-offline-payments](https://github.com/rajeev-k-tomy/magento2-hyva-react-checkout-offline-payments)
+- Payone - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
+- MultiSafepay - [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
+- Stripe - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
+- Paypal Express - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-react-checkout-paypal-express)
 
 This is a community effort. So we welcome all of you to help out to grow the above list. The _payone_ repository is an ideal place to look into if you need to create a payment method integration repository.
 _____________
@@ -236,3 +237,5 @@ So in the `useEffect`, we are registering custom place order action for the paym
       But in some cases, your payment method needs to use its own custom api methods. In this case, it should be defined inside `src/reactapp/src/paymentMethods/<yourPaymentMethod>/src/api/` directory. When you define your custom API methods, it will be good to follow the conventions we already using in `src/reactapp/src/api/`.
 
       You can use your custom API methods directly inside the components. No need to setup a context and passing the api method through that context. But if your payment method is so complicated and you need a context layer to manage it effectively, then feel free to adopt that approach too.
+
+  3. Most of the custom payment methods need to provide custom data as part of placing the order. In the Luma checkout, they send this extra information either via `additional_data` and/or via `extension_attributes` which are part of REST API method `save-payment`. In order to replicate the same in Hyvä React Checkout, it is vital to rely on the above REST API method. So there is a general hook `src/reactapp/src/hook/usePerformPlaceOrderByREST.js` available and it can be handy in payment integration in order to place an order.
