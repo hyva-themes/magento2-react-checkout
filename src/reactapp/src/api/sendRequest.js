@@ -20,13 +20,15 @@ export default function sendRequest(
   queryParams = {},
   relativeUrl,
   responseType = 'json',
-  additionalHeaders = {}
+  additionalHeaders = {},
+  isGetRequest = false
 ) {
   const headers = {
     'Content-Type': 'application/json',
     Store: storeCode,
     ...additionalHeaders,
   };
+  const method = isGetRequest ? 'GET' : 'POST';
   const token = LocalStorage.getCustomerToken();
   const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
 
@@ -34,11 +36,13 @@ export default function sendRequest(
     headers.Authorization = `Bearer ${token}`;
   }
 
-  return fetch(url, {
-    headers,
-    method: 'POST',
-    body: JSON.stringify({ ...queryParams }),
-  })
+  const fetchOptions = { headers, method };
+
+  if (!isGetRequest) {
+    fetchOptions.body = JSON.stringify({ ...queryParams });
+  }
+
+  return fetch(url, fetchOptions)
     .then((response) => {
       if (response.ok && responseType === RESPONSE_TEXT) {
         return response.text();
