@@ -10,22 +10,31 @@ This is the codebase for the documentation at https://hyva-themes.github.io/mage
 
 ## Installation
 
-1. Install mkdocs: https://www.mkdocs.org/user-guide/installation/
+1. Install mkdocs: https://www.mkdocs.org/user-guide/installation/. Make sure you're using an up to date version of Python and Pip, you might need to use `pip3 install mkdocs`)
 
-2. Clone this repo
+
+3. Clone this repo
     ```
     git clone git@github.com:hyva-themes/magento2-react-checkout.git
     ```
 
-3. Switch to `documentation` branch
+4. Switch to `documentation` branch
     ```
     cd magento-react-checkout
     git checkout documentation
     ```
 
-4. cd into `docs/` directory
+5. cd into `docs/` directory
+
+6. install the Material theme: 
+    ```
+    pip install mkdocs-material
+    ```
    
-5. run `mkdocs gh-deploy --force`
+7. run 
+    ```
+    mkdocs gh-deploy --force
+    ```
 
 ## License
 

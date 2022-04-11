@@ -1,7 +1,7 @@
 
 # Hyvä Themes - React Checkout
 
-# [![Hyvä Themes](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-hyva.svg)](https://hyva.io/)
+# [![Hyvä Themes](../images/logo-hyva.svg)](https://hyva.io/)
 
 ## [hyva-themes/magento2-react-checkout](https://github.com/hyva-themes/magento2-react-checkout)
 Hyvä React Checkout is an open-sourced Magento 2 module which provides a fast performing checkout page powered by React (a modern javascript library).
