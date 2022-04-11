@@ -10,11 +10,13 @@ Due to the above reason, we are not keeping payment components as part of Hyvä 
 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
-- Offline payment methods - [rajeev-k-tomy/magento2-hyva-react-checkout-offline-payments](https://github.com/rajeev-k-tomy/magento2-hyva-react-checkout-offline-payments)
-- Payone - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
+- Amazon - [hyva-themes/magento2-react-checkout-amazon-pay](https://github.com/hyva-themes/magento2-react-checkout-amazon-pay)
 - MultiSafepay - [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
-- Stripe - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
+- Offline payment methods - [hyva-themes/magento2-react-checkout-offline-payments](https://github.com/hyva-themes/magento2-react-checkout-offline-payments)
+- Payone - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
 - Paypal Express - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-react-checkout-paypal-express)
+- Stripe - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
+
 
 This is a community effort. So we welcome all of you to help out to grow the above list. The _payone_ repository is an ideal place to look into if you need to create a payment method integration repository.
 _____________
