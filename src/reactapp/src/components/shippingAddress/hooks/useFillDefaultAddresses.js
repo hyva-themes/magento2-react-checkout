@@ -83,8 +83,8 @@ export default function useFillDefaultAddresses(shippingContext) {
 
     try {
       setPageLoader(true);
-      await saveBillingPromise();
       await saveShippingPromise();
+      await saveBillingPromise();
 
       if (isBillingGoingToSave) {
         const formAddressToFill = prepareFormAddressFromCartAddress(
