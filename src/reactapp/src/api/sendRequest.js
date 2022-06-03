@@ -50,17 +50,17 @@ export default function sendRequest(
       return response.json();
     })
     .then((response) => {
-      if (!responseContainErrors(response) || !responseDataEmpty(response)) {
-        return response;
+      if (responseContainErrors(response)) {
+        const exception = new GraphQLResponseException(response);
+        dispatch({
+          type: SET_PAGE_MESSAGE,
+          payload: { type: 'error', message: exception.message },
+        });
+        if (responseDataEmpty(response)) {
+          throw exception;
+        }
       }
-
-      const exception = new GraphQLResponseException(response);
-
-      dispatch({
-        type: SET_PAGE_MESSAGE,
-        payload: { type: 'error', message: exception.message },
-      });
-      throw exception;
+      return response;
     })
     .catch((exception) => {
       console.error(exception);
