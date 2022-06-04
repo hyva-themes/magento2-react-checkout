@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const cssFileNameUpdator = require('./scripts/react-app-rewire/css-file-name-updator');
@@ -28,19 +29,22 @@ module.exports = function override(config, env) {
       filename,
       chunkFilename,
     },
-    plugins: [...config.plugins, new LodashModuleReplacementPlugin()],
     resolve: {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
-        'lodash-es': 'lodash',
       },
     },
   };
 
   if (isEnvProduction) {
+    newConfig.plugins = [
+      ...newConfig.plugins,
+      new LodashModuleReplacementPlugin({ paths: true }),
+    ];
     newConfig.resolve.alias = {
       ...newConfig.resolve.alias,
+      'lodash-es': 'lodash',
       react: 'preact/compat',
       'react-dom': 'preact/compat',
     };

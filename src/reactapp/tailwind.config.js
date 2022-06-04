@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const colors = require('tailwindcss/colors');
 const forms = require('@tailwindcss/forms');
 
