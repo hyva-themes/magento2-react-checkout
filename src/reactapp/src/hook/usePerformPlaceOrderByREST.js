@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import _get from 'lodash.get';
-import _set from 'lodash.set';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
 
 import { __ } from '../i18n';
 import { LOGIN_FORM } from '../config';

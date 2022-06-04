@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 export default function restSetGuestPaymentMethodModifier(result) {
   const agreements = _get(result, 'data.checkoutAgreements', []) || [];

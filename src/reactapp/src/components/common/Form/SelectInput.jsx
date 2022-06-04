@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { ErrorMessage, Field } from 'formik';
 import { arrayOf, bool, shape, string } from 'prop-types';
 

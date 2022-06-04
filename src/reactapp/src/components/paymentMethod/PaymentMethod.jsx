@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { useFormikContext } from 'formik';
 
 import PaymentMethodMemorized from './PaymentMethodMemorized';

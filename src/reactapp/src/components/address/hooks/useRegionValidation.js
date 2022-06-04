@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import _get from 'lodash.get';
-import _set from 'lodash.set';
 import { string as YupString } from 'yup';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
 
 import { __ } from '../../../i18n';
 import { _findById } from '../../../utils';

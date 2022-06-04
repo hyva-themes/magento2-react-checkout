@@ -1,4 +1,4 @@
-import _set from 'lodash.set';
+import _set from 'lodash/set';
 
 import {
   setShippingAddressRequest,

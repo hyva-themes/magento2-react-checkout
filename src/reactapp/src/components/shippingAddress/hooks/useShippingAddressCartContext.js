@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import CartContext from '../../../context/Cart/CartContext';
 

@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 export default function fetchCountryStateListModifier(response) {
   const countryId = _get(response, 'data.country.id');

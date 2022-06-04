@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { Formik } from 'formik';
 import { node } from 'prop-types';
 import { object as YupObject } from 'yup';

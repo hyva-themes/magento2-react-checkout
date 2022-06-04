@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import { AddressCard } from '../../address';
 import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';

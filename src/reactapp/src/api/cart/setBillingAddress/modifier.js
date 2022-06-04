@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import LocalStorage from '../../../utils/localStorage';
 import { prepareFullName } from '../../../utils/customer';

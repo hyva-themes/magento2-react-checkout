@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { prepareFullName } from '../../../utils/customer';
 
 export default function modifyCustomerAddressList(response) {

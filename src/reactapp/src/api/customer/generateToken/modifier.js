@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 export default function generateTokenModifier(result) {
   const error = _get(result, 'errors[0].message');

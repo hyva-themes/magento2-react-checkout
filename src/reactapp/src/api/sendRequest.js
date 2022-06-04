@@ -14,6 +14,8 @@ export const RESPONSE_JSON = 'json';
 
 const storeCode = env.storeCode || RootElement.getStoreCode();
 
+console.log({ storeCode });
+
 export default function sendRequest(
   dispatch,
   // eslint-disable-next-line default-param-last

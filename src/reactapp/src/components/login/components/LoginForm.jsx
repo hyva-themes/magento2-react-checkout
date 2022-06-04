@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';

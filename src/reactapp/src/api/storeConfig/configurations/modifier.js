@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 export default function storeConfigurationsModifier(result) {
   const storeConfig = _get(result, 'data.storeConfig') || {};

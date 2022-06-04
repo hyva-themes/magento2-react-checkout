@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { object as YupObject } from 'yup';
 
 export default function useEnterActionInForm({

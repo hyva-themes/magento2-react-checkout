@@ -4,7 +4,7 @@ import {
   string as YupString,
   boolean as YupBoolean,
 } from 'yup';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 

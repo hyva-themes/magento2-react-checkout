@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { useFormikContext } from 'formik';
 
 import Button from '../../common/Button';

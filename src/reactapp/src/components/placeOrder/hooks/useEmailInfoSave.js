@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import { __ } from '../../../i18n';
 import { LOGIN_FORM } from '../../../config';

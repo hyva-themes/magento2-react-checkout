@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 
 import Checkbox from '../../common/Form/Checkbox';

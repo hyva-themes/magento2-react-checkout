@@ -1,19 +1,18 @@
-/* eslint-disable */
-
-/**
- * 📢 🚫 This Tailwindcss configuration is not the actual one using 🚫
- *
- * This file is included just to make sure vscode suggests tailwindcss class
- * inside the reactapp.
- *
- * The original tailwindcss configuration resides in src/view/frontend/web/css/tailwindcss.
- */
 const colors = require('tailwindcss/colors');
 const forms = require('@tailwindcss/forms');
 
 module.exports = {
   important: true,
   theme: {
+    colors: {
+      gray: colors.slate,
+      green: colors.emerald,
+      orange: colors.orange,
+      red: colors.red,
+      yellow: colors.amber,
+      black: '#000000',
+      white: '#ffffff',
+    },
     extend: {
       colors: {
         primary: {
@@ -33,16 +32,15 @@ module.exports = {
         },
       },
       textColor: {
-        orange: colors.orange,
         primary: {
-          lighter: colors.gray['700'],
-          DEFAULT: colors.gray['800'],
-          darker: colors.gray['900'],
+          lighter: colors.slate['700'],
+          DEFAULT: colors.slate['800'],
+          darker: colors.slate['900'],
         },
         secondary: {
-          lighter: colors.gray['400'],
-          DEFAULT: colors.gray['600'],
-          darker: colors.gray['800'],
+          lighter: colors.slate['400'],
+          DEFAULT: colors.slate['600'],
+          darker: colors.slate['800'],
         },
       },
       backgroundColor: {
@@ -91,19 +89,6 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {
-      borderWidth: ['last', 'hover', 'focus'],
-      margin: ['last'],
-      opacity: ['disabled'],
-      backgroundColor: ['even', 'odd'],
-    },
-  },
   plugins: [forms],
-  purge: {
-    content: [
-      '../../../../../reactapp/src/**/*.jsx',
-      '../../../templates/*.phtml',
-    ],
-  },
+  content: ['./src/**/*.jsx', '../view/frontend/templates/*.phtml'],
 };

@@ -1,20 +1,19 @@
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+
+const cssFileNameUpdator = require('./scripts/react-app-rewire/css-file-name-updator');
+const reactAppRewirePostCssApplier = require('./scripts/react-app-rewire/postcss-applier');
+
 module.exports = function override(config, env) {
-  const isEnvDevelopment = env === 'development';
   const isEnvProduction = env === 'production';
   const filename = isEnvProduction
     ? '../../view/frontend/web/js/react-checkout.js'
-    : isEnvDevelopment && 'static/js/bundle.js';
+    : 'static/js/bundle.js';
   const chunkFilename = isEnvProduction
     ? '../../view/frontend/web/js/[name].chunk.js'
-    : isEnvDevelopment && 'static/js/[name].chunk.js';
+    : 'static/js/[name].chunk.js';
 
-  const baseConfig = {
+  const newConfig = {
     ...config,
-    output: {
-      ...config.output,
-      filename,
-      chunkFilename,
-    },
     optimization: {
       ...config.optimization,
       runtimeChunk: false,
@@ -24,15 +23,32 @@ module.exports = function override(config, env) {
         name: false,
       },
     },
+    output: {
+      ...config.output,
+      filename,
+      chunkFilename,
+    },
+    plugins: [...config.plugins, new LodashModuleReplacementPlugin()],
+    resolve: {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        'lodash-es': 'lodash',
+      },
+    },
   };
 
   if (isEnvProduction) {
-    baseConfig.resolve.alias = {
-      ...baseConfig.resolve.alias,
+    newConfig.resolve.alias = {
+      ...newConfig.resolve.alias,
       react: 'preact/compat',
       'react-dom': 'preact/compat',
     };
   }
+  // Save css bundle into styles.css
+  cssFileNameUpdator(newConfig, isEnvProduction);
+  // Apply postcss.config.js
+  reactAppRewirePostCssApplier(newConfig);
 
-  return baseConfig;
+  return newConfig;
 };

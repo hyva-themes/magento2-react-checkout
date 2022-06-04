@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 import { object } from 'prop-types';
 
 import RadioInput from '../../common/Form/RadioInput';

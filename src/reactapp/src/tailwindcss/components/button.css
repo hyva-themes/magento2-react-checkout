@@ -1,0 +1,39 @@
+.btn {
+    @apply flex items-center px-4 py-1 text-base font-medium text-white bg-gray-500 rounded-lg shadow-md md:px-6 md:text-lg xl:py-2 xl:text-base;
+
+
+    svg {
+        @apply inline-flex;
+    }
+    span {
+        vertical-align: middle;
+    }
+
+    &:hover {
+        @apply bg-gray-600;
+    }
+}
+
+.btn-primary {
+    @apply text-white border-2 shadow-md bg-primary border-primary-darker;
+
+    &:hover {
+        @apply text-white shadow-lg bg-primary-lighter border-primary;
+    }
+}
+
+.btn-secondary {
+    @apply text-black bg-white border-2 shadow-md border-primary-lighter;
+
+    &:hover {
+        @apply bg-white shadow-lg border-primary-darker;
+    }
+}
+
+.btn-size-lg {
+    @apply px-10 py-4 text-lg;
+}
+
+.btn-size-sm {
+    @apply px-2 py-2 text-sm;
+}

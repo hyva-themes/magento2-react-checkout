@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 const RootElement = {
   elem: document.getElementById('react-checkout'),

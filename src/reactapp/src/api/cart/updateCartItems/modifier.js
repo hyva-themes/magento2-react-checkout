@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import fetchGuestCartModifier from '../fetchGuestCart/modifier';
 

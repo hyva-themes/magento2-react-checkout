@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import _get from 'lodash/get';
 
 import { _isObjEmpty } from '../../../utils';
 import useCartContext from '../../../hook/useCartContext';

@@ -85,7 +85,7 @@ function BillingSameAsShippingCheckbox() {
   }
 
   return (
-    <div className="flex items-center h-10 px-3 pb-4 mt-3 -mx-4 -mb-4 bg-gray-200">
+    <div className="flex items-center h-10 px-3 pb-4 mt-3 -mx-4 -mb-4 bg-slate-200">
       <Checkbox
         isChecked={isBillingSame}
         name={billingSameAsShippingField}
