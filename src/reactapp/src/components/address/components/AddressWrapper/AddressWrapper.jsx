@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import _get from 'lodash/get';
+import { get as _get } from 'lodash-es';
 import { node } from 'prop-types';
 import { useFormikContext } from 'formik';
 

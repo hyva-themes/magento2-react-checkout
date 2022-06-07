@@ -1,4 +1,4 @@
-import _get from 'lodash/get';
+import { get as _get } from 'lodash-es';
 
 import { formatPrice } from '../../../utils/price';
 import { prepareFullName } from '../../../utils/customer';

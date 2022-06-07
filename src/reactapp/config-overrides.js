@@ -44,7 +44,7 @@ module.exports = function override(config, env) {
     ];
     newConfig.resolve.alias = {
       ...newConfig.resolve.alias,
-      'lodash-es': 'lodash',
+      lodash: 'lodash-es',
       react: 'preact/compat',
       'react-dom': 'preact/compat',
     };

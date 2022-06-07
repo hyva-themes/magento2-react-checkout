@@ -1,4 +1,4 @@
-import _get from 'lodash/get';
+import { get as _get } from 'lodash-es';
 
 import LocalStorage from '../../../utils/localStorage';
 import { prepareFullName } from '../../../utils/customer';

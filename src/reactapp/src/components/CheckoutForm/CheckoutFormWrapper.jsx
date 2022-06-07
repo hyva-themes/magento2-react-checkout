@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import _get from 'lodash/get';
+import { get as _get } from 'lodash-es';
 import { useFormikContext } from 'formik';
 import { bool, object, node, oneOfType } from 'prop-types';
 
