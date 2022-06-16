@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-import _get from 'lodash.get';
-import _set from 'lodash.set';
 import { useFormikContext } from 'formik';
+import { get as _get, set as _set } from 'lodash-es';
 
 import BillingAddressMemorized from './BillingAddressMemorized';
 import { __ } from '../../i18n';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString, bool as YupBool } from 'yup';

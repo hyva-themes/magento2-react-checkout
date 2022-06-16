@@ -1,4 +1,4 @@
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 import { __ } from '../../../i18n';
 
 export default function restSetMyPaymentMethod(result) {

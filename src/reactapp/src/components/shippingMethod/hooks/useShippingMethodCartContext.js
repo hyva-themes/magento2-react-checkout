@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 
 import CartContext from '../../../context/Cart/CartContext';
 import { _isObjEmpty } from '../../../utils';
