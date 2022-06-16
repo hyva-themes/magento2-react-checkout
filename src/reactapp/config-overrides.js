@@ -29,12 +29,6 @@ module.exports = function override(config, env) {
       filename,
       chunkFilename,
     },
-    resolve: {
-      ...config.resolve,
-      alias: {
-        ...config.resolve.alias,
-      },
-    },
   };
 
   if (isEnvProduction) {
