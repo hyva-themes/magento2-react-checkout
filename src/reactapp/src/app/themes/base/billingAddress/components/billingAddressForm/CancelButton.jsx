@@ -34,7 +34,7 @@ function CancelButton() {
   };
 
   if (!isCartAddressValid(cartBillingAddress)) {
-    return <></>;
+    return null;
   }
 
   return (

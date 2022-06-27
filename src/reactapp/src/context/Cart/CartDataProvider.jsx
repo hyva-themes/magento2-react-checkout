@@ -15,10 +15,13 @@ function CartDataProvider({ children }) {
     [dispatch, appDispatch]
   );
 
+  const context = useMemo(
+    () => [cartData, cartActions],
+    [cartData, cartActions]
+  );
+
   return (
-    <CartContext.Provider value={[cartData, cartActions]}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={context}>{children}</CartContext.Provider>
   );
 }
 

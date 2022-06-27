@@ -9,12 +9,9 @@ import initialState from './initialState';
 function AppDataProvider({ children }) {
   const [appData, dispatch] = useReducer(appReducer, initialState);
   const appActions = useMemo(() => appDispatchers(dispatch), [dispatch]);
+  const context = useMemo(() => [appData, appActions], [appData, appActions]);
 
-  return (
-    <AppContext.Provider value={[appData, appActions]}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 }
 
 AppDataProvider.propTypes = {

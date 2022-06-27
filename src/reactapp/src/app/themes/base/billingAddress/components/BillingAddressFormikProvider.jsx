@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
@@ -133,6 +133,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     cartHasBillingAddress,
   ]);
 
+  // eslint-disable-next-line react/jsx-no-constructed-context-values
   let context = {
     ...regionData,
     ...formikData,

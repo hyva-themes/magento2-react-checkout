@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 
@@ -44,7 +44,10 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
     id: CHECKOUT_AGREEMENTS_FORM,
   });
 
-  const context = { ...formContext, ...formikData, formikData };
+  const context = useMemo(
+    () => ({ ...formContext, ...formikData, formikData }),
+    [formikData, formContext]
+  );
 
   return (
     <CheckoutAgreementsFormikContext.Provider value={context}>

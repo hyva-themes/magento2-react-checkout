@@ -72,7 +72,7 @@ function BillingAddressOthers({ forceHide }) {
   };
 
   if (!isLoggedIn || forceHide) {
-    return <></>;
+    return null;
   }
 
   const submitButtonLabel = (

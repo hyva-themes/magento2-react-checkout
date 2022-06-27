@@ -1,5 +1,5 @@
-import _get from 'lodash.get';
-import _set from 'lodash.set';
+import { get as _get } from 'lodash-es';
+import { set as _set } from 'lodash-es';
 
 import { config } from '../config';
 import { _cleanObjByKeys, _keys } from './index';

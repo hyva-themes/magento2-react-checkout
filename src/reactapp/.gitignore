@@ -7,4 +7,7 @@ dist-ssr
 .vscode/
 .storybook/
 .env
+.env.development
+build/
+stats.html
 src/paymentMethods/*

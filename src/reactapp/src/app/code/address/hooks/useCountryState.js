@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 
 import useAppContext from '../../../../hooks/useAppContext';
 import { prepareCountryOptions, prepareCountryStateOptions } from '../utility';

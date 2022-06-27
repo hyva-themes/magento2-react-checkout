@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 
 import { AddressCard } from '../../address';
 import {
@@ -37,7 +37,7 @@ function BillingAddressSelected() {
   };
 
   if (!isCartAddressValid(cartBillingAddress)) {
-    return <></>;
+    return null;
   }
 
   return (

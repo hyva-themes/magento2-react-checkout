@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import RootElement from './utils/rootElement';
 import CheckoutForm from './app/code/checkoutForm';
@@ -21,4 +21,6 @@ function Checkout() {
   );
 }
 
-ReactDOM.render(<Checkout />, RootElement.getElement());
+const root = createRoot(RootElement.getElement());
+
+root.render(<Checkout />);

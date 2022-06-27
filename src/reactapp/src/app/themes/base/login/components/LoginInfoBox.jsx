@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 
 import { __ } from '../../../../../i18n';
 import { useLoginFormContext } from '../../../../code/login/hooks';
@@ -10,7 +10,7 @@ function LoginInfoBox() {
   const customerWantsToSignIn = _get(loginFormValues, 'customerWantsToSignIn');
 
   if (!editMode) {
-    return <></>;
+    return null;
   }
 
   if (customerWantsToSignIn) {

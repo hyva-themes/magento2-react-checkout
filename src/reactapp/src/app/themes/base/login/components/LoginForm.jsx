@@ -1,5 +1,5 @@
 import React from 'react';
-import _get from 'lodash.get';
+import { get as _get } from 'lodash-es';
 
 import Button from '../../../../code/common/Button';
 import { TextInput } from '../../../../code/common/Form';
@@ -29,7 +29,7 @@ function LoginForm() {
   });
 
   if (!editMode) {
-    return <></>;
+    return null;
   }
 
   return (

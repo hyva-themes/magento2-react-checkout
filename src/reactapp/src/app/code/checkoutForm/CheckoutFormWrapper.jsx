@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import _get from 'lodash.get';
+import { useEffect, useState } from 'react';
+import { get as _get } from 'lodash-es';
 import { useFormikContext } from 'formik';
 import { bool, object, node, oneOfType } from 'prop-types';
 
@@ -81,7 +81,7 @@ function CheckoutFormWrapper({ initialData, children }) {
     shippingAddressValues,
   ]);
 
-  return <>{children}</>;
+  return children;
 }
 
 CheckoutFormWrapper.propTypes = {

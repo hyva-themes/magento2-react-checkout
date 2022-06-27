@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { node } from 'prop-types';
 
 import CheckoutAgreementModal from './CheckoutAgreementModal';
@@ -38,7 +38,10 @@ function CheckoutAgreementModalWrapper({ children }) {
     };
   }, [activeModalId]);
 
-  const context = { activeModalId, setActiveModalId };
+  const context = useMemo(
+    () => ({ activeModalId, setActiveModalId }),
+    [activeModalId]
+  );
 
   return (
     <CheckoutAgreementsModalContext.Provider value={context}>

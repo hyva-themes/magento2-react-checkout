@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import _get from 'lodash.get';
-import { node } from 'prop-types';
 import { Formik } from 'formik';
+import { node } from 'prop-types';
+import { get as _get } from 'lodash-es';
 import { object as YupObject } from 'yup';
 
 import { config } from '../../config';
@@ -148,6 +148,7 @@ function CheckoutFormProvider({ children }) {
 
   return (
     <CheckoutFormContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         ...context,
         enableReinitialize,

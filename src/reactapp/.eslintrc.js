@@ -29,9 +29,5 @@ module.exports = {
       },
     ],
     'react/no-danger': 0,
-    'react/function-component-definition': [
-      2,
-      { namedComponents: 'function-declaration' },
-    ],
   },
 };
