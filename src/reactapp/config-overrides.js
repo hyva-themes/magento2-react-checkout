@@ -30,7 +30,6 @@ module.exports = function override(config, env) {
   };
 
   if (isEnvProduction) {
-    newConfig.plugins = [...newConfig.plugins];
     newConfig.resolve.alias = {
       ...newConfig.resolve.alias,
       lodash: 'lodash-es',
