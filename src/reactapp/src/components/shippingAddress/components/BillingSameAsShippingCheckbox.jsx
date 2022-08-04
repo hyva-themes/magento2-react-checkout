@@ -42,7 +42,6 @@ function BillingSameAsShippingCheckbox() {
           isSameAsShipping: billingIsSame,
         });
         setSuccessMessage(successMessage);
-        setPageLoader(false);
       } else if (isLoggedIn && isCustomerAddress) {
         setPageLoader(true);
         await setCustomerAddressAsBillingAddress(
@@ -50,7 +49,6 @@ function BillingSameAsShippingCheckbox() {
           billingIsSame
         );
         setSuccessMessage(successMessage);
-        setPageLoader(false);
       }
 
       setBillingSelected(selectedAddress);
@@ -64,6 +62,8 @@ function BillingSameAsShippingCheckbox() {
     } catch (error) {
       console.error(error);
       setErrorMessage(__('Billing address update failed. Please try again.'));
+    } finally {
+      setPageLoader(false);
     }
   };
 
