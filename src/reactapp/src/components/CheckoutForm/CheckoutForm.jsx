@@ -27,6 +27,8 @@ function CheckoutForm() {
   const { orderId, isVirtualCart, storeAggregatedCartStates } =
     useCheckoutFormCartContext();
 
+  const test = () => {};
+
   /**
    * Collect App, Cart data when the page loads.
    */
@@ -39,6 +41,7 @@ function CheckoutForm() {
         await storeAggregatedAppStates(data);
         setInitialData(data);
         setPageLoader(false);
+        test();
       } catch (error) {
         setPageLoader(false);
       }
