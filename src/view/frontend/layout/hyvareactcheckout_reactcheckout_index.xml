@@ -2,10 +2,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="Hyva_ReactCheckout::css/styles.css" defer="defer" />
-        <script src="Hyva_ReactCheckout::js/react-checkout.js" defer="defer" />
     </head>
     <body>
         <referenceContainer name="content">
+
             <block class="Hyva\ReactCheckout\Block\CheckoutTranslator" name="checkout.translations" template="Hyva_ReactCheckout::translation.phtml">
                 <arguments>
                     <argument name="checkout_translations" xsi:type="array">
