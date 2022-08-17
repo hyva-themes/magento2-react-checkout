@@ -16,9 +16,9 @@ module.exports = {
 
     Object.keys(env).forEach((envProp) => {
       if (envProp.startsWith(configPrefix)) {
-        const paymentCode = envProp.replace(configPrefix, '');
-        if (paymentCode) {
-          repos[paymentCode] = env[envProp];
+        const integrationCode = envProp.replace(configPrefix, '');
+        if (integrationCode) {
+          repos[integrationCode] = env[envProp];
         }
       }
     });
@@ -27,10 +27,10 @@ module.exports = {
   },
 
   async cloneAndConfigureRepos(repoList, installationPath, repoType) {
-    const paymentMethodList = Object.keys(repoList);
+    const integrationMethodList = Object.keys(repoList);
 
     await Promise.all(
-      paymentMethodList.map(async (repo) => {
+      integrationMethodList.map(async (repo) => {
         if (!fs.existsSync(`${installationPath}${repo}`)) {
           await this.installRepo(
             installationPath,
