@@ -123,6 +123,7 @@ export default function useFillDefaultAddresses(shippingContext) {
     defaultBillingAddress,
     cartHasBillingAddress,
     defaultShippingAddress,
+    cartHasShippingAddress,
     setCustomerAddressSelected,
     setIsBillingCustomerAddress,
     setCustomerAddressAsBillingAddress,

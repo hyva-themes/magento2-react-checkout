@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { Form } from 'formik';
 import { node } from 'prop-types';
-import { Form, FormikContext } from 'formik';
 
 import {
   prepareAgreementsFormData,
@@ -46,7 +46,7 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
 
   const context = useMemo(
     () => ({ ...formContext, ...formikData, formikData }),
-    [formikData, FormikContext]
+    [formikData, formContext]
   );
 
   return (

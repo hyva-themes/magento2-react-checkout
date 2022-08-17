@@ -60,7 +60,7 @@ function ShippingMethodFormManager({ children, formikData }) {
     if (_isObjEmpty(selectedMethod)) {
       setFieldValue(SHIPPING_METHOD, { ...initialValues });
     }
-  }, [selectedMethod]);
+  }, [selectedMethod, setFieldValue]);
 
   let context = useFormSection({
     formikData,
