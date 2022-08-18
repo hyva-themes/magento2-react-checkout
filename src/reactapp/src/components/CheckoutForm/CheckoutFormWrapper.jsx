@@ -15,10 +15,7 @@ import { _emptyFunc } from '../../utils';
 
 function CheckoutFormWrapper({ initialData, children }) {
   const [initDataFilled, setInitDataFilled] = useState(false);
-  const { values, setFieldValue } = useFormikContext();
-  const loginFormValues = _get(values, LOGIN_FORM, {});
-  const billingAddressValues = _get(values, BILLING_ADDR_FORM, {});
-  const shippingAddressValues = _get(values, SHIPPING_ADDR_FORM, {});
+  const { values, setValues } = useFormikContext();
 
   /**
    * This side effect fill out the checkout formik states from the initial GQL
@@ -36,50 +33,59 @@ function CheckoutFormWrapper({ initialData, children }) {
     }
 
     const { cart, customer } = initialData;
-    const email = _get(cart, 'email', '');
+    const email = _get(cart, 'email') || '';
     const appliedCoupon = _get(cart, 'appliedCoupon');
-    const billingAddress = _get(cart, 'billing_address', {});
-    const shippingAddress = _get(cart, 'shipping_address', {});
+    const loginFormValues = _get(values, LOGIN_FORM) || {};
+    const billingAddress = _get(cart, 'billing_address') || {};
+    const shippingAddress = _get(cart, 'shipping_address') || {};
+    const couponCodeValues = _get(values, COUPON_CODE_FORM) || {};
     const paymentMethod = _get(cart, 'selected_payment_method') || {};
+    const billingAddressValues = _get(values, BILLING_ADDR_FORM) || {};
     const shippingMethod = _get(cart, 'selected_shipping_method') || {};
+    const paymentMethodValues = _get(values, PAYMENT_METHOD_FORM) || {};
+    const shippingAddressValues = _get(values, SHIPPING_ADDR_FORM) || {};
 
     /**
-     * Without this timer, it seems setFieldValue no longer work for the initial
-     * time.
+     * Without this timer, only those values set by the setValue method would be available.
+     * In order to populate the dynamic values set by each individual form states we need
+     * the below delay.
+     *
      * We don't need to set the cart items formik states and agreements formik
      * states here as they are dynamic formik states and they work correctly from
      * their form sections itself.
      */
-    const timer = setTimeout(async () => {
-      await setFieldValue(LOGIN_FORM, { ...loginFormValues, email });
-      await setFieldValue(SHIPPING_ADDR_FORM, {
-        ...shippingAddressValues,
-        ...shippingAddress,
-        saveInBook: !!customer?.customer?.email,
-      });
-      await setFieldValue(SHIPPING_METHOD, {
-        methodCode: shippingMethod.methodCode || '',
-        carrierCode: shippingMethod.carrierCode || '',
-      });
-      await setFieldValue(BILLING_ADDR_FORM, {
-        ...billingAddressValues,
-        ...billingAddress,
-        saveInBook: !!customer?.customer?.email,
-      });
-      await setFieldValue(`${PAYMENT_METHOD_FORM}.code`, paymentMethod.code);
-      await setFieldValue(`${COUPON_CODE_FORM}.couponCode`, appliedCoupon);
+    const timer = setTimeout(() => {
+      const newValues = {
+        ...values,
+        [LOGIN_FORM]: { ...loginFormValues, email },
+        [SHIPPING_ADDR_FORM]: {
+          ...shippingAddressValues,
+          ...shippingAddress,
+          saveInBook: !!customer?.customer?.email,
+        },
+        [BILLING_ADDR_FORM]: {
+          ...billingAddressValues,
+          ...billingAddress,
+          saveInBook: !!customer?.customer?.email,
+        },
+        [SHIPPING_METHOD]: {
+          methodCode: shippingMethod.methodCode || '',
+          carrierCode: shippingMethod.carrierCode || '',
+        },
+        [PAYMENT_METHOD_FORM]: {
+          ...paymentMethodValues,
+          code: paymentMethod.code,
+        },
+        [COUPON_CODE_FORM]: {
+          ...couponCodeValues,
+          couponCode: appliedCoupon,
+        },
+      };
+      setValues(newValues);
       setInitDataFilled(true);
     }, 100);
-
     return () => clearTimeout(timer);
-  }, [
-    initialData,
-    setFieldValue,
-    initDataFilled,
-    loginFormValues,
-    billingAddressValues,
-    shippingAddressValues,
-  ]);
+  }, [values, initialData, initDataFilled, setValues]);
 
   return children;
 }

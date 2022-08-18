@@ -149,7 +149,7 @@ function CheckoutFormProvider({ children }) {
       }}
     >
       <Formik
-        enableReinitialize
+        // enableReinitialize
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
         onSubmit={formSubmit}
