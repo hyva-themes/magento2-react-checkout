@@ -8,6 +8,7 @@ import ShippingMethodFormManager from './components/ShippingMethodFormManager';
 import { __ } from '../../i18n';
 import { formikDataShape } from '../../utils/propTypes';
 import useShippingMethodCartContext from './hooks/useShippingMethodCartContext';
+import customRenderers from '../../shippingMethods/customRenderers';
 
 const ShippingMethodMemorized = React.memo(({ formikData }) => {
   const { methodsAvailable } = useShippingMethodCartContext();
@@ -17,7 +18,7 @@ const ShippingMethodMemorized = React.memo(({ formikData }) => {
       <Card classes={methodsAvailable ? '' : 'opacity-75'}>
         <ToggleBox title={__('Shipping Methods')} show>
           <NoShippingMethodInfoBox />
-          <ShippingMethodList />
+          <ShippingMethodList methodRenderers={customRenderers} />
         </ToggleBox>
       </Card>
     </ShippingMethodFormManager>

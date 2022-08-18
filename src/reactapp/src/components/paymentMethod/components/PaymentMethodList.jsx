@@ -1,6 +1,6 @@
 import React from 'react';
-import { get as _get } from 'lodash-es';
 import { object } from 'prop-types';
+import { get as _get } from 'lodash-es';
 
 import RadioInput from '../../common/Form/RadioInput';
 import { __ } from '../../../i18n';
@@ -62,7 +62,7 @@ function PaymentMethodList({ methodRenderers }) {
                   name="paymentMethod"
                   disabled={!paymentAvailable}
                   onChange={handlePaymentMethodSelection}
-                  checked={method.code === paymentValues.code}
+                  checked={method.code === paymentValues?.code}
                 />
               )}
             </li>
