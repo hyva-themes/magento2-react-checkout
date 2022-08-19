@@ -16,6 +16,7 @@ Below, we are listing the payment repositories, and each repository will have sp
 - Payone - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
 - Paypal Express - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-react-checkout-paypal-express)
 - Stripe - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
+- Mollie - [MdnAgency/magento2-hyva-checkout-mollie](https://github.com/MdnAgency/magento2-hyva-checkout-mollie)
 
 
 This is a community effort. So we welcome all of you to help out to grow the above list. The _payone_ repository is an ideal place to look into if you need to create a payment method integration repository.
