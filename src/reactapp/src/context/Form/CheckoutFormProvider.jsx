@@ -1,36 +1,32 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { get as _get } from 'lodash-es';
-import { Formik } from 'formik';
 import { node } from 'prop-types';
+import { get as _get, set as _set } from 'lodash-es';
 import { object as YupObject } from 'yup';
+import { FormikProvider, useFormik } from 'formik';
 
 import { config } from '../../config';
 import LocalStorage from '../../utils/localStorage';
 import useAppContext from '../../hook/useAppContext';
 import useCartContext from '../../hook/useCartContext';
 import CheckoutFormContext from './CheckoutFormContext';
+import { _findIndexById } from '../../utils';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
   sections.forEach((section) => {
     initValues[section.id] = section.initialValues;
   });
+
   return initValues;
 }
 
-function prepareFormValidationSchema(sections, sectionId) {
+function prepareFormValidationSchema(sections) {
   const schemaRules = {};
-
-  if (sectionId) {
-    const section = sections.find((sec) => sec.id === sectionId);
-    schemaRules[sectionId] = YupObject().shape(section.validationSchema);
-
-    return YupObject().shape(schemaRules);
-  }
 
   sections.forEach((section) => {
     schemaRules[section.id] = YupObject().shape(section.validationSchema);
   });
+
   return YupObject().shape(schemaRules);
 }
 
@@ -39,10 +35,15 @@ function prepareFormValidationSchema(sections, sectionId) {
  */
 function CheckoutFormProvider({ children }) {
   /**
-   * Represent which form section is active at the moment
+   * This will hold the initial graphql response data.
+   * This will be later used by individual form section in order update their initivalues.
    */
-  const [activeForm, setActiveForm] = useState(false);
-
+  const [initialData, setInitialData] = useState(null);
+  /**
+   * Controls formik reinitialization. By default, it is enabled.
+   * If in case, the formik states reinitialization needs to be turne off, this feature can be used.
+   */
+  const [enableReinitialize, setEnableReinitilize] = useState(true);
   /**
    * Holds individual form sections which constitutes the entire checkout-form-formik
    */
@@ -56,6 +57,62 @@ function CheckoutFormProvider({ children }) {
 
   const { placeOrder } = useCartContext();
   const { setPageLoader } = useAppContext();
+
+  /**
+   * Init value of checkout-form-formik
+   *
+   * It will be the combined object of each individual form sections which
+   * are registered to this provider.
+   *
+   * So the whole initValues would be represented like:
+   * {
+   *    [form_section_id]: { ...form_section_init_values},
+   *    [form_section_id]: { ...form_section_init_values},
+   * }
+   */
+  const formInitialValues = useMemo(
+    () => prepareFormInitValues(sections),
+    [sections]
+  );
+
+  /**
+   * ValidationSchema of checkout-form-formik
+   *
+   * If there is no activeForm, then the validationSchema equals to the combined
+   * validationSchema of each individual form section which are registered with
+   * this provider
+   *
+   * If there is a valid activeForm, then the validationSchema represent the
+   * validationSchema of the active form section.
+   */
+  const formValidationSchema = useMemo(
+    () => prepareFormValidationSchema(sections),
+    [sections]
+  );
+
+  const formSubmit = useCallback(
+    async (values) => {
+      try {
+        setPageLoader(true);
+        const order = await placeOrder(values, paymentActionList);
+
+        const orderNumber = _get(order, 'order_number');
+
+        if (orderNumber && config.isProductionMode) {
+          LocalStorage.clearCheckoutStorage();
+          window.location.replace(config.successPageRedirectUrl);
+        }
+
+        if (orderNumber && config.isDevelopmentMode) {
+          LocalStorage.clearCheckoutStorage();
+        }
+        setPageLoader(false);
+      } catch (error) {
+        setPageLoader(false);
+      }
+    },
+    [setPageLoader, paymentActionList, placeOrder]
+  );
 
   /**
    * This will help any custom payment method renderer component to register
@@ -76,85 +133,53 @@ function CheckoutFormProvider({ children }) {
    * This will register individual form sections to the checkout-form-formik
    */
   const registerFormSection = useCallback((section) => {
-    updateSections((prevSections) => [...prevSections, section]);
+    updateSections((prevSections) => {
+      const sectionIds = prevSections.map((prevSection) => prevSection.id);
+
+      // new section, so append the section.
+      if (!sectionIds.includes(section.id)) {
+        return [...prevSections, section];
+      }
+
+      // Already existing section. So update the individual section with latest section data.
+      const sectionIndex = _findIndexById(prevSections, section.id);
+      const newSections = [...prevSections];
+      const newSectionData = { ...prevSections[sectionIndex], ...section };
+      _set(newSections, sectionIndex, newSectionData);
+
+      return newSections;
+    });
   }, []);
 
-  const formSubmit = async (values) => {
-    try {
-      setPageLoader(true);
-      const order = await placeOrder(values, paymentActionList);
-
-      const orderNumber = _get(order, 'order_number');
-
-      if (orderNumber && config.isProductionMode) {
-        LocalStorage.clearCheckoutStorage();
-        window.location.replace(config.successPageRedirectUrl);
-      }
-
-      if (orderNumber && config.isDevelopmentMode) {
-        LocalStorage.clearCheckoutStorage();
-      }
-      setPageLoader(false);
-    } catch (error) {
-      setPageLoader(false);
-    }
-  };
+  const formik = useFormik({
+    enableReinitialize,
+    onSubmit: formSubmit,
+    initialValues: formInitialValues,
+    validationSchema: formValidationSchema,
+  });
 
   const context = useMemo(
     () => ({
-      activeFormSection: activeForm,
-      setActiveFormSection: setActiveForm,
       registerFormSection,
+      setEnableReinitilize,
+      registerPaymentAction,
+      submitHandler: formSubmit,
+      aggregatedData: initialData,
+      storeAggregatedFormStates: setInitialData,
+      checkoutFormValidationSchema: formValidationSchema,
     }),
-    [activeForm, registerFormSection]
-  );
-
-  /**
-   * Init value of checkout-form-formik
-   *
-   * It will be the combined object of each individual form sections which
-   * are registered to this provider.
-   *
-   * So the whole initValues would be represented like:
-   * {
-   *    [form_section_id]: { ...form_section_init_values},
-   *    [form_section_id]: { ...form_section_init_values},
-   * }
-   */
-  const formInitialValues = prepareFormInitValues(sections);
-
-  /**
-   * ValidationSchema of checkout-form-formik
-   *
-   * If there is no activeForm, then the validationSchema equals to the combined
-   * validationSchema of each individual form section which are registered with
-   * this provider
-   *
-   * If there is a valid activeForm, then the validationSchema represent the
-   * validationSchema of the active form section.
-   */
-  const formValidationSchema = prepareFormValidationSchema(
-    sections,
-    activeForm
+    [
+      formSubmit,
+      initialData,
+      registerFormSection,
+      formValidationSchema,
+      registerPaymentAction,
+    ]
   );
 
   return (
-    <CheckoutFormContext.Provider
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{
-        ...context,
-        registerPaymentAction,
-        submitHandler: formSubmit,
-        checkoutFormValidationSchema: formValidationSchema,
-      }}
-    >
-      <Formik
-        initialValues={formInitialValues}
-        validationSchema={formValidationSchema}
-        onSubmit={formSubmit}
-      >
-        {children}
-      </Formik>
+    <CheckoutFormContext.Provider value={context}>
+      <FormikProvider value={formik}>{children}</FormikProvider>
     </CheckoutFormContext.Provider>
   );
 }

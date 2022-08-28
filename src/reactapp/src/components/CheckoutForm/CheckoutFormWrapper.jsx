@@ -17,6 +17,10 @@ function CheckoutFormWrapper({ initialData, children }) {
   const [initDataFilled, setInitDataFilled] = useState(false);
   const { values, setValues } = useFormikContext();
 
+  // const storeAggregatedFormStates = (aggregatedData) => {
+  //   console.log('CheckoutFormWrapper::storeAggregatedFormStates');
+  // };
+
   /**
    * This side effect fill out the checkout formik states from the initial GQL
    * request response.
@@ -28,6 +32,7 @@ function CheckoutFormWrapper({ initialData, children }) {
    * checkout formik states here with the help of a small time delay.
    */
   useEffect(() => {
+    console.log('CheckoutFormWrapper::useEffect');
     if (!initialData || initDataFilled) {
       return _emptyFunc();
     }

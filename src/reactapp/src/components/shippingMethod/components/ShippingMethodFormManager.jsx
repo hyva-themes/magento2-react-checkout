@@ -1,34 +1,40 @@
-import React, { useEffect } from 'react';
-import { node } from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
+import { node } from 'prop-types';
 import { string as YupString } from 'yup';
 
 import { __ } from '../../../i18n';
+import { _isObjEmpty } from '../../../utils';
 import { SHIPPING_METHOD } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
+import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import ShippingMethodFormContext from '../context/ShippingMethodFormContext';
 import useShippingMethodAppContext from '../hooks/useShippingMethodAppContext';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
-import { _isObjEmpty } from '../../../utils';
 
-const initialValues = {
+const defaultValues = {
   methodCode: '',
   carrierCode: '',
 };
 
 const requiredMessage = __('Required');
 
-const validationSchema = {
+const initialValidationSchema = {
   methodCode: YupString().required(requiredMessage),
   carrierCode: YupString().required(requiredMessage),
 };
 
 function ShippingMethodFormManager({ children, formikData }) {
+  const { setFieldValue } = formikData;
+  const [initialValues, setInitialValues] = useState(defaultValues);
+  const [validationSchema, setValidationSchema] = useState(
+    initialValidationSchema
+  );
+  const { aggregatedData } = useCheckoutFormContext();
+  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
-  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
-  const { setFieldValue } = formikData;
 
   const formSubmit = async (shippingMethod) => {
     setMessage(false);
@@ -58,11 +64,25 @@ function ShippingMethodFormManager({ children, formikData }) {
    */
   useEffect(() => {
     if (_isObjEmpty(selectedMethod)) {
-      setFieldValue(SHIPPING_METHOD, { ...initialValues });
+      setFieldValue(SHIPPING_METHOD, { ...defaultValues });
+      return;
     }
+    setFieldValue(SHIPPING_METHOD, { ...selectedMethod });
   }, [selectedMethod, setFieldValue]);
 
-  let context = useFormSection({
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const shippingMethod =
+        aggregatedData?.cart?.selected_shipping_method || {};
+      setInitialValues({
+        methodCode: shippingMethod.methodCode || '',
+        carrierCode: shippingMethod.carrierCode || '',
+      });
+    }
+  }, [aggregatedData]);
+
+  const formSectionContext = useFormSection({
     formikData,
     initialValues,
     validationSchema,
@@ -70,7 +90,18 @@ function ShippingMethodFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
-  context = { ...context, ...formikData, formikData };
+  const context = useMemo(
+    () => ({
+      formikData,
+      initialValues,
+      validationSchema,
+      setInitialValues,
+      setValidationSchema,
+      ...formikData,
+      ...formSectionContext,
+    }),
+    [validationSchema, formikData, formSectionContext, initialValues]
+  );
 
   return (
     <ShippingMethodFormContext.Provider value={context}>

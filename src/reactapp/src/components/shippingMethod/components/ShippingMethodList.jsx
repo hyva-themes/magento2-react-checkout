@@ -47,29 +47,29 @@ function ShippingMethodList({ methodRenderers }) {
           const methodName = `${carrierTitle} (${methodTitle}): `;
           const MethodRenderer = methodRenderers[methodId];
 
-          if (MethodRenderer) {
-            return (
-              <MethodRenderer
-                key={methodId}
-                method={method}
-                selected={selectedMethod}
-                actions={{ change: handleShippingMethodSelection }}
-              />
-            );
-          }
-
           return (
             <li key={methodId} className="flex">
-              <RadioInput
-                value={methodId}
-                label={methodName}
-                name="shippingMethod"
-                checked={selectedMethodId === methodId}
-                onChange={handleShippingMethodSelection}
-              />
-              <span className="pt-2 pl-3 font-semibold">
-                {__('Price: %1', price)}
-              </span>
+              {MethodRenderer ? (
+                <MethodRenderer
+                  key={methodId}
+                  method={method}
+                  selected={selectedMethod}
+                  actions={{ change: handleShippingMethodSelection }}
+                />
+              ) : (
+                <>
+                  <RadioInput
+                    value={methodId}
+                    label={methodName}
+                    name="shippingMethod"
+                    checked={selectedMethodId === methodId}
+                    onChange={handleShippingMethodSelection}
+                  />
+                  <span className="pt-2 pl-3 font-semibold">
+                    {__('Price: %1', price)}
+                  </span>
+                </>
+              )}
             </li>
           );
         })}
