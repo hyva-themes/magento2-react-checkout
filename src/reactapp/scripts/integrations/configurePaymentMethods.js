@@ -13,7 +13,7 @@ const paymentDirectoryPath = './src/paymentMethods/';
  * It will also populate `src/paymentMethods/customRenderers.js` which can be
  * used to port custom payment renderers into the react app.
  */
-module.exports = (async () => {
+const configurePaymentMethods = async () => {
   const paymentRepos = util.collectConfiguredReposFromEnv('paymentMethodsRepo');
   const paymentMethodList = Object.keys(paymentRepos);
 
@@ -50,4 +50,6 @@ module.exports = (async () => {
   }
 
   console.log('Payment methods successfully added');
-})();
+};
+
+module.exports = configurePaymentMethods;

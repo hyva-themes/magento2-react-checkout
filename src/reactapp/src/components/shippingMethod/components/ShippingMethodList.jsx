@@ -1,4 +1,5 @@
 import React from 'react';
+import { object } from 'prop-types';
 
 import RadioInput from '../../common/Form/RadioInput';
 import { __ } from '../../../i18n';
@@ -7,7 +8,7 @@ import { SHIPPING_METHOD } from '../../../config';
 import useShippingMethodFormContext from '../hooks/useShippingMethodFormContext';
 import useShippingMethodCartContext from '../hooks/useShippingMethodCartContext';
 
-function ShippingMethodList() {
+function ShippingMethodList({ methodRenderers }) {
   const {
     fields,
     submitHandler,
@@ -44,6 +45,18 @@ function ShippingMethodList() {
         {_objToArray(methodList).map((method) => {
           const { id: methodId, carrierTitle, methodTitle, price } = method;
           const methodName = `${carrierTitle} (${methodTitle}): `;
+          const MethodRenderer = methodRenderers[methodId];
+
+          if (MethodRenderer) {
+            return (
+              <MethodRenderer
+                key={methodId}
+                method={method}
+                selected={selectedMethod}
+                actions={{ change: handleShippingMethodSelection }}
+              />
+            );
+          }
 
           return (
             <li key={methodId} className="flex">
@@ -64,5 +77,13 @@ function ShippingMethodList() {
     </div>
   );
 }
+
+ShippingMethodList.propTypes = {
+  methodRenderers: object,
+};
+
+ShippingMethodList.defaultProps = {
+  methodRenderers: {},
+};
 
 export default ShippingMethodList;
