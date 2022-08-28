@@ -5,11 +5,11 @@ import { object as YupObject } from 'yup';
 import { FormikProvider, useFormik } from 'formik';
 
 import { config } from '../../config';
+import { _findIndexById } from '../../utils';
 import LocalStorage from '../../utils/localStorage';
 import useAppContext from '../../hook/useAppContext';
 import useCartContext from '../../hook/useCartContext';
 import CheckoutFormContext from './CheckoutFormContext';
-import { _findIndexById } from '../../utils';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
