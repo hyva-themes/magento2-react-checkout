@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const path = require('path');
 const cssFileNameUpdator = require('./scripts/react-app-rewire/css-file-name-updator');
 const reactAppRewirePostCssApplier = require('./scripts/react-app-rewire/postcss-applier');
 
@@ -26,6 +27,13 @@ module.exports = function override(config, env) {
       ...config.output,
       filename,
       chunkFilename,
+    },
+    resolve: {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        '@hyva/react-checkout': path.resolve('src'),
+      },
     },
   };
 
