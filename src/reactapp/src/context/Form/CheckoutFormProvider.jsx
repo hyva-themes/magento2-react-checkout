@@ -43,7 +43,7 @@ function CheckoutFormProvider({ children }) {
    * Controls formik reinitialization. By default, it is enabled.
    * If in case, the formik states reinitialization needs to be turne off, this feature can be used.
    */
-  const [enableReinitialize, setEnableReinitilize] = useState(true);
+  const [enableReinitialize, setEnableReinitialize] = useState(true);
   /**
    * Holds individual form sections which constitutes the entire checkout-form-formik
    */
@@ -108,6 +108,7 @@ function CheckoutFormProvider({ children }) {
         }
         setPageLoader(false);
       } catch (error) {
+        console.error(error);
         setPageLoader(false);
       }
     },
@@ -161,7 +162,7 @@ function CheckoutFormProvider({ children }) {
   const context = useMemo(
     () => ({
       registerFormSection,
-      setEnableReinitilize,
+      setEnableReinitialize,
       registerPaymentAction,
       submitHandler: formSubmit,
       aggregatedData: initialData,

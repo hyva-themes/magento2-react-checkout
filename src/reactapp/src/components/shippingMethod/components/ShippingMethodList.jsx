@@ -51,7 +51,6 @@ function ShippingMethodList({ methodRenderers }) {
             <li key={methodId} className="flex">
               {MethodRenderer ? (
                 <MethodRenderer
-                  key={methodId}
                   method={method}
                   selected={selectedMethod}
                   actions={{ change: handleShippingMethodSelection }}
