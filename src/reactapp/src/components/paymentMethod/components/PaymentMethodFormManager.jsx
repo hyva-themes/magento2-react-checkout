@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -7,21 +7,27 @@ import { __ } from '../../../i18n';
 import { PAYMENT_METHOD_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import { formikDataShape } from '../../../utils/propTypes';
+import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import PaymentMethodFormContext from '../context/PaymentMethodFormContext';
 import usePaymentMethodAppContext from '../hooks/usePaymentMethodAppContext';
 import usePaymentMethodCartContext from '../hooks/usePaymentMethodCartContext';
 
-const initialValues = {
+const defaultValues = {
   code: '',
 };
 
 const requiredMessage = __('Required');
 
-const validationSchema = {
+const initialValidationSchema = {
   code: YupString().required(requiredMessage),
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
+  const [initialValues, setInitialValues] = useState(defaultValues);
+  const [validationSchema, setValidationSchema] = useState(
+    initialValidationSchema
+  );
+  const { aggregatedData } = useCheckoutFormContext();
   const { setPaymentMethod } = usePaymentMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
@@ -57,9 +63,25 @@ function PaymentMethodFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const paymentMethod = aggregatedData?.cart?.selected_payment_method || {};
+      setInitialValues({ code: paymentMethod.code || '' });
+    }
+  }, [aggregatedData]);
+
   const context = useMemo(
-    () => ({ ...formContext, ...formikData, formikData }),
-    [formContext, formikData]
+    () => ({
+      ...formContext,
+      ...formikData,
+      formikData,
+      initialValues,
+      validationSchema,
+      setInitialValues,
+      setValidationSchema,
+    }),
+    [formContext, formikData, validationSchema, initialValues]
   );
 
   return (

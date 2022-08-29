@@ -14,40 +14,49 @@ import ShippingAddress from '../shippingAddress';
 import ShippingMethodsForm from '../shippingMethod';
 import StickyRightSidebar from '../StickyRightSidebar';
 import CheckoutAgreements from '../checkoutAgreements';
-import CheckoutFormWrapper from './CheckoutFormWrapper';
 import { config } from '../../config';
 import { aggregatedQueryRequest } from '../../api';
+import useCheckoutFormContext from '../../hook/useCheckoutFormContext';
 import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
 import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
 
 function CheckoutForm() {
-  const [initialData, setInitialData] = useState(false);
-  const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
-    useCheckoutFormAppContext();
+  const [isRequestSent, setIsRequestSent] = useState(false);
+  const { storeAggregatedFormStates } = useCheckoutFormContext();
   const { orderId, isVirtualCart, storeAggregatedCartStates } =
     useCheckoutFormCartContext();
+  const { pageLoader, appDispatch, setPageLoader, storeAggregatedAppStates } =
+    useCheckoutFormAppContext();
 
   /**
    * Collect App, Cart data when the page loads.
    */
   useEffect(() => {
+    if (isRequestSent) {
+      return;
+    }
+
     (async () => {
       try {
         setPageLoader(true);
+        setIsRequestSent(true);
         const data = await aggregatedQueryRequest(appDispatch);
-        await storeAggregatedCartStates(data);
-        await storeAggregatedAppStates(data);
-        setInitialData(data);
-        setPageLoader(false);
+        storeAggregatedCartStates(data);
+        storeAggregatedAppStates(data);
+        storeAggregatedFormStates(data);
       } catch (error) {
+        console.error(error);
+      } finally {
         setPageLoader(false);
       }
     })();
   }, [
     appDispatch,
+    isRequestSent,
     setPageLoader,
     storeAggregatedAppStates,
     storeAggregatedCartStates,
+    storeAggregatedFormStates,
   ]);
 
   if (orderId && config.isDevelopmentMode) {
@@ -63,7 +72,7 @@ function CheckoutForm() {
   }
 
   return (
-    <CheckoutFormWrapper initialData={initialData}>
+    <>
       <Message />
       <div className="flex justify-center">
         <div className="container">
@@ -95,7 +104,7 @@ function CheckoutForm() {
           {pageLoader && <PageLoader />}
         </div>
       </div>
-    </CheckoutFormWrapper>
+    </>
   );
 }
 

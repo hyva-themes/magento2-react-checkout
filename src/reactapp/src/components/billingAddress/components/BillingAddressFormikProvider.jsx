@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { get as _get } from 'lodash-es';
 import { Form } from 'formik';
 import { node } from 'prop-types';
+import { get as _get } from 'lodash-es';
 import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import {
@@ -21,6 +21,7 @@ import useSaveAddressAction from '../hooks/useSaveAddressAction';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useRegionValidation from '../../address/hooks/useRegionValidation';
+import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
@@ -49,10 +50,13 @@ function BillingAddressFormikProvider({ children, formikData }) {
   const [isNewAddress, setIsNewAddress] = useState(true);
   const [backupAddress, setBackupAddress] = useState(null);
   const [forceFilledAddress, setForceFilledAddress] = useState(false);
+  const [initialValues, setInitialValues] = useState(
+    billingAddressFormInitValues
+  );
+  const editModeContext = useFormEditMode();
+  const { aggregatedData } = useCheckoutFormContext();
   const { customerAddressList } = useBillingAddressAppContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
-
-  const editModeContext = useFormEditMode();
   const { billingValues, setFieldValue, selectedRegion, selectedCountry } =
     formikData;
   const validationSchema = useRegionValidation(
@@ -87,6 +91,19 @@ function BillingAddressFormikProvider({ children, formikData }) {
     },
     [setFieldValue]
   );
+
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const billingAddress = aggregatedData?.cart?.billing_address || {};
+      const saveInBook = !!aggregatedData?.customer?.customer?.email;
+      setInitialValues({
+        ...billingAddressFormInitValues,
+        ...billingAddress,
+        saveInBook,
+      });
+    }
+  }, [aggregatedData]);
 
   useEffect(() => {
     if (
@@ -153,10 +170,10 @@ function BillingAddressFormikProvider({ children, formikData }) {
   });
   const formContext = useFormSection({
     formikData,
+    initialValues,
     validationSchema,
     id: BILLING_ADDR_FORM,
     submitHandler: formSubmit,
-    initialValues: billingAddressFormInitValues,
   });
 
   context = { ...context, ...formContext, handleKeyDown };
