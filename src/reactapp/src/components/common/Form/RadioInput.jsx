@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'formik';
-import { bool, string } from 'prop-types';
+import { bool, node, string } from 'prop-types';
 
 function RadioInput({
   id,
@@ -16,19 +16,23 @@ function RadioInput({
 
   return (
     <div className="mt-2 form-control">
-      <Field
-        name={name}
-        type="radio"
-        id={inputId}
-        checked={checked}
-        className="form-radio"
-        {...rest}
-      />
-      {label && (
-        <label htmlFor={inputId} className="inline-block pl-2">
-          {label}
-        </label>
-      )}
+      <div className="flex items-center">
+        <Field
+          name={name}
+          type="radio"
+          id={inputId}
+          checked={checked}
+          className="form-radio"
+          {...rest}
+        />
+        {label && !React.isValidElement(label) ? (
+          <label htmlFor={inputId} className="inline-block pl-2 cursor-pointer">
+            {label}
+          </label>
+        ) : (
+          label
+        )}
+      </div>
 
       <div className="text-xs" id={`${inputId}-help`} tabIndex="-1">
         {helpText}
@@ -39,11 +43,11 @@ function RadioInput({
 
 RadioInput.propTypes = {
   id: string,
-  label: string,
+  label: node,
   checked: bool,
   required: bool,
-  helpText: string,
-  placeholder: string,
+  helpText: node,
+  placeholder: node,
   name: string.isRequired,
 };
 
