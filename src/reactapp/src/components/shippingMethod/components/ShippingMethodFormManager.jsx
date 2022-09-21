@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -35,6 +35,16 @@ function ShippingMethodFormManager({ children, formikData }) {
   const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
+
+  /**
+   * This can be used to add additional validations for shipping method
+   */
+  const updateValidationSchema = useCallback((validationSchemaToUpdate) => {
+    setValidationSchema((oldValidationSchema) => ({
+      ...oldValidationSchema,
+      ...validationSchemaToUpdate,
+    }));
+  }, []);
 
   const formSubmit = async (shippingMethod) => {
     setMessage(false);
@@ -97,10 +107,17 @@ function ShippingMethodFormManager({ children, formikData }) {
       validationSchema,
       setInitialValues,
       setValidationSchema,
+      updateValidationSchema,
       ...formikData,
       ...formSectionContext,
     }),
-    [validationSchema, formikData, formSectionContext, initialValues]
+    [
+      formikData,
+      initialValues,
+      validationSchema,
+      formSectionContext,
+      updateValidationSchema,
+    ]
   );
 
   return (

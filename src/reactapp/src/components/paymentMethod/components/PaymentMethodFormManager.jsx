@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -31,6 +31,16 @@ function PaymentMethodFormManager({ children, formikData }) {
   const { setPaymentMethod } = usePaymentMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
+
+  /**
+   * This can be used to add additional validations for payment method
+   */
+  const updateValidationSchema = useCallback((validationSchemaToUpdate) => {
+    setValidationSchema((oldValidationSchema) => ({
+      ...oldValidationSchema,
+      ...validationSchemaToUpdate,
+    }));
+  }, []);
 
   const formSubmit = async (paymentMethod) => {
     setMessage(false);
@@ -80,8 +90,15 @@ function PaymentMethodFormManager({ children, formikData }) {
       validationSchema,
       setInitialValues,
       setValidationSchema,
+      updateValidationSchema,
     }),
-    [formContext, formikData, validationSchema, initialValues]
+    [
+      formikData,
+      formContext,
+      initialValues,
+      validationSchema,
+      updateValidationSchema,
+    ]
   );
 
   return (
