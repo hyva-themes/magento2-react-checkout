@@ -1,5 +1,3 @@
-import React from 'react';
-
-const PaymentMethodFormContext = React.createContext();
+import { PaymentMethodFormContext } from '../../../context/Form';
 
 export default PaymentMethodFormContext;
