@@ -32,8 +32,13 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
     setCustomerAddressAsBillingAddress,
     setCustomerAddressAsShippingAddress,
   } = useShippingAddressCartContext();
-  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
-    useShippingAddressAppContext();
+  const {
+    setMessage,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+    isLoggedIn,
+  } = useShippingAddressAppContext();
   const { setBillingSelected, setIsBillingCustomerAddress } =
     useAddressWrapper();
 
@@ -45,7 +50,9 @@ export default function useSaveAddressAction(shippingAddressFormContext) {
       regionData
     );
     const useCustomerAddressInSave =
-      isValidCustomerAddressId(customerAddressId) && !recentAddressInUse;
+      isValidCustomerAddressId(customerAddressId) &&
+      !recentAddressInUse &&
+      isLoggedIn;
 
     setPageLoader(true);
 
