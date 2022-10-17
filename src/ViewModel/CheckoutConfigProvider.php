@@ -79,15 +79,18 @@ class CheckoutConfigProvider implements ArgumentInterface
         $checkoutConfig['payment']['restUrlPrefix'] = "/rest/$storeCode/V1/";
 
         $transport = new \Magento\Framework\DataObject([
-          'storeCode' => $storeCode,
-          'payment' => $checkoutConfig['payment'],
-          'language' => $this->localeResolver->getLocale(),
-          'currency' => $this->currencyProvider->getConfig(),
-          'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+            'checkoutConfig' => $checkoutConfig,
+            'output' => [
+                'storeCode' => $storeCode,
+                'payment' => $checkoutConfig['payment'],
+                'language' => $this->localeResolver->getLocale(),
+                'currency' => $this->currencyProvider->getConfig(),
+                'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+            ]
         ]);
 
         $this->eventManager->dispatch('hyva_react_checkout_config', ['transport' => $transport]);
 
-        return $this->serializer->serialize($transport->getData());
+        return $this->serializer->serialize($transport->getData('output'));
     }
 }
