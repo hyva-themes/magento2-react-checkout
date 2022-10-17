@@ -7,6 +7,7 @@ use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\Locale\ResolverInterface as LocaleResolverInterface;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 
 class CheckoutConfigProvider implements ArgumentInterface
 {
@@ -31,22 +32,31 @@ class CheckoutConfigProvider implements ArgumentInterface
     private $currencyProvider;
 
     /**
+     * @var EventManager
+     */
+    private $eventManager;
+
+    /**
      * CheckoutConfigProvider constructor.
      *
      * @param SerializerInterface $serializer
      * @param LocaleResolverInterface $localeResolver
      * @param CompositeConfigProvider $compositeConfigProvider
+     * @param CurrencyProvider $currencyProvider
+     * @param EventManager $eventManager
      */
     public function __construct(
         SerializerInterface $serializer,
         LocaleResolverInterface $localeResolver,
         CompositeConfigProvider $compositeConfigProvider,
-        CurrencyProvider $currencyProvider
+        CurrencyProvider $currencyProvider,
+        EventManager $eventManager
     ) {
         $this->serializer = $serializer;
         $this->localeResolver = $localeResolver;
         $this->compositeConfigProvider = $compositeConfigProvider;
         $this->currencyProvider = $currencyProvider;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -68,12 +78,16 @@ class CheckoutConfigProvider implements ArgumentInterface
         $storeCode = $checkoutConfig['storeCode'];
         $checkoutConfig['payment']['restUrlPrefix'] = "/rest/$storeCode/V1/";
 
-        return $this->serializer->serialize([
-            'storeCode' => $storeCode,
-            'payment' => $checkoutConfig['payment'],
-            'language' => $this->localeResolver->getLocale(),
-            'currency' => $this->currencyProvider->getConfig(),
-            'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+        $transport = new \Magento\Framework\DataObject([
+          'storeCode' => $storeCode,
+          'payment' => $checkoutConfig['payment'],
+          'language' => $this->localeResolver->getLocale(),
+          'currency' => $this->currencyProvider->getConfig(),
+          'defaultCountryId' => $checkoutConfig['defaultCountryId'],
         ]);
+
+        $this->eventManager->dispatch('hyva_react_checkout_config', ['transport' => $transport]);
+
+        return $this->serializer->serialize($transport->getData());
     }
 }
