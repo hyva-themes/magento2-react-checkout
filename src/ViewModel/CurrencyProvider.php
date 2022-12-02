@@ -75,6 +75,6 @@ class CurrencyProvider implements ArgumentInterface
     {
         // do not use $this->storeManager->getStore()->getCurrentCurrencyCode() because of probability
         // to get an invalid (without base rate) currency from code saved in session
-        return return $this->getCurrentCurrency()->getCurrencySymbol() ?: $this->getCurrentCurrencyCode();
+        return $this->getCurrentCurrency()->getCurrencySymbol() ?: $this->getCurrentCurrencyCode();
     }
 }
