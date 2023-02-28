@@ -11,12 +11,14 @@ Due to the above reason, we are not keeping payment components as part of Hyvä 
 Below, we are listing the payment repositories, and each repository will have specific instructions about its usage.
 
 - Amazon - [hyva-themes/magento2-react-checkout-amazon-pay](https://github.com/hyva-themes/magento2-react-checkout-amazon-pay)
+- Ivy - [getivy/magento-2-hyva-react-checkout](https://github.com/getivy/magento-2-hyva-react-checkout)
+- Mollie - [MdnAgency/magento2-hyva-checkout-mollie](https://github.com/MdnAgency/magento2-hyva-checkout-mollie)
 - MultiSafepay - [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
 - Offline payment methods - [hyva-themes/magento2-react-checkout-offline-payments](https://github.com/hyva-themes/magento2-react-checkout-offline-payments)
 - Payone - [hyva-themes/magento2-hyva-checkout-payone](https://github.com/hyva-themes/magento2-hyva-checkout-payone)
 - Paypal Express - [hyva-themes/magento2-hyva-checkout-paypal-express](https://github.com/hyva-themes/magento2-react-checkout-paypal-express)
+- Sage Pay Suite - [ebizmarts/magento2-hyva-checkout-sage-pay-suite](https://github.com/ebizmarts/magento2-hyva-checkout-sage-pay-suite)
 - Stripe - [eltrino/magento2-hyva-checkout-stripe](https://github.com/eltrino/magento2-hyva-checkout-stripe)
-- Mollie - [MdnAgency/magento2-hyva-checkout-mollie](https://github.com/MdnAgency/magento2-hyva-checkout-mollie)
 
 
 This is a community effort. So we welcome all of you to help out to grow the above list. The _payone_ repository is an ideal place to look into if you need to create a payment method integration repository.
