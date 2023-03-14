@@ -1,7 +1,7 @@
 import React from 'react';
 import { get as _get } from 'lodash-es';
 import { bool, func, shape, string } from 'prop-types';
-import { RefreshIcon } from '@heroicons/react/solid';
+import { RefreshIcon } from '@heroicons/react/24/solid';
 
 import Button from '../../../../code/common/Button';
 import { TextInput } from '../../../../code/common/Form';

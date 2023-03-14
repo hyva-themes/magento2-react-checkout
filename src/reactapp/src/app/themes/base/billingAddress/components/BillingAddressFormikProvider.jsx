@@ -175,8 +175,13 @@ function BillingAddressFormikProvider({ children, formikData }) {
 }
 
 BillingAddressFormikProvider.propTypes = {
-  children: node.isRequired,
+  children: node,
   formikData: formikDataShape.isRequired,
+};
+
+BillingAddressFormikProvider.defaultProps = {
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  children: <></>,
 };
 
 export default BillingAddressFormikProvider;

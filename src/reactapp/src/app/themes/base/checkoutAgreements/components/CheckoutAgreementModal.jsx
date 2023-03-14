@@ -1,6 +1,6 @@
 import React from 'react';
 import { get as _get } from 'lodash-es';
-import { ClipboardCheckIcon } from '@heroicons/react/outline';
+import { ClipboardCheckIcon } from '@heroicons/react/24/outline';
 
 import {
   useAgreementAppContext,

@@ -30,7 +30,8 @@ export default function sendRequest(
   };
   const method = isGetRequest ? 'GET' : 'POST';
   const token = LocalStorage.getCustomerToken();
-  const url = `${config.baseUrl}${relativeUrl || '/graphql'}`;
+  const urlPrefix = config.isDevelopmentMode ? '/backend/' : '/';
+  const url = `${urlPrefix}${relativeUrl || 'graphql'}`;
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;

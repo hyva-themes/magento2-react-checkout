@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
     envPrefix: 'HYVA_',
     plugins: [react()],
     server: {
+      port: 3000,
       proxy: {
         '/backend': {
           target: process.env.HYVA_BASE_URL || 'https://demo.hyva.io',
