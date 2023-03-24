@@ -1,4 +1,4 @@
-const util = require('./utility');
+const util = require('./integrations/utility');
 
 const themesDirectoryPath = './src/app/themes/';
 

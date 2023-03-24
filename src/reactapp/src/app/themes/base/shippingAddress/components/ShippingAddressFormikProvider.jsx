@@ -4,16 +4,10 @@ import {
   string as YupString,
   boolean as YupBoolean,
 } from 'yup';
-import { get as _get } from 'lodash-es';
 import { Form } from 'formik';
 import { node } from 'prop-types';
+import { get as _get } from 'lodash-es';
 
-import {
-  initialCountry,
-  isCartAddressValid,
-  CART_SHIPPING_ADDRESS,
-  isValidCustomerAddressId,
-} from '../../../../../utils/address';
 import {
   useRegionData,
   useRegionValidation,
@@ -22,21 +16,29 @@ import {
   useFormSection,
   useFormEditMode,
   useEnterActionInForm,
+  useCheckoutFormContext,
 } from '../../../../../hooks';
+import {
+  initialCountry,
+  isCartAddressValid,
+  CART_SHIPPING_ADDRESS,
+  isValidCustomerAddressId,
+} from '../../../../../utils/address';
 import {
   useShippingAddressAppContext,
   useShippingAddressCartContext,
 } from '../../../../code/shippingAddress/hooks';
 import { __ } from '../../../../../i18n';
+import { useSaveAddressAction } from '../hooks';
 import { _toString } from '../../../../../utils';
 import { SHIPPING_ADDR_FORM } from '../../../../../config';
 import LocalStorage from '../../../../../utils/localStorage';
 import { formikDataShape } from '../../../../../utils/propTypes';
 import { customerHasAddress } from '../../../../../utils/customer';
-import { useFillDefaultAddresses, useSaveAddressAction } from '../hooks';
+import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 import { ShippingAddressFormikContext } from '../../../../code/shippingAddress/context';
 
-const initialValues = {
+const defaultValues = {
   company: '',
   firstname: '',
   lastname: '',
@@ -73,6 +75,7 @@ const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());
 const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
 
 function ShippingAddressFormikProvider({ children, formikData }) {
+  const [initialValues, setInitialValues] = useState(defaultValues);
   const { setFieldValue, selectedRegion, selectedCountry, setFieldTouched } =
     formikData;
   const [isNewAddress, setIsNewAddress] = useState(true);
@@ -92,6 +95,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     setSelectedAddress,
     setCustomerAddressSelected,
   });
+  const { aggregatedData } = useCheckoutFormContext();
   const editModeContext = useFormEditMode();
   const { customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
@@ -100,18 +104,27 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
 
   const resetShippingAddressFormFields = useCallback(() => {
-    setFieldValue(SHIPPING_ADDR_FORM, { ...initialValues });
+    setFieldValue(SHIPPING_ADDR_FORM, { ...defaultValues });
     setFieldTouched(SHIPPING_ADDR_FORM, {});
   }, [setFieldValue, setFieldTouched]);
 
   const setShippingAddressFormFields = useCallback(
     (addressToSet) =>
       setFieldValue(SHIPPING_ADDR_FORM, {
-        ...initialValues,
+        ...defaultValues,
         ...addressToSet,
       }),
     [setFieldValue]
   );
+
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const shippingAddress = aggregatedData?.cart?.shipping_address || {};
+      const saveInBook = !!aggregatedData?.customer?.customer?.email;
+      setInitialValues({ ...defaultValues, ...shippingAddress, saveInBook });
+    }
+  }, [aggregatedData]);
 
   // filling shipping address field when the cart possess a shipping address
   useEffect(() => {

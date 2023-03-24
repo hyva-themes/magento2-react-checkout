@@ -1,4 +1,5 @@
 import React from 'react';
+import { object } from 'prop-types';
 
 import { RadioInput } from '../../../../code/common/Form';
 import {
@@ -9,7 +10,7 @@ import { __ } from '../../../../../i18n';
 import { _objToArray } from '../../../../../utils';
 import { SHIPPING_METHOD } from '../../../../../config';
 
-function ShippingMethodList() {
+function ShippingMethodList({ methodRenderers }) {
   const {
     fields,
     submitHandler,
@@ -46,19 +47,30 @@ function ShippingMethodList() {
         {_objToArray(methodList).map((method) => {
           const { id: methodId, carrierTitle, methodTitle, price } = method;
           const methodName = `${carrierTitle} (${methodTitle}): `;
+          const MethodRenderer = methodRenderers[methodId];
 
           return (
             <li key={methodId} className="flex">
-              <RadioInput
-                value={methodId}
-                label={methodName}
-                name="shippingMethod"
-                checked={selectedMethodId === methodId}
-                onChange={handleShippingMethodSelection}
-              />
-              <span className="pt-2 pl-3 font-semibold">
-                {__('Price: %1', price)}
-              </span>
+              {MethodRenderer ? (
+                <MethodRenderer
+                  method={method}
+                  selected={selectedMethod}
+                  actions={{ change: handleShippingMethodSelection }}
+                />
+              ) : (
+                <>
+                  <RadioInput
+                    value={methodId}
+                    label={methodName}
+                    name="shippingMethod"
+                    checked={selectedMethodId === methodId}
+                    onChange={handleShippingMethodSelection}
+                  />
+                  <span className="pt-2 pl-3 font-semibold">
+                    {__('Price: %1', price)}
+                  </span>
+                </>
+              )}
             </li>
           );
         })}
@@ -66,5 +78,13 @@ function ShippingMethodList() {
     </div>
   );
 }
+
+ShippingMethodList.propTypes = {
+  methodRenderers: object,
+};
+
+ShippingMethodList.defaultProps = {
+  methodRenderers: {},
+};
 
 export default ShippingMethodList;

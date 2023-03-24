@@ -1,5 +1,3 @@
-import React from 'react';
-
-const ShippingMethodFormContext = React.createContext();
+import { ShippingMethodFormContext } from '../../../../context/Form';
 
 export default ShippingMethodFormContext;

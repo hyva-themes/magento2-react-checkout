@@ -82,7 +82,7 @@ function PlaceOrder() {
     }
 
     if (hasTermsAndConditionsAgreed(errors)) {
-      setErrorMessage(__('Please agree with the terms & conditions'));
+      setErrorMessage(__('Please agree with the terms & conditions.'));
       scrollToElement(CHECKOUT_AGREEMENTS_FORM);
       return;
     }
@@ -92,9 +92,9 @@ function PlaceOrder() {
       await saveEmailAddressInfo(values);
       await saveBillingShippingAddress(values);
       await validateThenPlaceOrder(values);
-      setPageLoader(false);
     } catch (error) {
       console.error(error);
+    } finally {
       setPageLoader(false);
     }
   };

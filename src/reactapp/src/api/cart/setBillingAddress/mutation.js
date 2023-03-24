@@ -20,7 +20,7 @@ mutation setBillingAddress(
     input: {
       cart_id: $cartId
       billing_address: {
-        same_as_shipping: $isSameAsShipping
+        use_for_shipping: $isSameAsShipping
       	address: {
           firstname: $firstname
           lastname: $lastname

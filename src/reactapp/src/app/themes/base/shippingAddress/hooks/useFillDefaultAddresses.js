@@ -118,15 +118,16 @@ export default function useFillDefaultAddresses(shippingContext) {
       setPageLoader(false);
     }
   }, [
+    isBillingSame,
     setPageLoader,
     setFieldValue,
-    isBillingSame,
     setBillingSelected,
     setSelectedAddress,
     customerAddressList,
     defaultBillingAddress,
     cartHasBillingAddress,
     defaultShippingAddress,
+    cartHasShippingAddress,
     setCustomerAddressSelected,
     setIsBillingCustomerAddress,
     setCustomerAddressAsBillingAddress,

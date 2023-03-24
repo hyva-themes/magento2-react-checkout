@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { node } from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
+import { node } from 'prop-types';
 import { string as YupString } from 'yup';
 import {
   useShippingMethodAppContext,
@@ -8,28 +8,33 @@ import {
 } from '../hooks';
 import { __ } from '../../../../i18n';
 import { _isObjEmpty } from '../../../../utils';
-import { useFormSection } from '../../../../hooks';
 import { SHIPPING_METHOD } from '../../../../config';
 import { ShippingMethodFormContext } from '../context';
 import { formikDataShape } from '../../../../utils/propTypes';
+import { useCheckoutFormContext, useFormSection } from '../../../../hooks';
 
-const initialValues = {
+const defaultValues = {
   methodCode: '',
   carrierCode: '',
 };
 
 const requiredMessage = __('Required');
 
-const validationSchema = {
+const initialValidationSchema = {
   methodCode: YupString().required(requiredMessage),
   carrierCode: YupString().required(requiredMessage),
 };
 
 function ShippingMethodFormManager({ children, formikData }) {
+  const { setFieldValue } = formikData;
+  const [initialValues, setInitialValues] = useState(defaultValues);
+  const [validationSchema, setValidationSchema] = useState(
+    initialValidationSchema
+  );
+  const { aggregatedData } = useCheckoutFormContext();
+  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingMethodAppContext();
-  const { selectedMethod, setShippingMethod } = useShippingMethodCartContext();
-  const { setFieldValue } = formikData;
 
   const formSubmit = async (shippingMethod) => {
     setMessage(false);
@@ -53,17 +58,39 @@ function ShippingMethodFormManager({ children, formikData }) {
   };
 
   /**
+   * This can be used to add additional validations for shipping method
+   */
+  const updateValidationSchema = useCallback((validationSchemaToUpdate) => {
+    setValidationSchema((oldValidationSchema) => ({
+      ...oldValidationSchema,
+      ...validationSchemaToUpdate,
+    }));
+  }, []);
+
+  /**
    * Side effect to reset shipping method formik state when the cart states
    * missing selected shipping method. This can happen when we update shipping
    * address which will eventually reset shipping method on quote.
    */
   useEffect(() => {
     if (_isObjEmpty(selectedMethod)) {
-      setFieldValue(SHIPPING_METHOD, { ...initialValues });
+      setFieldValue(SHIPPING_METHOD, { ...defaultValues });
     }
-  }, [selectedMethod]);
+  }, [selectedMethod, setFieldValue]);
 
-  let context = useFormSection({
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const shippingMethod =
+        aggregatedData?.cart?.selected_shipping_method || {};
+      setInitialValues({
+        methodCode: shippingMethod.methodCode || '',
+        carrierCode: shippingMethod.carrierCode || '',
+      });
+    }
+  }, [aggregatedData]);
+
+  const formSectionContext = useFormSection({
     formikData,
     initialValues,
     validationSchema,
@@ -71,7 +98,25 @@ function ShippingMethodFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
-  context = { ...context, ...formikData, formikData };
+  const context = useMemo(
+    () => ({
+      formikData,
+      initialValues,
+      validationSchema,
+      setInitialValues,
+      setValidationSchema,
+      updateValidationSchema,
+      ...formikData,
+      ...formSectionContext,
+    }),
+    [
+      formikData,
+      initialValues,
+      validationSchema,
+      formSectionContext,
+      updateValidationSchema,
+    ]
+  );
 
   return (
     <ShippingMethodFormContext.Provider value={context}>

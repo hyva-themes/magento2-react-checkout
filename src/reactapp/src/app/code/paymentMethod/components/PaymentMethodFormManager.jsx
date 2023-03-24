@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { string as YupString } from 'yup';
@@ -8,22 +8,27 @@ import {
   usePaymentMethodCartContext,
 } from '../hooks';
 import { __ } from '../../../../i18n';
-import { useFormSection } from '../../../../hooks';
 import { PaymentMethodFormContext } from '../context';
 import { PAYMENT_METHOD_FORM } from '../../../../config';
 import { formikDataShape } from '../../../../utils/propTypes';
+import { useCheckoutFormContext, useFormSection } from '../../../../hooks';
 
-const initialValues = {
+const defaultValues = {
   code: '',
 };
 
 const requiredMessage = __('Required');
 
-const validationSchema = {
+const initialValidationSchema = {
   code: YupString().required(requiredMessage),
 };
 
 function PaymentMethodFormManager({ children, formikData }) {
+  const [initialValues, setInitialValues] = useState(defaultValues);
+  const [validationSchema, setValidationSchema] = useState(
+    initialValidationSchema
+  );
+  const { aggregatedData } = useCheckoutFormContext();
   const { setPaymentMethod } = usePaymentMethodCartContext();
   const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
     usePaymentMethodAppContext();
@@ -51,6 +56,16 @@ function PaymentMethodFormManager({ children, formikData }) {
     }
   };
 
+  /**
+   * This can be used to add additional validations for payment method
+   */
+  const updateValidationSchema = useCallback((validationSchemaToUpdate) => {
+    setValidationSchema((oldValidationSchema) => ({
+      ...oldValidationSchema,
+      ...validationSchemaToUpdate,
+    }));
+  }, []);
+
   const formContext = useFormSection({
     formikData,
     initialValues,
@@ -59,9 +74,32 @@ function PaymentMethodFormManager({ children, formikData }) {
     submitHandler: formSubmit,
   });
 
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const paymentMethod = aggregatedData?.cart?.selected_payment_method || {};
+      setInitialValues({ code: paymentMethod.code || '' });
+    }
+  }, [aggregatedData]);
+
   const context = useMemo(
-    () => ({ ...formContext, ...formikData, formikData }),
-    [formContext, formikData]
+    () => ({
+      ...formContext,
+      ...formikData,
+      formikData,
+      initialValues,
+      validationSchema,
+      setInitialValues,
+      setValidationSchema,
+      updateValidationSchema,
+    }),
+    [
+      formikData,
+      formContext,
+      initialValues,
+      validationSchema,
+      updateValidationSchema,
+    ]
   );
 
   return (

@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
 
 import BaseTheme from '../../themes/base/Index';
-import CheckoutFormWrapper from './CheckoutFormWrapper';
 import { config } from '../../../config';
 import { aggregatedQueryRequest } from '../../../api';
+import { useCheckoutFormContext } from '../../../hooks';
 import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
 import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
 
 function CheckoutForm() {
-  const [initialData, setInitialData] = useState(false);
+  const [isRequestSent, setIsRequestSent] = useState(false);
+  const { storeAggregatedFormStates } = useCheckoutFormContext();
+  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
   const { appDispatch, setPageLoader, storeAggregatedAppStates } =
     useCheckoutFormAppContext();
-  const { orderId, storeAggregatedCartStates } = useCheckoutFormCartContext();
 
   /**
    * Collect App, Cart data when the page loads.
    */
   useEffect(() => {
+    if (isRequestSent) {
+      return;
+    }
+
     (async () => {
       try {
         setPageLoader(true);
+        setIsRequestSent(true);
         const data = await aggregatedQueryRequest(appDispatch);
-        await storeAggregatedCartStates(data);
-        await storeAggregatedAppStates(data);
-        setInitialData(data);
-        setPageLoader(false);
+        storeAggregatedCartStates(data);
+        storeAggregatedAppStates(data);
+        storeAggregatedFormStates(data);
       } catch (error) {
+        console.error(error);
+      } finally {
         setPageLoader(false);
       }
     })();
   }, [
     appDispatch,
+    isRequestSent,
     setPageLoader,
     storeAggregatedAppStates,
     storeAggregatedCartStates,
+    storeAggregatedFormStates,
   ]);
 
   if (orderId && config.isDevelopmentMode) {
@@ -48,11 +57,7 @@ function CheckoutForm() {
     );
   }
 
-  return (
-    <CheckoutFormWrapper initialData={initialData}>
-      <BaseTheme />
-    </CheckoutFormWrapper>
-  );
+  return <BaseTheme />;
 }
 
 export default CheckoutForm;
