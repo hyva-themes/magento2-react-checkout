@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import MedicalHighlightsTheme from '../../themes/medicalHighlights/Index';
+import BaseTheme from '../../themes/base/Index';
 import { config } from '../../../config';
 import { aggregatedQueryRequest } from '../../../api';
 import { useCheckoutFormContext } from '../../../hooks';
@@ -57,7 +57,7 @@ function CheckoutForm() {
     );
   }
 
-  return <MedicalHighlightsTheme />;
+  return <BaseTheme />;
 }
 
 export default CheckoutForm;

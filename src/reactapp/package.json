@@ -9,11 +9,9 @@
     "preinstall": "node scripts/configureCheckoutIntegrations && node scripts/configureThemes"
   },
   "config": {
-    "themeRepositories": {
-      "medicalHighlights": "git@github.com:rajeev-k-tomy/hyva-checkout-steps-theme.git"
-    },
+    "paymentMethodsRepo": "Add your payment methods here",
     "shippingMethodsRepo": "Add your shipping methods here",
-    "paymentMethodsRepo": "Add your payment methods here"
+    "themeRepositories": "Add your themes here"
   },
   "eslintConfig": {
     "extends": "react-app"
