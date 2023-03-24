@@ -25,11 +25,11 @@ import {
   isValidCustomerAddressId,
 } from '../../../../../utils/address';
 import {
-  useSaveAddressAction,
   useShippingAddressAppContext,
   useShippingAddressCartContext,
-} from '../../../medicalHighlights/shippingAddress/hooks';
+} from '../../../../code/shippingAddress/hooks';
 import { __ } from '../../../../../i18n';
+import { useSaveAddressAction } from '../hooks';
 import { _toString } from '../../../../../utils';
 import { SHIPPING_ADDR_FORM } from '../../../../../config';
 import LocalStorage from '../../../../../utils/localStorage';
@@ -85,10 +85,6 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   const [customerAddressSelected, setCustomerAddressSelected] = useState(
     isValidCustomerAddressId(addressIdInCache)
   );
-  const editModeContext = useFormEditMode();
-  const { aggregatedData } = useCheckoutFormContext();
-  const { customerAddressList } = useShippingAddressAppContext();
-  const { cartShippingAddress } = useShippingAddressCartContext();
   const validationSchema = useRegionValidation(
     selectedCountry,
     initValidationSchema
@@ -99,6 +95,10 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     setSelectedAddress,
     setCustomerAddressSelected,
   });
+  const { aggregatedData } = useCheckoutFormContext();
+  const editModeContext = useFormEditMode();
+  const { customerAddressList } = useShippingAddressAppContext();
+  const { cartShippingAddress } = useShippingAddressCartContext();
   const { setFormToViewMode } = editModeContext;
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
