@@ -1,7 +1,3 @@
-import FormStepProvider from './Step/StepProvider';
-
-import FormStepCxt from './Step/StepContext';
-
-export const StepProvider = FormStepProvider;
-
-export const StepContext = FormStepCxt;
+export { default as CheckoutFormContext } from './CheckoutFormContext';
+export { default as PaymentMethodFormContext } from './PaymentMethodFormContext';
+export { default as ShippingMethodFormContext } from './ShippingMethodFormContext';

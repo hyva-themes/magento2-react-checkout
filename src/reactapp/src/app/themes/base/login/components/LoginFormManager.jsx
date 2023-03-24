@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { get as _get } from 'lodash-es';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
+import { get as _get } from 'lodash-es';
 import { string as YupString, bool as YupBool } from 'yup';
 
 import {
@@ -12,13 +12,14 @@ import {
   useFormSection,
   useFormEditMode,
   useEnterActionInForm,
+  useCheckoutFormContext,
 } from '../../../../../hooks';
 import { __ } from '../../../../../i18n';
 import { LOGIN_FORM } from '../../../../../config';
 import { formikDataShape } from '../../../../../utils/propTypes';
 import { LoginFormContext } from '../../../../code/login/context';
 
-const initialValues = {
+const defaultValues = {
   email: '',
   password: '',
   customerWantsToSignIn: false,
@@ -46,6 +47,7 @@ const validationSchema = {
 };
 
 function LoginFormManager({ children, formikData }) {
+  const [initialValues, setInitialValues] = useState(defaultValues);
   const {
     ajaxLogin,
     setMessage,
@@ -53,6 +55,7 @@ function LoginFormManager({ children, formikData }) {
     setErrorMessage,
     setSuccessMessage,
   } = useLoginAppContext();
+  const { aggregatedData } = useCheckoutFormContext();
   const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
   const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
   const { loginFormValues, setFieldTouched } = formikData;
@@ -120,6 +123,14 @@ function LoginFormManager({ children, formikData }) {
       setFormToViewMode();
     }
   }, [cartEmail, setFormToViewMode]);
+
+  // Update initialvalues based on the initial cart data fetch.
+  useEffect(() => {
+    if (aggregatedData) {
+      const email = aggregatedData?.cart?.email || '';
+      setInitialValues({ ...defaultValues, email });
+    }
+  }, [aggregatedData]);
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {

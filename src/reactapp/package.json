@@ -6,10 +6,13 @@
     "build": "vite build",
     "serve": "vite preview",
     "start": "vite",
-    "preinstall": "node scripts/configurePaymentMethods && node scripts/configureThemes"
+    "preinstall": "node scripts/configureCheckoutIntegrations && node scripts/configureThemes"
   },
   "config": {
-    "themeRepositories": "Add your themes here",
+    "themeRepositories": {
+      "medicalHighlights": "git@github.com:rajeev-k-tomy/hyva-checkout-steps-theme.git"
+    },
+    "shippingMethodsRepo": "Add your shipping methods here",
     "paymentMethodsRepo": "Add your payment methods here"
   },
   "eslintConfig": {

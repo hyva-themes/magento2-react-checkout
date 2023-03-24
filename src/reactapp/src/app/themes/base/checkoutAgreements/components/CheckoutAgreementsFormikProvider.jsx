@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Form } from 'formik';
 import { node } from 'prop-types';
 
 import {
@@ -51,7 +50,7 @@ function CheckoutAgreementFormikProvider({ children, formikData }) {
 
   return (
     <CheckoutAgreementsFormikContext.Provider value={context}>
-      <Form id={CHECKOUT_AGREEMENTS_FORM}>{children}</Form>
+      <div id={CHECKOUT_AGREEMENTS_FORM}>{children}</div>
     </CheckoutAgreementsFormikContext.Provider>
   );
 }

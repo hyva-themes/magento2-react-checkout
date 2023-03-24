@@ -112,6 +112,7 @@ export default function fetchGuestCartModifier(result, dataMethod) {
 
   return {
     id: cartData.id,
+    loaded: true,
     email: cartData.email,
     isVirtualCart: cartData.is_virtual,
     appliedCoupon,

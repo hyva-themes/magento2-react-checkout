@@ -44,6 +44,10 @@ export function _findById(arr, itemId) {
   return arr.find((item) => item.id === itemId);
 }
 
+export function _findIndexById(arr, itemId) {
+  return arr.findIndex((item) => item.id === itemId);
+}
+
 export function _replace(str, searchTerm, replaceWith = '') {
   return (str || '').replace(searchTerm, replaceWith);
 }
