@@ -1,0 +1,60 @@
+<?php
+declare(strict_types=1);
+
+use Hyva\ReactCheckout\ViewModel\ReactCheckoutLocalStorage;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ReactCheckoutLocalStorage $localStorageViewModel */
+
+$localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
+?>
+<script>
+    var storageKey = 'hyva-checkout-storage';
+
+    function _toNumber(value) {
+        return parseInt(value, 10);
+    }
+
+    function initializeHyvaReactStorage() {
+        var storageConfig =
+            JSON.stringify('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
+
+        var isLoggedIn = storageConfig.customerIsLoggedIn;
+        var storageData = {
+            customer: {
+                billing_address_id: 'cart_billing_address',
+                shipping_address_id: 'cart_shipping_address',
+            },
+            is_billing_same_as_shipping: true,
+        };
+
+        if (!isLoggedIn) {
+            window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+            return;
+        }
+
+        var quoteContainsBilling = storageConfig.quoteContainsBilling;
+        var quoteContainsShipping = storageConfig.quoteContainsShipping;
+        var quoteBillingAddressCustomerId = storageConfig.quoteBillingAddressCustomerId;
+        var quoteShippingAddressCustomerId = storageConfig.quoteShippingAddressCustomerId;
+        var defaultBillingAddressId = storageConfig.defaultBillingAddressId;
+        var defaultShippingAddressId = storageConfig.defaultShippingAddressId;
+        var billingAddressId = quoteContainsBilling ? quoteBillingAddressCustomerId : defaultBillingAddressId;
+        var shippingAddressId = quoteContainsShipping ? quoteShippingAddressCustomerId : defaultShippingAddressId;
+
+        if (!billingAddressId && !shippingAddressId) {
+            window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+            return;
+        }
+
+        storageData.customer.billing_address_id = billingAddressId;
+        storageData.customer.shipping_address_id = shippingAddressId;
+        storageData.is_billing_same_as_shipping = billingAddressId === shippingAddressId;
+        window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    }
+
+    window.addEventListener("private-content-loaded", initializeHyvaReactStorage);
+</script>
