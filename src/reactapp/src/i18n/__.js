@@ -9,8 +9,8 @@ export default function __(stringToTranslate, ...dataReplacers) {
     return stringLiteral;
   }
 
-  dataReplacers.forEach((dataToReplace) => {
-    stringLiteral = stringLiteral.replace('%1', __(dataToReplace));
+  dataReplacers.forEach((dataToReplace, index) => {
+    stringLiteral = stringLiteral.replace(`%${index + 1}`, __(dataToReplace));
   });
 
   return stringLiteral;
