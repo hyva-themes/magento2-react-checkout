@@ -1,17 +1,17 @@
 const cartItemsInfo = `
 items {
   id
-  product_type
   quantity
   prices {
-    row_total_incl_tax {
+    row_total_including_tax{
       value
     }
-    price_incl_tax {
+    price_including_tax {
       value
     }
   }
   product {
+    __typename
     id
     name
     sku
