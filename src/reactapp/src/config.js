@@ -69,7 +69,9 @@ export const config = {
   defaultCountry: env.defaultCountry || 'US',
   isProductionMode: nodeEnv === 'production',
   isDevelopmentMode: nodeEnv === 'development',
-  cartId: getConfigFromLocalStorage(activeSource.cartId),
+  cartId:
+    getConfigFromLocalStorage(activeSource.cartId) ||
+    RootElement.getCartMaskedId(),
   baseUrl: env.baseUrl || RootElement.getBaseUrl() || '',
   signInToken: getConfigFromLocalStorage(activeSource.token),
   hyvaStorageSource: magentoDataSources.hyvaCheckoutCacheStorage,
