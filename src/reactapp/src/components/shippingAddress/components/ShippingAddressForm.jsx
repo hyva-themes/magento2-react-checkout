@@ -4,6 +4,7 @@ import { SaveButton } from '../../address';
 import TextInput from '../../common/Form/TextInput';
 import SelectInput from '../../common/Form/SelectInput';
 import CancelButton from './shippingAddressForm/CancelButton';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import SaveInBookCheckbox from '../../address/components/SaveInBookCheckbox';
 import { __ } from '../../../i18n';
 import { _keys } from '../../../utils';
@@ -174,6 +175,9 @@ function ShippingAddressForm() {
           placeholder={__('+32 000 000 000')}
         />
         <SaveInBookCheckbox fields={fields} formikData={formikData} />
+        <div className="mt-4">
+          <BillingSameAsShippingCheckbox />
+        </div>
       </div>
 
       <div className="flex items-center justify-around mt-2">
