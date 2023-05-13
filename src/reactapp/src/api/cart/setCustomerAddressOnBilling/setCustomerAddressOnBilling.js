@@ -1,22 +1,26 @@
 import modifier from './modifier';
+import prepareMutation from './mutation';
 import sendRequest from '../../sendRequest';
 import LocalStorage from '../../../utils/localStorage';
-import { SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION } from './mutation';
 
 export default async function setCustomerAddressOnBilling(
   dispatch,
   customerAddressId,
-  sameAsShipping
+  sameAsShipping,
+  isVirtualCart
 ) {
   const variables = {
     customerAddressId,
-    sameAsShipping,
     cartId: LocalStorage.getCartId(),
   };
 
+  if (!isVirtualCart) {
+    variables.sameAsShipping = sameAsShipping;
+  }
+
   return modifier(
     await sendRequest(dispatch, {
-      query: SET_CUSTOMER_ADDR_ON_CART_BILLING_ADDR_MUTATION,
+      query: prepareMutation(isVirtualCart),
       variables,
     })
   );

@@ -12,14 +12,17 @@ import useBillingAddressAppContext from './useBillingAddressAppContext';
 import useBillingAddressCartContext from './useBillingAddressCartContext';
 
 export default function useSaveAddressAction(billingFormikContext) {
-  const { setCartBillingAddress, setCustomerAddressAsBillingAddress } =
-    useBillingAddressCartContext();
+  const {
+    isVirtualCart,
+    setCartBillingAddress,
+    setCustomerAddressAsBillingAddress,
+  } = useBillingAddressCartContext();
   const {
     setMessage,
+    isLoggedIn,
     setPageLoader,
     setErrorMessage,
     setSuccessMessage,
-    isLoggedIn,
   } = useBillingAddressAppContext();
   const {
     regionData,
@@ -46,14 +49,16 @@ export default function useSaveAddressAction(billingFormikContext) {
     );
     let updateCartAddressPromise = _makePromise(
       setCartBillingAddress,
-      billingToSave
+      billingToSave,
+      isVirtualCart
     );
 
     if (isCustomerAddress && isLoggedIn) {
       updateCartAddressPromise = _makePromise(
         setCustomerAddressAsBillingAddress,
         addressIdContext,
-        isBillingSame
+        isBillingSame,
+        isVirtualCart
       );
     }
 
@@ -66,6 +71,7 @@ export default function useSaveAddressAction(billingFormikContext) {
         ...prepareFormAddressFromCartAddress(result?.billing_address),
         saveInBook: billingToSave?.saveInBook,
       };
+
       setBillingAddressFormFields(addressToSet);
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);
