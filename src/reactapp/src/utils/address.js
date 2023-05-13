@@ -51,7 +51,7 @@ export function formatAddressListToCardData(addressList, stateList) {
         prepareFullName({ firstname, lastname }),
         company,
         ...street,
-        __('%1 %1', zipcode, city),
+        __('%1 %2', zipcode, city),
         regionLabel || _get(countryRegion, 'name'),
         countryCode || country,
         __('Phone: %1', phone),
