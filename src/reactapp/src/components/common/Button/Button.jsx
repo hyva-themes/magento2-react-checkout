@@ -21,7 +21,7 @@ Button.propTypes = {
   size: string,
   disable: bool,
   children: node.isRequired,
-  variant: oneOf(['success', 'warning', 'primary', 'secondary']),
+  variant: oneOf(['success', 'warning', 'primary', 'secondary', 'danger']),
 };
 
 Button.defaultProps = {

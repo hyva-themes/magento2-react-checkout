@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import Button from '../../common/Button';
 import TextInput from '../../common/Form/TextInput';
-import { __ } from '../../../i18n';
 import {
   useCouponCodeAppContext,
   useCouponCodeFormContext,
   useCouponCodeCartContext,
 } from '../hooks';
+import { __ } from '../../../i18n';
 
 function CouponCodeForm() {
   const [codeChecked, setCodeChecked] = useState('');
@@ -22,18 +22,24 @@ function CouponCodeForm() {
   const handleApplyCoupon = async (code) => {
     try {
       setPageLoader(true);
-      await applyCouponCode(code);
+
+      const result = await applyCouponCode(code);
+
+      if (result?.appliedCoupon) {
+        setFieldValue(fields.appliedCode, result?.appliedCoupon.toLowerCase());
+      }
+
       setCodeChecked(code);
       setSuccessMessage(
         __('Coupon code: %1 is applied successfully.', couponCode)
       );
-      setPageLoader(false);
     } catch (error) {
       console.error(error);
       setCodeChecked(code);
       setErrorMessage(
         error?.message || __('Coupon code: %1 is invalid.', couponCode)
       );
+    } finally {
       setPageLoader(false);
     }
   };
@@ -43,21 +49,22 @@ function CouponCodeForm() {
       setPageLoader(true);
       await removeCouponCode();
       setFieldValue(fields.couponCode, '');
+      setFieldValue(fields.appliedCode, '');
       setCodeChecked('');
       setSuccessMessage(
         __('Coupon code: %1 is removed successfully.', couponCode)
       );
-      setPageLoader(false);
     } catch (error) {
       console.error(error);
       setErrorMessage(error?.message);
+    } finally {
       setPageLoader(false);
     }
   };
 
   const submitHandler = async () => {
     if (!couponCode) {
-      await setFieldTouched(fields.couponCode, true);
+      await setFieldTouched(fields.couponCode);
       await setFieldError(fields.couponCode, __('Required'));
       return;
     }
