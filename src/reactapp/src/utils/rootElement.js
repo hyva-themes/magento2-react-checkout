@@ -51,6 +51,10 @@ const RootElement = {
 
     return RootElement.checkoutConfig;
   },
+
+  getCartMaskedId() {
+    return _get(RootElement.getCheckoutConfig(), 'cartMaskedId');
+  },
 };
 
 export default RootElement;

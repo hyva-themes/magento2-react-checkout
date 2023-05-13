@@ -16,6 +16,7 @@ import StickyRightSidebar from '../StickyRightSidebar';
 import CheckoutAgreements from '../checkoutAgreements';
 import { config } from '../../config';
 import { aggregatedQueryRequest } from '../../api';
+import LocalStorage from '../../utils/localStorage';
 import useCheckoutFormContext from '../../hook/useCheckoutFormContext';
 import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
 import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
@@ -34,6 +35,10 @@ function CheckoutForm() {
   useEffect(() => {
     if (isRequestSent) {
       return;
+    }
+
+    if (!LocalStorage.getCartId()) {
+      LocalStorage.saveCartId(config.cartId);
     }
 
     (async () => {

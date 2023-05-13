@@ -1,0 +1,99 @@
+-- Please Select --,-- Παρακαλώ επιλέξτε --
+"%1 is required",Απαιτείται %1
+"%1 zipcode, %1",%1 ταχυδρομικός κώδικας
+"Actions",Ενέργειες
+"Address update failed. Please try again.",Η ενημέρωση διεύθυνσης απέτυχε. Παρακαλώ προσπαθήστε ξανά.
+"Apply Discount Code",Εφαρμόστε τον εκπτωτικό κωδικό
+"Apply Discount",Εφαρμόστε Έκπτωση
+"Bill Here",Χρέωση εδώ
+"Billing address made same as shipping address",Η διεύθυνση χρέωσης έγινε ίδια με τη διεύθυνση αποστολής
+"Billing address update failed. Please try again.",Η ενημέρωση διεύθυνσης χρέωσης απέτυχε. Παρακαλώ προσπαθήστε ξανά.
+"Billing address updated successfully.",Η διεύθυνση χρέωσης ενημερώθηκε με επιτυχία.
+"BILLING ADDRESS",ΔΙΕΥΘΥΝΣΗ ΧΡΕΩΣΗΣ
+"Billing Information",Πληροφορίες χρέωσης
+"Cancel",Ακύρωση
+"Cart Subtotal",Μερικό σύνολο καλαθιού
+"Cart updated successfully.",Το καλάθι ενημερώθηκε με επιτυχία.
+"Checkout Agreements",Συμφωνίες ολοκλήρωσης αγοράς
+"CHOOSE FROM THE ADDRESS LIST",ΕΠΙΛΕΞΤΕ ΑΠΟ ΤΗ ΛΙΣΤΑ ΔΙΕΥΘΥΝΣΕΩΝ
+"City",Πόλη
+"Company",Εταιρία
+"Country",Χώρα
+"Coupon code: %1 is applied successfully.",Κωδικός κουπονιού: Το %1 εφαρμόστηκε με επιτυχία.
+"Coupon code: %1 is invalid.",Κωδικός κουπονιού: %1 δεν είναι έγκυρος.
+"Coupon code: %1 is removed successfully.",Κωδικός κουπονιού: Το %1 αφαιρέθηκε με επιτυχία.
+"Do you already have an account?",Έχετε ήδη λογαριασμό?
+"Do you want to continue as guest user?",Θέλετε να συνεχίσετε ως επισκέπτης χρήστης;
+"Edit",Επεξεργασία
+"Email address is saved.",Η διεύθυνση email έχει αποθηκευτεί.
+"Email address update failed. Please try again.",Η ενημέρωση της διεύθυνσης email απέτυχε. Παρακαλώ προσπαθήστε ξανά.
+"Email is invalid",Το email δεν είναι έγκυρο
+"Email is required",Απαιτείται email
+"Email","Email"
+"Enter your discount code",Εισαγάγετε τον εκπτωτικό σας κωδικό
+"First name",Ονομα
+"FROM ADDRESS BOOK",ΑΠΟ ΒΙΒΛΙΟ ΔΙΕΥΘΥΝΣΕΩΝ
+"I agree",Συμφωνώ
+"I will sign-in and checkout",Θα κάνω είσοδο και ολοκλήρωση αγοράς
+"Item",Είδος
+"Last name",Επίθετο
+"Login failed.",Η σύνδεση απέτυχε.
+"Login",Σύνδεση
+"MOST RECENTLY USED",ΠΙΟ ΠΡΟΣΦΑΤΑ ΧΡΗΣΙΜΟΠΟΙΗΜΕΝΟ
+"New Address",Νέα διεύθυνση
+"NEW ADDRESS",ΝΕΑ ΔΙΕΥΘΥΝΣΗ
+"No cart items available",Δεν υπάρχουν διαθέσιμα είδη καλαθιού
+"No payment methods available at the moment",Δεν υπάρχουν διαθέσιμοι τρόποι πληρωμής αυτήν τη στιγμή
+"No shipping methods available at the moment",Δεν υπάρχουν διαθέσιμες μέθοδοι αποστολής αυτή τη στιγμή
+"Order Summary",Σύνοψη Παραγγελίας
+"Order Total",Σύνολο παραγγελίας
+"OTHER ADDRESSES",ΑΛΛΕΣ ΔΙΕΥΘΥΝΣΕΙΣ
+"Password is required",Απαιτείται κωδικός
+"Password",Κωδικός πρόσβασης
+"Payment method added successfully.",Ο τρόπος πληρωμής προστέθηκε με επιτυχία.
+"Payment method not available",Ο τρόπος πληρωμής δεν είναι διαθέσιμος
+"Payment Methods",Μέθοδοι πληρωμής
+"phone, %1","τηλέφωνο, %1"
+"Phone",Τηλέφωνο
+"Place Order",Υποβολή Παραγγελίας
+"Please agree with the terms & conditions",Παρακαλούμε συμφωνήστε με τους όρους και τις προϋποθέσεις
+"Please provide a shipping address first.",Καταχωρίστε πρώτα μια διεύθυνση αποστολής.
+"Please provide your billing address information.",Δώστε τα στοιχεία της διεύθυνσης χρέωσής σας.
+"Please provide your email address.",Δώστε τη διεύθυνση email σας.
+"Please provide your login details.",Δώστε τα στοιχεία σύνδεσής σας.
+"Please provide your shipping address information.",Δώστε τα στοιχεία της διεύθυνσης αποστολής σας.
+"Please select your payment method.",Επιλέξτε τον τρόπο πληρωμής σας.
+"Please select your shipping method.",Επιλέξτε τον τρόπο αποστολής σας.
+"Postal Code",Ταχυδρομικός Κώδικας
+"Price, %1","Τιμή, %1"
+"Price",Τιμή
+"Product Details",Λεπτομέρειες προϊόντος
+"Qty",Ποσ
+"Remove Coupon Code",Αφαιρέστε τον κωδικό κουπονιού
+"REMOVE",ΑΦΑΙΡΩ
+"Required",Απαιτείται
+"Save in address book",Αποθήκευση στο βιβλίο διευθύνσεων
+"Save",Αποθηκεύσετε
+"SELECTED ADDRESS",ΕΠΙΛΕΓΜΕΝΗ ΔΙΕΥΘΥΝΣΗ
+"Selected shipping method is not available due to the shipping address change. Please select from the available methods.",Η επιλεγμένη μέθοδος αποστολής δεν είναι διαθέσιμη λόγω αλλαγής διεύθυνσης αποστολής. Επιλέξτε από τις διαθέσιμες μεθόδους.
+"Ship Here",Αποστολή εδώ
+"Shipping address update failed. Please try again",Η ενημέρωση διεύθυνσης αποστολής απέτυχε. Παρακαλώ προσπαθήστε ξανά.
+"Shipping address updated successfully.",Η διεύθυνση αποστολής ενημερώθηκε με επιτυχία.
+"SHIPPING ADDRESS",ΔΙΕΥΘΥΝΣΗ ΑΠΟΣΤΟΛΗΣ
+"Shipping Information",Πληροφορίες αποστολής
+"Shipping method not available",Ο τρόπος αποστολής δεν είναι διαθέσιμος
+"Shipping method updated successfully.",Η μέθοδος αποστολής ενημερώθηκε με επιτυχία.
+"Shipping Methods",Μέθοδοι Αποστολής
+"Shipping",Αποστολή
+"Sign In",Συνδεθείτε
+"Something went wrong while adding the payment method to the quote.",Παρουσιάστηκε κάποιο πρόβλημα κατά την προσθήκη του τρόπου πληρωμής στην παραγγελία.
+"Something went wrong while updating shipping method",Παρουσιάστηκε κάποιο πρόβλημα κατά την ενημέρωση της μεθόδου αποστολής
+"Something went wrong while updating the cart item.",Παρουσιάστηκε κάποιο πρόβλημα κατά την ενημέρωση του στοιχείου καλαθιού.
+"State",Περιφέρεια
+"Street",Δρόμος
+"Subtotal",Μερικό Σύνολο
+"Total",Σύνολο
+"Update",Ενημέρωση
+"Use this address as my billing address",Χρησιμοποιήστε αυτήν τη διεύθυνση ως διεύθυνση χρέωσής μου
+"Your checkout details are not valid. Please verify your details.",Τα στοιχεία αγοράς σας δεν είναι έγκυρα. Επαληθεύστε τα στοιχεία σας.
+"Zipcode",Ταχυδρομικός κώδικας
