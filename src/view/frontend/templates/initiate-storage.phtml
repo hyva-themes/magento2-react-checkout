@@ -20,7 +20,7 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
 
     function initializeHyvaReactStorage() {
         var storageConfig =
-            JSON.stringify('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
+            JSON.parse('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
 
         var isLoggedIn = storageConfig.customerIsLoggedIn;
         var storageData = {

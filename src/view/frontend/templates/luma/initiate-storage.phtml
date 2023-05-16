@@ -20,7 +20,7 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
 
     function initializeHyvaReactStorage() {
         var storageConfig =
-            JSON.stringify('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
+            JSON.parse('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
 
         var isLoggedIn = storageConfig.customerIsLoggedIn;
         var storageData = {
@@ -34,6 +34,17 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
         if (!isLoggedIn) {
             window.localStorage.setItem(storageKey, JSON.stringify(storageData));
             return;
+        } else {
+            // In luma theme, signin_token won't be present in the local storage. But, this is essential
+            // for the react checkout working. Here we update localstorage data with customer token.
+            var mageCacheStorage = JSON.parse(window.localStorage.getItem('mage-cache-storage'));
+            var customerToken = mageCacheStorage.customer && mageCacheStorage.customer.signin_token;
+
+            if (!customerToken) {
+                var newCustomerToken = '<?= $escaper->escapeJs($localStorageViewModel->getCustomerToken()) ?>';
+                mageCacheStorage.customer.signin_token = newCustomerToken;
+                window.localStorage.setItem('mage-cache-storage', JSON.stringify(mageCacheStorage));
+            }
         }
 
         var quoteContainsBilling = storageConfig.quoteContainsBilling;
