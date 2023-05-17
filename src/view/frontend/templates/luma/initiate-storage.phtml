@@ -67,8 +67,9 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
         window.localStorage.setItem(storageKey, JSON.stringify(storageData));
     }
 
-    require(['domReady!'], function() {
-        'use strict';
+    if (document.readyState === 'complete') {
         initializeHyvaReactStorage();
-    });
+    } else {
+        document.addEventListener("DOMContentLoaded", initializeHyvaReactStorage);
+    }
 </script>

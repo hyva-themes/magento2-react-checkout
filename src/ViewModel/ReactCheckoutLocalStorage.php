@@ -84,7 +84,7 @@ class ReactCheckoutLocalStorage implements ArgumentInterface
 
     private function isCustomerLoggedIn(): bool
     {
-        return $this->customerSession->isLoggedIn();
+        return $this->customerSession->isLoggedIn() && $this->getCustomer()->getCustomerId();
     }
 
     private function getCustomerDefaultBillingAddressId(): ?int
