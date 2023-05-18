@@ -2,16 +2,13 @@
 
 namespace Hyva\ReactCheckout\ViewModel;
 
-use Magento\Authorization\Model\UserContextInterface;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Address;
 use Magento\Customer\Model\Customer;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Magento\Integration\Api\UserTokenIssuerInterface;
-use Magento\Integration\Model\CustomUserContext;
-use Magento\Integration\Model\UserToken\UserTokenParametersFactory;
+use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 
 class ReactCheckoutLocalStorage implements ArgumentInterface
 {
@@ -31,27 +28,20 @@ class ReactCheckoutLocalStorage implements ArgumentInterface
     private $serializer;
 
     /**
-     * @var UserTokenParametersFactory
+     * @var TokenModelFactory
      */
-    private $tokenParametersFactory;
-
-    /**
-     * @var UserTokenIssuerInterface
-     */
-    private $tokenIssuer;
+    private $tokenModelFactory;
 
     public function __construct(
+        TokenModelFactory $tokenFactory,
         SerializerInterface $serializer,
         CheckoutSession $checkoutSession,
-        CustomerSession $customerSession,
-        UserTokenIssuerInterface $tokenIssuer,
-        UserTokenParametersFactory $tokenParametersFactory
+        CustomerSession $customerSession
     ) {
         $this->serializer = $serializer;
-        $this->tokenIssuer = $tokenIssuer;
+        $this->tokenModelFactory = $tokenFactory;
         $this->checkoutSession = $checkoutSession;
         $this->customerSession = $customerSession;
-        $this->tokenParametersFactory = $tokenParametersFactory;
     }
 
     public function getLocalStorageConfig(): string
@@ -76,15 +66,13 @@ class ReactCheckoutLocalStorage implements ArgumentInterface
         }
 
         $customerId = (int)$this->customerSession->getCustomer()->getId();
-        $context = new CustomUserContext($customerId, UserContextInterface::USER_TYPE_CUSTOMER);
-        $params = $this->tokenParametersFactory->create();
 
-        return $this->tokenIssuer->create($context, $params);
+        return $this->tokenModelFactory->create()->createCustomerToken($customerId)->getToken();
     }
 
     private function isCustomerLoggedIn(): bool
     {
-        return $this->customerSession->isLoggedIn() && $this->getCustomer()->getCustomerId();
+        return $this->customerSession->isLoggedIn() && $this->getCustomer()->getId();
     }
 
     private function getCustomerDefaultBillingAddressId(): ?int
