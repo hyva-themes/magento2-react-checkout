@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { bool, node } from 'prop-types';
-import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/outline';
+import {
+  ArrowSmallUpIcon,
+  ArrowSmallDownIcon,
+} from '@heroicons/react/24/outline';
 
 import Header from '../Header';
 
@@ -9,8 +12,10 @@ function ToggleBox({ children, title, show, small, hrLine }) {
 
   const arrowContent = (
     <div className="flex items-center justify-center">
-      {open && <ArrowSmUpIcon className={small ? 'w-5 h-5' : 'w-6 h-6'} />}
-      {!open && <ArrowSmDownIcon className={small ? 'w-5 h-5' : 'w-6 h-6'} />}
+      {open && <ArrowSmallUpIcon className={small ? 'w-5 h-5' : 'w-6 h-6'} />}
+      {!open && (
+        <ArrowSmallDownIcon className={small ? 'w-5 h-5' : 'w-6 h-6'} />
+      )}
     </div>
   );
 

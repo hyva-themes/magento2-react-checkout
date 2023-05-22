@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { arrayOf, func, node, shape, string } from 'prop-types';
-import { ShieldCheckIcon, PencilIcon } from '@heroicons/react/solid';
+import { ShieldCheckIcon, PencilIcon } from '@heroicons/react/24/solid';
 
 import Card from '../../common/Card';
 import { __ } from '../../../i18n';
