@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace Hyva\ReactCheckout\ViewModel;
 
 use Magento\Checkout\Model\CompositeConfigProvider;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\Locale\ResolverInterface as LocaleResolverInterface;
-use Magento\Framework\Event\ManagerInterface as EventManager;
+use Magento\Store\Model\ScopeInterface;
 
 class CheckoutConfigProvider implements ArgumentInterface
 {
@@ -31,10 +32,11 @@ class CheckoutConfigProvider implements ArgumentInterface
      */
     private $currencyProvider;
 
+
     /**
-     * @var EventManager
+     * @var ScopeConfigInterface
      */
-    private $eventManager;
+    private $scopeConfig;
 
     /**
      * CheckoutConfigProvider constructor.
@@ -42,21 +44,20 @@ class CheckoutConfigProvider implements ArgumentInterface
      * @param SerializerInterface $serializer
      * @param LocaleResolverInterface $localeResolver
      * @param CompositeConfigProvider $compositeConfigProvider
-     * @param CurrencyProvider $currencyProvider
-     * @param EventManager $eventManager
      */
     public function __construct(
-        SerializerInterface $serializer,
+        SerializerInterface     $serializer,
         LocaleResolverInterface $localeResolver,
         CompositeConfigProvider $compositeConfigProvider,
-        CurrencyProvider $currencyProvider,
-        EventManager $eventManager
-    ) {
+        CurrencyProvider        $currencyProvider,
+        ScopeConfigInterface    $scopeConfig
+    )
+    {
         $this->serializer = $serializer;
         $this->localeResolver = $localeResolver;
         $this->compositeConfigProvider = $compositeConfigProvider;
         $this->currencyProvider = $currencyProvider;
-        $this->eventManager = $eventManager;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -78,19 +79,29 @@ class CheckoutConfigProvider implements ArgumentInterface
         $storeCode = $checkoutConfig['storeCode'];
         $checkoutConfig['payment']['restUrlPrefix'] = "/rest/$storeCode/V1/";
 
-        $transport = new \Magento\Framework\DataObject([
-            'checkoutConfig' => $checkoutConfig,
-            'output' => [
-                'storeCode' => $storeCode,
-                'payment' => $checkoutConfig['payment'],
-                'language' => $this->localeResolver->getLocale(),
-                'currency' => $this->currencyProvider->getConfig(),
-                'defaultCountryId' => $checkoutConfig['defaultCountryId'],
-            ]
+        return $this->serializer->serialize([
+            'storeCode' => $storeCode,
+            'payment' => $checkoutConfig['payment'],
+            'language' => $this->localeResolver->getLocale(),
+            'currency' => $this->currencyProvider->getConfig(),
+            'defaultCountryId' => $checkoutConfig['defaultCountryId'],
+            'address' => $this->getAddressConfig()
         ]);
+    }
 
-        $this->eventManager->dispatch('hyva_react_checkout_config', ['transport' => $transport]);
+    private function getAddressConfig()
+    {
 
-        return $this->serializer->serialize($transport->getData('output'));
+        return [
+            'company' => $this->getValue("customer/address/company_show")
+        ];
+    }
+
+    public function getValue($field, $storeId = null)
+    {
+        return $this->scopeConfig->getValue($field,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 }

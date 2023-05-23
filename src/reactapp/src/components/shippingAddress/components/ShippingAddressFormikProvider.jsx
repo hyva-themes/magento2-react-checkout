@@ -31,6 +31,7 @@ import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
+import RootElement from "../../../utils/rootElement";
 
 const defaultValues = {
   company: '',
@@ -46,9 +47,10 @@ const defaultValues = {
 };
 
 const requiredMessage = __('%1 is required');
-
+const config = RootElement.getAddressConfig();
+const requireCompany = config.company === 'req';
 const initValidationSchema = {
-  company: YupString().required(requiredMessage),
+  company: requireCompany ? YupString().required(requiredMessage) : YupString().notRequired(),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
   street: YupArray().test(
