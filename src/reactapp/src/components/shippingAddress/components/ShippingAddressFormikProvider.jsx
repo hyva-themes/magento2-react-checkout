@@ -50,7 +50,7 @@ const requiredMessage = __('%1 is required');
 const config = RootElement.getAddressConfig();
 const requireCompany = config.company === 'req';
 const initValidationSchema = {
-  company: requireCompany ? YupString().required(requiredMessage) : YupString().notRequired(),
+  company: requireCompany ? YupString().required(requiredMessage) : YupString().notRequired().nullable(),
   firstname: YupString().required(requiredMessage),
   lastname: YupString().required(requiredMessage),
   street: YupArray().test(
