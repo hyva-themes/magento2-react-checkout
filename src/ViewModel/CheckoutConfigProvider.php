@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Hyva\ReactCheckout\ViewModel;
 
-use Couchbase\Scope;
 use Magento\Checkout\Model\CompositeConfigProvider;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
