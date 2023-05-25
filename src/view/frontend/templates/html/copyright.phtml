@@ -1,0 +1,12 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Footer;
+
+/**
+ * @var Footer $block
+ */
+?>
+<small class="flex items-center justify-center w-full py-2 bg-gray-600">
+    <span class="text-white"><?= $block->escapeHtml($block->getCopyright()) ?></span>
+</small>

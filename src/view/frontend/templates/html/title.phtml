@@ -1,0 +1,20 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Title;
+
+/**
+ * @var Title $block
+ */
+?>
+<div class="flex justify-center mt-2">
+    <div class="container">
+        <div class="container flex flex-col flex-wrap my-6 text-3xl font-bold md:flex-row lg:mt-8">
+            <h1 class="text-gray-900 page-title title-font">
+                <span class="base" data-ui-id="page-title-wrapper">
+                    <?= /* @noEscape */ __('Checkout') ?>
+                </span>
+            </h1>
+        </div>
+    </div>
+</div>

@@ -22,8 +22,9 @@ $buildJsFile = 'Hyva_ReactCheckout::js/react-checkout.js';
         firstScript.parentNode.insertBefore(newScript, firstScript);
     }
 
-    require(['domReady!'], function() {
-        'use strict';
+    if (document.readyState === 'complete') {
         loadReactCartScript();
-    });
+    } else {
+        document.addEventListener("DOMContentLoaded", loadReactCartScript);
+    }
 </script>

@@ -3,6 +3,11 @@
       layout="checkout"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
+        <remove src="css/styles-m.css" />
+        <remove src="css/styles-l.css" />
+        <remove src="css/print.css" />
+        <remove src="mage/calendar.css"/>
+        <remove src="requirejs/require.js"/>
         <css src="Hyva_ReactCheckout::css/styles.css" defer="defer" />
     </head>
     <body>
@@ -50,5 +55,28 @@
                    template="Hyva_ReactCheckout::luma/react-script.phtml"
                    after="checkout.initiate.hyva-checkout-storage" />
         </referenceContainer>
+
+        <referenceBlock name="logo" template="Hyva_ReactCheckout::html/header/logo.phtml" />
+        <referenceBlock name="page.main.title" template="Hyva_ReactCheckout::html/title.phtml" />
+        <referenceBlock name="copyright" template="Hyva_ReactCheckout::html/copyright.phtml" />
+
+        <referenceBlock name="top.search" remove="true" />
+        <referenceBlock name="minicart" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true" />
+        <referenceBlock name="navigation.sections" remove="true" />
+        <referenceBlock name="authentication-popup" remove="true" />
+        <referenceBlock name="frontend-storage-manager" remove="true" />
+        <referenceBlock name="pageCache" remove="true" />
+        <referenceBlock name="customer.data.invalidation.rules" remove="true" />
+        <referenceBlock name="customer.customer.data" remove="true" />
+        <referenceBlock name="customer.section.config" remove="true" />
+        <referenceBlock name="messages" remove="true" />
+        <referenceBlock name="theme.active.editor" remove="true" />
+        <referenceBlock name="cookie_config" remove="true" />
+        <referenceBlock name="js_cookies" remove="true" />
+        <referenceBlock name="cookie-status-check" remove="true" />
+
+        <referenceContainer name="header.panel" remove="true" />
+        <referenceContainer name="footer-container" remove="true" />
     </body>
 </page>

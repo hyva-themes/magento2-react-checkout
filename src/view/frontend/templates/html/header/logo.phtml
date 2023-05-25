@@ -1,0 +1,36 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Header\Logo;
+use Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface;
+
+/**
+ * @var Logo $block
+ * @var LogoSizeResolverInterface|null $logoSizeResolver
+ */
+
+$storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
+$logoSizeResolver = $block->getLogoSizeResolver();
+$logoWidth = $logoSizeResolver !== null && $logoSizeResolver->getWidth()
+    ? $logoSizeResolver->getWidth()
+    : $block->getLogoWidth();
+$logoHeight = $logoSizeResolver !== null && $logoSizeResolver->getHeight()
+    ? $logoSizeResolver->getHeight()
+    : $block->getLogoHeight();
+?>
+<div class="flex justify-center mt-6">
+    <div class="container">
+        <a
+            class="logo"
+            href="<?= $block->escapeUrl($block->getUrl('')) ?>"
+            title="<?= $block->escapeHtmlAttr($storeName) ?>"
+            aria-label="store logo">
+            <img src="<?= $block->escapeUrl($block->getLogoSrc()) ?>"
+                 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+                 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+                <?= $logoWidth ? 'width="' . $block->escapeHtmlAttr($logoWidth) . '"' : '' ?>
+                <?= $logoHeight ? 'height="' . $block->escapeHtmlAttr($logoHeight) . '"' : '' ?>
+            />
+        </a>
+    </div>
+</div>

@@ -91,5 +91,5 @@ module.exports = {
     },
   },
   plugins: [forms],
-  content: ['./src/**/*.jsx', '../view/frontend/templates/*.phtml'],
+  content: ['./src/**/*.jsx', '../view/frontend/templates/**/*.phtml'],
 };
