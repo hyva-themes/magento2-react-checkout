@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Footer;
+
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * @var Footer $block
  */
 ?>
-<small class="w-full flex items-center justify-center bg-gray-600 py-2">
+<small class="flex items-center justify-center w-full py-2 bg-gray-600">
     <span class="text-white"><?= $block->escapeHtml($block->getCopyright()) ?></span>
 </small>

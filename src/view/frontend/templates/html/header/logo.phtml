@@ -1,16 +1,15 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Header\Logo;
+use Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface;
 
 /**
- * @var \Magento\Theme\Block\Html\Header\Logo $block
+ * @var Logo $block
+ * @var LogoSizeResolverInterface|null $logoSizeResolver
  */
+
 $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
-/**
- * @var \Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface|null $logoSizeResolver
- */
 $logoSizeResolver = $block->getLogoSizeResolver();
 $logoWidth = $logoSizeResolver !== null && $logoSizeResolver->getWidth()
     ? $logoSizeResolver->getWidth()
@@ -35,4 +34,3 @@ $logoHeight = $logoSizeResolver !== null && $logoSizeResolver->getHeight()
         </a>
     </div>
 </div>
-

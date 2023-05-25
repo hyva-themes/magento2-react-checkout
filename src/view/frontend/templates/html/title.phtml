@@ -1,20 +1,19 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+declare(strict_types=1);
+
+use Magento\Theme\Block\Html\Title;
 
 /**
- * @var $block \Magento\Theme\Block\Html\Title
+ * @var Title $block
  */
 ?>
 <div class="flex justify-center mt-2">
     <div class="container">
-        <div class="container flex flex-col md:flex-row flex-wrap my-6 font-bold lg:mt-8 text-3xl">
+        <div class="container flex flex-col flex-wrap my-6 text-3xl font-bold md:flex-row lg:mt-8">
             <h1 class="text-gray-900 page-title title-font">
-                    <span class="base" data-ui-id="page-title-wrapper">
-                        <?= /* @noEscape */ __('Checkout') ?>
-                    </span>
+                <span class="base" data-ui-id="page-title-wrapper">
+                    <?= /* @noEscape */ __('Checkout') ?>
+                </span>
             </h1>
         </div>
     </div>
