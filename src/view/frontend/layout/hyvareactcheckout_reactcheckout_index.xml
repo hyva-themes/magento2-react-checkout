@@ -1,11 +1,20 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      layout="checkout"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Hyva_ReactCheckout::css/styles.css" />
+        <remove src="css/styles-m.css" />
+        <remove src="css/styles-l.css" />
+        <remove src="css/print.css" />
+        <remove src="mage/calendar.css"/>
+        <remove src="requirejs/require.js"/>
+        <css src="Hyva_ReactCheckout::css/styles.css" defer="defer" />
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Hyva\ReactCheckout\Block\CheckoutTranslator" name="checkout.translations" template="Hyva_ReactCheckout::translation.phtml">
+            <block class="Hyva\ReactCheckout\Block\CheckoutTranslator"
+                   name="checkout.translations"
+                   template="Hyva_ReactCheckout::translation.phtml">
                 <arguments>
                     <argument name="checkout_translations" xsi:type="array">
                         <!--
@@ -33,7 +42,41 @@
             </block>
         </referenceContainer>
         <referenceContainer name="before.body.end">
-            <block name="checkout.scripts" template="Hyva_ReactCheckout::react-script.phtml" after="-"/>
+            <block name="checkout.initiate.hyva-checkout-storage"
+                   template="Hyva_ReactCheckout::luma/initiate-storage.phtml"
+                   after="-" >
+                <arguments>
+                    <argument
+                        name="hyva_react_checkout_localstorage"
+                        xsi:type="object">Hyva\ReactCheckout\ViewModel\ReactCheckoutLocalStorage</argument>
+                </arguments>
+            </block>
+            <block name="checkout.scripts"
+                   template="Hyva_ReactCheckout::luma/react-script.phtml"
+                   after="checkout.initiate.hyva-checkout-storage" />
         </referenceContainer>
+
+        <referenceBlock name="logo" template="Hyva_ReactCheckout::html/header/logo.phtml" />
+        <referenceBlock name="page.main.title" template="Hyva_ReactCheckout::html/title.phtml" />
+        <referenceBlock name="copyright" template="Hyva_ReactCheckout::html/copyright.phtml" />
+
+        <referenceBlock name="top.search" remove="true" />
+        <referenceBlock name="minicart" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true" />
+        <referenceBlock name="navigation.sections" remove="true" />
+        <referenceBlock name="authentication-popup" remove="true" />
+        <referenceBlock name="frontend-storage-manager" remove="true" />
+        <referenceBlock name="pageCache" remove="true" />
+        <referenceBlock name="customer.data.invalidation.rules" remove="true" />
+        <referenceBlock name="customer.customer.data" remove="true" />
+        <referenceBlock name="customer.section.config" remove="true" />
+        <referenceBlock name="messages" remove="true" />
+        <referenceBlock name="theme.active.editor" remove="true" />
+        <referenceBlock name="cookie_config" remove="true" />
+        <referenceBlock name="js_cookies" remove="true" />
+        <referenceBlock name="cookie-status-check" remove="true" />
+
+        <referenceContainer name="header.panel" remove="true" />
+        <referenceContainer name="footer-container" remove="true" />
     </body>
 </page>

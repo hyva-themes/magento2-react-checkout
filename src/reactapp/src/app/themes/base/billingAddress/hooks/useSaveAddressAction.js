@@ -14,10 +14,18 @@ import { _makePromise } from '../../../../../utils';
 import LocalStorage from '../../../../../utils/localStorage';
 
 export default function useSaveAddressAction(billingFormikContext) {
-  const { setCartBillingAddress, setCustomerAddressAsBillingAddress } =
-    useBillingAddressCartContext();
-  const { setMessage, setPageLoader, setErrorMessage, setSuccessMessage } =
-    useBillingAddressAppContext();
+  const {
+    isVirtualCart,
+    setCartBillingAddress,
+    setCustomerAddressAsBillingAddress,
+  } = useBillingAddressCartContext();
+  const {
+    setMessage,
+    isLoggedIn,
+    setPageLoader,
+    setErrorMessage,
+    setSuccessMessage,
+  } = useBillingAddressAppContext();
   const {
     regionData,
     billingValues,
@@ -33,7 +41,7 @@ export default function useSaveAddressAction(billingFormikContext) {
   return async (addressId) => {
     setMessage(false);
 
-    const addressIdContext = addressId || selectedAddress;
+    const addressIdContext = isLoggedIn ? addressId || selectedAddress : null;
     const isCustomerAddress = isValidCustomerAddressId(addressId);
     const mostRecentAddresses = LocalStorage.getMostRecentlyUsedAddressList();
     const recentAddressInUse = mostRecentAddresses[addressId];
@@ -43,14 +51,16 @@ export default function useSaveAddressAction(billingFormikContext) {
     );
     let updateCartAddressPromise = _makePromise(
       setCartBillingAddress,
-      billingToSave
+      billingToSave,
+      isVirtualCart
     );
 
-    if (isCustomerAddress) {
+    if (isCustomerAddress && isLoggedIn) {
       updateCartAddressPromise = _makePromise(
         setCustomerAddressAsBillingAddress,
         addressIdContext,
-        isBillingSame
+        isBillingSame,
+        isVirtualCart
       );
     }
 
@@ -63,6 +73,7 @@ export default function useSaveAddressAction(billingFormikContext) {
         ...prepareFormAddressFromCartAddress(result?.billing_address),
         saveInBook: billingToSave?.saveInBook,
       };
+
       setBillingAddressFormFields(addressToSet);
       setFormToViewMode(false);
       setSelectedAddress(addressIdContext);

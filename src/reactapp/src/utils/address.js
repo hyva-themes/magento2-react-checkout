@@ -51,16 +51,16 @@ export function formatAddressListToCardData(addressList, stateList) {
         prepareFullName({ firstname, lastname }),
         company,
         ...street,
-        city,
+        __('%1 %2', zipcode, city),
         regionLabel || _get(countryRegion, 'name'),
-        __('%1 zipcode: %1', countryCode || country, zipcode),
-        __('phone: %1', phone),
+        countryCode || country,
+        __('Phone: %1', phone),
       ].filter((i) => !!i),
     };
   });
 }
 
-export const addressInitValues = {
+const addressInitValues = {
   company: '',
   firstname: '',
   lastname: '',
@@ -69,7 +69,7 @@ export const addressInitValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: initialCountry,
+  country: '',
 };
 
 export function prepareFormAddressFromCartAddress(address, selectedAddressId) {

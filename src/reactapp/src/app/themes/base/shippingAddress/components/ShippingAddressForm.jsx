@@ -3,6 +3,7 @@ import React from 'react';
 import { SaveButton } from '../../address';
 import CancelButton from './shippingAddressForm/CancelButton';
 import { SelectInput, TextInput } from '../../../../code/common/Form';
+import BillingSameAsShippingCheckbox from './BillingSameAsShippingCheckbox';
 import SaveInBookCheckbox from '../../address/components/SaveInBookCheckbox';
 import {
   useShippingAddressAppContext,
@@ -174,6 +175,9 @@ function ShippingAddressForm() {
           placeholder={__('+32 000 000 000')}
         />
         <SaveInBookCheckbox fields={fields} formikData={formikData} />
+        <div className="mt-4">
+          <BillingSameAsShippingCheckbox />
+        </div>
       </div>
 
       <div className="flex items-center justify-around mt-2">

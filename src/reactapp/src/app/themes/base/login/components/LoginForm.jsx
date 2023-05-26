@@ -19,8 +19,11 @@ function LoginForm() {
     validationSchema,
     formSectionTouched,
   } = useLoginFormContext();
-  const customerWantsToSignIn = _get(loginFormValues, 'customerWantsToSignIn');
-  const isLoginFormTouched = _get(formSectionTouched, 'email') || false;
+  const isEmailTouched = _get(formSectionTouched, 'email') || false;
+  const customerWantsToSignIn = loginFormValues?.customerWantsToSignIn;
+  const disableButton = customerWantsToSignIn
+    ? !formSectionTouched
+    : !isEmailTouched;
   const handleButtonClick = useFormValidateThenSubmit({
     formId,
     formikData,
@@ -63,8 +66,8 @@ function LoginForm() {
       <div className="flex items-center justify-center">
         <Button
           variant="primary"
+          disable={disableButton}
           click={handleButtonClick}
-          disable={!isLoginFormTouched}
         >
           {customerWantsToSignIn ? __('Sign In') : __('Update')}
         </Button>

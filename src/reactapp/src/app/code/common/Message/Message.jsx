@@ -31,7 +31,7 @@ function Message() {
     <div className="container sticky z-10 my-4" style={{ top: '20px' }}>
       <div
         className={`relative px-6 py-2 my-4 text-white border-0 rounded ${
-          msgType === 'error' ? 'bg-red-400' : ''
+          msgType === 'error' ? 'bg-red-500' : ''
         } ${msgType === 'success' ? 'bg-green-500' : ''}`}
       >
         <span className="inline-block mr-8 align-middle">{msg}</span>

@@ -23,8 +23,13 @@ function BillingSameAsShippingCheckbox() {
     setCartBillingAddress,
     setCustomerAddressAsBillingAddress,
   } = useShippingAddressCartContext();
-  const { setFieldValue, isBillingSame, shippingValues, selectedAddress } =
-    useShippingAddressFormikContext();
+  const {
+    setFieldValue,
+    isBillingSame,
+    shippingValues,
+    selectedAddress,
+    isFormSectionValid,
+  } = useShippingAddressFormikContext();
   const { isLoggedIn, setPageLoader, setErrorMessage, setSuccessMessage } =
     useShippingAddressAppContext();
   const { setBillingSelected, setIsBillingCustomerAddress } =
@@ -74,7 +79,7 @@ function BillingSameAsShippingCheckbox() {
     setFieldValue(billingSameAsShippingField, newSameAsShipping);
     LocalStorage.saveBillingSameAsShipping(newSameAsShipping);
 
-    if (newSameAsShipping) {
+    if (newSameAsShipping && isFormSectionValid) {
       await makeBillingSameAsShippingRequest();
     }
   };
@@ -87,14 +92,12 @@ function BillingSameAsShippingCheckbox() {
   }
 
   return (
-    <div className="flex items-center h-10 px-3 pb-4 mt-3 -mx-4 -mb-4 bg-gray-200">
-      <Checkbox
-        isChecked={isBillingSame}
-        name={billingSameAsShippingField}
-        onChange={toggleBillingEqualsShippingState}
-        label={__('Use this address as my billing address')}
-      />
-    </div>
+    <Checkbox
+      isChecked={isBillingSame}
+      name={billingSameAsShippingField}
+      onChange={toggleBillingEqualsShippingState}
+      label={__('Use this address as my billing address')}
+    />
   );
 }
 

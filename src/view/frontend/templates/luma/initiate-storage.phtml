@@ -1,0 +1,75 @@
+<?php
+declare(strict_types=1);
+
+use Hyva\ReactCheckout\ViewModel\ReactCheckoutLocalStorage;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ReactCheckoutLocalStorage $localStorageViewModel */
+
+$localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
+?>
+<script>
+    var storageKey = 'hyva-checkout-storage';
+
+    function _toNumber(value) {
+        return parseInt(value, 10);
+    }
+
+    function initializeHyvaReactStorage() {
+        var storageConfig =
+            JSON.parse('<?= $escaper->escapeJs($localStorageViewModel->getLocalStorageConfig()) ?>') || {};
+
+        var isLoggedIn = storageConfig.customerIsLoggedIn;
+        var storageData = {
+            customer: {
+                billing_address_id: 'cart_billing_address',
+                shipping_address_id: 'cart_shipping_address',
+            },
+            is_billing_same_as_shipping: true,
+        };
+
+        if (!isLoggedIn) {
+            window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+            return;
+        } else {
+            // In luma theme, signin_token won't be present in the local storage. But, this is essential
+            // for the react checkout working. Here we update localstorage data with customer token.
+            var mageCacheStorage = JSON.parse(window.localStorage.getItem('mage-cache-storage'));
+            var customerToken = mageCacheStorage.customer && mageCacheStorage.customer.signin_token;
+
+            if (!customerToken) {
+                var newCustomerToken = '<?= $escaper->escapeJs($localStorageViewModel->getCustomerToken()) ?>';
+                mageCacheStorage.customer.signin_token = newCustomerToken;
+                window.localStorage.setItem('mage-cache-storage', JSON.stringify(mageCacheStorage));
+            }
+        }
+
+        var quoteContainsBilling = storageConfig.quoteContainsBilling;
+        var quoteContainsShipping = storageConfig.quoteContainsShipping;
+        var quoteBillingAddressCustomerId = storageConfig.quoteBillingAddressCustomerId;
+        var quoteShippingAddressCustomerId = storageConfig.quoteShippingAddressCustomerId;
+        var defaultBillingAddressId = storageConfig.defaultBillingAddressId;
+        var defaultShippingAddressId = storageConfig.defaultShippingAddressId;
+        var billingAddressId = quoteContainsBilling ? quoteBillingAddressCustomerId : defaultBillingAddressId;
+        var shippingAddressId = quoteContainsShipping ? quoteShippingAddressCustomerId : defaultShippingAddressId;
+
+        if (!billingAddressId && !shippingAddressId) {
+            window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+            return;
+        }
+
+        storageData.customer.billing_address_id = billingAddressId;
+        storageData.customer.shipping_address_id = shippingAddressId;
+        storageData.is_billing_same_as_shipping = billingAddressId === shippingAddressId;
+        window.localStorage.setItem(storageKey, JSON.stringify(storageData));
+    }
+
+    if (document.readyState === 'complete') {
+        initializeHyvaReactStorage();
+    } else {
+        document.addEventListener("DOMContentLoaded", initializeHyvaReactStorage);
+    }
+</script>

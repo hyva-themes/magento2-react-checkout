@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import BaseTheme from '../../themes/base/Index';
 import { config } from '../../../config';
 import { aggregatedQueryRequest } from '../../../api';
+import LocalStorage from '../../../utils/localStorage';
 import { useCheckoutFormContext } from '../../../hooks';
 import useCheckoutFormAppContext from './hooks/useCheckoutFormAppContext';
 import useCheckoutFormCartContext from './hooks/useCheckoutFormCartContext';
@@ -20,6 +21,10 @@ function CheckoutForm() {
   useEffect(() => {
     if (isRequestSent) {
       return;
+    }
+
+    if (!LocalStorage.getCartId()) {
+      LocalStorage.saveCartId(config.cartId);
     }
 
     (async () => {
