@@ -34,6 +34,14 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
         if (!isLoggedIn) {
             window.localStorage.setItem(storageKey, JSON.stringify(storageData));
             return;
+        } else {
+            var mageCacheStorage = JSON.parse(window.localStorage.getItem('mage-cache-storage'));
+            var customerToken = mageCacheStorage.customer && mageCacheStorage.customer.signin_token;
+
+            if (!customerToken) {
+                mageCacheStorage.cart.cartId = '';
+                window.localStorage.setItem('mage-cache-storage', JSON.stringify(mageCacheStorage));
+            }
         }
 
         var quoteContainsBilling = storageConfig.quoteContainsBilling;
