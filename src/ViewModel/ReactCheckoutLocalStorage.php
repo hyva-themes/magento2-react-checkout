@@ -48,6 +48,7 @@ class ReactCheckoutLocalStorage implements ArgumentInterface
     {
         $config = [
             'customerIsLoggedIn' => $this->isCustomerLoggedIn(),
+            'isBillingSameAsShipping' => $this->isAddressSame(),
             'quoteContainsBilling' => $this->hasQuoteContainsValidBillingAddress(),
             'quoteContainsShipping' => $this->hasQuoteContainsValidShippingAddress(),
             'defaultBillingAddressId' => $this->getCustomerDefaultBillingAddressId(),
@@ -68,6 +69,11 @@ class ReactCheckoutLocalStorage implements ArgumentInterface
         $customerId = (int)$this->customerSession->getCustomer()->getId();
 
         return $this->tokenModelFactory->create()->createCustomerToken($customerId)->getToken();
+    }
+
+    private function isAddressSame(): bool
+    {
+        return (bool) $this->checkoutSession->getQuote()->getShippingAddress()->getSameAsBilling();
     }
 
     private function isCustomerLoggedIn(): bool
