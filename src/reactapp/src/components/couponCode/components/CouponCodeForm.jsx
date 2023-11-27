@@ -26,7 +26,7 @@ function CouponCodeForm() {
       const result = await applyCouponCode(code);
 
       if (result?.appliedCoupon) {
-        setFieldValue(fields.appliedCode, result?.appliedCoupon.toLowerCase());
+        setFieldValue(fields.appliedCode, result?.appliedCoupon);
       }
 
       setCodeChecked(code);

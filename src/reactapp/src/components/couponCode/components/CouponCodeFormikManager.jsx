@@ -23,7 +23,9 @@ const validationSchema = {
       if (!value) {
         return true;
       }
-      const appliedCode = (context?.parent.appliedCode || '').toLowerCase();
+
+      const appliedCode = context?.parent.appliedCode;
+
       return appliedCode === value;
     }),
 };
@@ -40,8 +42,8 @@ function CouponCodeFormikManager({ children, formikData }) {
       const { appliedCoupon: appliedCode } = aggregatedData?.cart || {};
       setInitialValues({
         ...defaultValues,
+        appliedCode,
         couponCode: appliedCode,
-        appliedCode: (appliedCode || '').toLowerCase(),
       });
     }
   }, [aggregatedData]);
