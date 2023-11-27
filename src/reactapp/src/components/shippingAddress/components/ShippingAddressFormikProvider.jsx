@@ -1,20 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  array as YupArray,
-  string as YupString,
-  boolean as YupBoolean,
-} from 'yup';
 import { Form } from 'formik';
 import { node } from 'prop-types';
-import { get as _get } from 'lodash-es';
 
 import {
   initialCountry,
   isCartAddressValid,
   CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
+  addressInitialValidationSchema,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
 import { _toString } from '../../../utils';
 import { SHIPPING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
@@ -45,26 +39,6 @@ const defaultValues = {
   saveInBook: false,
 };
 
-const requiredMessage = __('%1 is required');
-
-const initValidationSchema = {
-  company: YupString().required(requiredMessage),
-  firstname: YupString().required(requiredMessage),
-  lastname: YupString().required(requiredMessage),
-  street: YupArray().test(
-    'street1Required',
-    requiredMessage,
-    (value) => !!_get(value, 0)
-  ),
-  phone: YupString().required(requiredMessage),
-  zipcode: YupString().required(requiredMessage),
-  city: YupString().required(requiredMessage),
-  region: YupString().nullable(),
-  country: YupString().required(requiredMessage),
-  isSameAsShipping: YupBoolean(),
-  saveInBook: YupBoolean(),
-};
-
 const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());
 const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
 
@@ -81,7 +55,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   );
   const validationSchema = useRegionValidation(
     selectedCountry,
-    initValidationSchema
+    addressInitialValidationSchema
   );
   // this will set default addresses on the address fields on login
   useFillDefaultAddresses({

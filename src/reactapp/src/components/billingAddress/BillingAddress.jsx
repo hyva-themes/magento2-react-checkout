@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
+import { get as _get } from 'lodash-es';
 import { useFormikContext } from 'formik';
-import { get as _get, set as _set } from 'lodash-es';
 
 import BillingAddressMemorized from './BillingAddressMemorized';
-import { __ } from '../../i18n';
 import { BILLING_ADDR_FORM } from '../../config';
 import { billingAddrOtherOptionField } from './utility';
 import useFormikMemorizer from '../../hook/useFormikMemorizer';
@@ -25,24 +24,13 @@ function BillingAddress() {
   const { values } = useFormikContext();
   const formSectionData = useFormikMemorizer(BILLING_ADDR_FORM);
   const isBillingSame = _get(values, billingSameAsShippingField);
+  const { formSectionValues, isFormSectionTouched } = formSectionData;
   const billingOtherOptionSelected = _get(values, billingAddrOtherOptionField);
-  const { formSectionValues, formSectionErrors, isFormSectionTouched } =
-    formSectionData;
-  const streetError = _get(formSectionErrors, 'street');
-
-  if (streetError) {
-    _set(
-      formSectionErrors,
-      'street[0]',
-      __('%1 is required', 'Street Address')
-    );
-  }
 
   const billingFormikData = useMemo(
     () => ({
       ...formSectionData,
       isBillingSame,
-      formSectionErrors,
       billingOtherOptionSelected,
       billingValues: formSectionValues,
       isBillingAddressTouched: isFormSectionTouched,
@@ -52,7 +40,6 @@ function BillingAddress() {
     [
       isBillingSame,
       formSectionData,
-      formSectionErrors,
       formSectionValues,
       isFormSectionTouched,
       billingOtherOptionSelected,
