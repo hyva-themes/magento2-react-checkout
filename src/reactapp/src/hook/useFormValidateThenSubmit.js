@@ -34,10 +34,15 @@ export default function useFormValidateThenSubmit({
     }
 
     const validationRules = YupObject().shape(validationSchema);
-    const isValid = await validationRules.validate(formSectionValues);
 
-    if (isValid) {
-      await submitHandler(...args);
+    try {
+      const isValid = await validationRules.validate(formSectionValues);
+
+      if (isValid) {
+        await submitHandler(...args);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 }
