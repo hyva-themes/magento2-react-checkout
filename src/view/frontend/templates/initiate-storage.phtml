@@ -28,7 +28,7 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
                 billing_address_id: 'cart_billing_address',
                 shipping_address_id: 'cart_shipping_address',
             },
-            is_billing_same_as_shipping: true,
+            is_billing_same_as_shipping: storageConfig.isBillingSameAsShipping,
         };
 
         if (!isLoggedIn) {
