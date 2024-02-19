@@ -43,6 +43,7 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
             if (!customerToken) {
                 var newCustomerToken = '<?= $escaper->escapeJs($localStorageViewModel->getCustomerToken()) ?>';
                 mageCacheStorage.customer.signin_token = newCustomerToken;
+                mageCacheStorage.cart.cartId = '';
                 window.localStorage.setItem('mage-cache-storage', JSON.stringify(mageCacheStorage));
             }
         }
