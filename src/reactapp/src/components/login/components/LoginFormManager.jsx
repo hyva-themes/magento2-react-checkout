@@ -53,6 +53,7 @@ function LoginFormManager({ children, formikData }) {
   } = useLoginAppContext();
   const { aggregatedData } = useCheckoutFormContext();
   const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
+  const { emailCheck } = useLoginCartContext();
   const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
   const { loginFormValues, setFieldTouched } = formikData;
 
@@ -80,11 +81,17 @@ function LoginFormManager({ children, formikData }) {
       setPageLoader(true);
 
       if (!customerWantsToSignIn) {
-        await setEmailOnGuestCart(email);
-        setSuccessMessage(__('Email address is saved.'));
-        setFormToViewMode();
-        setFieldTouched(`${LOGIN_FORM}.email`, false);
-        setPageLoader(false);
+        const emailCheckData = await emailCheck(email);
+        if (emailCheckData.age_verified_result > 0) {
+          await setEmailOnGuestCart(email);
+          setSuccessMessage(__('Email address is saved.'));
+          setFormToViewMode();
+          setFieldTouched(`${LOGIN_FORM}.email`, false);
+          setPageLoader(false);
+        } else {
+          setErrorMessage(__('Email is not Age Verified!'));
+          setPageLoader(false);
+        }
         return;
       }
 

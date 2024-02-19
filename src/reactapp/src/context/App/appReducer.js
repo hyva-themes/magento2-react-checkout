@@ -3,12 +3,14 @@ import {
   setCustomerAddressInfo,
   updateCustomerAddressReducer,
   setCustomerLoggedInStatusReducer,
+  emailCheckReducer,
 } from './customer/reducers';
 import {
   SET_CUSTOMER_INFO,
   UPDATE_CUSTOMER_ADDRESS,
   SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
+  CHECK_EMAIL,
 } from './customer/types';
 import { AGGREGATED_APP_DATA } from './aggregated/types';
 import { setAggregatedData } from './aggregated/reducers';
@@ -30,6 +32,7 @@ const actions = {
   [SET_CUSTOMER_ADDRESS_INFO]: setCustomerAddressInfo,
   [UPDATE_CUSTOMER_ADDRESS]: updateCustomerAddressReducer,
   [UPDATE_CUSTOMER_LOGGEDIN_STATUS]: setCustomerLoggedInStatusReducer,
+  [CHECK_EMAIL]: emailCheckReducer,
 };
 
 export default function appReducer(state, { type, payload }) {

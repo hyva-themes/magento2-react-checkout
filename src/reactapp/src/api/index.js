@@ -14,6 +14,7 @@ import fetchCountryList from './countries/fetchCountryList';
 import fetchCustomerCart from './customer/fetchCustomerCart';
 import fetchCustomerInfo from './customer/fetchCustomerInfo';
 import setEmailOnGuestCart from './cart/setEmailOnGuestCart';
+import emailCheck from './ageverify/emailCheck';
 import restSetMyPaymentMethod from './cart/restSetMyPaymentMethod';
 import updateCustomerAddress from './customer/updateCustomerAddress';
 import fetchCountryStateList from './countries/fetchCountryStateList';
@@ -77,3 +78,5 @@ export const aggregatedQueryRequest = aggregatedQuery;
 export const applyCouponCodeToCartRequest = applyCouponCodeToCart;
 
 export const removeCouponCodeFromCartRequest = removeCouponCodeFromCart;
+
+export const emailCheckRequest = emailCheck;

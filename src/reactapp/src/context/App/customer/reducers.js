@@ -1,3 +1,5 @@
+// import { func } from "prop-types";
+
 export function setCustomerAddressInfo(state, customerAddrInfo) {
   return {
     ...state,
@@ -26,5 +28,12 @@ export function setCustomerLoggedInStatusReducer(state, status) {
   return {
     ...state,
     isLoggedIn: status,
+  };
+}
+
+export function emailCheckReducer(state, data) {
+  return {
+    ...state,
+    emailCheck: data,
   };
 }

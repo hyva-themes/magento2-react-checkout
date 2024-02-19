@@ -7,17 +7,21 @@ import {
   updateCustomerAddressRequest,
   fetchCustomerAddressListRequest,
   mergeCartsRequest,
+  emailCheckRequest,
 } from '../../../api';
 import {
   setErrorMessageAction,
   setSuccessMessageAction,
 } from '../page/actions';
+
 import {
   SET_CUSTOMER_INFO,
   UPDATE_CUSTOMER_ADDRESS,
   SET_CUSTOMER_ADDRESS_INFO,
   UPDATE_CUSTOMER_LOGGEDIN_STATUS,
+  CHECK_EMAIL,
 } from './types';
+
 import { _cleanObjByKeys } from '../../../utils';
 import LocalStorage from '../../../utils/localStorage';
 import { config } from '../../../config';
@@ -89,6 +93,23 @@ export async function ajaxLoginAction(dispatch, userCredentials) {
   }
 
   return {};
+}
+
+export async function checkEmailAction(dispatch, appDispatch, email) {
+  let result = {};
+
+  try {
+    result = await emailCheckRequest(dispatch, email);
+
+    dispatch({
+      type: CHECK_EMAIL,
+      payload: result,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+
+  return result;
 }
 
 export async function getCustomerInfoAction(dispatch) {

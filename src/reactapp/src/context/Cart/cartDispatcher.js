@@ -28,6 +28,7 @@ import { setEmailOnGuestCartAction } from './email/actions';
 import { setShippingMethodAction } from './shippingMethod/actions';
 import { placeOrderAction, setOrderInfoAction } from './order/actions';
 import { storeAggregatedCartStatesAction } from './aggregated/actions';
+import { checkEmailAction } from '../App/customer/actions';
 
 const dispatchMapper = {
   placeOrder: placeOrderAction,
@@ -38,6 +39,7 @@ const dispatchMapper = {
   createEmptyCart: createEmptyCartAction,
   applyCouponCode: applyCouponCodeAction,
   getGuestCartInfo: getGuestCartInfoAction,
+  emailCheck: checkEmailAction,
   setPaymentMethod: setPaymentMethodAction,
   removeCouponCode: removeCouponCodeAction,
   setShippingMethod: setShippingMethodAction,

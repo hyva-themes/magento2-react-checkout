@@ -12,7 +12,7 @@
   "author": "Hyvä Themes BV",
   "license": "BSD-3-Clause",
   "private": true,
-  "proxy": "https://demo.hyva.io",
+  "proxy": "http://magento2.xpscommerce.com",
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "formik": "^2.2.9",
@@ -62,6 +62,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devServer": {
+    "allowedHosts": ["localhost"]
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
