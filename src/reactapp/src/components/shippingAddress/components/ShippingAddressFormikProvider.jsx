@@ -39,6 +39,11 @@ const defaultValues = {
   saveInBook: false,
 };
 
+const initialValidationSchema = {
+  ...addressInitialValidationSchema,
+  // Here you can add your initial validation schema modifications
+};
+
 const addressIdInCache = _toString(LocalStorage.getCustomerShippingAddressId());
 const initAddressId = addressIdInCache || CART_SHIPPING_ADDRESS;
 
@@ -55,7 +60,7 @@ function ShippingAddressFormikProvider({ children, formikData }) {
   );
   const validationSchema = useRegionValidation(
     selectedCountry,
-    addressInitialValidationSchema
+    initialValidationSchema
   );
   // this will set default addresses on the address fields on login
   useFillDefaultAddresses({

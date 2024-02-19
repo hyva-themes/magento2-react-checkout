@@ -25,6 +25,11 @@ import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 
+const initialValidationSchema = {
+  ...addressInitialValidationSchema,
+  // Here you can add your initial validation schema modifications
+};
+
 function BillingAddressFormikProvider({ children, formikData }) {
   const [isNewAddress, setIsNewAddress] = useState(true);
   const [backupAddress, setBackupAddress] = useState(null);
@@ -40,7 +45,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     formikData;
   const validationSchema = useRegionValidation(
     selectedCountry,
-    addressInitialValidationSchema
+    initialValidationSchema
   );
   const {
     billingSelected: selectedAddress,
