@@ -14,6 +14,7 @@ import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 import useBillingAddressFormikContext from '../hooks/useBillingAddressFormikContext';
+import RootElement from '../../../utils/rootElement';
 
 function BillingAddressForm() {
   const {
@@ -32,6 +33,7 @@ function BillingAddressForm() {
     validationSchema,
     setSelectedAddress,
   } = useBillingAddressFormikContext();
+  const config = RootElement.getAddressConfig();
   const { isLoggedIn } = useBillingAddressAppContext();
   const { reCalculateMostRecentAddressOptions } = useAddressWrapper();
   const formSubmitHandler = useFormValidateThenSubmit({
@@ -97,14 +99,16 @@ function BillingAddressForm() {
   return (
     <>
       <div className="py-2">
-        <TextInput
-          required
-          label={__('Company')}
-          name={fields.company}
-          formikData={formikData}
-          onKeyDown={handleKeyDown}
-          placeholder={__('Company')}
-        />
+        {config.company && (
+            <TextInput
+                required={config.company === 'req'}
+                label={__('Company')}
+                name={fields.company}
+                formikData={formikData}
+                onKeyDown={handleKeyDown}
+                placeholder={__('Company')}
+            />
+        )}
         <TextInput
           required
           name={fields.firstname}

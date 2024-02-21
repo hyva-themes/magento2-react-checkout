@@ -15,6 +15,7 @@ import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useFormValidateThenSubmit from '../../../hook/useFormValidateThenSubmit';
 import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
 import useShippingAddressFormikContext from '../hooks/useShippingAddressFormikContext';
+import RootElement from "../../../utils/rootElement";
 
 function ShippingAddressForm() {
   const {
@@ -35,6 +36,7 @@ function ShippingAddressForm() {
     setSelectedAddress,
     isBillingFormTouched,
   } = useShippingAddressFormikContext();
+  const config = RootElement.getAddressConfig();
   const { isLoggedIn } = useShippingAddressAppContext();
   const { reCalculateMostRecentAddressOptions } = useAddressWrapper();
   const { countryOptions, stateOptions, hasStateOptions } = useCountryState({
@@ -99,14 +101,16 @@ function ShippingAddressForm() {
   return (
     <>
       <div className="py-2">
-        <TextInput
-          required
-          label={__('Company')}
-          name={fields.company}
-          formikData={formikData}
-          onKeyDown={handleKeyDown}
-          placeholder={__('Company')}
-        />
+        {config.company && (
+            <TextInput
+                required={config.company === 'req'}
+                label={__('Company')}
+                name={fields.company}
+                formikData={formikData}
+                onKeyDown={handleKeyDown}
+                placeholder={__('Company')}
+            />
+        )}
         <TextInput
           required
           name={fields.firstname}
