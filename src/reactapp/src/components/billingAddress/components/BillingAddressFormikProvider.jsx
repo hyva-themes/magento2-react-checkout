@@ -2,13 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Form } from 'formik';
 import { node } from 'prop-types';
 import { get as _get } from 'lodash-es';
-import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import {
   isCartAddressValid,
   isValidCustomerAddressId,
+  addressInitialValidationSchema,
 } from '../../../utils/address';
-import { __ } from '../../../i18n';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { billingAddressFormInitValues } from '../utility';
@@ -26,24 +25,9 @@ import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
 import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 
-const requiredMessage = __('%1 is required');
-
-const initValidationSchema = {
-  company: YupString().required(requiredMessage),
-  firstname: YupString().required(requiredMessage),
-  lastname: YupString().required(requiredMessage),
-  street: YupArray().test(
-    'street1Required',
-    requiredMessage,
-    (value) => !!_get(value, 0)
-  ),
-  phone: YupString().required(requiredMessage),
-  zipcode: YupString().required(requiredMessage),
-  city: YupString().required(requiredMessage),
-  region: YupString().nullable(),
-  country: YupString().required(requiredMessage),
-  isSameAsShipping: YupBool(),
-  saveInBook: YupBool(),
+const initialValidationSchema = {
+  ...addressInitialValidationSchema,
+  // Here you can add your initial validation schema modifications
 };
 
 function BillingAddressFormikProvider({ children, formikData }) {
@@ -61,7 +45,7 @@ function BillingAddressFormikProvider({ children, formikData }) {
     formikData;
   const validationSchema = useRegionValidation(
     selectedCountry,
-    initValidationSchema
+    initialValidationSchema
   );
   const {
     billingSelected: selectedAddress,

@@ -1,4 +1,5 @@
 import { get as _get } from 'lodash-es';
+import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
 
 import env from './env';
 import { __ } from '../i18n';
@@ -70,6 +71,27 @@ const addressInitValues = {
   city: '',
   region: '',
   country: '',
+};
+
+const requiredMessage = __('%1 is required');
+
+export const addressInitialValidationSchema = {
+  company: YupString().required(requiredMessage),
+  firstname: YupString().required(requiredMessage),
+  lastname: YupString().required(requiredMessage),
+  street: YupArray(),
+  'street[0]': YupString().test(
+    'street1Required',
+    requiredMessage,
+    (value, context) => !!_get(context, 'parent.street.0')
+  ),
+  phone: YupString().required(requiredMessage),
+  zipcode: YupString().required(requiredMessage),
+  city: YupString().required(requiredMessage),
+  region: YupString().nullable(),
+  country: YupString().required(requiredMessage),
+  isSameAsShipping: YupBool(),
+  saveInBook: YupBool(),
 };
 
 export function prepareFormAddressFromCartAddress(address, selectedAddressId) {
