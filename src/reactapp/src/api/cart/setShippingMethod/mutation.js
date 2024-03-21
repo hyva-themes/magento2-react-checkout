@@ -1,7 +1,7 @@
 import { CART_DATA_FRAGMENT } from '../utility/query/cartQueryInfo';
 
 export const SET_SHIPPING_METHOD_MUTATION = `
-mutation setShippingMehodMutation(
+mutation setShippingMethodMutation(
   $cartId: String!,
   $carrierCode: String!,
   $methodCode: String!
