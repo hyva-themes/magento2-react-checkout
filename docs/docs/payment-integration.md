@@ -13,6 +13,8 @@ Below, we are listing the payment repositories, and each repository will have sp
 - Amazon - [hyva-themes/magento2-react-checkout-amazon-pay](https://github.com/hyva-themes/magento2-react-checkout-amazon-pay)
 - easyCredit-Ratenkauf [netzkollektiv/magento2-react-checkout-easycredit](https://github.com/netzkollektiv/magento2-react-checkout-easycredit)
 - Ivy - [getivy/magento-2-hyva-react-checkout](https://github.com/getivy/magento-2-hyva-react-checkout)
+- Klarna - [hyva-themes/magento2-react-checkout-klarna](https://github.com/hyva-themes/magento2-react-checkout-klarna)
+- Mollie official [mollie/magento2-hyva-react-checkout](https://github.com/mollie/magento2-hyva-react-checkout)
 - Mollie - [MdnAgency/magento2-hyva-checkout-mollie](https://github.com/MdnAgency/magento2-hyva-checkout-mollie)
 - MultiSafepay - [MultiSafepay/magento2-hyva-checkout-multisafepay](https://github.com/MultiSafepay/magento2-hyva-checkout-multisafepay)
 - Offline payment methods - [hyva-themes/magento2-react-checkout-offline-payments](https://github.com/hyva-themes/magento2-react-checkout-offline-payments)
