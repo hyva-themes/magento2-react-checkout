@@ -30,16 +30,21 @@ import { focusOnFormErrorElement, scrollToElement } from '../../../utils/form';
 const customerWantsToSignInField = `${LOGIN_FORM}.customerWantsToSignIn`;
 
 function PlaceOrder() {
-  const { values, errors } = useFormikContext();
+  const { values, errors, dirty, setFieldTouched } = useFormikContext();
   const saveEmailAddressInfo = useEmailInfoSave();
   const saveBillingShippingAddress = useAddressSave();
   const validateThenPlaceOrder = usePlaceOrder();
   const { isVirtualCart } = usePlaceOrderCartContext();
   const { setMessage, setErrorMessage, setPageLoader } =
     usePlaceOrderAppContext();
+  const focusActions = { setFieldTouched };
 
   const handlePerformPlaceOrder = async () => {
     setMessage(false);
+
+    if (!dirty) {
+      return;
+    }
 
     if (hasLoginErrors(errors)) {
       const customerWantsToSignIn = _get(values, customerWantsToSignInField);
@@ -50,19 +55,19 @@ function PlaceOrder() {
             : 'Please provide your email address.'
         )
       );
-      focusOnFormErrorElement(LOGIN_FORM, errors);
+      focusOnFormErrorElement(LOGIN_FORM, errors, focusActions);
       return;
     }
 
     if (hasShippingAddressErrors(errors)) {
       setErrorMessage(__('Please provide your shipping address information.'));
-      focusOnFormErrorElement(SHIPPING_ADDR_FORM, errors);
+      focusOnFormErrorElement(SHIPPING_ADDR_FORM, errors, focusActions);
       return;
     }
 
     if (hasBillingAddressErrors(errors, values, isVirtualCart)) {
       setErrorMessage(__('Please provide your billing address information.'));
-      focusOnFormErrorElement(BILLING_ADDR_FORM, errors);
+      focusOnFormErrorElement(BILLING_ADDR_FORM, errors, focusActions);
       return;
     }
 
@@ -98,7 +103,12 @@ function PlaceOrder() {
 
   return (
     <div className="flex items-center justify-center py-4">
-      <Button variant="primary" size="lg" click={handlePerformPlaceOrder}>
+      <Button
+        size="lg"
+        disable={!dirty}
+        variant="primary"
+        click={handlePerformPlaceOrder}
+      >
         {__('Place Order')}
       </Button>
     </div>
