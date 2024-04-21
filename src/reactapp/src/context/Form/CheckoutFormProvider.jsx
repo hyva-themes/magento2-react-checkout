@@ -1,15 +1,15 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { node } from 'prop-types';
-import { get as _get, set as _set } from 'lodash-es';
 import { object as YupObject } from 'yup';
 import { FormikProvider, useFormik } from 'formik';
+import { get as _get, set as _set } from 'lodash-es';
 
 import { config } from '../../config';
-import { _findIndexById } from '../../utils';
 import LocalStorage from '../../utils/localStorage';
 import useAppContext from '../../hook/useAppContext';
 import useCartContext from '../../hook/useCartContext';
 import CheckoutFormContext from './CheckoutFormContext';
+import { _findIndexById, _objToArray } from '../../utils';
 
 function prepareFormInitValues(sections) {
   const initValues = {};
@@ -54,6 +54,11 @@ function CheckoutFormProvider({ children }) {
    * during "Place Order" action, then it must be added here
    */
   const [paymentActionList, setPaymentActions] = useState({});
+
+  /**
+   * Actions needs to be performed in prior to placing the order must be added here.
+   */
+  const [beforePlaceOrderActionList, setBeforePlaceOrderActions] = useState({});
 
   const { placeOrder } = useCartContext();
   const { setPageLoader } = useAppContext();
@@ -131,6 +136,29 @@ function CheckoutFormProvider({ children }) {
   );
 
   /**
+   * Register a "before place order" action. This will be executed just before
+   * the order placement is performed.
+   *
+   * We can specify an order for these actions.
+   *
+   * By default, order will be added like 100, 200, 300..
+   *
+   * All actions registered will be performed sequentially.
+   */
+  const registerBeforePlaceOrderAction = useCallback(
+    (actionName, actionCallback, sortOrder = null) => {
+      setBeforePlaceOrderActions((actions) => ({
+        ...actions,
+        [actionName]: {
+          action: actionCallback,
+          sortOrder: sortOrder || (_objToArray(actions).length + 1) * 100,
+        },
+      }));
+    },
+    []
+  );
+
+  /**
    * This will register individual form sections to the checkout-form-formik
    */
   const registerFormSection = useCallback((section) => {
@@ -152,6 +180,23 @@ function CheckoutFormProvider({ children }) {
     });
   }, []);
 
+  /**
+   * Execute all "before place order" actions in the given ascending sort order.
+   */
+  const executeBeforePlaceOrderActions = useCallback(
+    async (formikData) => {
+      const actionList = _objToArray(beforePlaceOrderActionList).sort(
+        (action1, action2) => action1.sortOrder - action2.sortOrder
+      );
+      // eslint-disable-next-line no-restricted-syntax
+      for (const { action } of actionList) {
+        // eslint-disable-next-line no-await-in-loop
+        await action(formikData);
+      }
+    },
+    [beforePlaceOrderActionList]
+  );
+
   const formik = useFormik({
     enableReinitialize,
     onSubmit: formSubmit,
@@ -166,6 +211,8 @@ function CheckoutFormProvider({ children }) {
       registerPaymentAction,
       submitHandler: formSubmit,
       aggregatedData: initialData,
+      executeBeforePlaceOrderActions,
+      registerBeforePlaceOrderAction,
       storeAggregatedFormStates: setInitialData,
       checkoutFormValidationSchema: formValidationSchema,
     }),
@@ -175,6 +222,8 @@ function CheckoutFormProvider({ children }) {
       registerFormSection,
       formValidationSchema,
       registerPaymentAction,
+      executeBeforePlaceOrderActions,
+      registerBeforePlaceOrderAction,
     ]
   );
 
