@@ -22,6 +22,10 @@ export function _makePromise(asyncFunc, ...params) {
   return () => asyncFunc(...params);
 }
 
+export function _isBoolean(value) {
+  return typeof value === 'boolean';
+}
+
 export function _toString(value) {
   return (value || '').toString();
 }
