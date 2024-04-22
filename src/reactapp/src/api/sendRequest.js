@@ -5,6 +5,7 @@ import {
 } from './utility';
 import env from '../utils/env';
 import { config } from '../config';
+import { _isBoolean } from '../utils';
 import RootElement from '../utils/rootElement';
 import LocalStorage from '../utils/localStorage';
 import { SET_PAGE_MESSAGE } from '../context/App/page/types';
@@ -42,10 +43,11 @@ export default function sendRequest(
     Store: storeCode,
     ...additionalHeaders,
   };
-  let method = requestType ? 'GET' : 'POST';
 
-  if (![true, false].includes(requestType)) {
-    method = requestType;
+  let method = requestType;
+
+  if (_isBoolean(requestType)) {
+    method = requestType ? 'GET' : 'POST';
   }
 
   const token = LocalStorage.getCustomerToken();
