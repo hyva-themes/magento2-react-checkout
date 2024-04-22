@@ -4,14 +4,17 @@ import { node } from 'prop-types';
 import { get as _get } from 'lodash-es';
 import { string as YupString, bool as YupBool } from 'yup';
 
+import {
+  useLoginAppContext,
+  useLoginCartContext,
+  usePlaceOrderEmailSave,
+} from '../hooks';
 import { __ } from '../../../i18n';
 import { LOGIN_FORM } from '../../../config';
 import useFormSection from '../../../hook/useFormSection';
 import LoginFormContext from '../context/LoginFormContext';
 import { formikDataShape } from '../../../utils/propTypes';
 import useFormEditMode from '../../../hook/useFormEditMode';
-import useLoginAppContext from '../hooks/useLoginAppContext';
-import useLoginCartContext from '../hooks/useLoginCartContext';
 import useEnterActionInForm from '../../../hook/useEnterActionInForm';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 
@@ -51,9 +54,12 @@ function LoginFormManager({ children, formikData }) {
     setErrorMessage,
     setSuccessMessage,
   } = useLoginAppContext();
-  const { aggregatedData } = useCheckoutFormContext();
+  const beforePlaceOrderAction = usePlaceOrderEmailSave();
   const { cartEmail, setEmailOnGuestCart } = useLoginCartContext();
   const { editMode, setFormToEditMode, setFormToViewMode } = useFormEditMode();
+  const { aggregatedData, registerBeforePlaceOrderAction } =
+    useCheckoutFormContext();
+
   const { loginFormValues, setFieldTouched } = formikData;
 
   /**
@@ -119,6 +125,18 @@ function LoginFormManager({ children, formikData }) {
       setFormToViewMode();
     }
   }, [cartEmail, setFormToViewMode]);
+
+  /**
+   * Perform email address save just before placeorder happens if in case
+   * the email address is not updated yet.
+   */
+  useEffect(() => {
+    registerBeforePlaceOrderAction(
+      'saveEmailInformation',
+      beforePlaceOrderAction,
+      10
+    );
+  }, [beforePlaceOrderAction, registerBeforePlaceOrderAction]);
 
   // Update initialvalues based on the initial cart data fetch.
   useEffect(() => {

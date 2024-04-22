@@ -21,22 +21,21 @@ import {
 } from '../utility';
 import { __ } from '../../../i18n';
 import usePlaceOrder from '../hooks/usePlaceOrder';
-import useAddressSave from '../hooks/useAddressSave';
-import useEmailInfoSave from '../hooks/useEmailInfoSave';
 import usePlaceOrderAppContext from '../hooks/usePlaceOrderAppContext';
 import usePlaceOrderCartContext from '../hooks/usePlaceOrderCartContext';
+import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import { focusOnFormErrorElement, scrollToElement } from '../../../utils/form';
 
 const customerWantsToSignInField = `${LOGIN_FORM}.customerWantsToSignIn`;
 
 function PlaceOrder() {
-  const { values, errors } = useFormikContext();
-  const saveEmailAddressInfo = useEmailInfoSave();
-  const saveBillingShippingAddress = useAddressSave();
+  const formikData = useFormikContext();
   const validateThenPlaceOrder = usePlaceOrder();
   const { isVirtualCart } = usePlaceOrderCartContext();
+  const { executeBeforePlaceOrderActions } = useCheckoutFormContext();
   const { setMessage, setErrorMessage, setPageLoader } =
     usePlaceOrderAppContext();
+  const { values, errors } = formikData;
 
   const handlePerformPlaceOrder = async () => {
     setMessage(false);
@@ -86,8 +85,7 @@ function PlaceOrder() {
 
     try {
       setPageLoader(true);
-      await saveEmailAddressInfo(values);
-      await saveBillingShippingAddress(values);
+      await executeBeforePlaceOrderActions(formikData);
       await validateThenPlaceOrder(values);
       setPageLoader(false);
     } catch (error) {

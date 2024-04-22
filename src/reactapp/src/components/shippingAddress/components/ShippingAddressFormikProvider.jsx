@@ -9,6 +9,11 @@ import {
   isValidCustomerAddressId,
   addressInitialValidationSchema,
 } from '../../../utils/address';
+import {
+  useShippingAddressAppContext,
+  useShippingAddressCartContext,
+  usePlaceOrderShippingSaveAction,
+} from '../hooks';
 import { _toString } from '../../../utils';
 import { SHIPPING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
@@ -23,8 +28,6 @@ import useFillDefaultAddresses from '../hooks/useFillDefaultAddresses';
 import useRegionValidation from '../../address/hooks/useRegionValidation';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
-import useShippingAddressAppContext from '../hooks/useShippingAddressAppContext';
-import useShippingAddressCartContext from '../hooks/useShippingAddressCartContext';
 
 const defaultValues = {
   company: '',
@@ -68,10 +71,13 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     setSelectedAddress,
     setCustomerAddressSelected,
   });
-  const { aggregatedData } = useCheckoutFormContext();
   const editModeContext = useFormEditMode();
   const { customerAddressList } = useShippingAddressAppContext();
   const { cartShippingAddress } = useShippingAddressCartContext();
+  const beforePlaceOrderAction = usePlaceOrderShippingSaveAction();
+  const { aggregatedData, registerBeforePlaceOrderAction } =
+    useCheckoutFormContext();
+
   const { setFormToViewMode } = editModeContext;
   const regionData = useRegionData(selectedCountry, selectedRegion);
   const cartHasShippingAddress = isCartAddressValid(cartShippingAddress);
@@ -134,6 +140,18 @@ function ShippingAddressFormikProvider({ children, formikData }) {
     customerAddressList,
     cartHasShippingAddress,
   ]);
+
+  /**
+   * Perform shipping address save just before placeorder happens if in case
+   * there are unsaved shipping address data.
+   */
+  useEffect(() => {
+    registerBeforePlaceOrderAction(
+      'saveShippingAddress',
+      beforePlaceOrderAction,
+      30
+    );
+  }, [beforePlaceOrderAction, registerBeforePlaceOrderAction]);
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   let context = {

@@ -8,6 +8,11 @@ import {
   isValidCustomerAddressId,
   addressInitialValidationSchema,
 } from '../../../utils/address';
+import {
+  useBillingAddressAppContext,
+  useBillingAddressCartContext,
+  usePlaceOrderBillingSaveAction,
+} from '../hooks';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { billingAddressFormInitValues } from '../utility';
@@ -22,8 +27,6 @@ import useAddressWrapper from '../../address/hooks/useAddressWrapper';
 import useRegionValidation from '../../address/hooks/useRegionValidation';
 import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
-import useBillingAddressAppContext from '../hooks/useBillingAddressAppContext';
-import useBillingAddressCartContext from '../hooks/useBillingAddressCartContext';
 
 const initialValidationSchema = {
   ...addressInitialValidationSchema,
@@ -38,9 +41,11 @@ function BillingAddressFormikProvider({ children, formikData }) {
     billingAddressFormInitValues
   );
   const editModeContext = useFormEditMode();
-  const { aggregatedData } = useCheckoutFormContext();
   const { customerAddressList } = useBillingAddressAppContext();
   const { cartBillingAddress } = useBillingAddressCartContext();
+  const beforePlaceOrderAction = usePlaceOrderBillingSaveAction();
+  const { aggregatedData, registerBeforePlaceOrderAction } =
+    useCheckoutFormContext();
   const { billingValues, setFieldValue, selectedRegion, selectedCountry } =
     formikData;
   const validationSchema = useRegionValidation(
@@ -127,6 +132,18 @@ function BillingAddressFormikProvider({ children, formikData }) {
     customerAddressList,
     cartHasBillingAddress,
   ]);
+
+  /**
+   * Perform billing address save just before placeorder happens if in case
+   * there are unsaved billing address data.
+   */
+  useEffect(() => {
+    registerBeforePlaceOrderAction(
+      'saveBillingAddress',
+      beforePlaceOrderAction,
+      20
+    );
+  }, [beforePlaceOrderAction, registerBeforePlaceOrderAction]);
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   let context = {
