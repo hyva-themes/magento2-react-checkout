@@ -9,6 +9,7 @@ export default function useShippingAddressCartContext() {
   return useMemo(() => {
     const cart = _get(cartData, 'cart', {}) || {};
     const {
+      isVirtualCart,
       defaultBillingAddress,
       defaultShippingAddress,
       billing_address: cartBillingAddress,
@@ -16,6 +17,7 @@ export default function useShippingAddressCartContext() {
       selected_shipping_address: selectedAddressId,
     } = cart;
     const {
+      setShippingMethod,
       setCartBillingAddress,
       updateCustomerAddress,
       addCartShippingAddress,
@@ -25,7 +27,9 @@ export default function useShippingAddressCartContext() {
     } = cartActions;
 
     return {
+      isVirtualCart,
       cartInfo: cart,
+      setShippingMethod,
       selectedAddressId,
       cartBillingAddress,
       cartShippingAddress,
