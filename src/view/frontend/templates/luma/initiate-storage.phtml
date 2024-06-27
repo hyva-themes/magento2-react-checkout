@@ -26,9 +26,11 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
         var storageData = {
             customer: {
                 billing_address_id: 'cart_billing_address',
-                shipping_address_id: 'cart_shipping_address',
+                shipping_address_id: 'cart_shipping_address'
             },
-            is_billing_same_as_shipping: storageConfig.isBillingSameAsShipping,
+            cart: {
+                is_billing_same_as_shipping: storageConfig.isBillingSameAsShipping
+            }
         };
 
         if (!isLoggedIn) {
@@ -64,7 +66,7 @@ $localStorageViewModel = $block->getData('hyva_react_checkout_localstorage');
 
         storageData.customer.billing_address_id = billingAddressId;
         storageData.customer.shipping_address_id = shippingAddressId;
-        storageData.is_billing_same_as_shipping = billingAddressId === shippingAddressId;
+        storageData.cart.is_billing_same_as_shipping = billingAddressId === shippingAddressId;
         window.localStorage.setItem(storageKey, JSON.stringify(storageData));
     }
 
