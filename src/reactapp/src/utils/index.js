@@ -78,3 +78,13 @@ export function _ucFirst(str) {
 export function _isNumber(value) {
   return !Number.isNaN(Number(value));
 }
+
+export function _numberRange(end, start = 0) {
+  const range = [...Array(end).keys()];
+
+  if (start === 0) {
+    return range;
+  }
+
+  return range.map((num) => num + start);
+}

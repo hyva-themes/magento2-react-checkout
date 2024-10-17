@@ -37,7 +37,7 @@ function ShippingAddress() {
       shippingValues: formSectionValues,
       isBillingFormTouched: isFormSectionTouched,
       selectedRegion: sectionFormikData.formSectionValues?.region,
-      selectedCountry: sectionFormikData.formSectionValues?.country,
+      selectedCountry: sectionFormikData.formSectionValues?.country_id,
     }),
     [
       isBillingSame,

@@ -1,24 +1,12 @@
 import React from 'react';
 import { get as _get } from 'lodash-es';
 import { ErrorMessage, Field } from 'formik';
-import { arrayOf, bool, shape, string } from 'prop-types';
 
 import { __ } from '../../../i18n';
-import { _replace } from '../../../utils';
-import { formikDataShape } from '../../../utils/propTypes';
+import { _replace, classNames } from '../../../utils';
+import { fieldConfigShape, formikDataShape } from '../../../utils/propTypes';
 
-function SelectInput({
-  id,
-  name,
-  label,
-  options,
-  helpText,
-  required,
-  isHidden,
-  formikData,
-  placeholder,
-  ...rest
-}) {
+function ConfigSelectInput({ config, formikData, ...rest }) {
   const {
     setFieldValue,
     formSectionId,
@@ -26,6 +14,18 @@ function SelectInput({
     formSectionErrors,
     formSectionTouched,
   } = formikData;
+  const {
+    id,
+    name,
+    label,
+    classes,
+    options,
+    helpText,
+    isRequired,
+    placeholder,
+    fieldLength,
+    wrapperClasses,
+  } = config;
   const inputId = id || name;
   const relativeFieldName = _replace(name, formSectionId).replace('.', '');
   const hasFieldError = !!_get(formSectionErrors, relativeFieldName);
@@ -33,11 +33,11 @@ function SelectInput({
   const hasError = hasFieldError && hasFieldTouched;
 
   return (
-    <div className={`mt-2 form-control ${isHidden ? 'hidden' : ''}`}>
+    <div className={classNames('mt-2 form-control', wrapperClasses)}>
       <div className="flex items-center justify-between">
         <label htmlFor={inputId} className="md:text-sm">
           {label}
-          {required && <sup> *</sup>}
+          {isRequired && <sup> *</sup>}
         </label>
         <div
           id={`${inputId}-feedback`}
@@ -55,9 +55,15 @@ function SelectInput({
         name={name}
         id={inputId}
         placeholder={placeholder}
-        className={`w-full p-2 border form-select xs:block max-w-md ${
-          hasError ? 'border-dashed border-red-500' : ''
-        }`}
+        className={classNames(
+          'p-2 border form-select xs:block max-w-md',
+          hasError ? 'border-dashed border-red-500' : '',
+          fieldLength === '100' ? 'w-full' : '',
+          fieldLength === '25' ? 'w-1/4' : '',
+          fieldLength === '50' ? 'w-1/2' : '',
+          fieldLength === '75' ? 'w-3/4' : '',
+          classes
+        )}
         onChange={(event) => {
           const newValue = event.target.value;
           setFieldTouched(name);
@@ -79,30 +85,8 @@ function SelectInput({
   );
 }
 
-SelectInput.propTypes = {
-  id: string,
-  required: bool,
-  isHidden: bool,
-  helpText: string,
-  placeholder: string,
-  name: string.isRequired,
-  label: string.isRequired,
+ConfigSelectInput.propTypes = {
+  config: fieldConfigShape.isRequired,
   formikData: formikDataShape.isRequired,
-  options: arrayOf(
-    shape({
-      value: string,
-      options: string,
-    })
-  ),
 };
-
-SelectInput.defaultProps = {
-  id: '',
-  options: [],
-  helpText: '',
-  required: false,
-  placeholder: '',
-  isHidden: false,
-};
-
-export default SelectInput;
+export default ConfigSelectInput;

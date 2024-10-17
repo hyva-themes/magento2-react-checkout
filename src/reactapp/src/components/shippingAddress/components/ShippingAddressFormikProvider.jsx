@@ -38,7 +38,7 @@ const defaultValues = {
   zipcode: '',
   city: '',
   region: '',
-  country: initialCountry,
+  country_id: initialCountry,
   saveInBook: false,
 };
 

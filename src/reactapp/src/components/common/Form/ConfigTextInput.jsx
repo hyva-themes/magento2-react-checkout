@@ -1,25 +1,22 @@
 import React from 'react';
 import { get as _get } from 'lodash-es';
-import { bool, string } from 'prop-types';
 import { ErrorMessage, Field } from 'formik';
 
-import { _replace } from '../../../utils';
-import { formikDataShape } from '../../../utils/propTypes';
+import { _replace, classNames } from '../../../utils';
+import { fieldConfigShape, formikDataShape } from '../../../utils/propTypes';
 
-function TextInput({
-  id,
-  name,
-  type,
-  label,
-  width,
-  helpText,
-  required,
-  isHidden,
-  className,
-  formikData,
-  placeholder,
-  ...rest
-}) {
+function TextInput({ formikData, config, ...rest }) {
+  const {
+    id,
+    name,
+    label,
+    classes,
+    helpText,
+    isRequired,
+    placeholder,
+    fieldLength,
+    wrapperClasses,
+  } = config;
   const {
     setFieldValue,
     formSectionId,
@@ -36,12 +33,12 @@ function TextInput({
   const hasError = hasFieldError && hasFieldTouched;
 
   return (
-    <div className={`mt-2 form-control ${isHidden ? 'hidden' : ''}`}>
+    <div className={classNames('mt-2 form-control', wrapperClasses)}>
       <div className="flex items-center justify-between">
         {label && (
           <label htmlFor={inputId} className="md:text-sm">
             {label}
-            {required && <sup> *</sup>}
+            {isRequired && <sup> *</sup>}
           </label>
         )}
         <div
@@ -58,16 +55,21 @@ function TextInput({
         name={name}
         id={inputId}
         value={value}
-        type={type || 'text'}
         placeholder={placeholder}
         onChange={(event) => {
           const newValue = event.target.value;
           setFieldTouched(name);
           setFieldValue(name, newValue);
         }}
-        className={`form-input max-w-md ${
-          hasError ? 'border-dashed border-red-500' : ''
-        } ${className} ${width || 'w-full'}`}
+        className={classNames(
+          'form-input max-w-md',
+          hasError ? 'border-dashed border-red-500' : '',
+          fieldLength === '100' ? 'w-full' : '',
+          fieldLength === '25' ? 'w-1/4' : '',
+          fieldLength === '50' ? 'w-1/2' : '',
+          fieldLength === '75' ? 'w-3/4' : '',
+          classes
+        )}
         {...rest}
       />
       <div className="text-xs">{helpText}</div>
@@ -76,29 +78,8 @@ function TextInput({
 }
 
 TextInput.propTypes = {
-  id: string,
-  type: string,
-  label: string,
-  width: string,
-  required: bool,
-  isHidden: bool,
-  helpText: string,
-  className: string,
-  placeholder: string,
-  name: string.isRequired,
+  config: fieldConfigShape.isRequired,
   formikData: formikDataShape.isRequired,
-};
-
-TextInput.defaultProps = {
-  id: '',
-  label: '',
-  width: '',
-  helpText: '',
-  type: 'text',
-  className: '',
-  required: false,
-  placeholder: '',
-  isHidden: false,
 };
 
 export default TextInput;

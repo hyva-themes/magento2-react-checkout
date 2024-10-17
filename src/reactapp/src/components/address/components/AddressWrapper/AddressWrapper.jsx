@@ -6,8 +6,8 @@ import { useFormikContext } from 'formik';
 import AddressWrapperMemorized from './AddressWrapperMemorized';
 import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../../config';
 
-const billingCountryField = `${BILLING_ADDR_FORM}.country`;
-const shippingCountryField = `${SHIPPING_ADDR_FORM}.country`;
+const billingCountryField = `${BILLING_ADDR_FORM}.country_id`;
+const shippingCountryField = `${SHIPPING_ADDR_FORM}.country_id`;
 
 function AddressWrapper({ children }) {
   const { values } = useFormikContext();

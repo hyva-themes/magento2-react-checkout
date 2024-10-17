@@ -7,11 +7,11 @@ import { prepareCountryOptions, prepareCountryStateOptions } from '../utility';
 export default function useCountryState({ fields, formikData }) {
   const { countryList, stateList } = useAppContext();
   const regionField = fields.region;
-  const { selectedCountry, selectedRegion, setFieldValue } = formikData || {};
+  const { setFieldValue, selectedCountry, selectedRegion } = formikData || {};
 
   // whenever the country is switched, we need to clear the state input
   useEffect(() => {
-    if (selectedCountry) {
+    if (selectedCountry && regionField) {
       const stateListContainsSelectedRegion =
         !stateList.length ||
         _get(stateList, selectedCountry, []).find(

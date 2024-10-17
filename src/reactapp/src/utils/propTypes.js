@@ -1,4 +1,13 @@
-import { bool, func, object, shape, string } from 'prop-types';
+import {
+  bool,
+  func,
+  shape,
+  array,
+  object,
+  string,
+  number,
+  oneOfType,
+} from 'prop-types';
 
 export const formikDataShape = shape({
   setFieldValue: func,
@@ -9,4 +18,17 @@ export const formikDataShape = shape({
   formSectionValues: object,
   formSectionTouched: object,
   isFormSectionTouched: bool,
+});
+
+export const fieldConfigShape = shape({
+  id: string,
+  code: string,
+  length: string,
+  classes: string,
+  isRequired: bool,
+  helpText: string,
+  wrapperClasses: string,
+  multilineCount: number,
+  label: oneOfType([string, array]),
+  placeholder: oneOfType([string, array]),
 });
