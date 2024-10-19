@@ -79,8 +79,8 @@ export function _isNumber(value) {
   return !Number.isNaN(Number(value));
 }
 
-export function _numberRange(end, start = 0) {
-  const range = [...Array(end).keys()];
+export function _numberRange(count, start = 0) {
+  const range = [...Array(count).keys()];
 
   if (start === 0) {
     return range;

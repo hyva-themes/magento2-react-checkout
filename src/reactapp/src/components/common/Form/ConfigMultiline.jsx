@@ -28,17 +28,19 @@ function ConfigMultiline({ formikData, config, ...rest }) {
   } = config;
   const inputId = id || name;
   const relativeFieldName = _replace(name, formSectionId).replace('.', '');
-  const hasFieldError = !!_get(formSectionErrors, relativeFieldName);
+  const fieldErrors = _get(formSectionErrors, relativeFieldName) || [];
+  const fieldTouched = _get(formSectionTouched, relativeFieldName) || [];
   const value = _get(formSectionValues, relativeFieldName) || [];
-  const hasFieldTouched = !!_get(formSectionTouched, relativeFieldName);
-  const hasError = hasFieldError && hasFieldTouched;
+  const hasMultilineErrors = !!fieldErrors.length;
+  const hasMultilineTouched = !!fieldTouched.length;
+  const hasError = hasMultilineErrors && hasMultilineTouched;
 
   return (
     <div className={classNames('mt-2 form-control', wrapperClasses)}>
       <div className="flex items-center justify-between">
-        {label && (
+        {label && label[0] && (
           <label htmlFor={inputId} className="md:text-sm">
-            {label}
+            {label[0]}
             {isRequired && <sup> *</sup>}
           </label>
         )}
@@ -48,7 +50,11 @@ function ConfigMultiline({ formikData, config, ...rest }) {
           }`}
         >
           <ErrorMessage name={name}>
-            {(msg) => msg.replace('%1', label)}
+            {(msgs) =>
+              msgs
+                .map((msg, index) => msg.replace('%1', label[index]))
+                .join(', ')
+            }
           </ErrorMessage>
         </div>
       </div>
@@ -58,6 +64,12 @@ function ConfigMultiline({ formikData, config, ...rest }) {
           const fieldId = `${inputId}-${lineNumber}`;
           const fieldPlaceholder = _get(placeholder, lineNumber) || '';
           const fieldValue = value[lineNumber] || '';
+
+          const hasFieldError = !!fieldErrors[lineNumber];
+          const hasFieldTouched = !!_get(
+            formSectionTouched,
+            `${relativeFieldName}.${lineNumber}`
+          );
 
           return (
             <Field
@@ -73,7 +85,9 @@ function ConfigMultiline({ formikData, config, ...rest }) {
               }}
               className={classNames(
                 'form-input max-w-md',
-                hasError ? 'border-dashed border-red-500' : '',
+                hasFieldError && hasFieldTouched
+                  ? 'border-dashed border-red-500'
+                  : '',
                 fieldLength === '100' ? 'w-full' : '',
                 fieldLength === '25' ? 'w-1/4' : '',
                 fieldLength === '50' ? 'w-1/2' : '',

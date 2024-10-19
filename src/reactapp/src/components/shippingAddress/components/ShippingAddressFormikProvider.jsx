@@ -7,7 +7,7 @@ import {
   isCartAddressValid,
   CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
-  addressInitialValidationSchema,
+  initialAddressValidationShemaFromFieldConfig,
 } from '../../../utils/address';
 import {
   useShippingAddressAppContext,
@@ -43,7 +43,7 @@ const defaultValues = {
 };
 
 const initialValidationSchema = {
-  ...addressInitialValidationSchema,
+  ...initialAddressValidationShemaFromFieldConfig(SHIPPING_ADDR_FORM),
   // Here you can add your initial validation schema modifications
 };
 

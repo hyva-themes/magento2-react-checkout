@@ -1,24 +1,13 @@
-import { get as _get } from 'lodash-es';
-
 import {
   ConfigMultiline,
   ConfigTextInput,
   ConfigSelectInput,
 } from '../../common/Form';
 import { _objToArray } from '../../../utils';
-import RootElement from '../../../utils/rootElement';
 import { createFieldConfig } from '../../../utils/field';
 import RegionRenderer from '../components/RegionRenderer';
 import CountryRenderer from '../components/CountryRenderer';
-import { BILLING_ADDR_FORM, SHIPPING_ADDR_FORM } from '../../../config';
-
-const checkoutConfig = RootElement.getCheckoutConfig();
-const addressConfig = checkoutConfig.address || {};
-
-const addressTypeMapper = {
-  [BILLING_ADDR_FORM]: 'billing',
-  [SHIPPING_ADDR_FORM]: 'shipping',
-};
+import { getAddressConfigByFormId } from '../../../utils/address';
 
 function getAddressFieldRendererComponent(field) {
   if (field.code === 'country_id') {
@@ -45,8 +34,7 @@ function getAddressFieldRendererComponent(field) {
 }
 
 export default function useAddressFieldRenderer(addressFormId) {
-  const addressType = _get(addressTypeMapper, addressFormId);
-  const addressTypeConfig = _get(addressConfig, addressType) || {};
+  const addressTypeConfig = getAddressConfigByFormId(addressFormId);
   console.log({ addressTypeConfig });
 
   const addressFields = _objToArray(addressTypeConfig)
