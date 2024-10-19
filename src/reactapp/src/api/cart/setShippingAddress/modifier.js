@@ -86,7 +86,7 @@ export function modifyShippingAddressList(addressList) {
     lastname,
     firstname,
     region: regionCode || '',
-    country: countryCode,
+    country_id: countryCode,
     fullName: prepareFullName(shippingAddress),
   };
 }

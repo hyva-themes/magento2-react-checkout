@@ -2,7 +2,7 @@ import { get as _get } from 'lodash-es';
 
 import { _numberRange } from './index';
 
-export function createFieldConfig(fieldData) {
+export function createFieldConfig(fieldData, formId) {
   const {
     id,
     code,
@@ -18,11 +18,14 @@ export function createFieldConfig(fieldData) {
     length: fieldLength,
   } = fieldData;
 
+  const fieldName = `${formId}.${code}`;
+  const fieldId = id ? `${formId}.${id}` : fieldName;
+
   const config = {
     code,
     type,
-    name: code,
-    id: id || code,
+    id: fieldId,
+    name: fieldName,
     label: label || '',
     classes: classes || '',
     helpText: helpText || '',

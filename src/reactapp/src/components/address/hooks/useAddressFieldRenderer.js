@@ -52,7 +52,7 @@ export default function useAddressFieldRenderer(addressFormId) {
   const addressFields = _objToArray(addressTypeConfig)
     .sort((field1, field2) => field1.sortOrder - field2.sortOrder)
     .map((field) => ({
-      config: createFieldConfig(field),
+      config: createFieldConfig(field, addressFormId),
       FieldRenderer: getAddressFieldRendererComponent(field),
     }))
     .filter((field) => !!field.FieldRenderer);
