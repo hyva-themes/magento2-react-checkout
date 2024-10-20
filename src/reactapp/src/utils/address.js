@@ -1,20 +1,17 @@
 import { get as _get } from 'lodash-es';
-import { string as YupString, bool as YupBool, array as YupArray } from 'yup';
+import { bool as YupBool, array as YupArray } from 'yup';
 
-import {
-  _keys,
-  _isNumber,
-  _toString,
-  _numberRange,
-  _cleanObjByKeys,
-} from './index';
 import env from './env';
 import { __ } from '../i18n';
 import RootElement from './rootElement';
 import LocalStorage from './localStorage';
 import { prepareFullName } from './customer';
+import { FieldConfig, FieldType } from './field';
+import { _keys, _isNumber, _toString, _cleanObjByKeys } from './index';
 import { yupSchemaByFieldType, yupValidationRules } from './validation';
 import { BILLING_ADDR_FORM, config, SHIPPING_ADDR_FORM } from '../config';
+
+const checkoutConfig = RootElement.getCheckoutConfig();
 
 export const initialCountry =
   env.defaultCountry ||
@@ -24,6 +21,13 @@ export const initialCountry =
 export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
 
 export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
+
+const addressConfig = checkoutConfig.address || {};
+
+const addressTypeMapper = {
+  [BILLING_ADDR_FORM]: 'billing',
+  [SHIPPING_ADDR_FORM]: 'shipping',
+};
 
 export function isCartAddressValid(address) {
   return !!(address && address.firstname && address.country);
@@ -68,46 +72,15 @@ export function formatAddressListToCardData(addressList, stateList) {
   });
 }
 
-const addressInitValues = {
-  company: '',
-  firstname: '',
-  lastname: '',
-  street: [''],
-  phone: '',
-  zipcode: '',
-  city: '',
-  region: '',
-  country: '',
-};
+export function addressInitValues(formId) {
+  const fieldsConfig = addressConfig[addressTypeMapper[formId]];
 
-const requiredMessage = __('%1 is required');
+  return _keys(fieldsConfig).reduce((accumulator, fieldCode) => {
+    accumulator[fieldCode] = FieldType.getInitialValue(fieldsConfig[fieldCode]);
 
-export const addressInitialValidationSchema = {
-  company: YupString().required(requiredMessage),
-  firstname: YupString().required(requiredMessage),
-  lastname: YupString().required(requiredMessage),
-  street: YupArray(),
-  'street[0]': YupString().test(
-    'street1Required',
-    requiredMessage,
-    (value, context) => !!_get(context, 'parent.street.0')
-  ),
-  phone: YupString().required(requiredMessage),
-  zipcode: YupString().required(requiredMessage),
-  city: YupString().required(requiredMessage),
-  region: YupString().nullable(),
-  country: YupString().required(requiredMessage),
-  isSameAsShipping: YupBool(),
-  saveInBook: YupBool(),
-};
-
-const checkoutConfig = RootElement.getCheckoutConfig();
-const addressConfig = checkoutConfig.address || {};
-
-const addressTypeMapper = {
-  [BILLING_ADDR_FORM]: 'billing',
-  [SHIPPING_ADDR_FORM]: 'shipping',
-};
+    return accumulator;
+  }, {});
+}
 
 export function getAddressConfigByFormId(formId) {
   const addressType = _get(addressTypeMapper, formId);
@@ -131,29 +104,13 @@ function applyValidationRulesToSchema(fieldSchema, fieldValidationRules) {
 
 function applyMultilineValidationRules(fieldConfig) {
   const multiFieldSchema = {};
-  const multilineCount = Number(fieldConfig.multilineCount) || 1;
-  const fieldValidationRules = fieldConfig.validationRules || [];
-  const validationRules = [];
-
-  // Prepare validation rules for each line
-  _numberRange(multilineCount).forEach((lineNumber) => {
-    validationRules[lineNumber] = fieldValidationRules[lineNumber] || {};
-    if (lineNumber === 0 && fieldConfig.isRequired) {
-      validationRules[lineNumber].multiRequired = {
-        index: lineNumber,
-        field: fieldConfig.code,
-      };
-    }
-    if (!fieldValidationRules[lineNumber]) {
-      validationRules[lineNumber].nullable = true;
-    }
-  });
+  const { validationRules } = fieldConfig;
 
   // Declare multile line field as array schema
   multiFieldSchema[fieldConfig.code] = YupArray();
 
   // Define string schema for each line with availabled validation rules
-  _numberRange(multilineCount).forEach((lineNumber) => {
+  fieldConfig.lineNumberArray.forEach((lineNumber) => {
     multiFieldSchema[`${fieldConfig.code}[${lineNumber}]`] =
       applyValidationRulesToSchema(
         yupSchemaByFieldType.text,
@@ -184,9 +141,11 @@ export function initialAddressValidationShemaFromFieldConfig(addressFormId) {
 
   const addressValidationSchema = _keys(addressTypeConfig).reduce(
     (accumulator, fieldCode) => {
-      const fieldConfig = addressTypeConfig[fieldCode];
+      const fieldConfig = FieldConfig.create(
+        addressTypeConfig[fieldCode],
+        addressFormId
+      );
       let fieldSchema = yupSchemaByFieldType[fieldConfig.type];
-      const isMultilineField = fieldConfig.type === 'multiline';
       const fieldValidationRules = fieldConfig.validationRules || [];
 
       // If no schema available for the field type, then return early.
@@ -195,7 +154,7 @@ export function initialAddressValidationShemaFromFieldConfig(addressFormId) {
       }
 
       // Multiline schema rule construction is complex; So deal it separately.
-      if (isMultilineField) {
+      if (fieldConfig.isMultilineField()) {
         return {
           ...accumulator,
           ...applyMultilineValidationRules(fieldConfig),
@@ -205,13 +164,6 @@ export function initialAddressValidationShemaFromFieldConfig(addressFormId) {
       // Give label for error messages. It will be used in the error message.
       // eslint-disable-next-line no-const-assign
       fieldSchema = fieldSchema.label(fieldConfig.label);
-
-      // Update validation rules based on the required flag in the config.
-      if (fieldConfig.isRequired) {
-        fieldValidationRules.required = true;
-      } else {
-        fieldValidationRules.nullable = true;
-      }
 
       // Prepare validation schema for the field.
       accumulator[fieldCode] = applyValidationRulesToSchema(
@@ -225,6 +177,14 @@ export function initialAddressValidationShemaFromFieldConfig(addressFormId) {
   );
 
   return withAdditionalInitalSchema(addressValidationSchema);
+}
+
+export function addressInitialValidationSchema(formId) {
+  return {
+    ...initialAddressValidationShemaFromFieldConfig(formId),
+    isSameAsShipping: YupBool(),
+    saveInBook: YupBool(),
+  };
 }
 
 export function prepareFormAddressFromCartAddress(address, selectedAddressId) {

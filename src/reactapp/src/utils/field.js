@@ -1,60 +1,163 @@
-import { get as _get } from 'lodash-es';
+/* eslint-disable max-classes-per-file */
+import { _isArray, _isString, _keys, _numberRange } from './index';
 
-import { _numberRange } from './index';
+// Enum for Field types
+export class FieldType {
+  static text = new FieldType('text');
 
-export function createFieldConfig(fieldData, formId) {
-  const {
-    id,
-    code,
-    type,
-    label,
-    classes,
-    options,
-    helpText,
-    isRequired,
-    placeholder,
-    wrapperClasses,
-    multilineCount,
-    length: fieldLength,
-  } = fieldData;
+  static select = new FieldType('select');
 
-  const fieldName = `${formId}.${code}`;
-  const fieldId = id ? `${formId}.${id}` : fieldName;
+  static multiline = new FieldType('multiline');
 
-  const config = {
-    code,
-    type,
-    id: fieldId,
-    name: fieldName,
-    label: label || '',
-    classes: classes || '',
-    helpText: helpText || '',
-    isRequired: !!isRequired,
-    wrapperClasses: wrapperClasses || '',
-    length: (fieldLength || 100).toString(),
-    placeholder: placeholder || label || '',
-    multilineCount: Number(multilineCount) || 1,
-    fieldLength: (fieldLength || 100).toString(),
-  };
+  constructor(name) {
+    this.name = name;
+  }
 
-  if (type === 'multiline') {
-    config.multilineCount = Number(multilineCount) || 1;
-    config.label = [config.label];
-    config.placeholder = [config.placeholder];
+  static isText(fieldType) {
+    return FieldType.text.name === fieldType;
+  }
 
-    if (config.multilineCount > 1) {
-      config.label = _numberRange(config.multilineCount - 1).map(
-        (lineIndex) => _get(config.label, lineIndex) || ''
-      );
-      config.placeholder = _numberRange(config.multilineCount - 1).map(
-        (lineIndex) => _get(config.placeholder, lineIndex) || ''
-      );
+  static isSelect(fieldType) {
+    return FieldType.select.name === fieldType;
+  }
+
+  static isMultiline(fieldType) {
+    return FieldType.multiline.name === fieldType;
+  }
+
+  static getInitialValue(fieldConfig) {
+    switch (fieldConfig.type) {
+      case FieldType.text.name:
+      case FieldType.select.name:
+        return '';
+
+      case FieldType.multiline.name:
+        return _numberRange(fieldConfig.multilineCount).map(() => '');
+
+      default:
+        return '';
     }
   }
 
-  if (type === 'select') {
-    config.options = options || [];
+  toString() {
+    return `FieldType.${this.name}`;
+  }
+}
+
+export class FieldConfig {
+  #fieldData;
+
+  constructor(fieldData, formId) {
+    const {
+      id,
+      code,
+      type,
+      label,
+      classes,
+      helpText,
+      isRequired,
+      placeholder,
+      wrapperClasses,
+      length: fieldLength,
+    } = fieldData;
+
+    this.#fieldData = fieldData;
+
+    this.code = code;
+    this.type = type;
+    this.label = label || '';
+    this.classes = classes || '';
+    this.helpText = helpText || '';
+    this.isRequired = !!isRequired;
+    this.name = `${formId}.${code}`;
+    this.wrapperClasses = wrapperClasses || '';
+    this.id = id ? `${formId}.${id}` : this.name;
+    this.length = (fieldLength || 100).toString();
+    this.placeholder = placeholder || label || '';
+
+    this.fieldLength = this.length;
+
+    this.#initializeValidationRules();
+    this.#initializeSelectProps();
+    this.#initializeMultilineProps();
   }
 
-  return config;
+  static create(fieldData, formId) {
+    return new FieldConfig(fieldData, formId);
+  }
+
+  isTextField() {
+    return FieldType.isText(this.type);
+  }
+
+  isMultilineField() {
+    return FieldType.isMultiline(this.type);
+  }
+
+  isSelectField() {
+    return FieldType.isSelect(this.type);
+  }
+
+  #initializeSelectProps() {
+    if (!this.isSelectField()) {
+      return;
+    }
+
+    this.options = this.#fieldData.options || [];
+  }
+
+  #initializeMultilineProps() {
+    if (!this.isMultilineField()) {
+      return;
+    }
+
+    const { multilineCount } = this.#fieldData;
+
+    this.multilineCount = Number(multilineCount) || 1;
+    this.lineNumberArray = _numberRange(this.multilineCount);
+
+    if (this.label && _isString(this.label)) {
+      this.label = [this.label];
+    }
+
+    if (this.placeholder && _isString(this.placeholder)) {
+      this.placeholder = [this.placeholder];
+    }
+
+    if (this.validationRules && !_isArray(this.validationRules)) {
+      this.validationRules = [this.validationRules];
+    }
+
+    // Prepare validation rules for each line
+    this.lineNumberArray.forEach((lineNumber) => {
+      this.validationRules[lineNumber] ??= {};
+
+      if (lineNumber === 0 && this.isRequired) {
+        this.validationRules[lineNumber].multiRequired = {
+          index: lineNumber,
+          field: this.code,
+        };
+      }
+      // when no validation rule available for the index, then add nullable rule
+      if (_keys(this.validationRules[lineNumber]).length === 0) {
+        this.validationRules[lineNumber].nullable = true;
+      }
+    });
+  }
+
+  #initializeValidationRules() {
+    const { validationRules } = this.#fieldData;
+
+    this.validationRules = validationRules || [];
+
+    if (this.isMultilineField()) {
+      return;
+    }
+
+    if (this.isRequired) {
+      this.validationRules.required = true;
+    } else {
+      this.validationRules.nullable = true;
+    }
+  }
 }

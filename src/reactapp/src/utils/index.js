@@ -10,6 +10,10 @@ export function _isArray(arr) {
   return Array.isArray(arr);
 }
 
+export function _isString(value) {
+  return typeof value === 'string';
+}
+
 export function _isObjEmpty(obj = {}) {
   return _keys(obj).length === 0;
 }

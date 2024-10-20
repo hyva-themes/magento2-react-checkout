@@ -29,7 +29,7 @@ import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import BillingAddressFormContext from '../context/BillingAddressFormikContext';
 
 const initialValidationSchema = {
-  ...addressInitialValidationSchema,
+  ...addressInitialValidationSchema(BILLING_ADDR_FORM),
   // Here you can add your initial validation schema modifications
 };
 

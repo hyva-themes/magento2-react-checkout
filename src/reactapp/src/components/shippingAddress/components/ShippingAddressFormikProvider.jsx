@@ -4,10 +4,11 @@ import { node } from 'prop-types';
 
 import {
   initialCountry,
+  addressInitValues,
   isCartAddressValid,
   CART_SHIPPING_ADDRESS,
   isValidCustomerAddressId,
-  initialAddressValidationShemaFromFieldConfig,
+  addressInitialValidationSchema,
 } from '../../../utils/address';
 import {
   useShippingAddressAppContext,
@@ -30,20 +31,13 @@ import useCheckoutFormContext from '../../../hook/useCheckoutFormContext';
 import ShippingAddressFormContext from '../context/ShippingAddressFormikContext';
 
 const defaultValues = {
-  company: '',
-  firstname: '',
-  lastname: '',
-  street: [''],
-  phone: '',
-  zipcode: '',
-  city: '',
-  region: '',
+  ...addressInitValues(SHIPPING_ADDR_FORM),
   country_id: initialCountry,
   saveInBook: false,
 };
 
 const initialValidationSchema = {
-  ...initialAddressValidationShemaFromFieldConfig(SHIPPING_ADDR_FORM),
+  ...addressInitialValidationSchema(SHIPPING_ADDR_FORM),
   // Here you can add your initial validation schema modifications
 };
 

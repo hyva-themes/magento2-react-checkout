@@ -39,7 +39,7 @@ function ConfigMultiline({ formikData, config, ...rest }) {
     <div className={classNames('mt-2 form-control', wrapperClasses)}>
       <div className="flex items-center justify-between">
         {label && label[0] && (
-          <label htmlFor={inputId} className="md:text-sm">
+          <label htmlFor={`${inputId}-0`} className="md:text-sm">
             {label[0]}
             {isRequired && <sup> *</sup>}
           </label>
