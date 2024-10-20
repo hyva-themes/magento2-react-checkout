@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { ConfigSelectInput, ConfigTextInput } from '../../common/Form';
-import useCountryState from '../hooks/useCountryState';
-import { fieldConfigShape, formikDataShape } from '../../../utils/propTypes';
+import {
+  ConfigTextInput,
+  ConfigSelectInput,
+} from '../../components/common/Form';
+import { fieldConfigShape, formikDataShape } from '../../utils/propTypes';
+import useCountryState from '../../components/address/hooks/useCountryState';
 
 function RegionRenderer({ formikData, config }) {
   const { stateOptions, hasStateOptions } = useCountryState({
