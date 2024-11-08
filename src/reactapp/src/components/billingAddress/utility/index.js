@@ -2,7 +2,7 @@ import { __ } from '../../../i18n';
 import { _isObjEmpty } from '../../../utils';
 import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
-import { addressInitValues, initialCountry } from '../../../utils/address';
+import { addressInitValues } from '../../../utils/address';
 
 export const CART_BILLING_ADDRESS = 'cart_billing_address';
 export const billingAddrOtherOptionField =
@@ -10,9 +10,8 @@ export const billingAddrOtherOptionField =
 
 export const billingAddressFormInitValues = {
   ...addressInitValues(BILLING_ADDR_FORM),
-  country_id: initialCountry,
   isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
-  saveInBook: false,
+  saveInBook: LocalStorage.getBillingSameAsShippingInfo(),
 };
 
 export function selectedAddressTitle(isLoggedIn, customerAddressList) {

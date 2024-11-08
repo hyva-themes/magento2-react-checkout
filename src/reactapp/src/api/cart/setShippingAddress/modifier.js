@@ -1,7 +1,11 @@
 import { get as _get } from 'lodash-es';
 
+import { _objToArray } from '../../../utils';
 import { formatPrice } from '../../../utils/price';
+import { SHIPPING_ADDR_FORM } from '../../../config';
 import { prepareFullName } from '../../../utils/customer';
+import addressFieldGqlMapping from '../../../addressFieldGqlMapping';
+import { addressConfig, addressTypeMapper } from '../../../utils/address';
 
 export function modifySelectedShippingMethod(addressList) {
   const selectedMethod = _get(addressList, '0.selected_shipping_method');
@@ -65,30 +69,17 @@ export function modifyShippingAddressList(addressList) {
     return {};
   }
 
-  const {
-    city,
-    street,
-    company,
-    lastname,
-    firstname,
-    telephone: phone,
-    postcode: zipcode,
-    region: { code: regionCode },
-    country: { code: countryCode },
-  } = shippingAddress;
-
-  return {
-    city,
-    phone,
-    street,
-    company,
-    zipcode,
-    lastname,
-    firstname,
-    region: regionCode || '',
-    country_id: countryCode,
+  const fieldsConfig = addressConfig[addressTypeMapper[SHIPPING_ADDR_FORM]];
+  const shippingAddressData = {
     fullName: prepareFullName(shippingAddress),
   };
+
+  _objToArray(fieldsConfig).forEach((config) => {
+    const fieldName = addressFieldGqlMapping[config.code] || config.code;
+    shippingAddressData[config.code] = _get(shippingAddress, fieldName) || '';
+  });
+
+  return shippingAddressData;
 }
 
 export default function setShippingAddressModifier(result) {

@@ -1,39 +1,34 @@
 import { get as _get } from 'lodash-es';
 
+import {
+  addressConfig,
+  addressTypeMapper,
+  isCartAddressValid,
+} from '../../../utils/address';
+import { _objToArray } from '../../../utils';
+import { BILLING_ADDR_FORM } from '../../../config';
 import LocalStorage from '../../../utils/localStorage';
 import { prepareFullName } from '../../../utils/customer';
-import { isCartAddressValid } from '../../../utils/address';
+import addressFieldGqlMapping from '../../../addressFieldGqlMapping';
 
 export function modifyBillingAddressData(billingAddress) {
   if (!isCartAddressValid(billingAddress)) {
     return {};
   }
-  const {
-    company = '',
-    firstname = '',
-    lastname = '',
-    street = [],
-    telephone: phone = '',
-    postcode: zipcode = '',
-    city = '',
-    country: { code: countryCode = '' } = {},
-    region: { code: regionCode = '' } = {},
-  } = billingAddress;
 
-  return {
+  const fieldsConfig = addressConfig[addressTypeMapper[BILLING_ADDR_FORM]];
+  const billingAddressData = {
     id: LocalStorage.getCustomerBillingAddressId(),
-    company,
-    firstname,
-    lastname,
     fullName: prepareFullName(billingAddress),
-    street,
-    phone,
-    zipcode,
-    city,
-    region: regionCode || '',
-    country_id: countryCode,
     isSameAsShipping: LocalStorage.getBillingSameAsShippingInfo(),
   };
+
+  _objToArray(fieldsConfig).forEach((config) => {
+    const fieldName = addressFieldGqlMapping[config.code] || config.code;
+    billingAddressData[config.code] = _get(billingAddress, fieldName) || '';
+  });
+
+  return billingAddressData;
 }
 
 export default function setBillingAddressModifier(response) {

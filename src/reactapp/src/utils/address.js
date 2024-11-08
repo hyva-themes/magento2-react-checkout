@@ -22,9 +22,9 @@ export const CART_SHIPPING_ADDRESS = 'cart_shipping_address';
 
 export const billingSameAsShippingField = `${BILLING_ADDR_FORM}.isSameAsShipping`;
 
-const addressConfig = checkoutConfig.address || {};
+export const addressConfig = checkoutConfig.address || {};
 
-const addressTypeMapper = {
+export const addressTypeMapper = {
   [BILLING_ADDR_FORM]: 'billing',
   [SHIPPING_ADDR_FORM]: 'shipping',
 };
