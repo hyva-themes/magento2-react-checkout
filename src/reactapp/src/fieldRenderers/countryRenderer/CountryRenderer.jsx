@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ConfigSelectInput } from '../../../components/common/Form';
-import useAppContext from '../../../hook/useAppContext';
-import { prepareCountryOptions } from '../../../components/address/utility';
-import { fieldConfigShape, formikDataShape } from '../../../utils/propTypes';
+import { ConfigSelectInput } from '../../components/common/Form';
+import useAppContext from '../../hook/useAppContext';
+import { prepareCountryOptions } from '../../components/address/utility';
+import { fieldConfigShape, formikDataShape } from '../../utils/propTypes';
 
 function CountryRenderer({ formikData, config }) {
   const { countryList } = useAppContext();

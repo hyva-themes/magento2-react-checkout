@@ -5,7 +5,6 @@ import { addressFieldRenderer } from '../../../fieldRenderers/renderers';
 
 export default function useAddressFieldRenderer(addressFormId) {
   const addressTypeConfig = getAddressConfigByFormId(addressFormId);
-  console.log({ addressTypeConfig });
 
   const addressFields = _objToArray(addressTypeConfig)
     .sort((field1, field2) => field1.sortOrder - field2.sortOrder)

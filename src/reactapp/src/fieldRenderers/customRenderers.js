@@ -1,7 +1,5 @@
-import CountryRenderer, {
-  countryRendererCondition,
-} from './components/countryRenderer';
 import RegionRenderer, { regionRendererCondition } from './regionRenderer';
+import CountryRenderer, { countryRendererCondition } from './countryRenderer';
 
 /**
  * Holds custom renderers.
