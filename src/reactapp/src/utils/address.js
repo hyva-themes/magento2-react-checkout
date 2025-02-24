@@ -30,7 +30,11 @@ export const addressTypeMapper = {
 };
 
 export function isCartAddressValid(address) {
-  return !!(address && address.firstname && address.country_id);
+  return !!(
+    address &&
+    address.firstname &&
+    (address.country_id || address.country?.code)
+  );
 }
 
 export function isValidCustomerAddressId(addressId) {
@@ -44,18 +48,18 @@ export function formatAddressListToCardData(addressList, stateList) {
     const {
       id,
       city = '',
-      phone = '',
+      telephone = '',
       street = [],
       region = '',
-      zipcode = '',
+      postcode = '',
       company = '',
-      country = '',
+      country_id: countryId = '',
       firstname = '',
       lastname = '',
       regionLabel = '',
       countryCode = '',
     } = addr;
-    const countryRegions = _get(stateList, `${country}`, []);
+    const countryRegions = _get(stateList, `${countryId}`, []);
     const countryRegion = countryRegions.find((state) => state.code === region);
     return {
       id: _toString(id),
@@ -63,10 +67,10 @@ export function formatAddressListToCardData(addressList, stateList) {
         prepareFullName({ firstname, lastname }),
         company,
         ...street,
-        __('%1 %2', zipcode, city),
+        __('%1 %2', postcode, city),
         regionLabel || _get(countryRegion, 'name'),
-        countryCode || country,
-        __('Phone: %1', phone),
+        countryCode || countryId,
+        __('Phone: %1', telephone),
       ].filter((i) => !!i),
     };
   });
