@@ -30,7 +30,7 @@ export const addressTypeMapper = {
 };
 
 export function isCartAddressValid(address) {
-  return !!(address && address.firstname && address.country);
+  return !!(address && address.firstname && address.country_id);
 }
 
 export function isValidCustomerAddressId(addressId) {
