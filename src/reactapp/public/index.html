@@ -50,12 +50,313 @@
                     class="checkout-container"
                     data-checkout_config='{
                         "storeCode": "default",
-                        "language":"en_US",
-                        "currency": {
-                            "code": "USD",
-                            "symbol": "$"
+                        "payment": {
+                          "ccform": {
+                            "icons": {
+                              "AE": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/ae.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "American Express"
+                              },
+                              "VI": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/vi.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Visa"
+                              },
+                              "MC": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/mc.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "MasterCard"
+                              },
+                              "DI": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/di.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Discover"
+                              },
+                              "JCB": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/jcb.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "JCB"
+                              },
+                              "SM": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/sm.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Switch\\/Maestro"
+                              },
+                              "DN": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/dn.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Diners"
+                              },
+                              "SO": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/so.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Solo"
+                              },
+                              "MI": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/mi.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Maestro International"
+                              },
+                              "MD": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/md.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Maestro Domestic"
+                              },
+                              "HC": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/hc.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Hipercard"
+                              },
+                              "ELO": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/elo.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Elo"
+                              },
+                              "AU": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/au.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "Aura"
+                              },
+                              "UN": {
+                                "url": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/Magento_Payment\\/images\\/cc\\/un.png",
+                                "width": 46,
+                                "height": 30,
+                                "title": "UnionPay"
+                              }
+                            }
+                          },
+                          "checkmo": { "mailingAddress": "", "payableTo": null },
+                          "paypalExpress": {
+                            "paymentAcceptanceMarkHref": "https:\\/\\/www.paypal.com\\/us\\/cgi-bin\\/webscr?cmd=xpt\\/Marketing\\/popup\\/OLCWhatIsPayPal-outside",
+                            "paymentAcceptanceMarkSrc": "https:\\/\\/www.paypalobjects.com\\/webstatic\\/en_US\\/i\\/buttons\\/pp-acceptance-medium.png",
+                            "isContextCheckout": false,
+                            "inContextConfig": []
+                          },
+                          "paypalIframe": [],
+                          "paypalBillingAgreement": {
+                            "agreements": [],
+                            "transportName": "ba_agreement_id"
+                          },
+                          "iframe": {
+                            "timeoutTime": { "payflowpro": 30000 },
+                            "dateDelim": { "payflowpro": "" },
+                            "cardFieldsMap": { "payflowpro": [] },
+                            "source": {
+                              "payflowpro": "https:\\/\\/m2luma.test\\/static\\/frontend\\/Magento\\/luma\\/en_US\\/blank.html"
+                            },
+                            "controllerName": { "payflowpro": "checkout_flow" },
+                            "cgiUrl": { "payflowpro": "https:\\/\\/payflowlink.paypal.com" },
+                            "placeOrderUrl": {
+                              "payflowpro": "https:\\/\\/m2luma.test\\/paypal\\/transparent\\/requestSecureToken\\/"
+                            },
+                            "saveOrderUrl": {
+                              "payflowpro": "https:\\/\\/m2luma.test\\/checkout\\/onepage\\/saveOrder\\/"
+                            },
+                            "expireYearLength": { "payflowpro": 2 }
+                          },
+                          "": [],
+                          "payment_services_paypal_hosted_fields": { "isVisible": false },
+                          "payment_services_paypal_smart_buttons": { "isVisible": false },
+                          "payment_services_paypal_apple_pay": { "isVisible": false },
+                          "payment_services_paypal_google_pay": { "isVisible": false },
+                          "restUrlPrefix": "\\/rest\\/default\\/V1\\/"
+                        },
+                        "language": "en_US",
+                        "currency": { "code": "USD", "symbol": "$" },
+                        "defaultCountryId": "US",
+                        "cartMaskedId": "AaTCLRPRXYmNyD3aEaSwmceVWLa41jTZ",
+                        "address": {
+                          "billing": {
+                            "firstname": {
+                              "code": "firstname",
+                              "label": "First Name",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 20
+                            },
+                            "lastname": {
+                              "code": "lastname",
+                              "label": "Last Name",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 40
+                            },
+                            "company": {
+                              "code": "company",
+                              "label": "Company",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 60
+                            },
+                            "street": {
+                              "code": "street",
+                              "label": "Street Address",
+                              "type": "multiline",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 70,
+                              "multilineCount": 2
+                            },
+                            "country_id": {
+                              "code": "country_id",
+                              "label": "Country",
+                              "type": "select",
+                              "isRequired": true,
+                              "validationRules": [],
+                              "sortOrder": 80
+                            },
+                            "region": {
+                              "code": "region",
+                              "label": "State\\/Province",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 90
+                            },
+                            "region_id": {
+                              "code": "region_id",
+                              "label": "State\\/Province",
+                              "type": "hidden",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 90
+                            },
+                            "city": {
+                              "code": "city",
+                              "label": "City",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 100
+                            },
+                            "postcode": {
+                              "code": "postcode",
+                              "label": "Zip\\/Postal Code",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 110
+                            },
+                            "telephone": {
+                              "code": "telephone",
+                              "label": "Phone Number",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 120
+                            },
+                            "vat_id": {
+                              "code": "vat_id",
+                              "label": "VAT Number",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 140
+                            }
+                          },
+                          "shipping": {
+                            "firstname": {
+                              "code": "firstname",
+                              "label": "First Name",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 20
+                            },
+                            "lastname": {
+                              "code": "lastname",
+                              "label": "Last Name",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 40
+                            },
+                            "company": {
+                              "code": "company",
+                              "label": "Company",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 60
+                            },
+                            "street": {
+                              "code": "street",
+                              "label": "Street Address",
+                              "type": "multiline",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 70,
+                              "multilineCount": 2
+                            },
+                            "country_id": {
+                              "code": "country_id",
+                              "label": "Country",
+                              "type": "select",
+                              "isRequired": true,
+                              "validationRules": [],
+                              "sortOrder": 80
+                            },
+                            "region": {
+                              "code": "region",
+                              "label": "State\\/Province",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 90
+                            },
+                            "city": {
+                              "code": "city",
+                              "label": "City",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 100
+                            },
+                            "postcode": {
+                              "code": "postcode",
+                              "label": "Zip\\/Postal Code",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 110
+                            },
+                            "telephone": {
+                              "code": "telephone",
+                              "label": "Phone Number",
+                              "type": "text",
+                              "isRequired": true,
+                              "validationRules": { "max_text_length": 255, "min_text_length": 1 },
+                              "sortOrder": 120
+                            },
+                            "vat_id": {
+                              "code": "vat_id",
+                              "label": "VAT Number",
+                              "type": "text",
+                              "isRequired": false,
+                              "validationRules": [],
+                              "sortOrder": 140
+                            }
+                          }
                         }
-                    }'
+                      }
+                      '
                 />
             </div>
         </div>

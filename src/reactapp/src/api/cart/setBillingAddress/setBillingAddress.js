@@ -1,6 +1,6 @@
-import preparemutation from './mutation';
 import sendRequest from '../../sendRequest';
 import modifier from '../fetchGuestCart/modifier';
+import { getBillingAddressMutation } from './mutation';
 import LocalStorage from '../../../utils/localStorage';
 
 export default async function setBillingAddress(
@@ -12,7 +12,7 @@ export default async function setBillingAddress(
 
   return modifier(
     await sendRequest(dispatch, {
-      query: preparemutation(isVirtualCart),
+      query: getBillingAddressMutation(variables, isVirtualCart),
       variables,
     }),
     'setBillingAddressOnCart.cart'

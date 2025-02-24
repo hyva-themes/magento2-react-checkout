@@ -1,4 +1,31 @@
+import {
+  prepareInputParamsForAddressMutation,
+  prepareInputVariablesForAddressMutation,
+} from '../utility/address';
 import { CART_DATA_FRAGMENT } from '../utility/query/cartQueryInfo';
+
+export function getShippingAddressMutation(variables) {
+  const inputParams = prepareInputParamsForAddressMutation(variables);
+  const addressInput = prepareInputVariablesForAddressMutation(variables);
+
+  return `
+mutation setShippingAddressMutation(${inputParams}) {
+  setShippingAddressesOnCart(
+    input: {
+      cart_id: $cartId
+      shipping_addresses: [{
+      	address: {
+          ${addressInput}
+        }
+      }]
+    }
+  ) {
+    cart {
+      ${CART_DATA_FRAGMENT}
+    }
+  }
+}`;
+}
 
 export const SET_SHIPPING_ADDR_MUTATION = `
 mutation setShippingAddress(

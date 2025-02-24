@@ -1,4 +1,40 @@
+import {
+  prepareInputParamsForAddressMutation,
+  prepareInputVariablesForAddressMutation,
+} from '../utility/address';
 import { CART_DATA_FRAGMENT } from '../utility/query/cartQueryInfo';
+
+/**
+ * When the cart contains only virtual products, usage of "same_as_shipping" gives
+ * error. Hence we won't use "same_as_shipping" in the case of virtual products only
+ * cart.
+ */
+export function getBillingAddressMutation(variables, isVirtualCart) {
+  const inputParams = prepareInputParamsForAddressMutation(variables);
+  const addressInput = prepareInputVariablesForAddressMutation(variables);
+
+  return `
+mutation setBillingAddressMutation(
+  ${inputParams}
+  ${isVirtualCart ? '' : '$isSameAsShipping: Boolean'}
+) {
+  setBillingAddressOnCart(
+    input: {
+      cart_id: $cartId
+      billing_address: {
+        ${isVirtualCart ? '' : 'same_as_shipping: $isSameAsShipping'}
+        address: {
+          ${addressInput}
+        }
+      }
+    }
+  ) {
+    cart {
+      ${CART_DATA_FRAGMENT}
+    }
+  }
+}`;
+}
 
 /**
  * When the cart contains only virtual products, usage of "same_as_shipping" gives
