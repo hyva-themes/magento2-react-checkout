@@ -6,5 +6,21 @@
                 <enable/>
             </general>
         </hyva_react_checkout>
+        <csp>
+            <mode>
+                <storefront_hyvaReactCheckout_reactcheckout_index>
+                    <report_only>1</report_only>
+                </storefront_hyvaReactCheckout_reactcheckout_index>
+            </mode>
+            <policies>
+                <storefront_hyvaReactCheckout_reactcheckout_index>
+                    <scripts>
+                        <inline>0</inline>
+                        <eval>0</eval>
+                        <event_handlers>1</event_handlers>
+                    </scripts>
+                </storefront_hyvaReactCheckout_reactcheckout_index>
+            </policies>
+        </csp>
     </default>
 </config>
