@@ -65,7 +65,7 @@ The configuration path is `hyva_react_checkout/general/enable`
 
 This Checkout has been built in corporation - and with the support of - our main partner, integer_net.
 
-# [![integer_net GmbH](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-integernet.png)](https://integer-net.de)
+# [![integer_net GmbH](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-integernet-green.png)](https://integer-net.de)
 
 In particular, [Rajeev K Tomy][link-author] has been a monumental in the development of this Checkout.
 
